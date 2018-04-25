@@ -5,14 +5,15 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
     defaultConfig {
         applicationId "com.cxz.wanandroid"
-        minSdkVersion 23
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -23,11 +24,35 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    // Support库
+    implementation rootProject.ext.supportLibs
+    // 网络请求库
+    implementation rootProject.ext.networkLibs
+    // RxJava2
+    implementation rootProject.ext.rxJavaLibs
+    implementation rootProject.ext.otherLibs
+    // APT dependencies(Kotlin内置的注解处理器)
+    kapt rootProject.ext.annotationProcessorLibs
+    //GlideOkHttp
+    implementation(rootProject.ext.glideOkhttp) {
+        exclude group: 'glide-parent'
+    }
+    implementation project(':multiple-status-view')
+    //leakCanary
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.35"
+    //Banner
+    implementation 'cn.bingoogolapple:bga-banner:2.1.8@aar'
+    //Logger
+    implementation 'com.orhanobut:logger:2.1.1'
+
+    //腾讯 bugly
+    //implementation 'com.tencent.bugly:crashreport:2.6.6.1'
 }
