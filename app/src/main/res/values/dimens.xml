@@ -1,0 +1,18 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="avatar_width">80dp</dimen>
+    <dimen name="avatar_height">80dp</dimen>
+
+    <dimen name="appbar_layout_height">260dp</dimen>
+
+    <!-- item -->
+    <dimen name="item_tv_title">15sp</dimen>
+    <dimen name="item_tv_date">12sp</dimen>
+    <dimen name="item_tv_tag">12sp</dimen>
+    <dimen name="item_content_padding">9dp</dimen>
+    <dimen name="item_tv_via">12sp</dimen>
+
+</resources>
