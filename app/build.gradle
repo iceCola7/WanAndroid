@@ -47,7 +47,11 @@ dependencies {
     //leakCanary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    // BaseRecyclerViewAdapterHelper
     implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.35"
+    // SmartRefreshLayout
+    // implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-5'
+    // implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-5'
     //Banner
     implementation 'cn.bingoogolapple:bga-banner:2.1.8@aar'
     //Logger

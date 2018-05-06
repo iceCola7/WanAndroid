@@ -26,12 +26,16 @@ class HomePresenter : BasePresenter<HomeContract.View>(), HomeContract.Presenter
     }
 
     override fun requestArticles(num: Int) {
-        mRootView?.showLoading()
+        if (num == 0)
+            mRootView?.showLoading()
         val disposable = homeModel.requestArticles(num)
                 .subscribe({ results ->
                     mRootView?.apply {
                         hideLoading()
-                        setArticles(results.data)
+                        if (num == 0)
+                            setArticles(results.data)
+                        else
+                            setMoreArticles(results.data)
                     }
                 })
         addSubscription(disposable)
