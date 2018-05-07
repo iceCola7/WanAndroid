@@ -1,5 +1,6 @@
 package com.cxz.wanandroid.ui.fragment
 
+import android.content.Intent
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
@@ -11,12 +12,13 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.HomeAdapter
 import com.cxz.wanandroid.base.BaseFragment
-import com.cxz.wanandroid.ext.loge
+import com.cxz.wanandroid.common.Contanst
 import com.cxz.wanandroid.mvp.contract.HomeContract
 import com.cxz.wanandroid.mvp.model.bean.Article
 import com.cxz.wanandroid.mvp.model.bean.ArticleResponseBody
 import com.cxz.wanandroid.mvp.model.bean.Banner
 import com.cxz.wanandroid.mvp.presenter.HomePresenter
+import com.cxz.wanandroid.ui.activity.ContentActivity
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.item_home_banner.view.*
@@ -36,12 +38,23 @@ class HomeFragment : BaseFragment(), HomeContract.View {
 
     private val datas = mutableListOf<Article>()
 
+    private lateinit var bannerDatas: ArrayList<Banner>
+
     private val bannerView by lazy {
         layoutInflater.inflate(R.layout.item_home_banner, null)
     }
 
     private val homeAdapter: HomeAdapter by lazy {
         HomeAdapter(activity, datas)
+    }
+
+    private val bannerAdapter: BGABanner.Adapter<ImageView, String> by lazy {
+        BGABanner.Adapter<ImageView, String> { bgaBanner, imageView, feedImageUrl, position ->
+            Glide.with(activity)
+                    .load(feedImageUrl)
+                    .transition(DrawableTransitionOptions().crossFade())
+                    .into(imageView)
+        }
     }
 
     override fun attachLayoutRes(): Int = R.layout.fragment_home
@@ -69,6 +82,10 @@ class HomeFragment : BaseFragment(), HomeContract.View {
             addHeaderView(bannerView)
         }
 
+        bannerView.banner.run {
+            setDelegate(bannerDelegate)
+        }
+
     }
 
     override fun lazyLoad() {
@@ -88,6 +105,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
     }
 
     override fun setBanner(banners: List<Banner>) {
+        bannerDatas = banners as ArrayList<Banner>
         val bannerFeedList = ArrayList<String>()
         val bannerTitleList = ArrayList<String>()
         Observable.fromIterable(banners)
@@ -98,16 +116,8 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         bannerView.banner.run {
             setAutoPlayAble(bannerFeedList.size > 1)
             setData(bannerFeedList, bannerTitleList)
-            setAdapter(object : BGABanner.Adapter<ImageView, String> {
-                override fun fillBannerItem(bgaBanner: BGABanner?, imageView: ImageView?, feedImageUrl: String?, position: Int) {
-                    Glide.with(activity)
-                            .load(feedImageUrl)
-                            .transition(DrawableTransitionOptions().crossFade())
-                            .into(imageView)
-                }
-            })
+            setAdapter(bannerAdapter)
         }
-
     }
 
     override fun setArticles(articles: ArticleResponseBody) {
@@ -147,6 +157,27 @@ class HomeFragment : BaseFragment(), HomeContract.View {
     private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
         if (datas.size != 0) {
             val data = datas[position]
+            Intent(activity, ContentActivity::class.java).run {
+                putExtra(Contanst.CONTENT_URL_KEY, data.link)
+                putExtra(Contanst.CONTENT_TITLE_KEY, data.title)
+                putExtra(Contanst.CONTENT_ID_KEY, data.id)
+                startActivity(this)
+            }
+        }
+    }
+
+    /**
+     * BannerClickListener
+     */
+    private val bannerDelegate = BGABanner.Delegate<ImageView, String> { banner, imageView, model, position ->
+        if (bannerDatas.size > 0) {
+            val data = bannerDatas[position]
+            Intent(activity, ContentActivity::class.java).run {
+                putExtra(Contanst.CONTENT_URL_KEY, data.url)
+                putExtra(Contanst.CONTENT_TITLE_KEY, data.title)
+                putExtra(Contanst.CONTENT_ID_KEY, data.id)
+                startActivity(this)
+            }
         }
     }
 

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/other">
+        <item
+            android:id="@+id/nav_setting"
+            android:icon="@drawable/ic_setting_gray_24dp"
+            android:title="@string/nav_setting" />
+    </group>
+
+</menu>
