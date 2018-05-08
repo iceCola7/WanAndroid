@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
+import android.support.multidex.MultiDexApplication
 import android.util.Log
 import com.cxz.wanandroid.BuildConfig
 import com.cxz.wanandroid.utils.DisplayManager
@@ -18,7 +19,7 @@ import kotlin.properties.Delegates
 /**
  * Created by chenxz on 2018/4/21.
  */
-class App : Application() {
+class App : MultiDexApplication() {
 
     private var refWatcher: RefWatcher? = null
 
