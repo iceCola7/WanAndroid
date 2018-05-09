@@ -10,6 +10,7 @@ import android.view.WindowManager
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.base.BaseActivity
 import com.cxz.wanandroid.ui.fragment.HomeFragment
+import com.cxz.wanandroid.ui.fragment.KnowledgeFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -21,6 +22,7 @@ class MainActivity : BaseActivity() {
     private var mIndex = FRAGMENT_HOME
 
     private var mHomeFragment: HomeFragment? = null
+    private var mKnowledgeFragment: KnowledgeFragment? = null
 
     override fun attachLayoutRes(): Int = R.layout.activity_main
 
@@ -91,7 +93,13 @@ class MainActivity : BaseActivity() {
             }
             FRAGMENT_KNOWLEDGE // 知识体系
             -> {
-
+                toolbar.title = getString(R.string.knowledge_system)
+                if (mKnowledgeFragment == null) {
+                    mKnowledgeFragment = KnowledgeFragment.getInstance()
+                    transaction.add(R.id.container, mKnowledgeFragment, "knowledge")
+                } else {
+                    transaction.show(mKnowledgeFragment)
+                }
             }
         }
         transaction.commit()
@@ -102,6 +110,7 @@ class MainActivity : BaseActivity() {
      */
     private fun hideFragments(transaction: FragmentTransaction) {
         mHomeFragment?.let { transaction.hide(it) }
+        mKnowledgeFragment?.let { transaction.hide(it) }
     }
 
     /**
@@ -111,10 +120,11 @@ class MainActivity : BaseActivity() {
             BottomNavigationView.OnNavigationItemSelectedListener { item ->
                 return@OnNavigationItemSelectedListener when (item.itemId) {
                     R.id.action_home -> {
-
+                        showFragment(FRAGMENT_HOME)
                         true
                     }
                     R.id.action_knowledge_system -> {
+                        showFragment(FRAGMENT_KNOWLEDGE)
                         true
                     }
                     else -> {

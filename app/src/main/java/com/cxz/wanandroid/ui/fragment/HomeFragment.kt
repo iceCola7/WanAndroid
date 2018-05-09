@@ -19,6 +19,7 @@ import com.cxz.wanandroid.mvp.model.bean.ArticleResponseBody
 import com.cxz.wanandroid.mvp.model.bean.Banner
 import com.cxz.wanandroid.mvp.presenter.HomePresenter
 import com.cxz.wanandroid.ui.activity.ContentActivity
+import com.cxz.wanandroid.widget.SpaceItemDecoration
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.item_home_banner.view.*
@@ -42,6 +43,12 @@ class HomeFragment : BaseFragment(), HomeContract.View {
 
     private val bannerView by lazy {
         layoutInflater.inflate(R.layout.item_home_banner, null)
+    }
+
+    private val recyclerViewItemDecoration by lazy {
+        activity?.let {
+            SpaceItemDecoration(it)
+        }
     }
 
     private val homeAdapter: HomeAdapter by lazy {
@@ -70,6 +77,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
             layoutManager = LinearLayoutManager(activity)
             adapter = homeAdapter
             itemAnimator = DefaultItemAnimator()
+            addItemDecoration(recyclerViewItemDecoration)
         }
 
         homeAdapter.run {
