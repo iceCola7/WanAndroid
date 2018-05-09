@@ -3,6 +3,7 @@ package com.cxz.wanandroid.api
 import com.cxz.wanandroid.mvp.model.bean.ArticleResponseBody
 import com.cxz.wanandroid.mvp.model.bean.Banner
 import com.cxz.wanandroid.mvp.model.bean.HttpResult
+import com.cxz.wanandroid.mvp.model.bean.KnowledgeTreeBody
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -23,4 +24,11 @@ interface ApiService {
      */
     @GET("article/list/{pageNum}/json")
     fun getArticles(@Path("pageNum") pageNum: Int): Observable<HttpResult<ArticleResponseBody>>
+
+    /**
+     * 获取知识体系
+     */
+    @GET("tree/json")
+    fun getKnowledgeTree(): Observable<HttpResult<List<KnowledgeTreeBody>>>
+
 }
