@@ -1,5 +1,6 @@
 package com.cxz.wanandroid.ui.fragment
 
+import android.content.Intent
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
@@ -7,10 +8,12 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.KnowledgeAdapter
 import com.cxz.wanandroid.base.BaseFragment
+import com.cxz.wanandroid.common.Contanst
 import com.cxz.wanandroid.mvp.contract.KnowledgeContract
 import com.cxz.wanandroid.mvp.model.bean.KnowledgeTreeBody
 import com.cxz.wanandroid.mvp.presenter.KnowledgePresenter
-import com.cxz.wanandroid.widget.RecycleViewItemDecoration
+import com.cxz.wanandroid.ui.activity.TypeKnowledgeActivity
+import com.cxz.wanandroid.widget.RecyclerViewItemDecoration
 import kotlinx.android.synthetic.main.fragment_home.*
 
 /**
@@ -36,7 +39,7 @@ class KnowledgeFragment : BaseFragment(), KnowledgeContract.View {
 
     private val recyclerViewItemDecoration by lazy {
         activity?.let {
-            RecycleViewItemDecoration(it, LinearLayoutManager.VERTICAL)
+            RecyclerViewItemDecoration(it, LinearLayoutManager.VERTICAL)
         }
     }
 
@@ -97,12 +100,11 @@ class KnowledgeFragment : BaseFragment(), KnowledgeContract.View {
     private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
         if (datas.size != 0) {
             val data = datas[position]
-//            Intent(activity, ContentActivity::class.java).run {
-//                putExtra(Contanst.CONTENT_URL_KEY, data.link)
-//                putExtra(Contanst.CONTENT_TITLE_KEY, data.title)
-//                putExtra(Contanst.CONTENT_ID_KEY, data.id)
-//                startActivity(this)
-//            }
+            Intent(activity, TypeKnowledgeActivity::class.java).run {
+                putExtra(Contanst.CONTENT_TITLE_KEY, data.name)
+                putExtra(Contanst.CONTENT_DATA_KEY, data)
+                startActivity(this)
+            }
         }
     }
 

@@ -33,28 +33,49 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         fun getInstance(): HomeFragment = HomeFragment()
     }
 
+    /**
+     * Presenter
+     */
     private val mPresenter: HomePresenter by lazy {
         HomePresenter()
     }
 
+    /**
+     * datas
+     */
     private val datas = mutableListOf<Article>()
 
+    /**
+     * banner datas
+     */
     private lateinit var bannerDatas: ArrayList<Banner>
 
+    /**
+     * banner view
+     */
     private val bannerView by lazy {
         layoutInflater.inflate(R.layout.item_home_banner, null)
     }
 
+    /**
+     * RecyclerView Divider
+     */
     private val recyclerViewItemDecoration by lazy {
         activity?.let {
             SpaceItemDecoration(it)
         }
     }
 
+    /**
+     * Home Adapter
+     */
     private val homeAdapter: HomeAdapter by lazy {
         HomeAdapter(activity, datas)
     }
 
+    /**
+     * Banner Adapter
+     */
     private val bannerAdapter: BGABanner.Adapter<ImageView, String> by lazy {
         BGABanner.Adapter<ImageView, String> { bgaBanner, imageView, feedImageUrl, position ->
             Glide.with(activity)

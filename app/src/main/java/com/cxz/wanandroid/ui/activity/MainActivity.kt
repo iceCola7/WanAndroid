@@ -52,6 +52,9 @@ class MainActivity : BaseActivity() {
     override fun start() {
     }
 
+    /**
+     * init DrawerLayout
+     */
     private fun initDrawerLayout() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             var params = window.attributes
