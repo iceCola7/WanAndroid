@@ -5,7 +5,7 @@ import android.support.design.widget.TabLayout
 import android.view.Menu
 import android.view.MenuItem
 import com.cxz.wanandroid.R
-import com.cxz.wanandroid.adapter.TypeKnowledgePagerAdapter
+import com.cxz.wanandroid.adapter.KnowledgePagerAdapter
 import com.cxz.wanandroid.base.BaseActivity
 import com.cxz.wanandroid.common.Contanst
 import com.cxz.wanandroid.mvp.model.bean.Knowledge
@@ -28,8 +28,8 @@ class KnowledgeActivity : BaseActivity() {
     /**
      * ViewPagerAdapter
      */
-    private val viewPagerAdapter: TypeKnowledgePagerAdapter by lazy {
-        TypeKnowledgePagerAdapter(knowledges, supportFragmentManager)
+    private val viewPagerAdapter: KnowledgePagerAdapter by lazy {
+        KnowledgePagerAdapter(knowledges, supportFragmentManager)
     }
 
     override fun attachLayoutRes(): Int = R.layout.activity_knowledge
@@ -54,8 +54,9 @@ class KnowledgeActivity : BaseActivity() {
             StatusBarUtil.setPaddingSmart(this@KnowledgeActivity, toolbar)
         }
         viewPager.run {
-            //adapter  = viewPagerAdapter
+            adapter = viewPagerAdapter
             addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
+            offscreenPageLimit = knowledges.size
         }
         tabLayout.run {
             setupWithViewPager(viewPager)
