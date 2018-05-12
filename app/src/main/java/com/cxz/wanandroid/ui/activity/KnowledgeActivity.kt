@@ -10,10 +10,10 @@ import com.cxz.wanandroid.base.BaseActivity
 import com.cxz.wanandroid.common.Contanst
 import com.cxz.wanandroid.mvp.model.bean.Knowledge
 import com.cxz.wanandroid.mvp.model.bean.KnowledgeTreeBody
-import kotlinx.android.synthetic.main.activity_type_knowledge.*
-import kotlinx.android.synthetic.main.toolbar.*
+import com.cxz.wanandroid.utils.StatusBarUtil
+import kotlinx.android.synthetic.main.activity_knowledge.*
 
-class TypeKnowledgeActivity : BaseActivity() {
+class KnowledgeActivity : BaseActivity() {
 
     /**
      * datas
@@ -32,7 +32,7 @@ class TypeKnowledgeActivity : BaseActivity() {
         TypeKnowledgePagerAdapter(knowledges, supportFragmentManager)
     }
 
-    override fun attachLayoutRes(): Int = R.layout.activity_type_knowledge
+    override fun attachLayoutRes(): Int = R.layout.activity_knowledge
 
     override fun initData() {
         intent.extras.let {
@@ -48,12 +48,13 @@ class TypeKnowledgeActivity : BaseActivity() {
 
     override fun initView() {
         toolbar.run {
+            title = toolbarTitle
             setSupportActionBar(this)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            title = toolbarTitle
+            StatusBarUtil.setPaddingSmart(this@KnowledgeActivity, toolbar)
         }
         viewPager.run {
-            adapter  = viewPagerAdapter
+            //adapter  = viewPagerAdapter
             addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
         }
         tabLayout.run {

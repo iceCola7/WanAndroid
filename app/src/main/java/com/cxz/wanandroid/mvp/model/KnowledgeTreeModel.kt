@@ -9,7 +9,7 @@ import io.reactivex.Observable
 /**
  * Created by chenxz on 2018/5/8.
  */
-class KnowledgeModel {
+class KnowledgeTreeModel {
 
     fun requestKnowledgeTree(): Observable<HttpResult<List<KnowledgeTreeBody>>> {
         return RetrofitHelper.service.getKnowledgeTree()

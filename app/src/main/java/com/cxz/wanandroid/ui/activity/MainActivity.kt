@@ -10,7 +10,8 @@ import android.view.WindowManager
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.base.BaseActivity
 import com.cxz.wanandroid.ui.fragment.HomeFragment
-import com.cxz.wanandroid.ui.fragment.KnowledgeFragment
+import com.cxz.wanandroid.ui.fragment.KnowledgeTreeFragment
+import com.cxz.wanandroid.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -22,7 +23,7 @@ class MainActivity : BaseActivity() {
     private var mIndex = FRAGMENT_HOME
 
     private var mHomeFragment: HomeFragment? = null
-    private var mKnowledgeFragment: KnowledgeFragment? = null
+    private var mKnowledgeTreeFragment: KnowledgeTreeFragment? = null
 
     override fun attachLayoutRes(): Int = R.layout.activity_main
 
@@ -33,6 +34,7 @@ class MainActivity : BaseActivity() {
         toolbar.run {
             title = getString(R.string.app_name)
             setSupportActionBar(this)
+            StatusBarUtil.setPaddingSmart(this@MainActivity, toolbar)
         }
 
         bottom_navigation.run {
@@ -97,11 +99,11 @@ class MainActivity : BaseActivity() {
             FRAGMENT_KNOWLEDGE // 知识体系
             -> {
                 toolbar.title = getString(R.string.knowledge_system)
-                if (mKnowledgeFragment == null) {
-                    mKnowledgeFragment = KnowledgeFragment.getInstance()
-                    transaction.add(R.id.container, mKnowledgeFragment, "knowledge")
+                if (mKnowledgeTreeFragment == null) {
+                    mKnowledgeTreeFragment = KnowledgeTreeFragment.getInstance()
+                    transaction.add(R.id.container, mKnowledgeTreeFragment, "knowledge")
                 } else {
-                    transaction.show(mKnowledgeFragment)
+                    transaction.show(mKnowledgeTreeFragment)
                 }
             }
         }
@@ -113,7 +115,7 @@ class MainActivity : BaseActivity() {
      */
     private fun hideFragments(transaction: FragmentTransaction) {
         mHomeFragment?.let { transaction.hide(it) }
-        mKnowledgeFragment?.let { transaction.hide(it) }
+        mKnowledgeTreeFragment?.let { transaction.hide(it) }
     }
 
     /**

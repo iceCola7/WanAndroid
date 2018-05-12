@@ -12,8 +12,11 @@
     <dimen name="item_tv_title">15sp</dimen>
     <dimen name="item_tv_date">12sp</dimen>
     <dimen name="item_tv_tag">12sp</dimen>
-    <dimen name="item_content_padding">10dp</dimen>
+    <dimen name="item_tv_author">12sp</dimen>
     <dimen name="item_tv_via">12sp</dimen>
+    <dimen name="item_content_padding">10dp</dimen>
+    <dimen name="item_img_width">120dp</dimen>
+    <dimen name="item_img_height">90dp</dimen>
 
     <dimen name="textSize_small_10">10sp</dimen>
     <dimen name="textSize_small">12sp</dimen>
@@ -22,8 +25,9 @@
     <dimen name="textSize_title">18sp</dimen>
 
     <!-- dp -->
-    <dimen name="dp_24">24dp</dimen>
+    <dimen name="dp_6">6dp</dimen>
     <dimen name="dp_8">8dp</dimen>
     <dimen name="dp_10">10dp</dimen>
+    <dimen name="dp_24">24dp</dimen>
 
 </resources>

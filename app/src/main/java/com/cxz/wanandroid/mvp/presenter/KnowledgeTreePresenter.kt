@@ -1,22 +1,21 @@
 package com.cxz.wanandroid.mvp.presenter
 
 import com.cxz.wanandroid.base.BasePresenter
-import com.cxz.wanandroid.ext.loge
-import com.cxz.wanandroid.mvp.contract.KnowledgeContract
-import com.cxz.wanandroid.mvp.model.KnowledgeModel
+import com.cxz.wanandroid.mvp.contract.KnowledgeTreeContract
+import com.cxz.wanandroid.mvp.model.KnowledgeTreeModel
 
 /**
  * Created by chenxz on 2018/5/8.
  */
-class KnowledgePresenter : BasePresenter<KnowledgeContract.View>(), KnowledgeContract.Presenter {
+class KnowledgeTreePresenter : BasePresenter<KnowledgeTreeContract.View>(), KnowledgeTreeContract.Presenter {
 
-    private val knowledgeModel by lazy {
-        KnowledgeModel()
+    private val knowledgeTreeModel by lazy {
+        KnowledgeTreeModel()
     }
 
     override fun requestKnowledgeTree() {
         mRootView?.showLoading()
-        val disposable = knowledgeModel.requestKnowledgeTree()
+        val disposable = knowledgeTreeModel.requestKnowledgeTree()
                 .subscribe({ results ->
                     mRootView?.apply {
                         hideLoading()

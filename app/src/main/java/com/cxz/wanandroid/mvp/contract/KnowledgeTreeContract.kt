@@ -7,7 +7,7 @@ import com.cxz.wanandroid.mvp.model.bean.KnowledgeTreeBody
 /**
  * Created by chenxz on 2018/5/8.
  */
-interface KnowledgeContract {
+interface KnowledgeTreeContract {
 
     interface View : IView {
 
