@@ -12,6 +12,8 @@ interface HomeContract {
 
     interface View : IView {
 
+        fun scrollToTop()
+
         fun setBanner(banners: List<Banner>)
 
         fun setArticles(articles: ArticleResponseBody)

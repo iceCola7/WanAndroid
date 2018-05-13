@@ -6,6 +6,7 @@ import android.support.design.widget.NavigationView
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
+import android.view.View
 import android.view.WindowManager
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.base.BaseActivity
@@ -49,6 +50,10 @@ class MainActivity : BaseActivity() {
         }
 
         showFragment(mIndex)
+
+        floating_action_btn.run {
+            setOnClickListener(onFABClickListener)
+        }
     }
 
     override fun start() {
@@ -150,4 +155,18 @@ class MainActivity : BaseActivity() {
                 drawer_layout.closeDrawer(GravityCompat.START)
                 true
             }
+
+    /**
+     * FAB 监听
+     */
+    private val onFABClickListener = View.OnClickListener {
+        when (mIndex) {
+            FRAGMENT_HOME -> {
+                mHomeFragment?.scrollToTop()
+            }
+            FRAGMENT_KNOWLEDGE -> {
+                mKnowledgeTreeFragment?.scrollToTop()
+            }
+        }
+    }
 }

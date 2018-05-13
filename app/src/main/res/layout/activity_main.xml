@@ -30,6 +30,16 @@
             app:layout_behavior="com.cxz.wanandroid.widget.behavior.BottomNavigationBehavior"
             app:menu="@menu/bottom_navigation_main" />
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/floating_action_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="@dimen/dp_60"
+            android:layout_marginRight="@dimen/dp_20"
+            app:layout_behavior="com.cxz.wanandroid.widget.behavior.ScrollAwareFABBehavior"
+            app:srcCompat="@drawable/ic_arrow_upward_white_24dp" />
+
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView

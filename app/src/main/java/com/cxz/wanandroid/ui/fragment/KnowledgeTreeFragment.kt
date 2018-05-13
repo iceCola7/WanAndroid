@@ -9,6 +9,7 @@ import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.KnowledgeTreeAdapter
 import com.cxz.wanandroid.base.BaseFragment
 import com.cxz.wanandroid.common.Contanst
+import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.KnowledgeTreeContract
 import com.cxz.wanandroid.mvp.model.bean.KnowledgeTreeBody
 import com.cxz.wanandroid.mvp.presenter.KnowledgeTreePresenter
@@ -31,16 +32,32 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
 
     override fun attachLayoutRes(): Int = R.layout.fragment_knowledge_tree
 
+    /**
+     * datas
+     */
     private val datas = mutableListOf<KnowledgeTreeBody>()
 
+    /**
+     * Adapter
+     */
     private val knowledgeTreeAdapter: KnowledgeTreeAdapter by lazy {
         KnowledgeTreeAdapter(activity, datas)
     }
 
+    /**
+     * RecyclerView Divider
+     */
     private val recyclerViewItemDecoration by lazy {
         activity?.let {
             RecyclerViewItemDecoration(it, LinearLayoutManager.VERTICAL)
         }
+    }
+
+    /**
+     * LinearLayoutManager
+     */
+    private val linearLayoutManager : LinearLayoutManager by lazy {
+        LinearLayoutManager(activity)
     }
 
     override fun initView() {
@@ -50,7 +67,7 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
             setOnRefreshListener(onRefreshListener)
         }
         recyclerView.run {
-            layoutManager = LinearLayoutManager(activity)
+            layoutManager = linearLayoutManager
             adapter = knowledgeTreeAdapter
             itemAnimator = DefaultItemAnimator()
             addItemDecoration(recyclerViewItemDecoration)
@@ -79,8 +96,22 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
         }
     }
 
-    override fun showError(msg: String) {
+    override fun showError(errorMsg: String) {
+        knowledgeTreeAdapter.run {
+            loadMoreEnd()
+            loadMoreFail()
+        }
+        showToast(errorMsg)
+    }
 
+    override fun scrollToTop() {
+        recyclerView.run {
+            if (linearLayoutManager.findFirstVisibleItemPosition() > 20) {
+                scrollToPosition(0)
+            } else {
+                smoothScrollToPosition(0)
+            }
+        }
     }
 
     override fun setKnowledgeTree(lists: List<KnowledgeTreeBody>) {
@@ -110,6 +141,11 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
                 startActivity(this)
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.detachView()
     }
 
 }

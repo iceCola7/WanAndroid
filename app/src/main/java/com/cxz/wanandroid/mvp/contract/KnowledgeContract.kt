@@ -11,6 +11,8 @@ interface KnowledgeContract {
 
     interface View : IView {
 
+        fun scrollToTop()
+
         fun setKnowledgeList(articles: ArticleResponseBody)
 
     }

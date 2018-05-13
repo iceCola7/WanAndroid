@@ -11,6 +11,8 @@ interface KnowledgeTreeContract {
 
     interface View : IView {
 
+        fun scrollToTop()
+
         fun setKnowledgeTree(lists: List<KnowledgeTreeBody>)
 
     }

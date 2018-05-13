@@ -86,7 +86,24 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         }
     }
 
+    /**
+     * LinearLayoutManager
+     */
+    private val linearLayoutManager: LinearLayoutManager by lazy {
+        LinearLayoutManager(activity)
+    }
+
     override fun attachLayoutRes(): Int = R.layout.fragment_home
+
+    override fun scrollToTop() {
+        recyclerView.run {
+            if (linearLayoutManager.findFirstVisibleItemPosition() > 20) {
+                scrollToPosition(0)
+            } else {
+                smoothScrollToPosition(0)
+            }
+        }
+    }
 
     override fun initView() {
         mPresenter.attachView(this)
@@ -96,7 +113,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
             setOnRefreshListener(onRefreshListener)
         }
         recyclerView.run {
-            layoutManager = LinearLayoutManager(activity)
+            layoutManager = linearLayoutManager
             adapter = homeAdapter
             itemAnimator = DefaultItemAnimator()
             addItemDecoration(recyclerViewItemDecoration)
@@ -133,12 +150,12 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         }
     }
 
-    override fun showError(msg: String) {
+    override fun showError(errorMsg: String) {
         homeAdapter.run {
             setEnableLoadMore(false)
             loadMoreFail()
         }
-        showToast(msg)
+        showToast(errorMsg)
     }
 
     override fun setBanner(banners: List<Banner>) {
@@ -236,5 +253,10 @@ class HomeFragment : BaseFragment(), HomeContract.View {
                     }
                 }
             }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.detachView()
+    }
 
 }

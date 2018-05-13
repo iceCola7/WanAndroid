@@ -60,6 +60,13 @@ class KnowledgeFragment : BaseFragment(), KnowledgeContract.View {
         KnowledgeAdapter(activity, datas)
     }
 
+    /**
+     * LinearLayoutManager
+     */
+    private val linearLayoutManager: LinearLayoutManager by lazy {
+        LinearLayoutManager(activity)
+    }
+
     private val mPresenter: KnowledgePresenter by lazy {
         KnowledgePresenter()
     }
@@ -75,12 +82,22 @@ class KnowledgeFragment : BaseFragment(), KnowledgeContract.View {
         }
     }
 
-    override fun showError(msg: String) {
+    override fun showError(errorMsg: String) {
         knowledgeAdapter.run {
             setEnableLoadMore(false)
             loadMoreFail()
         }
-        showToast(msg)
+        showToast(errorMsg)
+    }
+
+    override fun scrollToTop() {
+        recyclerView.run {
+            if (linearLayoutManager.findFirstVisibleItemPosition() > 20) {
+                scrollToPosition(0)
+            } else {
+                smoothScrollToPosition(0)
+            }
+        }
     }
 
     override fun attachLayoutRes(): Int = R.layout.fragment_knowledge
@@ -93,7 +110,7 @@ class KnowledgeFragment : BaseFragment(), KnowledgeContract.View {
             setOnRefreshListener(onRefreshListener)
         }
         recyclerView.run {
-            layoutManager = LinearLayoutManager(activity)
+            layoutManager = linearLayoutManager
             adapter = knowledgeAdapter
             itemAnimator = DefaultItemAnimator()
             addItemDecoration(recyclerViewItemDecoration)
@@ -174,4 +191,9 @@ class KnowledgeFragment : BaseFragment(), KnowledgeContract.View {
                     }
                 }
             }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.detachView()
+    }
 }
