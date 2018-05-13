@@ -89,16 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="like article"
-                app:srcCompat="@drawable/ic_favorite_not" />
-
-            <ImageView
-                android:id="@+id/iv_share"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_marginStart="@dimen/dp_10"
-                android:contentDescription="share"
-                app:srcCompat="@drawable/ic_share" />
+                app:srcCompat="@drawable/ic_like_not" />
 
         </LinearLayout>
 

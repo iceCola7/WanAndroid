@@ -6,14 +6,14 @@ import io.reactivex.disposables.Disposable
 /**
  * Created by chenxz on 2018/4/21.
  */
-open class BasePresenter<T : IView> : IPresenter<T> {
+open class BasePresenter<V: IView> : IPresenter<V> {
 
-    var mRootView: T? = null
+    var mRootView: V? = null
         private set
 
     private var compositeDisposable = CompositeDisposable()
 
-    override fun attachView(mRootView: T) {
+    override fun attachView(mRootView: V) {
         this.mRootView = mRootView
     }
 
