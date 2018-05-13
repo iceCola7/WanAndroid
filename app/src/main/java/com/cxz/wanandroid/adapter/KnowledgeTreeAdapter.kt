@@ -13,6 +13,14 @@ class KnowledgeTreeAdapter(private val context: Context?, datas: MutableList<Kno
 
     override fun convert(helper: BaseViewHolder?, item: KnowledgeTreeBody?) {
         helper?.setText(R.id.title_first, item?.name)
+        item?.children.let {
+            helper?.setText(R.id.title_second,
+                    it?.joinToString("    ", transform = { child ->
+                        child.name
+                    })
+            )
+
+        }
     }
 
 }

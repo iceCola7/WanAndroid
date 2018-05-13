@@ -18,8 +18,12 @@ class KnowledgeTreePresenter : BasePresenter<KnowledgeTreeContract.View>(), Know
         val disposable = knowledgeTreeModel.requestKnowledgeTree()
                 .subscribe({ results ->
                     mRootView?.apply {
+                        if (results.errorCode != 0) {
+                            showError(results.errorMsg)
+                        } else {
+                            setKnowledgeTree(results.data)
+                        }
                         hideLoading()
-                        setKnowledgeTree(results.data)
                     }
                 })
         addSubscription(disposable)

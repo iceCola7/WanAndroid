@@ -79,6 +79,10 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
         }
     }
 
+    override fun showError(msg: String) {
+
+    }
+
     override fun setKnowledgeTree(lists: List<KnowledgeTreeBody>) {
         lists.let {
             knowledgeTreeAdapter.run {

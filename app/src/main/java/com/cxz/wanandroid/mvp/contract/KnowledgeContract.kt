@@ -13,8 +13,6 @@ interface KnowledgeContract {
 
         fun setKnowledgeList(articles: ArticleResponseBody)
 
-        fun setMoreKnowledgeList(articles: ArticleResponseBody)
-
     }
 
     interface Presenter : IPresenter<View> {

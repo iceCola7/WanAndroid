@@ -13,6 +13,7 @@ import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.HomeAdapter
 import com.cxz.wanandroid.base.BaseFragment
 import com.cxz.wanandroid.common.Contanst
+import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.HomeContract
 import com.cxz.wanandroid.mvp.model.bean.Article
 import com.cxz.wanandroid.mvp.model.bean.ArticleResponseBody
@@ -103,7 +104,6 @@ class HomeFragment : BaseFragment(), HomeContract.View {
 
         homeAdapter.run {
             bindToRecyclerView(recyclerView)
-            setEnableLoadMore(true)
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@HomeFragment.onItemClickListener
             onItemChildClickListener = this@HomeFragment.onItemChildClickListener
@@ -133,6 +133,14 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         }
     }
 
+    override fun showError(msg: String) {
+        homeAdapter.run {
+            setEnableLoadMore(false)
+            loadMoreFail()
+        }
+        showToast(msg)
+    }
+
     override fun setBanner(banners: List<Banner>) {
         bannerDatas = banners as ArrayList<Banner>
         val bannerFeedList = ArrayList<String>()
@@ -152,15 +160,20 @@ class HomeFragment : BaseFragment(), HomeContract.View {
     override fun setArticles(articles: ArticleResponseBody) {
         articles.datas.let {
             homeAdapter.run {
-                replaceData(it)
-            }
-        }
-    }
-
-    override fun setMoreArticles(articles: ArticleResponseBody) {
-        articles.datas.let {
-            homeAdapter.run {
-                addData(it)
+                if (swipeRefreshLayout.isRefreshing) {
+                    replaceData(it)
+                } else {
+                    addData(it)
+                }
+                val over = articles.over
+                if (!over) {
+                    loadMoreComplete()
+                    setEnableLoadMore(true)
+                } else {
+                    loadMoreComplete()
+                    loadMoreEnd()
+                    setEnableLoadMore(false)
+                }
             }
         }
     }
@@ -169,6 +182,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
      * RefreshListener
      */
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
+        homeAdapter.setEnableLoadMore(false)
         mPresenter.requestArticles(0)
     }
 
@@ -176,6 +190,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
      * LoadMoreListener
      */
     private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
+        swipeRefreshLayout.isRefreshing = false
         val page = homeAdapter.data.size / 20 + 1
         mPresenter.requestArticles(page)
     }

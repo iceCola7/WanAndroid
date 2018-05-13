@@ -16,8 +16,6 @@ interface HomeContract {
 
         fun setArticles(articles: ArticleResponseBody)
 
-        fun setMoreArticles(articles: ArticleResponseBody)
-
     }
 
     interface Presenter : IPresenter<View> {

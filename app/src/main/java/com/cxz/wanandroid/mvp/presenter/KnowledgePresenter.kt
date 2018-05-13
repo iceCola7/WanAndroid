@@ -19,11 +19,12 @@ class KnowledgePresenter : BasePresenter<KnowledgeContract.View>(), KnowledgeCon
         val disposable = knowledgeModel.requestKnowledgeList(page, cid)
                 .subscribe({ results ->
                     mRootView?.apply {
-                        hideLoading()
-                        if (page == 0)
+                        if (results.errorCode != 0) {
+                            showError(results.errorMsg)
+                        } else {
                             setKnowledgeList(results.data)
-                        else
-                            setMoreKnowledgeList(results.data)
+                        }
+                        hideLoading()
                     }
                 })
         addSubscription(disposable)

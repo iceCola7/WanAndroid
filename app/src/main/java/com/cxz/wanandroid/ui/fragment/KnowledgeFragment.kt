@@ -10,6 +10,7 @@ import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.KnowledgeAdapter
 import com.cxz.wanandroid.base.BaseFragment
 import com.cxz.wanandroid.common.Contanst
+import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.KnowledgeContract
 import com.cxz.wanandroid.mvp.model.bean.Article
 import com.cxz.wanandroid.mvp.model.bean.ArticleResponseBody
@@ -71,9 +72,15 @@ class KnowledgeFragment : BaseFragment(), KnowledgeContract.View {
         swipeRefreshLayout?.isRefreshing = false
         knowledgeAdapter.run {
             loadMoreComplete()
-            loadMoreEnd()
-            setEnableLoadMore(false)
         }
+    }
+
+    override fun showError(msg: String) {
+        knowledgeAdapter.run {
+            setEnableLoadMore(false)
+            loadMoreFail()
+        }
+        showToast(msg)
     }
 
     override fun attachLayoutRes(): Int = R.layout.fragment_knowledge
@@ -107,15 +114,20 @@ class KnowledgeFragment : BaseFragment(), KnowledgeContract.View {
     override fun setKnowledgeList(articles: ArticleResponseBody) {
         articles.datas.let {
             knowledgeAdapter.run {
-                replaceData(articles.datas)
-            }
-        }
-    }
-
-    override fun setMoreKnowledgeList(articles: ArticleResponseBody) {
-        articles.datas.let {
-            knowledgeAdapter.run {
-                addData(it)
+                if (swipeRefreshLayout.isRefreshing) {
+                    replaceData(it)
+                } else {
+                    addData(it)
+                }
+                val over = articles.over
+                if (!over) {
+                    loadMoreComplete()
+                    setEnableLoadMore(true)
+                } else {
+                    loadMoreComplete()
+                    loadMoreEnd()
+                    setEnableLoadMore(false)
+                }
             }
         }
     }

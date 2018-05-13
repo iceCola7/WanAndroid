@@ -31,11 +31,12 @@ class HomePresenter : BasePresenter<HomeContract.View>(), HomeContract.Presenter
         val disposable = homeModel.requestArticles(num)
                 .subscribe({ results ->
                     mRootView?.apply {
-                        hideLoading()
-                        if (num == 0)
+                        if (results.errorCode != 0) {
+                            showError(results.errorMsg)
+                        } else {
                             setArticles(results.data)
-                        else
-                            setMoreArticles(results.data)
+                        }
+                        hideLoading()
                     }
                 })
         addSubscription(disposable)
