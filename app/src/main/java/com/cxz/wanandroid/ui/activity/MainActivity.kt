@@ -12,19 +12,23 @@ import com.cxz.wanandroid.R
 import com.cxz.wanandroid.base.BaseActivity
 import com.cxz.wanandroid.ui.fragment.HomeFragment
 import com.cxz.wanandroid.ui.fragment.KnowledgeTreeFragment
+import com.cxz.wanandroid.ui.fragment.NavigationFragment
 import com.cxz.wanandroid.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 class MainActivity : BaseActivity() {
 
-    private val FRAGMENT_HOME = 0
-    private val FRAGMENT_KNOWLEDGE = 1
+    private val FRAGMENT_HOME = 0x01
+    private val FRAGMENT_KNOWLEDGE = 0x02
+    private val FRAGMENT_NAVIGATION = 0x03
+    private val FRAGMENT_PROJECT = 0x04
 
     private var mIndex = FRAGMENT_HOME
 
     private var mHomeFragment: HomeFragment? = null
     private var mKnowledgeTreeFragment: KnowledgeTreeFragment? = null
+    private var mNavigationFragment: NavigationFragment? = null
 
     override fun attachLayoutRes(): Int = R.layout.activity_main
 
@@ -111,6 +115,16 @@ class MainActivity : BaseActivity() {
                     transaction.show(mKnowledgeTreeFragment)
                 }
             }
+            FRAGMENT_NAVIGATION // 导航
+            -> {
+                toolbar.title = getString(R.string.navigation)
+                if (mNavigationFragment == null) {
+                    mNavigationFragment = NavigationFragment.getInstance()
+                    transaction.add(R.id.container, mNavigationFragment, "navigation")
+                } else {
+                    transaction.show(mNavigationFragment)
+                }
+            }
         }
         transaction.commit()
     }
@@ -121,6 +135,7 @@ class MainActivity : BaseActivity() {
     private fun hideFragments(transaction: FragmentTransaction) {
         mHomeFragment?.let { transaction.hide(it) }
         mKnowledgeTreeFragment?.let { transaction.hide(it) }
+        mNavigationFragment?.let { transaction.hide(it) }
     }
 
     /**
@@ -135,6 +150,10 @@ class MainActivity : BaseActivity() {
                     }
                     R.id.action_knowledge_system -> {
                         showFragment(FRAGMENT_KNOWLEDGE)
+                        true
+                    }
+                    R.id.action_navigation->{
+                        showFragment(FRAGMENT_NAVIGATION)
                         true
                     }
                     else -> {

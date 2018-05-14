@@ -1,9 +1,6 @@
 package com.cxz.wanandroid.api
 
-import com.cxz.wanandroid.mvp.model.bean.ArticleResponseBody
-import com.cxz.wanandroid.mvp.model.bean.Banner
-import com.cxz.wanandroid.mvp.model.bean.HttpResult
-import com.cxz.wanandroid.mvp.model.bean.KnowledgeTreeBody
+import com.cxz.wanandroid.mvp.model.bean.*
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -44,4 +41,12 @@ interface ApiService {
      */
     @GET("article/list/{page}/json")
     fun getKnowledgeList(@Path("page") page: Int, @Query("cid") cid: Int): Observable<HttpResult<ArticleResponseBody>>
+
+    /**
+     * 导航数据
+     * http://www.wanandroid.com/navi/json
+     */
+    @GET("navi/json")
+    fun getNavigationList(): Observable<HttpResult<List<NavigationBean>>>
+
 }

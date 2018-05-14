@@ -100,7 +100,8 @@ class HomeFragment : BaseFragment(), HomeContract.View {
             if (linearLayoutManager.findFirstVisibleItemPosition() > 20) {
                 scrollToPosition(0)
             } else {
-                smoothScrollToPosition(0)
+
+                // smoothScrollToPosition(0)
             }
         }
     }
@@ -150,12 +151,12 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         }
     }
 
-    override fun showError(errorMsg: String) {
+    override fun showError(msg: String) {
         homeAdapter.run {
             setEnableLoadMore(false)
             loadMoreFail()
         }
-        showToast(errorMsg)
+        showToast(msg)
     }
 
     override fun setBanner(banners: List<Banner>) {
@@ -253,10 +254,5 @@ class HomeFragment : BaseFragment(), HomeContract.View {
                     }
                 }
             }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mPresenter.detachView()
-    }
 
 }
