@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/viewBackground">
+
+    <LinearLayout
+        android:id="@+id/normal_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        tools:ignore="UselessParent">
+
+        <q.rorbin.verticaltablayout.VerticalTabLayout
+            android:id="@+id/navigation_tab_layout"
+            android:layout_width="@dimen/dp_110"
+            android:layout_height="match_parent"
+            android:background="@color/Grey100"
+            app:indicator_color="@color/white"
+            app:indicator_gravity="fill"
+            app:tab_height="@dimen/dp_50"
+            app:tab_margin="@dimen/dp_16"
+            app:tab_mode="scrollable" />
+
+        <View
+            android:id="@+id/navigation_divider"
+            android:layout_width="@dimen/dp_05"
+            android:layout_height="match_parent"
+            android:background="@color/comment_line" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbarSize="@dimen/dp_10"
+            android:scrollbars="vertical" />
+    </LinearLayout>
+</FrameLayout>
