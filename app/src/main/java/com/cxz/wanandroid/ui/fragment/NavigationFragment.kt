@@ -2,6 +2,7 @@ package com.cxz.wanandroid.ui.fragment
 
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.NavigationAdapter
 import com.cxz.wanandroid.adapter.NavigationTabAdapter
@@ -10,6 +11,8 @@ import com.cxz.wanandroid.mvp.contract.NavigationContract
 import com.cxz.wanandroid.mvp.model.bean.NavigationBean
 import com.cxz.wanandroid.mvp.presenter.NavigationPresenter
 import kotlinx.android.synthetic.main.fragment_navigation.*
+import q.rorbin.verticaltablayout.VerticalTabLayout
+import q.rorbin.verticaltablayout.widget.TabView
 
 /**
  * Created by chenxz on 2018/5/13.
@@ -52,6 +55,10 @@ class NavigationFragment : BaseFragment(), NavigationContract.View {
         NavigationAdapter(activity, datas)
     }
 
+    private var bScroll: Boolean = false
+    private var currentIndex: Int = 0
+    private var bClickTab: Boolean = false
+
     override fun attachLayoutRes(): Int = R.layout.fragment_navigation
 
     override fun initView() {
@@ -61,10 +68,110 @@ class NavigationFragment : BaseFragment(), NavigationContract.View {
             layoutManager = linearLayoutManager
             adapter = navigationAdapter
             itemAnimator = DefaultItemAnimator()
+            setHasFixedSize(true)
         }
 
         navigationAdapter.run {
             bindToRecyclerView(recyclerView)
+        }
+
+        leftRightLink()
+    }
+
+    /**
+     * Left TabLayout and Right RecyclerView Link
+     */
+    private fun leftRightLink() {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (bScroll && (newState == RecyclerView.SCROLL_STATE_IDLE)) {
+                    bScroll = false
+                    var indexDistance: Int = currentIndex - linearLayoutManager.findFirstVisibleItemPosition()
+                    if (indexDistance > 0 && indexDistance < recyclerView!!.childCount) {
+                        var top: Int = recyclerView.getChildAt(indexDistance).top
+                        recyclerView.smoothScrollBy(0, top)
+                    }
+                }
+                rightLinkLeft(newState)
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (bScroll) {
+                    bScroll = false
+                    var indexDistance: Int = currentIndex - linearLayoutManager.findFirstVisibleItemPosition()
+                    if (indexDistance > 0 && indexDistance < recyclerView!!.childCount) {
+                        var top: Int = recyclerView.getChildAt(indexDistance).top
+                        recyclerView.smoothScrollBy(0, top)
+                    }
+                }
+            }
+        })
+
+        navigation_tab_layout.addOnTabSelectedListener(object : VerticalTabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabView?, position: Int) {
+            }
+
+            override fun onTabSelected(tab: TabView?, position: Int) {
+                bClickTab = true
+                selectTab(position)
+            }
+        })
+
+    }
+
+    /**
+     * Right RecyclerView link Left TabLayout
+     *
+     * @param newState RecyclerView Scroll State
+     */
+    private fun rightLinkLeft(newState: Int) {
+        if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+            if (bClickTab) {
+                bClickTab = false
+                return
+            }
+            var firstPosition: Int = linearLayoutManager.findFirstVisibleItemPosition()
+            if (firstPosition != currentIndex) {
+                currentIndex = firstPosition
+                setChecked(currentIndex)
+            }
+        }
+    }
+
+    /**
+     * Smooth Right RecyclerView to Select Left TabLayout
+     *
+     * @param position checked position
+     */
+    private fun setChecked(position: Int) {
+        if (bClickTab) {
+            bClickTab = false
+        } else {
+            navigation_tab_layout.setTabSelected(currentIndex)
+        }
+        currentIndex = position
+    }
+
+    /**
+     * Select Left TabLayout to Smooth Right RecyclerView
+     */
+    private fun selectTab(position: Int) {
+        currentIndex = position
+        recyclerView.stopScroll()
+        var firstPosition: Int = linearLayoutManager.findFirstVisibleItemPosition()
+        var lastPosition: Int = linearLayoutManager.findLastVisibleItemPosition()
+        when {
+            position <= firstPosition -> recyclerView.smoothScrollToPosition(position)
+            position <= lastPosition -> {
+                var top: Int = recyclerView.getChildAt(position - firstPosition).top
+                recyclerView.smoothScrollBy(0, top)
+            }
+            else -> {
+                recyclerView.smoothScrollToPosition(position)
+                bScroll = true
+            }
         }
     }
 

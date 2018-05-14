@@ -55,12 +55,18 @@ dependencies {
     // implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-5'
     // implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-5'
     //Banner
-    implementation 'cn.bingoogolapple:bga-banner:2.1.8@aar'
+    implementation 'com.android.support:support-v4:2.2.4'
+    implementation 'cn.bingoogolapple:bga-banner:2.2.4@aar'
     //Logger
     implementation 'com.orhanobut:logger:2.1.1'
     //AgentWeb
     implementation 'com.just.agentweb:agentweb:3.1.0'
-    compile 'com.android.support:multidex:1.0.0'
+    // multidex
+    implementation 'com.android.support:multidex:1.0.0'
+    // VerticalTabLayout
+    implementation 'q.rorbin:VerticalTabLayout:1.2.5'
+    // Flowlayout
+    compile 'com.hyman:flowlayout-lib:1.1.2'
 
     //腾讯 bugly
     //implementation 'com.tencent.bugly:crashreport:2.6.6.1'
