@@ -1,6 +1,7 @@
 package com.cxz.wanandroid.mvp.model.bean
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 
 /**
  * Created by chenxz on 2018/4/21.
@@ -80,7 +81,7 @@ data class KnowledgeTreeBody(
         @Json(name = "order") val order: Int,
         @Json(name = "parentChapterId") val parentChapterId: Int,
         @Json(name = "visible") val visible: Int
-)
+) : Serializable
 
 data class Knowledge(
         @Json(name = "children") val children: List<Any>,
@@ -90,7 +91,7 @@ data class Knowledge(
         @Json(name = "order") val order: Int,
         @Json(name = "parentChapterId") val parentChapterId: Int,
         @Json(name = "visible") val visible: Int
-)
+) : Serializable
 
 data class LoginData(
         @Json(name = "collectIds") val collectIds: List<Any>,
@@ -142,4 +143,11 @@ data class CollectionArticle(
         @Json(name = "userId") val userId: Int,
         @Json(name = "visible") val visible: Int,
         @Json(name = "zan") val zan: Int
+)
+
+// 导航
+data class NavigationBean(
+        val articles: MutableList<Article>,
+        val cid: Int,
+        val name: String
 )

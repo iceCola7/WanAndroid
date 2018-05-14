@@ -13,4 +13,17 @@
         android:icon="@drawable/ic_apps_black_24dp"
         android:title="@string/knowledge_system"
         app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_navigation"
+        android:enabled="true"
+        android:icon="@drawable/ic_navigation"
+        android:title="@string/navigation"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_project"
+        android:enabled="true"
+        android:icon="@drawable/ic_project"
+        android:title="@string/project"
+        app:showAsAction="ifRoom"/>
+
 </menu>

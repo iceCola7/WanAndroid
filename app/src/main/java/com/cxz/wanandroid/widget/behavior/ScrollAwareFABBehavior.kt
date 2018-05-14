@@ -4,8 +4,10 @@ import android.content.Context
 import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.view.ViewCompat
+import android.support.v4.view.ViewPropertyAnimatorListener
 import android.util.AttributeSet
 import android.view.View
+import com.cxz.wanandroid.utils.AnimatorUtil
 
 /**
  * Created by chenxz on 2018/5/13.
@@ -14,8 +16,17 @@ import android.view.View
  */
 class ScrollAwareFABBehavior : FloatingActionButton.Behavior {
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
+    /**
+     * 是否正在动画
+     */
+    private var isAnimateIng = false
 
+    /**
+     * 是否已经显示
+     */
+    private var isShow = true
+
+    constructor(context: Context, attrs: AttributeSet) : super()
 
     override fun onStartNestedScroll(coordinatorLayout: CoordinatorLayout,
                                      child: FloatingActionButton,
@@ -29,10 +40,37 @@ class ScrollAwareFABBehavior : FloatingActionButton.Behavior {
 
     override fun onNestedScroll(coordinatorLayout: CoordinatorLayout, child: FloatingActionButton, target: View, dxConsumed: Int, dyConsumed: Int, dxUnconsumed: Int, dyUnconsumed: Int, type: Int) {
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type)
-        if (dyConsumed > 0 && child.visibility == View.VISIBLE) {
-            child.visibility = View.INVISIBLE
-        } else if (dyConsumed < 0 && child.visibility != View.VISIBLE) {
-            child.show()
+        // 手指上滑，隐藏FAB
+        if ((dyConsumed > 0 || dyUnconsumed > 0) && !isAnimateIng && isShow) {
+            AnimatorUtil.translateHide(child, object : StateListener() {
+                override fun onAnimationStart(view: View) {
+                    super.onAnimationStart(view)
+                    isShow = false
+                }
+            })
+        } else if (dyConsumed < 0 || dyUnconsumed < 0 && !isAnimateIng && !isShow) {
+            // 手指下滑，显示FAB
+            AnimatorUtil.translateShow(child, object : StateListener() {
+                override fun onAnimationStart(view: View) {
+                    super.onAnimationStart(view)
+                    isShow = true
+                }
+            })
+        }
+    }
+
+
+    internal open inner class StateListener : ViewPropertyAnimatorListener {
+        override fun onAnimationStart(view: View) {
+            isAnimateIng = true
+        }
+
+        override fun onAnimationEnd(view: View) {
+            isAnimateIng = false
+        }
+
+        override fun onAnimationCancel(view: View) {
+            isAnimateIng = false
         }
     }
 
