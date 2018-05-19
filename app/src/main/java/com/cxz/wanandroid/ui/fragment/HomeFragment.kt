@@ -100,8 +100,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
             if (linearLayoutManager.findFirstVisibleItemPosition() > 20) {
                 scrollToPosition(0)
             } else {
-
-                // smoothScrollToPosition(0)
+                smoothScrollToPosition(0)
             }
         }
     }

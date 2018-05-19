@@ -7,6 +7,7 @@ import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.NavigationAdapter
 import com.cxz.wanandroid.adapter.NavigationTabAdapter
 import com.cxz.wanandroid.base.BaseFragment
+import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.NavigationContract
 import com.cxz.wanandroid.mvp.model.bean.NavigationBean
 import com.cxz.wanandroid.mvp.presenter.NavigationPresenter
@@ -30,6 +31,7 @@ class NavigationFragment : BaseFragment(), NavigationContract.View {
     }
 
     override fun showError(errorMsg: String) {
+        showToast(errorMsg)
     }
 
     companion object {
@@ -199,5 +201,8 @@ class NavigationFragment : BaseFragment(), NavigationContract.View {
         mPresenter.detachView()
     }
 
+    fun scrollToTop() {
+        navigation_tab_layout.setTabSelected(0)
+    }
 
 }

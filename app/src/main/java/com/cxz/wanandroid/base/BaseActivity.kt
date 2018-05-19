@@ -1,6 +1,7 @@
 package com.cxz.wanandroid.base
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -41,7 +42,7 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(attachLayoutRes())
-        StatusBarUtil.darkMode(this)
+        StatusBarUtil.darkMode(this, Color.TRANSPARENT,0F)
         initData()
         initView()
         start()

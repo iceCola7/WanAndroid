@@ -49,4 +49,11 @@ interface ApiService {
     @GET("navi/json")
     fun getNavigationList(): Observable<HttpResult<List<NavigationBean>>>
 
+    /**
+     * 项目数据
+     * http://www.wanandroid.com/project/tree/json
+     */
+    @GET("project/tree/json")
+    fun getProjectTree(): Observable<HttpResult<List<ProjectTreeBean>>>
+
 }
