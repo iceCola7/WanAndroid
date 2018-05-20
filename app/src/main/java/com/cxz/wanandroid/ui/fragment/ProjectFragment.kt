@@ -50,7 +50,6 @@ class ProjectFragment : BaseFragment(), ProjectContract.View {
 
         viewPager.run {
             addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
-            offscreenPageLimit = projectTree.size
         }
 
         tabLayout.run {
@@ -66,11 +65,15 @@ class ProjectFragment : BaseFragment(), ProjectContract.View {
     override fun setProjectTree(list: List<ProjectTreeBean>) {
         list.let {
             projectTree.addAll(it)
-            viewPager.adapter = viewPagerAdapter
+            viewPager.run {
+                adapter = viewPagerAdapter
+                offscreenPageLimit = projectTree.size
+            }
         }
     }
 
     override fun scrollToTop() {
+        viewPagerAdapter
     }
 
     override fun onDestroy() {
