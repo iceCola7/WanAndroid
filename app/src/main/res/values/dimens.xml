@@ -9,7 +9,8 @@
     <dimen name="appbar_layout_height">260dp</dimen>
 
     <!-- item -->
-    <dimen name="item_tv_title">15sp</dimen>
+    <dimen name="item_tv_title">16sp</dimen>
+    <dimen name="item_tv_content">14sp</dimen>
     <dimen name="item_tv_date">12sp</dimen>
     <dimen name="item_tv_tag">12sp</dimen>
     <dimen name="item_tv_author">12sp</dimen>
@@ -26,6 +27,7 @@
 
     <!-- dp -->
     <dimen name="dp_05">0.5dp</dimen>
+    <dimen name="dp_1">1dp</dimen>
     <dimen name="dp_5">5dp</dimen>
     <dimen name="dp_6">6dp</dimen>
     <dimen name="dp_8">8dp</dimen>
@@ -37,5 +39,8 @@
     <dimen name="dp_50">50dp</dimen>
     <dimen name="dp_60">60dp</dimen>
     <dimen name="dp_110">110dp</dimen>
+    <dimen name="dp_168">168dp</dimen>
+    <dimen name="dp_180">180dp</dimen>
+    <dimen name="dp_230">230dp</dimen>
 
 </resources>

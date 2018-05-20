@@ -204,6 +204,9 @@ class MainActivity : BaseActivity() {
             FRAGMENT_NAVIGATION -> {
                 mNavigationFragment?.scrollToTop()
             }
+            FRAGMENT_PROJECT -> {
+                mProjectFragment?.scrollToTop()
+            }
         }
     }
 }

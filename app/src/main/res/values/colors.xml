@@ -10,6 +10,7 @@
 
     <!-- item -->
     <color name="item_title">#050505</color>
+    <color name="item_author">#616161</color>
     <color name="item_desc">@color/Grey800</color>
     <color name="item_time">#49494957</color>
     <color name="app_text">#000000</color>

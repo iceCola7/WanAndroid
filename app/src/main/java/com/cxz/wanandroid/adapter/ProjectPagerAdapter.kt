@@ -4,19 +4,19 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.PagerAdapter
-import com.cxz.wanandroid.mvp.model.bean.Knowledge
-import com.cxz.wanandroid.ui.fragment.KnowledgeFragment
+import com.cxz.wanandroid.mvp.model.bean.ProjectTreeBean
+import com.cxz.wanandroid.ui.fragment.ProjectListFragment
 
 /**
- * Created by chenxz on 2018/5/10.
+ * Created by chenxz on 2018/5/20.
  */
-class KnowledgePagerAdapter(val list: List<Knowledge>, fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+class ProjectPagerAdapter(private val list: MutableList<ProjectTreeBean>, fm: FragmentManager?) : FragmentStatePagerAdapter(fm) {
 
     private val fragments = mutableListOf<Fragment>()
 
     init {
         list.forEach {
-            fragments.add(KnowledgeFragment.getInstance(it.id))
+            fragments.add(ProjectListFragment.getInstance(it.id))
         }
     }
 

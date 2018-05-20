@@ -12,6 +12,7 @@ import com.cxz.wanandroid.mvp.model.bean.Knowledge
 import com.cxz.wanandroid.mvp.model.bean.KnowledgeTreeBody
 import com.cxz.wanandroid.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.activity_knowledge.*
+import kotlinx.android.synthetic.main.toolbar.*
 
 class KnowledgeActivity : BaseActivity() {
 
