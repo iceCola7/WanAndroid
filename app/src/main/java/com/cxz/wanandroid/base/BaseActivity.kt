@@ -1,7 +1,6 @@
 package com.cxz.wanandroid.base
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -10,7 +9,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import com.cxz.multiplestatusview.MultipleStatusView
 import com.cxz.wanandroid.app.App
-import com.cxz.wanandroid.utils.StatusBarUtil
+import com.cxz.wanandroid.utils.StatusBarCompat
 
 /**
  * Created by chenxz on 2018/4/21.
@@ -42,7 +41,8 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(attachLayoutRes())
-        StatusBarUtil.darkMode(this, Color.TRANSPARENT,0F)
+        //StatusBarUtil.darkMode(this, Color.TRANSPARENT,0F)
+        //StatusBarCompat.compat(this)
         initData()
         initView()
         start()

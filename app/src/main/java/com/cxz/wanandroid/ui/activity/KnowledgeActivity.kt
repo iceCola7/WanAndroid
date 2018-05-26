@@ -10,7 +10,6 @@ import com.cxz.wanandroid.base.BaseActivity
 import com.cxz.wanandroid.common.Contanst
 import com.cxz.wanandroid.mvp.model.bean.Knowledge
 import com.cxz.wanandroid.mvp.model.bean.KnowledgeTreeBody
-import com.cxz.wanandroid.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.activity_knowledge.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -52,7 +51,7 @@ class KnowledgeActivity : BaseActivity() {
             title = toolbarTitle
             setSupportActionBar(this)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            StatusBarUtil.setPaddingSmart(this@KnowledgeActivity, toolbar)
+            //StatusBarUtil.setPaddingSmart(this@KnowledgeActivity, toolbar)
         }
         viewPager.run {
             adapter = viewPagerAdapter

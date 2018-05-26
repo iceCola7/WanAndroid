@@ -1,13 +1,12 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="AppTheme" parent="BaseAppTheme">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:fitsSystemWindows">false</item>
     </style>
 
-    <style name="AppTheme.TranslucentStatus">
-        <item name="android:windowTranslucentStatus">true</item>
+    <style name="fitSystem">
+        <item name="android:fitsSystemWindows">true</item>
     </style>
 </resources>

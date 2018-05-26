@@ -13,7 +13,6 @@ import com.cxz.wanandroid.R
 import com.cxz.wanandroid.base.BaseActivity
 import com.cxz.wanandroid.common.Contanst
 import com.cxz.wanandroid.ext.getAgentWeb
-import com.cxz.wanandroid.utils.StatusBarUtil
 import com.just.agentweb.AgentWeb
 import com.just.agentweb.ChromeClientCallbackManager
 import kotlinx.android.synthetic.main.container.*
@@ -36,7 +35,7 @@ class ContentActivity : BaseActivity() {
             title = getString(R.string.loading)
             setSupportActionBar(this)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            StatusBarUtil.setPaddingSmart(this@ContentActivity, toolbar)
+            //StatusBarUtil.setPaddingSmart(this@ContentActivity, toolbar)
         }
         intent.extras.let {
             shareId = it.getInt(Contanst.CONTENT_ID_KEY)
