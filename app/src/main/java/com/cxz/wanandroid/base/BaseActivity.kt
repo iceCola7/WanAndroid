@@ -9,7 +9,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import com.cxz.multiplestatusview.MultipleStatusView
 import com.cxz.wanandroid.app.App
-import com.cxz.wanandroid.utils.StatusBarCompat
 
 /**
  * Created by chenxz on 2018/4/21.

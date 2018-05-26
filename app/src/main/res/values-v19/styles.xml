@@ -1,7 +1,7 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="BaseAppTheme">
+    <!--Base application theme. -->
+    <style name="AppTheme" parent="BaseAppTheme.NoActionBar">
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:fitsSystemWindows">false</item>
     </style>
