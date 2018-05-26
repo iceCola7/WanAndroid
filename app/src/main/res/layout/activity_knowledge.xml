@@ -27,8 +27,9 @@
             android:theme="@style/AppTheme.AppBarOverlay"
             app:tabGravity="center"
             app:tabIndicatorColor="@color/white"
-            app:tabIndicatorHeight="@dimen/dp_4"
-            app:tabMode="scrollable" />
+            app:tabIndicatorHeight="@dimen/dp_2"
+            app:tabMode="scrollable"
+            app:tabTextAppearance="@style/TabTextStyle" />
 
     </android.support.design.widget.AppBarLayout>
 
