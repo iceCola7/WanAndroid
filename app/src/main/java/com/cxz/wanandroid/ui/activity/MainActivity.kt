@@ -68,12 +68,12 @@ class MainActivity : BaseActivity() {
      * init DrawerLayout
      */
     private fun initDrawerLayout() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            var params = window.attributes
-            params.flags = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-            drawer_layout.fitsSystemWindows = true
-            drawer_layout.clipToPadding = false
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            var params = window.attributes
+//            params.flags = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+//            drawer_layout.fitsSystemWindows = true
+//            drawer_layout.clipToPadding = false
+//        }
         drawer_layout.run {
             var toggle = ActionBarDrawerToggle(
                     this@MainActivity,
