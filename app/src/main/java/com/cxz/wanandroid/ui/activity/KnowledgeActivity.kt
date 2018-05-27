@@ -10,6 +10,7 @@ import com.cxz.wanandroid.base.BaseActivity
 import com.cxz.wanandroid.common.Contanst
 import com.cxz.wanandroid.mvp.model.bean.Knowledge
 import com.cxz.wanandroid.mvp.model.bean.KnowledgeTreeBody
+import com.cxz.wanandroid.widget.TabLayoutHelper
 import kotlinx.android.synthetic.main.activity_knowledge.*
 
 class KnowledgeActivity : BaseActivity() {
@@ -59,6 +60,7 @@ class KnowledgeActivity : BaseActivity() {
         }
         tabLayout.run {
             setupWithViewPager(viewPager)
+            TabLayoutHelper.setUpIndicatorWidth(tabLayout)
             addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(viewPager))
         }
     }

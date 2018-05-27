@@ -104,7 +104,7 @@ object RetrofitHelper {
                     client = OkHttpClient.Builder()
                             .addInterceptor(addQueryParameterInterceptor())  //参数添加
                             .addInterceptor(addHeaderInterceptor()) // token过滤
-                            //.addInterceptor(addCacheInterceptor())
+                            .addInterceptor(addCacheInterceptor())
                             .addInterceptor(httpLoggingInterceptor) //日志,所有的请求响应度看到
                             .cache(cache)  //添加缓存
                             .connectTimeout(60L, TimeUnit.SECONDS)

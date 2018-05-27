@@ -7,6 +7,7 @@ import com.cxz.wanandroid.base.BaseFragment
 import com.cxz.wanandroid.mvp.contract.ProjectContract
 import com.cxz.wanandroid.mvp.model.bean.ProjectTreeBean
 import com.cxz.wanandroid.mvp.presenter.ProjectPresenter
+import com.cxz.wanandroid.widget.TabLayoutHelper
 import kotlinx.android.synthetic.main.fragment_project.*
 
 /**
@@ -54,6 +55,7 @@ class ProjectFragment : BaseFragment(), ProjectContract.View {
 
         tabLayout.run {
             setupWithViewPager(viewPager)
+            TabLayoutHelper.setUpIndicatorWidth(tabLayout)
             addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(viewPager))
         }
     }
@@ -73,7 +75,7 @@ class ProjectFragment : BaseFragment(), ProjectContract.View {
     }
 
     override fun scrollToTop() {
-        var fragment: ProjectListFragment = viewPagerAdapter.getItem(viewPager.currentItem) as ProjectListFragment
+        val fragment: ProjectListFragment = viewPagerAdapter.getItem(viewPager.currentItem) as ProjectListFragment
         fragment.scrollToTop()
     }
 
