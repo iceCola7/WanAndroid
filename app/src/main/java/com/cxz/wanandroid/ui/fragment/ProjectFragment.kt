@@ -73,7 +73,8 @@ class ProjectFragment : BaseFragment(), ProjectContract.View {
     }
 
     override fun scrollToTop() {
-        viewPagerAdapter
+        var fragment: ProjectListFragment = viewPagerAdapter.getItem(viewPager.currentItem) as ProjectListFragment
+        fragment.scrollToTop()
     }
 
     override fun onDestroy() {

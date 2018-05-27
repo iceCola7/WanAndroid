@@ -1,15 +1,15 @@
 package com.cxz.wanandroid.ui.activity
 
-import android.os.Build
 import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.NavigationView
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
+import android.view.KeyEvent
 import android.view.View
-import android.view.WindowManager
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.base.BaseActivity
+import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.ui.fragment.HomeFragment
 import com.cxz.wanandroid.ui.fragment.KnowledgeTreeFragment
 import com.cxz.wanandroid.ui.fragment.NavigationFragment
@@ -210,4 +210,20 @@ class MainActivity : BaseActivity() {
             }
         }
     }
+
+    private var mExitTime: Long = 0
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (System.currentTimeMillis().minus(mExitTime) <= 2000) {
+                finish()
+            } else {
+                mExitTime = System.currentTimeMillis()
+                showToast(getString(R.string.exit_tip))
+            }
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
 }

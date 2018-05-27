@@ -9,6 +9,8 @@
 
     <string name="no_data">暂无数据</string>
 
+    <string name="exit_tip">再按一次退出程序</string>
+
     <!-- Menu Action -->
     <string name="action_search">Search</string>
     <string name="action_share">Share</string>
