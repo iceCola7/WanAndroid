@@ -8,8 +8,8 @@
     <string name="project">项目</string>
 
     <string name="no_data">暂无数据</string>
-
     <string name="exit_tip">再按一次退出程序</string>
+    <string name="share_article_url">%1$s分享【%2$s】：%3$s</string>
 
     <!-- Menu Action -->
     <string name="action_search">Search</string>
@@ -21,6 +21,21 @@
     <string name="nav_about">关于</string>
     <string name="nav_setting">设置</string>
 
-    <string name="share_article_url">%1$s分享【%2$s】：%3$s</string>
+    <!-- Login -->
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="no_account">No account yet? Create one</string>
+    <string name="username_not_empty">Username cannot be empty.</string>
+    <string name="password_not_empty">Password cannot be empty.</string>
+    <string name="have_account">Already have a account? Login</string>
+    <string name="enter_password_again">Enter Password Again</string>
+    <string name="confirm_password_not_empty">Confirm Password cannot be empty.</string>
+    <string name="password_cannot_match">Password cannot match</string>
+    <string name="login_success">Login Success</string>
+    <string name="login_fail">Login Fail</string>
+    <string name="register_success">Register Success</string>
+    <string name="register_fail">Register Fail</string>
 
 </resources>

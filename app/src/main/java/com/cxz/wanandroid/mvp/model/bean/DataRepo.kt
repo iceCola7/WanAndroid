@@ -104,6 +104,7 @@ data class Knowledge(
         @Json(name = "visible") val visible: Int
 ) : Serializable
 
+// 登录数据
 data class LoginData(
         @Json(name = "collectIds") val collectIds: List<Any>,
         @Json(name = "email") val email: String,
@@ -163,6 +164,7 @@ data class NavigationBean(
         val name: String
 )
 
+// 项目
 data class ProjectTreeBean(
         @Json(name = "children") val children: List<Any>,
         @Json(name = "courseId") val courseId: Int,

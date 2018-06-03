@@ -8,7 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.KnowledgeTreeAdapter
 import com.cxz.wanandroid.base.BaseFragment
-import com.cxz.wanandroid.common.Contanst
+import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.KnowledgeTreeContract
 import com.cxz.wanandroid.mvp.model.bean.KnowledgeTreeBody
@@ -136,8 +136,8 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
         if (datas.size != 0) {
             val data = datas[position]
             Intent(activity, KnowledgeActivity::class.java).run {
-                putExtra(Contanst.CONTENT_TITLE_KEY, data.name)
-                putExtra(Contanst.CONTENT_DATA_KEY, data)
+                putExtra(Constant.CONTENT_TITLE_KEY, data.name)
+                putExtra(Constant.CONTENT_DATA_KEY, data)
                 startActivity(this)
             }
         }

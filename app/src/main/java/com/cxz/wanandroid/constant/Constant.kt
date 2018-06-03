@@ -1,12 +1,16 @@
-package com.cxz.wanandroid.common
+package com.cxz.wanandroid.constant
 
 /**
  * Created by chenxz on 2018/4/21.
  */
 
-object Contanst{
+object Constant {
 
     const val BASE_URL = "http://wanandroid.com/"
+
+    const val LOGIN_KEY = "login"
+    const val USERNAME_KEY = "username"
+    const val PASSWORD_KEY = "password"
 
     /**
      * url key
@@ -32,5 +36,7 @@ object Contanst{
      * content data key
      */
     const val CONTENT_DATA_KEY = "content_data"
+
+    const val MAIN_REQUEST_CODE = 0X1000
 
 }

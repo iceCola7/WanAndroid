@@ -34,10 +34,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.MainActivity"/>
+        <activity android:name=".ui.activity.MainActivity" />
         <activity android:name=".ui.activity.ContentActivity" />
         <activity android:name=".ui.activity.KnowledgeActivity" />
-
+        <activity android:name=".ui.activity.LoginActivity" />
+        <activity android:name=".ui.activity.RegisterActivity" />
     </application>
 
 </manifest>

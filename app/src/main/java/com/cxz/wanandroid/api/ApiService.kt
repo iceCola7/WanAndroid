@@ -2,9 +2,7 @@ package com.cxz.wanandroid.api
 
 import com.cxz.wanandroid.mvp.model.bean.*
 import io.reactivex.Observable
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 /**
  * Created by chenxz on 2018/4/21.
@@ -56,7 +54,37 @@ interface ApiService {
     @GET("project/tree/json")
     fun getProjectTree(): Observable<HttpResult<List<ProjectTreeBean>>>
 
+    /**
+     * 项目列表数据
+     * http://www.wanandroid.com/project/list/1/json?cid=294
+     * @param page
+     * @param cid
+     */
     @GET("project/list/{page}/json")
     fun getProjectList(@Path("page") page: Int, @Query("cid") cid: Int): Observable<HttpResult<ArticleResponseBody>>
+
+    /**
+     * 登录
+     * http://www.wanandroid.com/user/login
+     * @param username
+     * @param password
+     */
+    @POST("user/login")
+    @FormUrlEncoded
+    fun loginWanAndroid(@Field("username") username: String,
+                        @Field("password") password: String): Observable<HttpResult<LoginData>>
+
+    /**
+     * 注册
+     * http://www.wanandroid.com/user/register
+     * @param username
+     * @param password
+     * @param repassword
+     */
+    @POST("user/register")
+    @FormUrlEncoded
+    fun registerWanAndroid(@Field("username") username: String,
+                           @Field("password") password: String,
+                           @Field("repassword") repassword: String): Observable<HttpResult<LoginData>>
 
 }

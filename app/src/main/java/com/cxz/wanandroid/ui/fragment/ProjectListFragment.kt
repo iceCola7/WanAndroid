@@ -9,7 +9,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.ProjectAdapter
 import com.cxz.wanandroid.base.BaseFragment
-import com.cxz.wanandroid.common.Contanst
+import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.ProjectListContract
 import com.cxz.wanandroid.mvp.model.bean.Article
@@ -28,7 +28,7 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
         fun getInstance(cid: Int): ProjectListFragment {
             val fragment = ProjectListFragment()
             val args = Bundle()
-            args.putInt(Contanst.CONTENT_CID_KEY, cid)
+            args.putInt(Constant.CONTENT_CID_KEY, cid)
             fragment.arguments = args
             return fragment
         }
@@ -92,7 +92,7 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
 
     override fun initView() {
         mPresenter.attachView(this)
-        cid = arguments!!.getInt(Contanst.CONTENT_CID_KEY)
+        cid = arguments!!.getInt(Constant.CONTENT_CID_KEY)
 
         swipeRefreshLayout.run {
             isRefreshing = true
@@ -173,9 +173,9 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
         if (datas.size != 0) {
             val data = datas[position]
             Intent(activity, ContentActivity::class.java).run {
-                putExtra(Contanst.CONTENT_URL_KEY, data.link)
-                putExtra(Contanst.CONTENT_TITLE_KEY, data.title)
-                putExtra(Contanst.CONTENT_ID_KEY, data.id)
+                putExtra(Constant.CONTENT_URL_KEY, data.link)
+                putExtra(Constant.CONTENT_TITLE_KEY, data.title)
+                putExtra(Constant.CONTENT_ID_KEY, data.id)
                 startActivity(this)
             }
         }

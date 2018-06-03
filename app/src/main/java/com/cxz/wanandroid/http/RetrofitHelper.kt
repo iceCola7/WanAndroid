@@ -2,7 +2,7 @@ package com.cxz.wanandroid.http
 
 import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.api.ApiService
-import com.cxz.wanandroid.common.Contanst
+import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.utils.NetWorkUtil
 import com.cxz.wanandroid.utils.Preference
 import okhttp3.*
@@ -114,7 +114,7 @@ object RetrofitHelper {
 
                     // 获取retrofit的实例
                     retrofit = Retrofit.Builder()
-                            .baseUrl(Contanst.BASE_URL)  //自己配置
+                            .baseUrl(Constant.BASE_URL)  //自己配置
                             .client(client!!)
                             //.addConverterFactory(GsonConverterFactory.create())
                             .addConverterFactory(MoshiConverterFactory.create())

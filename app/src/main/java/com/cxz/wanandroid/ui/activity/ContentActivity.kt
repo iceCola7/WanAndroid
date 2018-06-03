@@ -11,7 +11,7 @@ import android.webkit.WebViewClient
 import android.widget.LinearLayout
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.base.BaseActivity
-import com.cxz.wanandroid.common.Contanst
+import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.ext.getAgentWeb
 import com.just.agentweb.AgentWeb
 import com.just.agentweb.ChromeClientCallbackManager
@@ -38,9 +38,9 @@ class ContentActivity : BaseActivity() {
             //StatusBarUtil.setPaddingSmart(this@ContentActivity, toolbar)
         }
         intent.extras.let {
-            shareId = it.getInt(Contanst.CONTENT_ID_KEY)
-            shareTitle = it.getString(Contanst.CONTENT_TITLE_KEY)
-            shareUrl = it.getString(Contanst.CONTENT_URL_KEY)
+            shareId = it.getInt(Constant.CONTENT_ID_KEY)
+            shareTitle = it.getString(Constant.CONTENT_TITLE_KEY)
+            shareUrl = it.getString(Constant.CONTENT_URL_KEY)
         }
         agentWeb = shareUrl.getAgentWeb(this, container,
                 LinearLayout.LayoutParams(-1, -1),
@@ -73,7 +73,7 @@ class ContentActivity : BaseActivity() {
                                     shareTitle,
                                     shareUrl
                             ))
-                    type = Contanst.CONTENT_SHARE_TYPE
+                    type = Constant.CONTENT_SHARE_TYPE
                     startActivity(Intent.createChooser(this, getString(R.string.action_share)))
                 }
                 return true

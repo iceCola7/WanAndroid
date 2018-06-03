@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.cxz.wanandroid.R
-import com.cxz.wanandroid.common.Contanst
+import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.mvp.model.bean.Article
 import com.cxz.wanandroid.mvp.model.bean.NavigationBean
 import com.cxz.wanandroid.ui.activity.ContentActivity
@@ -52,9 +52,9 @@ class NavigationAdapter(context: Context?, datas: MutableList<NavigationBean>)
                                 0)
                         var data: Article = articles[position]
                         Intent(context, ContentActivity::class.java).run {
-                            putExtra(Contanst.CONTENT_URL_KEY, data.link)
-                            putExtra(Contanst.CONTENT_TITLE_KEY, data.title)
-                            putExtra(Contanst.CONTENT_ID_KEY, data.id)
+                            putExtra(Constant.CONTENT_URL_KEY, data.link)
+                            putExtra(Constant.CONTENT_TITLE_KEY, data.title)
+                            putExtra(Constant.CONTENT_ID_KEY, data.id)
                             context.startActivity(this, options.toBundle())
                         }
                         true

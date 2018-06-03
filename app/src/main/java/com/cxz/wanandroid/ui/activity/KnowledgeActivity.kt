@@ -7,7 +7,7 @@ import android.view.MenuItem
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.KnowledgePagerAdapter
 import com.cxz.wanandroid.base.BaseActivity
-import com.cxz.wanandroid.common.Contanst
+import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.mvp.model.bean.Knowledge
 import com.cxz.wanandroid.mvp.model.bean.KnowledgeTreeBody
 import com.cxz.wanandroid.widget.TabLayoutHelper
@@ -36,8 +36,8 @@ class KnowledgeActivity : BaseActivity() {
 
     override fun initData() {
         intent.extras.let {
-            toolbarTitle = it.getString(Contanst.CONTENT_TITLE_KEY)
-            it.getSerializable(Contanst.CONTENT_DATA_KEY).let {
+            toolbarTitle = it.getString(Constant.CONTENT_TITLE_KEY)
+            it.getSerializable(Constant.CONTENT_DATA_KEY).let {
                 val data = it as KnowledgeTreeBody
                 data.children.let { children ->
                     knowledges.addAll(children)
@@ -89,7 +89,7 @@ class KnowledgeActivity : BaseActivity() {
                                     knowledges[tabLayout.selectedTabPosition].name,
                                     knowledges[tabLayout.selectedTabPosition].id.toString()
                             ))
-                    type = Contanst.CONTENT_SHARE_TYPE
+                    type = Constant.CONTENT_SHARE_TYPE
                     startActivity(Intent.createChooser(this, getString(R.string.action_share)))
                 }
                 return true

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nav_view_header"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_168"
     android:background="?attr/colorPrimary"
@@ -20,10 +21,12 @@
         android:src="@mipmap/ic_default_avatar" />
 
     <TextView
+        android:id="@+id/tv_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="8dp"
-        android:text="@string/app_name"
+        android:paddingTop="@dimen/dp_8"
+        android:text="@string/login"
+        android:textSize="@dimen/sp_16"
         android:textStyle="bold" />
 </LinearLayout>

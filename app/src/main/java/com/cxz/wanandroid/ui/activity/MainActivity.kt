@@ -1,5 +1,6 @@
 package com.cxz.wanandroid.ui.activity
 
+import android.content.Intent
 import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.NavigationView
 import android.support.v4.app.FragmentTransaction
@@ -7,15 +8,22 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.KeyEvent
 import android.view.View
+import android.widget.TextView
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.base.BaseActivity
+import com.cxz.wanandroid.constant.Constant
+import com.cxz.wanandroid.event.LoginEvent
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.ui.fragment.HomeFragment
 import com.cxz.wanandroid.ui.fragment.KnowledgeTreeFragment
 import com.cxz.wanandroid.ui.fragment.NavigationFragment
 import com.cxz.wanandroid.ui.fragment.ProjectFragment
+import com.cxz.wanandroid.utils.Preference
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class MainActivity : BaseActivity() {
 
@@ -31,12 +39,28 @@ class MainActivity : BaseActivity() {
     private var mNavigationFragment: NavigationFragment? = null
     private var mProjectFragment: ProjectFragment? = null
 
+    /**
+     * check login
+     */
+    private val isLogin: Boolean by Preference(Constant.LOGIN_KEY, false)
+
+    /**
+     * local username
+     */
+    private val username: String by Preference(Constant.USERNAME_KEY, "")
+
+    /**
+     * username TextView
+     */
+    private lateinit var nav_username: TextView
+
     override fun attachLayoutRes(): Int = R.layout.activity_main
 
     override fun initData() {
     }
 
     override fun initView() {
+        EventBus.getDefault().register(this)
         toolbar.run {
             title = getString(R.string.app_name)
             setSupportActionBar(this)
@@ -52,6 +76,23 @@ class MainActivity : BaseActivity() {
 
         nav_view.run {
             setNavigationItemSelectedListener(onDrawerNavigationItemSelectedListener)
+            nav_username = getHeaderView(0).findViewById(R.id.tv_username)
+        }
+        nav_username.run {
+            text = if (!isLogin) {
+                getString(R.string.login)
+            } else {
+                username
+            }
+            setOnClickListener({
+                if (!isLogin) {
+                    Intent(this@MainActivity, LoginActivity::class.java).run {
+                        startActivity(this)
+                    }
+                } else {
+
+                }
+            })
         }
 
         showFragment(mIndex)
@@ -59,9 +100,18 @@ class MainActivity : BaseActivity() {
         floating_action_btn.run {
             setOnClickListener(onFABClickListener)
         }
+
     }
 
     override fun start() {
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun refreshData(event: LoginEvent) {
+        if (event.isLogin) {
+            nav_username.text = username
+            mHomeFragment?.lazyLoad()
+        }
     }
 
     /**
@@ -224,6 +274,11 @@ class MainActivity : BaseActivity() {
             return true
         }
         return super.onKeyDown(keyCode, event)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
     }
 
 }
