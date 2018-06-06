@@ -69,6 +69,7 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
 
     override fun initView() {
         btn_register.setOnClickListener(onClickListener)
+        tv_sign_in.setOnClickListener(onClickListener)
     }
 
     override fun start() {
