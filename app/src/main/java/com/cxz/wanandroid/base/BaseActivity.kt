@@ -1,20 +1,18 @@
 package com.cxz.wanandroid.base
 
-import android.content.Context
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.View
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import com.cxz.multiplestatusview.MultipleStatusView
+import com.cxz.swipelibrary.SwipeBackActivity
+import com.cxz.swipelibrary.SwipeBackLayout
 import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.utils.CommonUtil
 
 /**
  * Created by chenxz on 2018/4/21.
  */
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : SwipeBackActivity() {
 
     protected var mLayoutStatusView: MultipleStatusView? = null
 
@@ -43,10 +41,23 @@ abstract class BaseActivity : AppCompatActivity() {
         setContentView(attachLayoutRes())
         //StatusBarUtil.darkMode(this, Color.TRANSPARENT,0F)
         //StatusBarCompat.compat(this)
+        initSwipeBack()
         initData()
         initView()
         start()
         initListener()
+    }
+
+    private fun initSwipeBack() {
+        setSwipeBackEnable(enableSwipeBack())
+        swipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT)
+    }
+
+    /**
+     * SwipeBack Enable
+     */
+    open fun enableSwipeBack(): Boolean {
+        return true
     }
 
     private fun initListener() {

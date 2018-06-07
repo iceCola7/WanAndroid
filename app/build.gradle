@@ -69,4 +69,6 @@ dependencies {
 
     //腾讯 bugly
     //implementation 'com.tencent.bugly:crashreport:2.6.6.1'
+
+    implementation 'com.cxz.swipebacklibrary:swipeback:1.0.0'
 }

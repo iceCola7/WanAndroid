@@ -64,6 +64,10 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
 
     override fun attachLayoutRes(): Int = R.layout.activity_register
 
+    override fun enableSwipeBack(): Boolean {
+        return false
+    }
+
     override fun initData() {
     }
 

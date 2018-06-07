@@ -47,6 +47,10 @@ class LoginActivity : BaseActivity(), LoginContract.View {
 
     override fun attachLayoutRes(): Int = R.layout.activity_login
 
+    override fun enableSwipeBack(): Boolean {
+        return false
+    }
+
     override fun initData() {
     }
 
