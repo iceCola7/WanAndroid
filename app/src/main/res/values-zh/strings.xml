@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">玩Android</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="home">首页</string>
+    <string name="knowledge_system">知识体系</string>
+    <string name="navigation">导航</string>
+    <string name="project">项目</string>
+
+    <string name="no_data">暂无数据</string>
+    <string name="exit_tip">再按一次退出程序</string>
+    <string name="share_article_url">%1$s分享【%2$s】：%3$s</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+
+    <!-- Menu Action -->
+    <string name="action_search">Search</string>
+    <string name="action_share">Share</string>
+    <string name="action_like">Like</string>
+    <string name="action_browser">Browser</string>
+
+    <!-- Nav Action -->
+    <string name="nav_my_collect">收藏</string>
+    <string name="nav_setting">设置</string>
+    <string name="nav_about_us">关于我们</string>
+    <string name="nav_logout">退出登录</string>
+
+    <!-- Login -->
+    <string name="username">用户名</string>
+    <string name="password">密码</string>
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="no_account">没有账号？去注册</string>
+    <string name="username_not_empty">用户名不能为空</string>
+    <string name="password_not_empty">密码不能为空</string>
+    <string name="have_account">已有账户？去登录</string>
+    <string name="enter_password_again">再输入一次密码</string>
+    <string name="confirm_password_not_empty">确认密码不能为空</string>
+    <string name="password_cannot_match">两词密码不相同</string>
+    <string name="login_success">登录成功</string>
+    <string name="login_fail">登录失败</string>
+    <string name="register_success">注册成功</string>
+    <string name="register_fail">注册失败</string>
+    <string name="confirm_logout">确认退出登录？</string>
+    <string name="logout_success">退出登录成功</string>
+    <string name="login_tint">请先登录</string>
+
+    <!-- Home -->
+    <string name="collect_success">收藏成功</string>
+    <string name="cancel_collect_success">取消收藏成功</string>
+
+</resources>

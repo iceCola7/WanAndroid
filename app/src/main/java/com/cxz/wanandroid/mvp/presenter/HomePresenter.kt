@@ -14,6 +14,7 @@ class HomePresenter : BasePresenter<HomeContract.View>(), HomeContract.Presenter
     }
 
     override fun requestBanner() {
+
         mRootView?.showLoading()
         val disposable = homeModel.requestBanner()
                 .subscribe({ results ->
@@ -26,8 +27,6 @@ class HomePresenter : BasePresenter<HomeContract.View>(), HomeContract.Presenter
     }
 
     override fun requestArticles(num: Int) {
-        if (num == 0)
-            mRootView?.showLoading()
         val disposable = homeModel.requestArticles(num)
                 .subscribe({ results ->
                     mRootView?.apply {
@@ -37,6 +36,34 @@ class HomePresenter : BasePresenter<HomeContract.View>(), HomeContract.Presenter
                             setArticles(results.data)
                         }
                         hideLoading()
+                    }
+                })
+        addSubscription(disposable)
+    }
+
+    override fun addCollectArticle(id: Int) {
+        val disposable = homeModel.addCollectArticle(id)
+                .subscribe({ results ->
+                    mRootView?.run {
+                        if (results.errorCode != 0) {
+                            showError(results.errorMsg)
+                        } else {
+                            showCollectSuccess(true)
+                        }
+                    }
+                })
+        addSubscription(disposable)
+    }
+
+    override fun cancelCollectArticle(id: Int) {
+        val disposable = homeModel.cancelCollectArticle(id)
+                .subscribe({ results ->
+                    mRootView?.run {
+                        if (results.errorCode != 0) {
+                            showError(results.errorMsg)
+                        } else {
+                            showCancelCollectSuccess(true)
+                        }
                     }
                 })
         addSubscription(disposable)

@@ -22,4 +22,14 @@ class HomeModel {
                 .compose(SchedulerUtils.ioToMain())
     }
 
+    fun addCollectArticle(id: Int): Observable<HttpResult<Any>> {
+        return RetrofitHelper.service.addCollectArticle(id)
+                .compose(SchedulerUtils.ioToMain())
+    }
+
+    fun cancelCollectArticle(id: Int): Observable<HttpResult<Any>> {
+        return RetrofitHelper.service.cancelCollectArticle(id)
+                .compose(SchedulerUtils.ioToMain())
+    }
+
 }

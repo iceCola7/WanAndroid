@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_view_header"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_168"
@@ -14,19 +15,23 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
+    <com.cxz.wanandroid.widget.CircleImageView
         android:layout_width="@dimen/avatar_width"
         android:layout_height="@dimen/avatar_height"
         android:layout_gravity="center_horizontal"
-        android:src="@mipmap/ic_default_avatar" />
+        android:src="@mipmap/ic_default_avatar"
+        app:borderColor="@color/white"
+        app:borderWidth="2dp"
+        app:type="1" />
 
     <TextView
         android:id="@+id/tv_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_8"
         android:text="@string/login"
         android:textSize="@dimen/sp_16"
         android:textStyle="bold" />
+
 </LinearLayout>

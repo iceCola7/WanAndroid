@@ -56,6 +56,7 @@ class LoginActivity : BaseActivity(), LoginContract.View {
 
     override fun initView() {
         mPresenter.attachView(this)
+        et_username.setText(user)
         btn_login.setOnClickListener(onClickListener)
         tv_sign_up.setOnClickListener(onClickListener)
     }

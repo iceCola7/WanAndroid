@@ -2,10 +2,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:id="@+id/other">
+
+        <item
+            android:id="@+id/nav_collect"
+            android:icon="@drawable/ic_like"
+            android:title="@string/nav_my_collect" />
+
         <item
             android:id="@+id/nav_setting"
-            android:icon="@drawable/ic_setting_gray_24dp"
+            android:icon="@drawable/ic_setting_white_24dp"
             android:title="@string/nav_setting" />
+
+        <item
+            android:id="@+id/nav_about_us"
+            android:icon="@drawable/ic_about_us_white_24dp"
+            android:title="@string/nav_about_us" />
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_logout_white_24dp"
+            android:title="@string/nav_logout" />
+
     </group>
 
 </menu>

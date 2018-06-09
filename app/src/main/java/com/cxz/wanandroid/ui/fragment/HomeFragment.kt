@@ -20,6 +20,8 @@ import com.cxz.wanandroid.mvp.model.bean.ArticleResponseBody
 import com.cxz.wanandroid.mvp.model.bean.Banner
 import com.cxz.wanandroid.mvp.presenter.HomePresenter
 import com.cxz.wanandroid.ui.activity.ContentActivity
+import com.cxz.wanandroid.ui.activity.LoginActivity
+import com.cxz.wanandroid.utils.Preference
 import com.cxz.wanandroid.widget.SpaceItemDecoration
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -33,6 +35,11 @@ class HomeFragment : BaseFragment(), HomeContract.View {
     companion object {
         fun getInstance(): HomeFragment = HomeFragment()
     }
+
+    /**
+     * check login
+     */
+    private var isLogin: Boolean by Preference(Constant.LOGIN_KEY, false)
 
     /**
      * Presenter
@@ -195,11 +202,24 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         }
     }
 
+    override fun showCollectSuccess(success: Boolean) {
+        if (success) {
+            showToast(resources.getString(R.string.collect_success))
+        }
+    }
+
+    override fun showCancelCollectSuccess(success: Boolean) {
+        if (success) {
+            showToast(resources.getString(R.string.cancel_collect_success))
+        }
+    }
+
     /**
      * RefreshListener
      */
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
         homeAdapter.setEnableLoadMore(false)
+        mPresenter.requestBanner()
         mPresenter.requestArticles(0)
     }
 
@@ -250,6 +270,23 @@ class HomeFragment : BaseFragment(), HomeContract.View {
                 if (datas.size != 0) {
                     val data = datas[position]
                     when (view.id) {
+                        R.id.iv_like -> {
+                            if (isLogin) {
+                                val collect = data.collect
+                                data.collect = !collect
+                                homeAdapter.setData(position, data)
+                                if (collect) {
+                                    mPresenter.cancelCollectArticle(data.id)
+                                } else {
+                                    mPresenter.addCollectArticle(data.id)
+                                }
+                            } else {
+                                Intent(activity, LoginActivity::class.java).run {
+                                    startActivity(this)
+                                }
+                                showToast(resources.getString(R.string.login_tint))
+                            }
+                        }
                     }
                 }
             }

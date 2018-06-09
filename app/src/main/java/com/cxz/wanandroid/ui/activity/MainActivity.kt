@@ -1,10 +1,10 @@
 package com.cxz.wanandroid.ui.activity
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.NavigationView
 import android.support.v4.app.FragmentTransaction
-import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.KeyEvent
 import android.view.View
@@ -14,16 +14,20 @@ import com.cxz.wanandroid.base.BaseActivity
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.LoginEvent
 import com.cxz.wanandroid.ext.showToast
+import com.cxz.wanandroid.http.cookies.CookieManager
 import com.cxz.wanandroid.ui.fragment.HomeFragment
 import com.cxz.wanandroid.ui.fragment.KnowledgeTreeFragment
 import com.cxz.wanandroid.ui.fragment.NavigationFragment
 import com.cxz.wanandroid.ui.fragment.ProjectFragment
+import com.cxz.wanandroid.utils.DialogUtil
 import com.cxz.wanandroid.utils.Preference
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 class MainActivity : BaseActivity() {
 
@@ -42,7 +46,7 @@ class MainActivity : BaseActivity() {
     /**
      * check login
      */
-    private val isLogin: Boolean by Preference(Constant.LOGIN_KEY, false)
+    private var isLogin: Boolean by Preference(Constant.LOGIN_KEY, false)
 
     /**
      * local username
@@ -81,6 +85,7 @@ class MainActivity : BaseActivity() {
         nav_view.run {
             setNavigationItemSelectedListener(onDrawerNavigationItemSelectedListener)
             nav_username = getHeaderView(0).findViewById(R.id.tv_username)
+            menu.findItem(R.id.nav_logout).isVisible = isLogin
         }
         nav_username.run {
             text = if (!isLogin) {
@@ -111,10 +116,14 @@ class MainActivity : BaseActivity() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun refreshData(event: LoginEvent) {
+    fun loginEvent(event: LoginEvent) {
         if (event.isLogin) {
             nav_username.text = username
+            nav_view.menu.findItem(R.id.nav_logout).isVisible = true
             mHomeFragment?.lazyLoad()
+        } else {
+            nav_username.text = resources.getString(R.string.login)
+            nav_view.menu.findItem(R.id.nav_logout).isVisible = false
         }
     }
 
@@ -239,11 +248,49 @@ class MainActivity : BaseActivity() {
     private val onDrawerNavigationItemSelectedListener =
             NavigationView.OnNavigationItemSelectedListener { item ->
                 when (item.itemId) {
+                    R.id.nav_collect -> {
+                        if (isLogin) {
 
+                        } else {
+                            showToast(resources.getString(R.string.login_tint))
+                            Intent(this@MainActivity, LoginActivity::class.java).run {
+                                startActivity(this)
+                            }
+                        }
+                    }
+                    R.id.nav_setting -> {
+
+                    }
+                    R.id.nav_about_us -> {
+
+                    }
+                    R.id.nav_logout -> {
+                        logout()
+                    }
                 }
-                drawer_layout.closeDrawer(GravityCompat.START)
+                // drawer_layout.closeDrawer(GravityCompat.START)
                 true
             }
+
+    /**
+     * Logout
+     */
+    private fun logout() {
+        DialogUtil.getConfirmDialog(this, resources.getString(R.string.confirm_logout),
+                DialogInterface.OnClickListener { _, _ ->
+                    val dialog = DialogUtil.getWaitDialog(this@MainActivity, "")
+                    dialog.show()
+                    doAsync {
+                        CookieManager().clearAllCookies()
+                        uiThread {
+                            dialog.dismiss()
+                            showToast(resources.getString(R.string.logout_success))
+                            isLogin = false
+                            EventBus.getDefault().post(LoginEvent(false))
+                        }
+                    }
+                }).show()
+    }
 
     /**
      * FAB 监听

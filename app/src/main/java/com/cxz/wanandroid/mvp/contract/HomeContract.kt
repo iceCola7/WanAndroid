@@ -18,6 +18,10 @@ interface HomeContract {
 
         fun setArticles(articles: ArticleResponseBody)
 
+        fun showCollectSuccess(success: Boolean)
+
+        fun showCancelCollectSuccess(success: Boolean)
+
     }
 
     interface Presenter : IPresenter<View> {
@@ -25,6 +29,10 @@ interface HomeContract {
         fun requestBanner()
 
         fun requestArticles(num: Int)
+
+        fun addCollectArticle(id: Int)
+
+        fun cancelCollectArticle(id: Int)
 
     }
 
