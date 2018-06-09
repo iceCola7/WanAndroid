@@ -13,7 +13,9 @@ ext {
             retrofitSdkVersion      : "2.3.0",
             glideSdkVersion         : "4.4.0",
             rxJava                  : "2.1.5",
-            rxAndroid               : "2.0.1"
+            rxAndroid               : "2.0.1",
+            rxKotlin                : "2.0.0",
+            anko                    : "0.10.5"
     ]
 
     supportDeps = [
@@ -35,17 +37,20 @@ ext {
 
     rxJava = [
             rxJava   : "io.reactivex.rxjava2:rxjava:$dependVersion.rxJava",
-            rxAndroid: "io.reactivex.rxjava2:rxandroid:$dependVersion.rxAndroid"
+            rxAndroid: "io.reactivex.rxjava2:rxandroid:$dependVersion.rxAndroid",
+            rxKotlin : "io.reactivex.rxjava2:rxkotlin:$dependVersion.rxKotlin"
     ]
 
     glide = "com.github.bumptech.glide:glide:$dependVersion.glideSdkVersion"
     glideCompiler = "com.github.bumptech.glide:compiler:$dependVersion.glideSdkVersion"
     glideOkhttp = "com.github.bumptech.glide:okhttp3-integration:$dependVersion.glideSdkVersion"
 
+    anko = "org.jetbrains.anko:anko:$dependVersion.anko"
+
     supportLibs = supportDeps.values()
     networkLibs = retrofit.values()
     rxJavaLibs = rxJava.values()
-    otherLibs = [glide]
+    otherLibs = [glide, anko]
 
     // APT
     annotationProcessorLibs = [glideCompiler]
