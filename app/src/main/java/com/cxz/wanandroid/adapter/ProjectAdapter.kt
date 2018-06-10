@@ -15,8 +15,9 @@ class ProjectAdapter(private val context: Context?, datas: MutableList<Article>)
 
     override fun convert(helper: BaseViewHolder?, item: Article?) {
 
+        helper ?: return
         item ?: return
-        helper!!.setText(R.id.item_project_list_title_tv, item.title)
+        helper.setText(R.id.item_project_list_title_tv, item.title)
                 .setText(R.id.item_project_list_content_tv, item.desc)
                 .setText(R.id.item_project_list_time_tv, item.niceDate)
                 .setText(R.id.item_project_list_author_tv, item.author)

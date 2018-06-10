@@ -90,10 +90,10 @@ interface ApiService {
     /**
      *  获取收藏列表
      *  http://www.wanandroid.com/lg/collect/list/0/json
-     *  @param pageNum
+     *  @param page
      */
     @GET("lg/collect/list/{page}/json")
-    fun getCollectList(@Path("pageNum") pageNum: Int): Observable<HttpResult<CollectionResponseBody<CollectionArticle>>>
+    fun getCollectList(@Path("page") page: Int): Observable<HttpResult<CollectionResponseBody<CollectionArticle>>>
 
     /**
      * 收藏站内文章

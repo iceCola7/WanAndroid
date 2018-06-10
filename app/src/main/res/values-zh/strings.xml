@@ -14,10 +14,10 @@
     <string name="cancel">取消</string>
 
     <!-- Menu Action -->
-    <string name="action_search">Search</string>
-    <string name="action_share">Share</string>
-    <string name="action_like">Like</string>
-    <string name="action_browser">Browser</string>
+    <string name="action_search">搜索</string>
+    <string name="action_share">分享</string>
+    <string name="action_like">收藏</string>
+    <string name="action_browser">用浏览器打开</string>
 
     <!-- Nav Action -->
     <string name="nav_my_collect">收藏</string>
@@ -48,5 +48,8 @@
     <!-- Home -->
     <string name="collect_success">收藏成功</string>
     <string name="cancel_collect_success">取消收藏成功</string>
+    
+    <!-- Collect -->
+    <string name="collect">收藏</string>
 
 </resources>

@@ -147,22 +147,30 @@ class HomeFragment : BaseFragment(), HomeContract.View {
     }
 
     override fun showLoading() {
-        swipeRefreshLayout.isRefreshing = true
+        swipeRefreshLayout.run {
+            if (!isRefreshing) {
+                isRefreshing = true
+            }
+        }
     }
 
     override fun hideLoading() {
-        swipeRefreshLayout.isRefreshing = false
+        swipeRefreshLayout.run {
+            if (isRefreshing) {
+                isRefreshing = false
+            }
+        }
         homeAdapter.run {
             loadMoreComplete()
         }
     }
 
-    override fun showError(msg: String) {
+    override fun showError(errorMsg: String) {
         homeAdapter.run {
             setEnableLoadMore(false)
             loadMoreFail()
         }
-        showToast(msg)
+        showToast(errorMsg)
     }
 
     override fun setBanner(banners: List<Banner>) {

@@ -19,6 +19,7 @@
     <color name="item_tag_tv">#ffFFFFFF</color>
     <color name="color_title_bg">#CCFFFFFF</color>
     <color name="comment_line">#dddddd</color>
+    <color name="transparent_75">#ba000000</color>
 
     <color name="White">#FFFFFF</color>
     <color name="Black">#000000</color>

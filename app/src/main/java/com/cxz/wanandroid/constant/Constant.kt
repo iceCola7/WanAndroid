@@ -37,6 +37,10 @@ object Constant {
      */
     const val CONTENT_DATA_KEY = "content_data"
 
-    const val MAIN_REQUEST_CODE = 0X1000
+    const val TYPE_KEY = "type"
+
+    object Type {
+        const val COLLECT_TYPE_KEY = "collect_type"
+    }
 
 }

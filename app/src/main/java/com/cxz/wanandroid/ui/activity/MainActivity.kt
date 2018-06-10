@@ -13,8 +13,8 @@ import com.cxz.wanandroid.R
 import com.cxz.wanandroid.base.BaseActivity
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.LoginEvent
+import com.cxz.wanandroid.event.RefreshHomeEvent
 import com.cxz.wanandroid.ext.showToast
-import com.cxz.wanandroid.http.cookies.CookieManager
 import com.cxz.wanandroid.ui.fragment.HomeFragment
 import com.cxz.wanandroid.ui.fragment.KnowledgeTreeFragment
 import com.cxz.wanandroid.ui.fragment.NavigationFragment
@@ -124,6 +124,14 @@ class MainActivity : BaseActivity() {
         } else {
             nav_username.text = resources.getString(R.string.login)
             nav_view.menu.findItem(R.id.nav_logout).isVisible = false
+            mHomeFragment?.lazyLoad()
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun refreshHomeEvent(event: RefreshHomeEvent) {
+        if (event.isRefresh) {
+            mHomeFragment?.lazyLoad()
         }
     }
 
@@ -250,7 +258,10 @@ class MainActivity : BaseActivity() {
                 when (item.itemId) {
                     R.id.nav_collect -> {
                         if (isLogin) {
-
+                            Intent(this@MainActivity, CommonActivity::class.java).run {
+                                putExtra(Constant.TYPE_KEY, Constant.Type.COLLECT_TYPE_KEY)
+                                startActivity(this)
+                            }
                         } else {
                             showToast(resources.getString(R.string.login_tint))
                             Intent(this@MainActivity, LoginActivity::class.java).run {
@@ -281,7 +292,8 @@ class MainActivity : BaseActivity() {
                     val dialog = DialogUtil.getWaitDialog(this@MainActivity, "")
                     dialog.show()
                     doAsync {
-                        CookieManager().clearAllCookies()
+                        // CookieManager().clearAllCookies()
+                        Preference.clearPreference()
                         uiThread {
                             dialog.dismiss()
                             showToast(resources.getString(R.string.logout_success))

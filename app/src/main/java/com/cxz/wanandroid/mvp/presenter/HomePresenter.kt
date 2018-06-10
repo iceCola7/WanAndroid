@@ -14,12 +14,9 @@ class HomePresenter : BasePresenter<HomeContract.View>(), HomeContract.Presenter
     }
 
     override fun requestBanner() {
-
-        mRootView?.showLoading()
         val disposable = homeModel.requestBanner()
                 .subscribe({ results ->
                     mRootView?.apply {
-                        hideLoading()
                         setBanner(results.data)
                     }
                 })
@@ -27,6 +24,8 @@ class HomePresenter : BasePresenter<HomeContract.View>(), HomeContract.Presenter
     }
 
     override fun requestArticles(num: Int) {
+        if (num == 0)
+            mRootView?.showLoading()
         val disposable = homeModel.requestArticles(num)
                 .subscribe({ results ->
                     mRootView?.apply {

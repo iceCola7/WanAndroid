@@ -60,7 +60,7 @@ class KnowledgeActivity : BaseActivity() {
         }
         tabLayout.run {
             setupWithViewPager(viewPager)
-            TabLayoutHelper.setUpIndicatorWidth(tabLayout)
+            // TabLayoutHelper.setUpIndicatorWidth(tabLayout)
             addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(viewPager))
         }
     }

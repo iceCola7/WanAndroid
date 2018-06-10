@@ -7,9 +7,9 @@ import android.util.Log
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebViewClient
-import android.widget.Toast
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.app.App
+import com.cxz.wanandroid.widget.CustomToast
 import com.just.agentweb.AgentWeb
 import com.just.agentweb.ChromeClientCallbackManager
 import com.just.agentweb.DefaultWebClient
@@ -20,20 +20,25 @@ import com.just.agentweb.DefaultWebClient
 /**
  * Log
  */
+fun loge(content: String?) {
+    loge("CXZ", content)
+}
+
 fun loge(tag: String, content: String?) {
     Log.e(tag, content ?: tag)
 }
 
-fun Fragment.showToast(content: String): Toast {
-    val toast = Toast.makeText(this.activity?.applicationContext, content, Toast.LENGTH_SHORT)
-    toast.show()
-    return toast
+fun Fragment.showToast(content: String) {
+//    val toast = Toast.makeText(this.activity?.applicationContext, content, Toast.LENGTH_SHORT)
+//    toast.show()
+    CustomToast(this.activity?.applicationContext, content).show()
+
 }
 
-fun Context.showToast(content: String): Toast {
-    val toast = Toast.makeText(App.context, content, Toast.LENGTH_SHORT)
-    toast.show()
-    return toast
+fun Context.showToast(content: String) {
+//    val toast = Toast.makeText(App.context, content, Toast.LENGTH_SHORT)
+//    toast.show()
+    CustomToast(App.context, content).show()
 }
 
 /**

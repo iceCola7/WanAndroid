@@ -45,4 +45,11 @@
     <string name="logout_success">Logout Success</string>
     <string name="login_tint">Please Login</string>
 
+    <!-- Home -->
+    <string name="collect_success">Collect Success</string>
+    <string name="cancel_collect_success">Cancel Collect Success</string>
+
+    <!-- Collect -->
+    <string name="collect">Collect</string>
+
 </resources>
