@@ -21,7 +21,6 @@ import com.cxz.wanandroid.mvp.model.bean.Banner
 import com.cxz.wanandroid.mvp.presenter.HomePresenter
 import com.cxz.wanandroid.ui.activity.ContentActivity
 import com.cxz.wanandroid.ui.activity.LoginActivity
-import com.cxz.wanandroid.utils.Preference
 import com.cxz.wanandroid.widget.SpaceItemDecoration
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -35,11 +34,6 @@ class HomeFragment : BaseFragment(), HomeContract.View {
     companion object {
         fun getInstance(): HomeFragment = HomeFragment()
     }
-
-    /**
-     * check login
-     */
-    private var isLogin: Boolean by Preference(Constant.LOGIN_KEY, false)
 
     /**
      * Presenter

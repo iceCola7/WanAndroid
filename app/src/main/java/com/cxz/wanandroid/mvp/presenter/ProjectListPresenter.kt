@@ -1,13 +1,12 @@
 package com.cxz.wanandroid.mvp.presenter
 
-import com.cxz.wanandroid.base.BasePresenter
 import com.cxz.wanandroid.mvp.contract.ProjectListContract
 import com.cxz.wanandroid.mvp.model.ProjectListModel
 
 /**
  * Created by chenxz on 2018/5/20.
  */
-class ProjectListPresenter : BasePresenter<ProjectListContract.View>(), ProjectListContract.Presenter {
+class ProjectListPresenter : CommonPresenter<ProjectListContract.View>(), ProjectListContract.Presenter {
 
     private val projectListModel: ProjectListModel by lazy {
         ProjectListModel()

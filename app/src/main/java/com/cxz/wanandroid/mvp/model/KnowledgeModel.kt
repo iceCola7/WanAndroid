@@ -9,7 +9,7 @@ import io.reactivex.Observable
 /**
  * Created by chenxz on 2018/5/12.
  */
-class KnowledgeModel {
+class KnowledgeModel : CommonModel() {
 
     fun requestKnowledgeList(page: Int, cid: Int): Observable<HttpResult<ArticleResponseBody>> {
         return RetrofitHelper.service.getKnowledgeList(page, cid)

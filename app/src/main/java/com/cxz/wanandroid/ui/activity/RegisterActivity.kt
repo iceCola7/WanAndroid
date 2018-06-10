@@ -17,11 +17,6 @@ import org.greenrobot.eventbus.EventBus
 class RegisterActivity : BaseActivity(), RegisterContract.View {
 
     /**
-     * check login
-     */
-    private var isLogin: Boolean by Preference(Constant.LOGIN_KEY, false)
-
-    /**
      * local username
      */
     private var user: String by Preference(Constant.USERNAME_KEY, "")

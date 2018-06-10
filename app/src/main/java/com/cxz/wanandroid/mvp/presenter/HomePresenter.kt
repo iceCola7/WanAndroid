@@ -1,13 +1,12 @@
 package com.cxz.wanandroid.mvp.presenter
 
-import com.cxz.wanandroid.base.BasePresenter
 import com.cxz.wanandroid.mvp.contract.HomeContract
 import com.cxz.wanandroid.mvp.model.HomeModel
 
 /**
  * Created by chenxz on 2018/4/21.
  */
-class HomePresenter : BasePresenter<HomeContract.View>(), HomeContract.Presenter {
+class HomePresenter : CommonPresenter<HomeContract.View>(), HomeContract.Presenter {
 
     private val homeModel: HomeModel by lazy {
         HomeModel()
@@ -35,34 +34,6 @@ class HomePresenter : BasePresenter<HomeContract.View>(), HomeContract.Presenter
                             setArticles(results.data)
                         }
                         hideLoading()
-                    }
-                })
-        addSubscription(disposable)
-    }
-
-    override fun addCollectArticle(id: Int) {
-        val disposable = homeModel.addCollectArticle(id)
-                .subscribe({ results ->
-                    mRootView?.run {
-                        if (results.errorCode != 0) {
-                            showError(results.errorMsg)
-                        } else {
-                            showCollectSuccess(true)
-                        }
-                    }
-                })
-        addSubscription(disposable)
-    }
-
-    override fun cancelCollectArticle(id: Int) {
-        val disposable = homeModel.cancelCollectArticle(id)
-                .subscribe({ results ->
-                    mRootView?.run {
-                        if (results.errorCode != 0) {
-                            showError(results.errorMsg)
-                        } else {
-                            showCancelCollectSuccess(true)
-                        }
                     }
                 })
         addSubscription(disposable)

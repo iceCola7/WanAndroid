@@ -1,7 +1,5 @@
 package com.cxz.wanandroid.mvp.contract
 
-import com.cxz.wanandroid.base.IPresenter
-import com.cxz.wanandroid.base.IView
 import com.cxz.wanandroid.mvp.model.bean.ArticleResponseBody
 import com.cxz.wanandroid.mvp.model.bean.Banner
 
@@ -10,7 +8,7 @@ import com.cxz.wanandroid.mvp.model.bean.Banner
  */
 interface HomeContract {
 
-    interface View : IView {
+    interface View : CommonContract.View {
 
         fun scrollToTop()
 
@@ -18,21 +16,13 @@ interface HomeContract {
 
         fun setArticles(articles: ArticleResponseBody)
 
-        fun showCollectSuccess(success: Boolean)
-
-        fun showCancelCollectSuccess(success: Boolean)
-
     }
 
-    interface Presenter : IPresenter<View> {
+    interface Presenter : CommonContract.Presenter<View> {
 
         fun requestBanner()
 
         fun requestArticles(num: Int)
-
-        fun addCollectArticle(id: Int)
-
-        fun cancelCollectArticle(id: Int)
 
     }
 

@@ -16,6 +16,8 @@ import com.cxz.wanandroid.mvp.model.bean.Article
 import com.cxz.wanandroid.mvp.model.bean.ArticleResponseBody
 import com.cxz.wanandroid.mvp.presenter.ProjectListPresenter
 import com.cxz.wanandroid.ui.activity.ContentActivity
+import com.cxz.wanandroid.ui.activity.LoginActivity
+import com.cxz.wanandroid.utils.Preference
 import com.cxz.wanandroid.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_project_list.*
 
@@ -150,6 +152,18 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
         }
     }
 
+    override fun showCancelCollectSuccess(success: Boolean) {
+        if (success) {
+            showToast(getString(R.string.cancel_collect_success))
+        }
+    }
+
+    override fun showCollectSuccess(success: Boolean) {
+        if (success) {
+            showToast(getString(R.string.collect_success))
+        }
+    }
+
     /**
      * RefreshListener
      */
@@ -189,6 +203,23 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
                 if (datas.size != 0) {
                     val data = datas[position]
                     when (view.id) {
+                        R.id.item_project_list_like_iv -> {
+                            if (isLogin) {
+                                val collect = data.collect
+                                data.collect = !collect
+                                projectAdapter.setData(position, data)
+                                if (collect) {
+                                    mPresenter.cancelCollectArticle(data.id)
+                                } else {
+                                    mPresenter.addCollectArticle(data.id)
+                                }
+                            } else {
+                                Intent(activity, LoginActivity::class.java).run {
+                                    startActivity(this)
+                                }
+                                showToast(resources.getString(R.string.login_tint))
+                            }
+                        }
                     }
                 }
             }

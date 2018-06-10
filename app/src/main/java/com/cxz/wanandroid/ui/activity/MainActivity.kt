@@ -21,6 +21,7 @@ import com.cxz.wanandroid.ui.fragment.NavigationFragment
 import com.cxz.wanandroid.ui.fragment.ProjectFragment
 import com.cxz.wanandroid.utils.DialogUtil
 import com.cxz.wanandroid.utils.Preference
+import com.cxz.wanandroid.widget.helper.BottomNavigationViewHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.greenrobot.eventbus.EventBus
@@ -42,11 +43,6 @@ class MainActivity : BaseActivity() {
     private var mKnowledgeTreeFragment: KnowledgeTreeFragment? = null
     private var mNavigationFragment: NavigationFragment? = null
     private var mProjectFragment: ProjectFragment? = null
-
-    /**
-     * check login
-     */
-    private var isLogin: Boolean by Preference(Constant.LOGIN_KEY, false)
 
     /**
      * local username
@@ -76,6 +72,7 @@ class MainActivity : BaseActivity() {
         }
 
         bottom_navigation.run {
+            BottomNavigationViewHelper.disableShiftMode(this)
             setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
             selectedItemId = R.id.action_home
         }

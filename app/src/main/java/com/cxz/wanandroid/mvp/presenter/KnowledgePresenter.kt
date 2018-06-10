@@ -1,13 +1,12 @@
 package com.cxz.wanandroid.mvp.presenter
 
-import com.cxz.wanandroid.base.BasePresenter
 import com.cxz.wanandroid.mvp.contract.KnowledgeContract
 import com.cxz.wanandroid.mvp.model.KnowledgeModel
 
 /**
  * Created by chenxz on 2018/5/12.
  */
-class KnowledgePresenter : BasePresenter<KnowledgeContract.View>(), KnowledgeContract.Presenter {
+class KnowledgePresenter : CommonPresenter<KnowledgeContract.View>(), KnowledgeContract.Presenter {
 
     private val knowledgeModel: KnowledgeModel by lazy {
         KnowledgeModel()

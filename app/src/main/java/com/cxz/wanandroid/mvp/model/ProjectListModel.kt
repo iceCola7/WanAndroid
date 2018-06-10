@@ -9,7 +9,7 @@ import io.reactivex.Observable
 /**
  * Created by chenxz on 2018/5/20.
  */
-class ProjectListModel {
+class ProjectListModel: CommonModel() {
 
     fun requestProjectList(page: Int, cid: Int): Observable<HttpResult<ArticleResponseBody>> {
         return RetrofitHelper.service.getProjectList(page, cid)

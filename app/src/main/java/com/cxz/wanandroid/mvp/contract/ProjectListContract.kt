@@ -1,7 +1,5 @@
 package com.cxz.wanandroid.mvp.contract
 
-import com.cxz.wanandroid.base.IPresenter
-import com.cxz.wanandroid.base.IView
 import com.cxz.wanandroid.mvp.model.bean.ArticleResponseBody
 
 /**
@@ -9,7 +7,7 @@ import com.cxz.wanandroid.mvp.model.bean.ArticleResponseBody
  */
 interface ProjectListContract {
 
-    interface View : IView {
+    interface View : CommonContract.View {
 
         fun scrollToTop()
 
@@ -17,7 +15,7 @@ interface ProjectListContract {
 
     }
 
-    interface Presenter : IPresenter<View> {
+    interface Presenter : CommonContract.Presenter<View> {
 
         fun requestProjectList(page: Int, cid: Int)
 

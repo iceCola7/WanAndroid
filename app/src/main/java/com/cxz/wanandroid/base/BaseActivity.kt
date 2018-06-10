@@ -7,13 +7,23 @@ import com.cxz.multiplestatusview.MultipleStatusView
 import com.cxz.swipelibrary.SwipeBackActivity
 import com.cxz.swipelibrary.SwipeBackLayout
 import com.cxz.wanandroid.app.App
+import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.utils.CommonUtil
+import com.cxz.wanandroid.utils.Preference
 
 /**
  * Created by chenxz on 2018/4/21.
  */
 abstract class BaseActivity : SwipeBackActivity() {
 
+    /**
+     * check login
+     */
+    protected var isLogin: Boolean by Preference(Constant.LOGIN_KEY, false)
+
+    /**
+     * 多种状态的 View 的切换
+     */
     protected var mLayoutStatusView: MultipleStatusView? = null
 
     /**

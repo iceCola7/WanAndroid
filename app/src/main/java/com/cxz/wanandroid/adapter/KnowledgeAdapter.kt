@@ -14,7 +14,8 @@ import com.cxz.wanandroid.mvp.model.bean.Article
 /**
  * Created by chenxz on 2018/4/22.
  */
-class KnowledgeAdapter(private val context: Context?, datas: MutableList<Article>) : BaseQuickAdapter<Article, BaseViewHolder>(R.layout.item_knowledge_list, datas) {
+class KnowledgeAdapter(private val context: Context?, datas: MutableList<Article>)
+    : BaseQuickAdapter<Article, BaseViewHolder>(R.layout.item_knowledge_list, datas) {
 
     override fun convert(helper: BaseViewHolder?, item: Article?) {
         item ?: return
@@ -22,6 +23,10 @@ class KnowledgeAdapter(private val context: Context?, datas: MutableList<Article
         helper.setText(R.id.tv_article_title, item.title)
                 .setText(R.id.tv_article_author, item.author)
                 .setText(R.id.tv_article_date, item.niceDate)
+                .setImageResource(R.id.iv_like,
+                        if (item.collect) R.drawable.ic_like else R.drawable.ic_like_not
+                )
+                .addOnClickListener(R.id.iv_like)
         if (!TextUtils.isEmpty(item.chapterName)) {
             helper.setText(R.id.tv_article_chapterName, item.chapterName)
             helper.getView<TextView>(R.id.tv_article_chapterName).visibility = View.VISIBLE

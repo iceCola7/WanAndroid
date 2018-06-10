@@ -21,6 +21,10 @@ class ProjectAdapter(private val context: Context?, datas: MutableList<Article>)
                 .setText(R.id.item_project_list_content_tv, item.desc)
                 .setText(R.id.item_project_list_time_tv, item.niceDate)
                 .setText(R.id.item_project_list_author_tv, item.author)
+                .setImageResource(R.id.item_project_list_like_iv,
+                        if (item.collect) R.drawable.ic_like else R.drawable.ic_like_not
+                )
+                .addOnClickListener(R.id.item_project_list_like_iv)
         context.let {
             Glide.with(it)
                     .load(item.envelopePic)
