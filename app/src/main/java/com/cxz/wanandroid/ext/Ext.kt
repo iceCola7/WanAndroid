@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebViewClient
 import com.cxz.wanandroid.R
-import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.widget.CustomToast
 import com.just.agentweb.AgentWeb
 import com.just.agentweb.ChromeClientCallbackManager
@@ -38,7 +37,7 @@ fun Fragment.showToast(content: String) {
 fun Context.showToast(content: String) {
 //    val toast = Toast.makeText(App.context, content, Toast.LENGTH_SHORT)
 //    toast.show()
-    CustomToast(App.context, content).show()
+    CustomToast(this, content).show()
 }
 
 /**

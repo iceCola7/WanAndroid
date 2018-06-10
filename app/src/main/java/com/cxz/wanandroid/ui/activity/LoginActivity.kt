@@ -10,6 +10,7 @@ import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.LoginContract
 import com.cxz.wanandroid.mvp.model.bean.LoginData
 import com.cxz.wanandroid.mvp.presenter.LoginPresenter
+import com.cxz.wanandroid.utils.DialogUtil
 import com.cxz.wanandroid.utils.Preference
 import kotlinx.android.synthetic.main.activity_login.*
 import org.greenrobot.eventbus.EventBus
@@ -30,10 +31,16 @@ class LoginActivity : BaseActivity(), LoginContract.View {
         LoginPresenter()
     }
 
+    private val mDialog by lazy {
+        DialogUtil.getWaitDialog(this,getString(R.string.login_ing))
+    }
+
     override fun showLoading() {
+        mDialog.show()
     }
 
     override fun hideLoading() {
+        mDialog.dismiss()
     }
 
     override fun showError(errorMsg: String) {

@@ -12,25 +12,59 @@ import android.widget.LinearLayout
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.base.BaseActivity
 import com.cxz.wanandroid.constant.Constant
+import com.cxz.wanandroid.event.RefreshHomeEvent
 import com.cxz.wanandroid.ext.getAgentWeb
+import com.cxz.wanandroid.ext.showToast
+import com.cxz.wanandroid.mvp.contract.ContentContract
+import com.cxz.wanandroid.mvp.presenter.ContentPresenter
 import com.just.agentweb.AgentWeb
 import com.just.agentweb.ChromeClientCallbackManager
 import kotlinx.android.synthetic.main.container.*
 import kotlinx.android.synthetic.main.toolbar.*
+import org.greenrobot.eventbus.EventBus
 
-class ContentActivity : BaseActivity() {
+class ContentActivity : BaseActivity(), ContentContract.View {
 
     private lateinit var agentWeb: AgentWeb
     private lateinit var shareTitle: String
     private lateinit var shareUrl: String
     private var shareId: Int = 0
 
+    private val mPresenter: ContentPresenter by lazy {
+        ContentPresenter()
+    }
+
     override fun attachLayoutRes(): Int = R.layout.activity_content
+
+    override fun showLoading() {
+    }
+
+    override fun hideLoading() {
+    }
+
+    override fun showError(errorMsg: String) {
+        showToast(errorMsg)
+    }
+
+    override fun showCollectSuccess(success: Boolean) {
+        if (success) {
+            showToast(getString(R.string.collect_success))
+            EventBus.getDefault().post(RefreshHomeEvent(true))
+        }
+    }
+
+    override fun showCancelCollectSuccess(success: Boolean) {
+        if (success) {
+            showToast(getString(R.string.cancel_collect_success))
+            EventBus.getDefault().post(RefreshHomeEvent(true))
+        }
+    }
 
     override fun initData() {
     }
 
     override fun initView() {
+        mPresenter.attachView(this)
         toolbar.run {
             title = getString(R.string.loading)
             setSupportActionBar(this)
@@ -79,7 +113,14 @@ class ContentActivity : BaseActivity() {
                 return true
             }
             R.id.action_like -> {
-
+                if (isLogin) {
+                    mPresenter.addCollectArticle(shareId)
+                } else {
+                    Intent(this, LoginActivity::class.java).run {
+                        startActivity(this)
+                    }
+                    showToast(resources.getString(R.string.login_tint))
+                }
                 return true
             }
             R.id.action_browser -> {
@@ -118,6 +159,7 @@ class ContentActivity : BaseActivity() {
     override fun onDestroy() {
         agentWeb.webLifeCycle.onDestroy()
         super.onDestroy()
+        mPresenter.detachView()
     }
 
     /**

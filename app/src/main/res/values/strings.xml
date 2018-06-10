@@ -44,6 +44,8 @@
     <string name="confirm_logout">Confirm Logout？</string>
     <string name="logout_success">Logout Success</string>
     <string name="login_tint">Please Login</string>
+    <string name="login_ing">Login...</string>
+    <string name="register_ing">Register...</string>
 
     <!-- Home -->
     <string name="collect_success">Collect Success</string>
