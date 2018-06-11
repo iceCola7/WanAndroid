@@ -75,6 +75,9 @@ class ProjectFragment : BaseFragment(), ProjectContract.View {
     }
 
     override fun scrollToTop() {
+        if (viewPagerAdapter.count == 0) {
+            return
+        }
         val fragment: ProjectListFragment = viewPagerAdapter.getItem(viewPager.currentItem) as ProjectListFragment
         fragment.scrollToTop()
     }

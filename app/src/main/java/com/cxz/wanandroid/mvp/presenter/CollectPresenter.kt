@@ -1,6 +1,7 @@
 package com.cxz.wanandroid.mvp.presenter
 
 import com.cxz.wanandroid.base.BasePresenter
+import com.cxz.wanandroid.http.exception.ExceptionHandle
 import com.cxz.wanandroid.mvp.contract.CollectContract
 import com.cxz.wanandroid.mvp.model.CollectModel
 
@@ -26,6 +27,11 @@ class CollectPresenter : BasePresenter<CollectContract.View>(), CollectContract.
                         }
                         hideLoading()
                     }
+                }, { t ->
+                    mRootView?.apply {
+                        hideLoading()
+                        showError(ExceptionHandle.handleException(t))
+                    }
                 })
         addSubscription(disposable)
     }
@@ -40,6 +46,11 @@ class CollectPresenter : BasePresenter<CollectContract.View>(), CollectContract.
                             showRemoveCollectSuccess(true)
                         }
                         hideLoading()
+                    }
+                }, { t ->
+                    mRootView?.apply {
+                        hideLoading()
+                        showError(ExceptionHandle.handleException(t))
                     }
                 })
         addSubscription(disposable)

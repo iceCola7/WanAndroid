@@ -1,5 +1,6 @@
 package com.cxz.wanandroid.mvp.presenter
 
+import com.cxz.wanandroid.http.exception.ExceptionHandle
 import com.cxz.wanandroid.mvp.contract.ProjectListContract
 import com.cxz.wanandroid.mvp.model.ProjectListModel
 
@@ -24,6 +25,11 @@ class ProjectListPresenter : CommonPresenter<ProjectListContract.View>(), Projec
                             setProjectList(results.data)
                         }
                         hideLoading()
+                    }
+                }, { t ->
+                    mRootView?.apply {
+                        hideLoading()
+                        showError(ExceptionHandle.handleException(t))
                     }
                 })
         addSubscription(disposable)

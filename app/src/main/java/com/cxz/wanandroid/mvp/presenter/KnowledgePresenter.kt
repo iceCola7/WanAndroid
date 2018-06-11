@@ -1,5 +1,6 @@
 package com.cxz.wanandroid.mvp.presenter
 
+import com.cxz.wanandroid.http.exception.ExceptionHandle
 import com.cxz.wanandroid.mvp.contract.KnowledgeContract
 import com.cxz.wanandroid.mvp.model.KnowledgeModel
 
@@ -24,6 +25,11 @@ class KnowledgePresenter : CommonPresenter<KnowledgeContract.View>(), KnowledgeC
                             setKnowledgeList(results.data)
                         }
                         hideLoading()
+                    }
+                }, { t ->
+                    mRootView?.apply {
+                        hideLoading()
+                        showError(ExceptionHandle.handleException(t))
                     }
                 })
         addSubscription(disposable)

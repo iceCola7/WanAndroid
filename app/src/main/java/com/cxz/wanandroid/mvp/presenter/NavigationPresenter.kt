@@ -1,6 +1,7 @@
 package com.cxz.wanandroid.mvp.presenter
 
 import com.cxz.wanandroid.base.BasePresenter
+import com.cxz.wanandroid.http.exception.ExceptionHandle
 import com.cxz.wanandroid.mvp.contract.NavigationContract
 import com.cxz.wanandroid.mvp.model.NavigationModel
 
@@ -23,6 +24,11 @@ class NavigationPresenter : BasePresenter<NavigationContract.View>(), Navigation
                         } else {
                             setNavigationData(results.data)
                         }
+                    }
+                }, { t ->
+                    mRootView?.apply {
+                        hideLoading()
+                        showError(ExceptionHandle.handleException(t))
                     }
                 })
         addSubscription(disposable)

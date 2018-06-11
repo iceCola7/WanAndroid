@@ -1,6 +1,7 @@
 package com.cxz.wanandroid.mvp.presenter
 
 import com.cxz.wanandroid.base.BasePresenter
+import com.cxz.wanandroid.http.exception.ExceptionHandle
 import com.cxz.wanandroid.mvp.contract.CommonContract
 import com.cxz.wanandroid.mvp.model.CommonModel
 
@@ -24,6 +25,11 @@ open class CommonPresenter<V : CommonContract.View>
                             showCollectSuccess(true)
                         }
                     }
+                }, { t ->
+                    mRootView?.apply {
+                        hideLoading()
+                        showError(ExceptionHandle.handleException(t))
+                    }
                 })
         addSubscription(disposable)
     }
@@ -37,6 +43,11 @@ open class CommonPresenter<V : CommonContract.View>
                         } else {
                             showCancelCollectSuccess(true)
                         }
+                    }
+                }, { t ->
+                    mRootView?.apply {
+                        hideLoading()
+                        showError(ExceptionHandle.handleException(t))
                     }
                 })
         addSubscription(disposable)

@@ -1,5 +1,6 @@
 package com.cxz.wanandroid.mvp.presenter
 
+import com.cxz.wanandroid.http.exception.ExceptionHandle
 import com.cxz.wanandroid.mvp.contract.HomeContract
 import com.cxz.wanandroid.mvp.model.HomeModel
 
@@ -18,6 +19,11 @@ class HomePresenter : CommonPresenter<HomeContract.View>(), HomeContract.Present
                     mRootView?.apply {
                         setBanner(results.data)
                     }
+                }, { t ->
+                    mRootView?.apply {
+                        hideLoading()
+                        showError(ExceptionHandle.handleException(t))
+                    }
                 })
         addSubscription(disposable)
     }
@@ -34,6 +40,11 @@ class HomePresenter : CommonPresenter<HomeContract.View>(), HomeContract.Present
                             setArticles(results.data)
                         }
                         hideLoading()
+                    }
+                }, { t ->
+                    mRootView?.apply {
+                        hideLoading()
+                        showError(ExceptionHandle.handleException(t))
                     }
                 })
         addSubscription(disposable)

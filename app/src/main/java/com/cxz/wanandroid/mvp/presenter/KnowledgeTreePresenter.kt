@@ -1,6 +1,7 @@
 package com.cxz.wanandroid.mvp.presenter
 
 import com.cxz.wanandroid.base.BasePresenter
+import com.cxz.wanandroid.http.exception.ExceptionHandle
 import com.cxz.wanandroid.mvp.contract.KnowledgeTreeContract
 import com.cxz.wanandroid.mvp.model.KnowledgeTreeModel
 
@@ -24,6 +25,11 @@ class KnowledgeTreePresenter : BasePresenter<KnowledgeTreeContract.View>(), Know
                             setKnowledgeTree(results.data)
                         }
                         hideLoading()
+                    }
+                }, { t ->
+                    mRootView?.apply {
+                        hideLoading()
+                        showError(ExceptionHandle.handleException(t))
                     }
                 })
         addSubscription(disposable)
