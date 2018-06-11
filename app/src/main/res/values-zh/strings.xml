@@ -50,8 +50,14 @@
     <!-- Home -->
     <string name="collect_success">收藏成功</string>
     <string name="cancel_collect_success">取消收藏成功</string>
-    
+
     <!-- Collect -->
     <string name="collect">收藏</string>
+
+    <!-- AboutUs -->
+    <string name="about_us">关于我们</string>
+
+    <!-- Setting -->
+    <string name="setting">设置</string>
 
 </resources>

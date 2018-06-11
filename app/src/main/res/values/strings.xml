@@ -54,4 +54,7 @@
     <!-- Collect -->
     <string name="collect">Collect</string>
 
+    <!-- AboutUs -->
+    <string name="about_us">About US</string>
+
 </resources>

@@ -41,6 +41,8 @@ object Constant {
 
     object Type {
         const val COLLECT_TYPE_KEY = "collect_type"
+        const val ABOUT_US_TYPE_KEY = "about_us_type_key"
+        const val SETTING_TYPE_KEY = "setting_type_key"
     }
 
 }

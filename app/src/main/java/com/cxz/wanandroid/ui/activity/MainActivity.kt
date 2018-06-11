@@ -267,10 +267,16 @@ class MainActivity : BaseActivity() {
                         }
                     }
                     R.id.nav_setting -> {
-
+                        Intent(this@MainActivity, CommonActivity::class.java).run {
+                            putExtra(Constant.TYPE_KEY, Constant.Type.SETTING_TYPE_KEY)
+                            startActivity(this)
+                        }
                     }
                     R.id.nav_about_us -> {
-
+                        Intent(this@MainActivity, CommonActivity::class.java).run {
+                            putExtra(Constant.TYPE_KEY, Constant.Type.ABOUT_US_TYPE_KEY)
+                            startActivity(this)
+                        }
                     }
                     R.id.nav_logout -> {
                         logout()
