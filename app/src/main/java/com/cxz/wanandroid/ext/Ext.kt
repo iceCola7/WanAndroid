@@ -2,11 +2,14 @@ package com.cxz.wanandroid.ext
 
 import android.app.Activity
 import android.content.Context
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebViewClient
+import android.widget.TextView
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.widget.CustomToast
 import com.just.agentweb.AgentWeb
@@ -38,6 +41,21 @@ fun Context.showToast(content: String) {
 //    val toast = Toast.makeText(App.context, content, Toast.LENGTH_SHORT)
 //    toast.show()
     CustomToast(this, content).show()
+}
+
+fun Activity.showSnackMsg(msg: String) {
+    val snackbar = Snackbar.make(this.window.decorView, msg, Snackbar.LENGTH_SHORT)
+    val view = snackbar.view
+    view.findViewById<TextView>(R.id.snackbar_text).setTextColor(ContextCompat.getColor(this, R.color.white))
+    snackbar.show()
+}
+
+fun Fragment.showSnackMsg(msg: String) {
+    this.activity ?: return
+    val snackbar = Snackbar.make(this.activity!!.window.decorView, msg, Snackbar.LENGTH_SHORT)
+    val view = snackbar.view
+    view.findViewById<TextView>(R.id.snackbar_text).setTextColor(ContextCompat.getColor(this.activity!!, R.color.white))
+    snackbar.show()
 }
 
 /**

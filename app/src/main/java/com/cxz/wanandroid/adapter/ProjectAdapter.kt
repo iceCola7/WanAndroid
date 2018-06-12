@@ -1,11 +1,11 @@
 package com.cxz.wanandroid.adapter
 
 import android.content.Context
-import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.mvp.model.bean.Article
+import com.cxz.wanandroid.utils.ImageLoader
 
 /**
  * Created by chenxz on 2018/5/20.
@@ -26,9 +26,7 @@ class ProjectAdapter(private val context: Context?, datas: MutableList<Article>)
                 )
                 .addOnClickListener(R.id.item_project_list_like_iv)
         context.let {
-            Glide.with(it)
-                    .load(item.envelopePic)
-                    .into(helper.getView(R.id.item_project_list_iv))
+            ImageLoader.load(it, item.envelopePic, helper.getView(R.id.item_project_list_iv))
         }
 
     }

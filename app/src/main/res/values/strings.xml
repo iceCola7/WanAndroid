@@ -7,11 +7,12 @@
     <string name="navigation">Navigation</string>
     <string name="project">Project</string>
 
-    <string name="no_data">No Data</string>
     <string name="exit_tip">Press again to exit the WanAndroid</string>
     <string name="share_article_url">%1$sShare【%2$s】：%3$s</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
+    <string name="no_data">No Data</string>
+    <string name="no_network">Network Anomaly</string>
 
     <!-- Menu Action -->
     <string name="action_search">Search</string>

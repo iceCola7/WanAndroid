@@ -7,11 +7,12 @@
     <string name="navigation">导航</string>
     <string name="project">项目</string>
 
-    <string name="no_data">暂无数据</string>
     <string name="exit_tip">再按一次退出程序</string>
     <string name="share_article_url">%1$s分享【%2$s】：%3$s</string>
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
+    <string name="no_data">暂无数据</string>
+    <string name="no_network">网络异常</string>
 
     <!-- Menu Action -->
     <string name="action_search">搜索</string>

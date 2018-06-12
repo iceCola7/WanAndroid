@@ -302,6 +302,9 @@ class MainActivity : BaseActivity() {
                             showToast(resources.getString(R.string.logout_success))
                             isLogin = false
                             EventBus.getDefault().post(LoginEvent(false))
+                            Intent(this@MainActivity, LoginActivity::class.java).run {
+                                startActivity(this)
+                            }
                         }
                     }
                 }).show()

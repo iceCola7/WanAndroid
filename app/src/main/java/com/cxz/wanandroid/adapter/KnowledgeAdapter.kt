@@ -5,11 +5,11 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.mvp.model.bean.Article
+import com.cxz.wanandroid.utils.ImageLoader
 
 /**
  * Created by chenxz on 2018/4/22.
@@ -38,9 +38,7 @@ class KnowledgeAdapter(private val context: Context?, datas: MutableList<Article
             helper.getView<ImageView>(R.id.iv_article_thumbnail)
                     .visibility = View.VISIBLE
             context?.let {
-                Glide.with(it)
-                        .load(item.envelopePic)
-                        .into(helper.getView(R.id.iv_article_thumbnail))
+                ImageLoader.load(it, item.envelopePic, helper.getView(R.id.item_project_list_iv))
             }
         } else {
             helper.getView<ImageView>(R.id.iv_article_thumbnail)

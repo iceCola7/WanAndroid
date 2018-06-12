@@ -6,13 +6,13 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.ImageView
 import cn.bingoogolapple.bgabanner.BGABanner
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.HomeAdapter
+import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.base.BaseFragment
 import com.cxz.wanandroid.constant.Constant
+import com.cxz.wanandroid.ext.showSnackMsg
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.HomeContract
 import com.cxz.wanandroid.mvp.model.bean.Article
@@ -21,6 +21,8 @@ import com.cxz.wanandroid.mvp.model.bean.Banner
 import com.cxz.wanandroid.mvp.presenter.HomePresenter
 import com.cxz.wanandroid.ui.activity.ContentActivity
 import com.cxz.wanandroid.ui.activity.LoginActivity
+import com.cxz.wanandroid.utils.ImageLoader
+import com.cxz.wanandroid.utils.NetWorkUtil
 import com.cxz.wanandroid.widget.SpaceItemDecoration
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -80,10 +82,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
      */
     private val bannerAdapter: BGABanner.Adapter<ImageView, String> by lazy {
         BGABanner.Adapter<ImageView, String> { bgaBanner, imageView, feedImageUrl, position ->
-            Glide.with(activity)
-                    .load(feedImageUrl)
-                    .transition(DrawableTransitionOptions().crossFade())
-                    .into(imageView)
+            ImageLoader.load(activity, feedImageUrl, imageView)
         }
     }
 
@@ -274,6 +273,10 @@ class HomeFragment : BaseFragment(), HomeContract.View {
                     when (view.id) {
                         R.id.iv_like -> {
                             if (isLogin) {
+                                if (!NetWorkUtil.isNetworkAvailable(App.context)) {
+                                    showSnackMsg(resources.getString(R.string.no_network))
+                                    return@OnItemChildClickListener
+                                }
                                 val collect = data.collect
                                 data.collect = !collect
                                 homeAdapter.setData(position, data)

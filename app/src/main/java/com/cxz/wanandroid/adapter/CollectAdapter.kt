@@ -4,11 +4,11 @@ import android.content.Context
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.mvp.model.bean.CollectionArticle
+import com.cxz.wanandroid.utils.ImageLoader
 
 /**
  * Created by chenxz on 2018/6/10.
@@ -35,9 +35,7 @@ class CollectAdapter(private val context: Context?, datas: MutableList<Collectio
             helper.getView<ImageView>(R.id.iv_article_thumbnail)
                     .visibility = View.VISIBLE
             context?.let {
-                Glide.with(it)
-                        .load(item.envelopePic)
-                        .into(helper.getView(R.id.iv_article_thumbnail))
+                ImageLoader.load(it, item.envelopePic, helper.getView(R.id.iv_article_thumbnail))
             }
         } else {
             helper.getView<ImageView>(R.id.iv_article_thumbnail)

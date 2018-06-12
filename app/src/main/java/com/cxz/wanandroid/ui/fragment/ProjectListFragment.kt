@@ -8,8 +8,10 @@ import android.support.v7.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.ProjectAdapter
+import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.base.BaseFragment
 import com.cxz.wanandroid.constant.Constant
+import com.cxz.wanandroid.ext.showSnackMsg
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.ProjectListContract
 import com.cxz.wanandroid.mvp.model.bean.Article
@@ -17,6 +19,7 @@ import com.cxz.wanandroid.mvp.model.bean.ArticleResponseBody
 import com.cxz.wanandroid.mvp.presenter.ProjectListPresenter
 import com.cxz.wanandroid.ui.activity.ContentActivity
 import com.cxz.wanandroid.ui.activity.LoginActivity
+import com.cxz.wanandroid.utils.NetWorkUtil
 import com.cxz.wanandroid.utils.Preference
 import com.cxz.wanandroid.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_project_list.*
@@ -205,6 +208,10 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
                     when (view.id) {
                         R.id.item_project_list_like_iv -> {
                             if (isLogin) {
+                                if (!NetWorkUtil.isNetworkAvailable(App.context)) {
+                                    showSnackMsg(resources.getString(R.string.no_network))
+                                    return@OnItemChildClickListener
+                                }
                                 val collect = data.collect
                                 data.collect = !collect
                                 projectAdapter.setData(position, data)
