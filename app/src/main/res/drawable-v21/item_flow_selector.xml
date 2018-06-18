@@ -4,17 +4,17 @@
 
     <item
         android:id="@+id/mask"
-        android:drawable="@color/White" />
+        android:drawable="@color/item_flow_layout_bg" />
 
     <item>
         <shape android:shape="rectangle">
             <corners android:radius="@dimen/dp_40" />
 
-            <solid android:color="@color/Grey100" />
+            <solid android:color="@color/item_flow_layout_bg" />
 
             <stroke
                 android:width="1px"
-                android:color="@color/Grey200" />
+                android:color="@color/item_flow_layout_bg" />
         </shape>
     </item>
 

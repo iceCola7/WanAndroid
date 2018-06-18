@@ -17,8 +17,8 @@
             android:id="@+id/navigation_tab_layout"
             android:layout_width="@dimen/dp_110"
             android:layout_height="match_parent"
-            android:background="@color/Grey100"
-            app:indicator_color="@color/white"
+            android:background="@color/vertical_tab_layout_bg"
+            app:indicator_color="@color/vertical_tab_layout_indicator_color"
             app:indicator_gravity="fill"
             app:tab_height="@dimen/dp_50"
             app:tab_margin="@dimen/dp_16"
@@ -28,7 +28,7 @@
             android:id="@+id/navigation_divider"
             android:layout_width="@dimen/dp_05"
             android:layout_height="match_parent"
-            android:background="@color/comment_line" />
+            android:background="@color/line_divider" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"

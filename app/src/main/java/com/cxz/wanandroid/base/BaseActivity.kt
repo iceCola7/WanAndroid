@@ -69,7 +69,10 @@ abstract class BaseActivity : SwipeBackActivity() {
 
     override fun onResume() {
         super.onResume()
-        initColor()
+
+        //if (!SettingUtil.getIsNightMode()){
+            initColor()
+        //}
     }
 
     open fun initColor() {

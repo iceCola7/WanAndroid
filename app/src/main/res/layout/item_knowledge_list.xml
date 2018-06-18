@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_10"
             android:text="@string/app_name"
+            android:textColor="@color/item_author"
             android:textSize="@dimen/item_tv_author" />
 
         <TextView
@@ -31,6 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:text="@string/app_name"
+            android:textColor="@color/item_date"
             android:textSize="@dimen/item_tv_date" />
 
         <ImageView
