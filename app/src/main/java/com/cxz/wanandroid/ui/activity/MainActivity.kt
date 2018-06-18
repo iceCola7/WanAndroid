@@ -2,9 +2,11 @@ package com.cxz.wanandroid.ui.activity
 
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.NavigationView
 import android.support.v4.app.FragmentTransaction
+import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.KeyEvent
 import android.view.View
@@ -12,6 +14,7 @@ import android.widget.TextView
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.base.BaseActivity
 import com.cxz.wanandroid.constant.Constant
+import com.cxz.wanandroid.event.ColorEvent
 import com.cxz.wanandroid.event.LoginEvent
 import com.cxz.wanandroid.event.RefreshHomeEvent
 import com.cxz.wanandroid.ext.showToast
@@ -19,8 +22,10 @@ import com.cxz.wanandroid.ui.fragment.HomeFragment
 import com.cxz.wanandroid.ui.fragment.KnowledgeTreeFragment
 import com.cxz.wanandroid.ui.fragment.NavigationFragment
 import com.cxz.wanandroid.ui.fragment.ProjectFragment
+import com.cxz.wanandroid.ui.setting.SettingActivity
 import com.cxz.wanandroid.utils.DialogUtil
 import com.cxz.wanandroid.utils.Preference
+import com.cxz.wanandroid.utils.SettingUtil
 import com.cxz.wanandroid.widget.helper.BottomNavigationViewHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -106,7 +111,11 @@ class MainActivity : BaseActivity() {
         floating_action_btn.run {
             setOnClickListener(onFABClickListener)
         }
+    }
 
+    override fun initColor() {
+        super.initColor()
+        refreshColor(ColorEvent(true))
     }
 
     override fun start() {
@@ -129,6 +138,14 @@ class MainActivity : BaseActivity() {
     fun refreshHomeEvent(event: RefreshHomeEvent) {
         if (event.isRefresh) {
             mHomeFragment?.lazyLoad()
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun refreshColor(event: ColorEvent) {
+        if (event.isRefresh) {
+            nav_view.getHeaderView(0).setBackgroundColor(SettingUtil.getColor())
+            floating_action_btn.backgroundTintList = ColorStateList.valueOf(SettingUtil.getColor())
         }
     }
 
@@ -267,8 +284,8 @@ class MainActivity : BaseActivity() {
                         }
                     }
                     R.id.nav_setting -> {
-                        Intent(this@MainActivity, CommonActivity::class.java).run {
-                            putExtra(Constant.TYPE_KEY, Constant.Type.SETTING_TYPE_KEY)
+                        Intent(this@MainActivity, SettingActivity::class.java).run {
+                            // putExtra(Constant.TYPE_KEY, Constant.Type.SETTING_TYPE_KEY)
                             startActivity(this)
                         }
                     }
@@ -282,7 +299,7 @@ class MainActivity : BaseActivity() {
                         logout()
                     }
                 }
-                // drawer_layout.closeDrawer(GravityCompat.START)
+                drawer_layout.closeDrawer(GravityCompat.START)
                 true
             }
 

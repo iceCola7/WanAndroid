@@ -14,4 +14,8 @@
         <attr name="rectRoundRadius" />
     </declare-styleable>
 
+    <declare-styleable name="IconListPreference">
+        <attr name="iconsDrawables" format="reference"/>
+    </declare-styleable>
+
 </resources>

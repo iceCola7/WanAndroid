@@ -39,7 +39,8 @@
         <activity android:name=".ui.activity.KnowledgeActivity" />
         <activity android:name=".ui.activity.LoginActivity" />
         <activity android:name=".ui.activity.RegisterActivity" />
-        <activity android:name=".ui.activity.CommonActivity"/>
+        <activity android:name=".ui.activity.CommonActivity" />
+        <activity android:name=".ui.setting.SettingActivity"></activity>
     </application>
 
 </manifest>

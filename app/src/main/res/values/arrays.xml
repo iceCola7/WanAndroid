@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="icons">
+        <item>原形</item>
+        <item>矩形</item>
+        <item>方形</item>
+    </string-array>
+
+    <string-array name="iconsValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="iconsDrawables">
+        <item>ic_launcher</item>
+        <item>ic_launcher_round</item>
+        <item>ic_launcher_round</item>
+        <!--<item>ic_launcher_circle</item>-->
+        <!--<item>ic_launcher_rect</item>-->
+        <!--<item>ic_launcher_square</item>-->
+    </string-array>
+
+    <string-array name="slidable">
+        <item>禁用</item>
+        <item>边缘触发</item>
+        <item>全屏触发</item>
+    </string-array>
+
+    <string-array name="slidableValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+</resources>

@@ -8,10 +8,14 @@ import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.KnowledgePagerAdapter
 import com.cxz.wanandroid.base.BaseActivity
 import com.cxz.wanandroid.constant.Constant
+import com.cxz.wanandroid.event.ColorEvent
 import com.cxz.wanandroid.mvp.model.bean.Knowledge
 import com.cxz.wanandroid.mvp.model.bean.KnowledgeTreeBody
-import com.cxz.wanandroid.widget.TabLayoutHelper
+import com.cxz.wanandroid.utils.SettingUtil
 import kotlinx.android.synthetic.main.activity_knowledge.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class KnowledgeActivity : BaseActivity() {
 
@@ -47,6 +51,7 @@ class KnowledgeActivity : BaseActivity() {
     }
 
     override fun initView() {
+        EventBus.getDefault().register(this)
         toolbar.run {
             title = toolbarTitle
             setSupportActionBar(this)
@@ -63,9 +68,22 @@ class KnowledgeActivity : BaseActivity() {
             // TabLayoutHelper.setUpIndicatorWidth(tabLayout)
             addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(viewPager))
         }
+
     }
 
     override fun start() {
+    }
+
+    override fun initColor() {
+        super.initColor()
+        refreshColor(ColorEvent(true))
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun refreshColor(event: ColorEvent) {
+        if (event.isRefresh) {
+            tabLayout.setBackgroundColor(SettingUtil.getColor())
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -73,12 +91,8 @@ class KnowledgeActivity : BaseActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                finish()
-                return true
-            }
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
             R.id.action_share -> {
                 Intent().run {
                     action = Intent.ACTION_SEND
@@ -96,6 +110,11 @@ class KnowledgeActivity : BaseActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
     }
 
 }

@@ -93,10 +93,6 @@ class ContentActivity : BaseActivity(), ContentContract.View {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            android.R.id.home -> {
-                finish()
-                return true
-            }
             R.id.action_share -> {
                 Intent().run {
                     action = Intent.ACTION_SEND

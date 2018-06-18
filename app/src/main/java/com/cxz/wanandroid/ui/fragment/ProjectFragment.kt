@@ -4,11 +4,16 @@ import android.support.design.widget.TabLayout
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.ProjectPagerAdapter
 import com.cxz.wanandroid.base.BaseFragment
+import com.cxz.wanandroid.event.ColorEvent
 import com.cxz.wanandroid.mvp.contract.ProjectContract
 import com.cxz.wanandroid.mvp.model.bean.ProjectTreeBean
 import com.cxz.wanandroid.mvp.presenter.ProjectPresenter
+import com.cxz.wanandroid.utils.SettingUtil
 import com.cxz.wanandroid.widget.TabLayoutHelper
 import kotlinx.android.synthetic.main.fragment_project.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 /**
  * Created by chenxz on 2018/5/15.
@@ -48,6 +53,7 @@ class ProjectFragment : BaseFragment(), ProjectContract.View {
 
     override fun initView() {
         mPresenter.attachView(this)
+        EventBus.getDefault().register(this)
 
         viewPager.run {
             addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
@@ -57,6 +63,16 @@ class ProjectFragment : BaseFragment(), ProjectContract.View {
             setupWithViewPager(viewPager)
             TabLayoutHelper.setUpIndicatorWidth(tabLayout)
             addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(viewPager))
+        }
+
+        refreshColor(ColorEvent(true))
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun refreshColor(event: ColorEvent) {
+        if (event.isRefresh) {
+            tabLayout.setBackgroundColor(SettingUtil.getColor())
         }
     }
 
@@ -85,6 +101,7 @@ class ProjectFragment : BaseFragment(), ProjectContract.View {
     override fun onDestroy() {
         super.onDestroy()
         mPresenter.detachView()
+        EventBus.getDefault().unregister(this)
     }
 
 }

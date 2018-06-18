@@ -57,8 +57,49 @@
 
     <!-- AboutUs -->
     <string name="about_us">关于我们</string>
+    <string name="changelog">更新日志</string>
+    <string name="changelog_url">https://github.com/bjchenxz/WanAndroid/releases</string>
+    <string name="about_developers_label">主要开发者</string>
+    <string name="about_developers">https://github.com/bjchexz</string>
+    <string name="source_code">源代码</string>
+    <string name="source_code_url">https://github.com/bjchenxz/WanAndroid</string>
+    <string name="about_libraries_label">开源许可</string>
+    <string name="about_libraries_summary">查看开源许可信息</string>
+    <string name="copyright">版权声明</string>
+    <string name="copyright_summary">仅作个人及非商业用途</string>
+    <string name="version">版本</string>
 
     <!-- Setting -->
     <string name="setting">设置</string>
+    <string name="basic_setting">基本设置</string>
+    <string name="switch_photo_mode">无图模式</string>
+    <string name="switch_no_photo_mode_summary">开启后在非Wifi环境下不加载图片</string>
+    <string name="switch_night_mode">夜间模式</string>
+    <string name="switch_night_mode_summary">切换夜间皮肤</string>
+    <string name="clear_cache">清除缓存</string>
+    <string name="clear_cache_successfully">清理成功</string>
+    <string name="other_setting">其他设置</string>
+    <string name="about_settings">关于</string>
+    <string name="choose_theme_color">主题颜色</string>
+    <string name="choose_theme_color_summary">自定义主题颜色</string>
+    <string name="back">返回</string>
+    <string name="done">完成</string>
+    <string name="custom">自定义</string>
+    <string name="nav_bar_coloration">导航栏着色</string>
+    <string name="nav_bar_coloration_summary">导航栏颜色跟随主题颜色</string>
+    <string name="choose_icon">更换图标</string>
+    <string name="choose_icon_summary">重启App生效(可以将App从最近任务列表删除来重启)</string>
+    <string name="slidable_title">滑动返回</string>
+    <string name="slidable_summary">类似 iOS 左侧滑动返回</string>
+    <string name="video_setting">视频设置</string>
+    <string name="video_auto_play">自动播放视频</string>
+    <string name="video_auto_play_summary">开启后在Wifi环境下自动播放视频</string>
+    <string name="auto_night_mode">自动切换夜间模式</string>
+    <string name="auto_night_mode_summary">设置切换的时间</string>
+    <string name="auto_night_mode_subsummary">重启App生效</string>
+    <string name="auto_night_category">时间</string>
+    <string name="auto_night_start">夜间模式开始时间</string>
+    <string name="auto_day_start">日间模式开始时间</string>
+
 
 </resources>
