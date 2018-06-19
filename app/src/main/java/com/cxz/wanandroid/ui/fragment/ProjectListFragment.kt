@@ -20,9 +20,8 @@ import com.cxz.wanandroid.mvp.presenter.ProjectListPresenter
 import com.cxz.wanandroid.ui.activity.ContentActivity
 import com.cxz.wanandroid.ui.activity.LoginActivity
 import com.cxz.wanandroid.utils.NetWorkUtil
-import com.cxz.wanandroid.utils.Preference
 import com.cxz.wanandroid.widget.SpaceItemDecoration
-import kotlinx.android.synthetic.main.fragment_project_list.*
+import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 
 /**
  * Created by chenxz on 2018/5/20.
@@ -93,7 +92,7 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
         ProjectListPresenter()
     }
 
-    override fun attachLayoutRes(): Int = R.layout.fragment_project_list
+    override fun attachLayoutRes(): Int = R.layout.fragment_refresh_layout
 
     override fun initView() {
         mPresenter.attachView(this)
@@ -115,7 +114,7 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@ProjectListFragment.onItemClickListener
             onItemChildClickListener = this@ProjectListFragment.onItemChildClickListener
-            setEmptyView(R.layout.fragment_home_empty)
+            setEmptyView(R.layout.fragment_empty_layout)
         }
 
     }

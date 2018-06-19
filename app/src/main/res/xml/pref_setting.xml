@@ -5,11 +5,13 @@
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="switch_noPhotoMode"
+            android:layout="@layout/custom_preference_layout"
             android:summary="@string/switch_no_photo_mode_summary"
             android:title="@string/switch_photo_mode" />
 
         <Preference
             android:key="auto_nightMode"
+            android:layout="@layout/custom_preference_layout"
             android:summary="@string/auto_night_mode_summary"
             android:title="@string/auto_night_mode" />
 
@@ -33,6 +35,7 @@
 
         <com.cxz.wanandroid.widget.IconPreference
             android:key="color"
+            android:layout="@layout/custom_preference_layout"
             android:summary="@string/choose_theme_color_summary"
             android:title="@string/choose_theme_color" />
 
@@ -48,11 +51,13 @@
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="nav_bar"
+            android:layout="@layout/custom_preference_layout"
             android:summary="@string/nav_bar_coloration_summary"
             android:title="@string/nav_bar_coloration" />
 
         <Preference
             android:key="clearCache"
+            android:layout="@layout/custom_preference_layout"
             android:title="@string/clear_cache" />
 
     </PreferenceCategory>
@@ -61,10 +66,12 @@
 
         <Preference
             android:key="version"
+            android:layout="@layout/custom_preference_layout"
             android:title="@string/version" />
 
         <Preference
             android:key="changelog"
+            android:layout="@layout/custom_preference_layout"
             android:summary="@string/changelog_url"
             android:title="@string/changelog" />
 
@@ -75,11 +82,13 @@
 
         <Preference
             android:key="sourceCode"
+            android:layout="@layout/custom_preference_layout"
             android:summary="@string/source_code_url"
             android:title="@string/source_code" />
 
         <Preference
             android:key="copyRight"
+            android:layout="@layout/custom_preference_layout"
             android:summary="@string/copyright_summary"
             android:title="@string/copyright" />
 

@@ -21,7 +21,7 @@ import com.cxz.wanandroid.ui.activity.ContentActivity
 import com.cxz.wanandroid.ui.activity.LoginActivity
 import com.cxz.wanandroid.utils.NetWorkUtil
 import com.cxz.wanandroid.widget.SpaceItemDecoration
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 
 /**
  * Created by chenxz on 2018/5/10.
@@ -104,7 +104,7 @@ class KnowledgeFragment : BaseFragment(), KnowledgeContract.View {
         }
     }
 
-    override fun attachLayoutRes(): Int = R.layout.fragment_knowledge
+    override fun attachLayoutRes(): Int = R.layout.fragment_refresh_layout
 
     override fun initView() {
         mPresenter.attachView(this)
@@ -124,7 +124,7 @@ class KnowledgeFragment : BaseFragment(), KnowledgeContract.View {
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@KnowledgeFragment.onItemClickListener
             onItemChildClickListener = this@KnowledgeFragment.onItemChildClickListener
-            setEmptyView(R.layout.fragment_home_empty)
+            setEmptyView(R.layout.fragment_empty_layout)
         }
     }
 

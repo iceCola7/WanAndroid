@@ -24,6 +24,8 @@
     <string name="nav_my_collect">Collect</string>
     <string name="nav_setting">Setting</string>
     <string name="nav_about_us">About Us</string>
+    <string name="nav_logout">Logout</string>
+    <string name="nav_night_mode">Night Mode</string>
 
     <!-- Login -->
     <string name="username">Username</string>
@@ -41,7 +43,6 @@
     <string name="login_fail">Login Fail</string>
     <string name="register_success">Register Success</string>
     <string name="register_fail">Register Fail</string>
-    <string name="nav_logout">Logout</string>
     <string name="confirm_logout">Confirm Logout？</string>
     <string name="logout_success">Logout Success</string>
     <string name="login_tint">Please Login</string>
@@ -57,5 +58,45 @@
 
     <!-- AboutUs -->
     <string name="about_us">About US</string>
+    <string name="changelog">Update Log</string>
+    <string name="changelog_url">https://github.com/bjchenxz/WanAndroid/releases</string>
+    <string name="about_developers_label">Main Developer</string>
+    <string name="about_developers">https://github.com/bjchexz</string>
+    <string name="source_code">Source Code</string>
+    <string name="source_code_url">https://github.com/bjchenxz/WanAndroid</string>
+    <string name="about_libraries_label">Open Source License</string>
+    <string name="about_libraries_summary">View open source license information</string>
+    <string name="copyright">Copyright declaration</string>
+    <string name="copyright_summary">Only for personal and non commercial purposes</string>
+    <string name="version">Version</string>
+
+    <!-- Setting -->
+    <string name="setting">Setting</string>
+    <string name="basic_setting">Base Setting</string>
+    <string name="switch_photo_mode">Without Image Mode</string>
+    <string name="switch_no_photo_mode_summary">Unload pictures in non Wifi environment after opening</string>
+    <string name="switch_night_mode">Night Mode</string>
+    <string name="switch_night_mode_summary">Switch Night Mode</string>
+    <string name="clear_cache">Clear Cache</string>
+    <string name="clear_cache_successfully">Clear Success</string>
+    <string name="other_setting">Other Setting</string>
+    <string name="about_settings">About</string>
+    <string name="choose_theme_color">Theme Color</string>
+    <string name="choose_theme_color_summary">Custom theme color</string>
+    <string name="back">Back</string>
+    <string name="done">Done</string>
+    <string name="custom">Custom</string>
+    <string name="nav_bar_coloration">Navigation bar coloring</string>
+    <string name="nav_bar_coloration_summary">Navigation bar color follow subject color</string>
+    <string name="choose_icon">Change Icon</string>
+    <string name="choose_icon_summary">Reboot App to take effect</string>
+    <string name="slidable_title">Sliding Back</string>
+    <string name="slidable_summary">Like iOS left slide back</string>
+    <string name="auto_night_mode">Auto Switch Night Mode</string>
+    <string name="auto_night_mode_summary">Setting the time to switch</string>
+    <string name="auto_night_mode_subsummary">Reboot App to take effect</string>
+    <string name="auto_night_category">Time</string>
+    <string name="auto_night_start">Night Mode Start Time</string>
+    <string name="auto_day_start">Day Mode Start Time</string>
 
 </resources>

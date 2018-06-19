@@ -15,7 +15,7 @@ import com.cxz.wanandroid.mvp.model.bean.KnowledgeTreeBody
 import com.cxz.wanandroid.mvp.presenter.KnowledgeTreePresenter
 import com.cxz.wanandroid.ui.activity.KnowledgeActivity
 import com.cxz.wanandroid.widget.RecyclerViewItemDecoration
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 
 /**
  * Created by chenxz on 2018/5/8.
@@ -30,7 +30,7 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
         KnowledgeTreePresenter()
     }
 
-    override fun attachLayoutRes(): Int = R.layout.fragment_knowledge_tree
+    override fun attachLayoutRes(): Int = R.layout.fragment_refresh_layout
 
     /**
      * datas
@@ -77,7 +77,7 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
             bindToRecyclerView(recyclerView)
             setEnableLoadMore(false)
             onItemClickListener = this@KnowledgeTreeFragment.onItemClickListener
-            setEmptyView(R.layout.fragment_home_empty)
+            setEmptyView(R.layout.fragment_empty_layout)
         }
     }
 

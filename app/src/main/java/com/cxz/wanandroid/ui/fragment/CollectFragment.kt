@@ -18,7 +18,7 @@ import com.cxz.wanandroid.mvp.model.bean.CollectionResponseBody
 import com.cxz.wanandroid.mvp.presenter.CollectPresenter
 import com.cxz.wanandroid.ui.activity.ContentActivity
 import com.cxz.wanandroid.widget.SpaceItemDecoration
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import org.greenrobot.eventbus.EventBus
 
 /**
@@ -92,7 +92,7 @@ class CollectFragment : BaseFragment(), CollectContract.View {
         CollectAdapter(activity, datas = datas)
     }
 
-    override fun attachLayoutRes(): Int = R.layout.fragment_collect
+    override fun attachLayoutRes(): Int = R.layout.fragment_refresh_layout
 
     override fun initView() {
         mPresenter.attachView(this)
@@ -114,7 +114,7 @@ class CollectFragment : BaseFragment(), CollectContract.View {
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@CollectFragment.onItemClickListener
             onItemChildClickListener = this@CollectFragment.onItemChildClickListener
-            setEmptyView(R.layout.fragment_home_empty)
+            setEmptyView(R.layout.fragment_empty_layout)
         }
 
     }

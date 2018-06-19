@@ -30,6 +30,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     testImplementation 'junit:junit:4.12'
+    //noinspection GradleCompatible
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     // Support库
@@ -52,14 +53,13 @@ dependencies {
     // BaseRecyclerViewAdapterHelper
     implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.35"
     //Banner
-    implementation 'com.android.support:support-v4:2.2.4'
     implementation 'cn.bingoogolapple:bga-banner:2.2.4@aar'
     //Logger
     implementation 'com.orhanobut:logger:2.1.1'
     //AgentWeb
     implementation 'com.just.agentweb:agentweb:3.1.0'
     // multidex
-    implementation 'com.android.support:multidex:1.0.0'
+    implementation 'com.android.support:multidex:1.0.3'
     // VerticalTabLayout
     implementation 'q.rorbin:VerticalTabLayout:1.2.5'
     // Flowlayout

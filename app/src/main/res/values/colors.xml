@@ -2,25 +2,27 @@
 <resources>
     <color name="colorPrimary">#E91E63</color>
     <color name="colorPrimaryDark">#C2185B</color>
-    <color name="colorAccent">#FF5252</color>
+    <color name="colorAccent">@color/Cyan</color>
     <color name="textColorPrimary">#616161</color>
-    <color name="viewBackground">@android:color/white</color>
+    <color name="viewBackground">@color/White</color>
     <color name="windowBackground">@color/Grey100</color>
     <color name="line_divider">@color/Grey300</color>
 
     <!-- item -->
-    <color name="item_title">#050505</color>
-    <color name="item_author">#616161</color>
-    <color name="item_desc">@color/Grey800</color>
-    <color name="item_time">#49494957</color>
-    <color name="app_text">#000000</color>
-    <color name="item_date">#ffA8A8A8</color>
-    <color name="item_article_tv">#ff000000</color>
+    <color name="common_color">#19191B</color>
+    <color name="item_title">#19191B</color>
+    <color name="item_author">@color/Grey700</color>
+    <color name="item_desc">@color/Grey600</color>
+    <color name="item_time">@color/Grey600</color>
+    <color name="item_date">@color/Grey600</color>
     <color name="item_tag_tv">#ffFFFFFF</color>
+    <color name="item_nav_color_tv">#19191B</color>
     <color name="color_title_bg">#CCFFFFFF</color>
-    <color name="comment_line">#dddddd</color>
+    <color name="color_about_tv">@color/Grey600</color>
     <color name="transparent_75">#ba000000</color>
-    <color name="comment_text">#5b5d5c</color>
+    <color name="vertical_tab_layout_bg">@color/Grey100</color>
+    <color name="vertical_tab_layout_indicator_color">@color/White</color>
+    <color name="item_flow_layout_bg">@color/Grey200</color>
 
     <color name="White">#FFFFFF</color>
     <color name="Black">#000000</color>

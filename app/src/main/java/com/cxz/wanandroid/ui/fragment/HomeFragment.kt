@@ -25,7 +25,7 @@ import com.cxz.wanandroid.utils.ImageLoader
 import com.cxz.wanandroid.utils.NetWorkUtil
 import com.cxz.wanandroid.widget.SpaceItemDecoration
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import kotlinx.android.synthetic.main.item_home_banner.view.*
 
 /**
@@ -93,7 +93,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         LinearLayoutManager(activity)
     }
 
-    override fun attachLayoutRes(): Int = R.layout.fragment_home
+    override fun attachLayoutRes(): Int = R.layout.fragment_refresh_layout
 
     override fun scrollToTop() {
         recyclerView.run {
@@ -124,7 +124,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@HomeFragment.onItemClickListener
             onItemChildClickListener = this@HomeFragment.onItemChildClickListener
-            setEmptyView(R.layout.fragment_home_empty)
+            setEmptyView(R.layout.fragment_empty_layout)
             addHeaderView(bannerView)
         }
 
