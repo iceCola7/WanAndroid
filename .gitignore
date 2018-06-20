@@ -7,3 +7,6 @@
 /build
 /captures
 .externalNativeBuild
+/cxz.jks
+/gradle.properties
+/.idea
