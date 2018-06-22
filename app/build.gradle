@@ -44,8 +44,7 @@ android {
                 variant.outputs.all { output ->
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                        // 输出apk名称为WanAndroid_release_v1.0.0_2017-02-26.apk
-                        def fileName = "WanAndroid_release_v${defaultConfig.versionName}_${releaseTime()}.apk"
+                        def fileName = "WanAndroid_release.apk"
                         outputFileName = fileName
                     }
                 }

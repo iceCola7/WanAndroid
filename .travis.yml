@@ -10,9 +10,12 @@ android:
   - extra-android-m2repository
   - extra-android-support
   licenses:
-  - android-sdk-preview-license-52d11cd2
+  - android-sdk-preview-license-.+
   - android-sdk-license-.+
   - google-gdk-license-.+
+env:
+  global:
+    secure: xKJaOiOAXrdQG7k1kIN31GmDZdXVL9A7bt0o/YgZOw281wDkmxiPfAaRE2bCmP7Gabw68bpH902wsJ8H1S0b8vbJe2PdCNMFlK64JRJY7oO3E0lDEeuzHoQ1s2TCQrB0QHQTbXBZc/qI9k+DTU6mykSuIqmh1sEGxPYBuV3m05rhTQ1IfBd2wXhDUTqUFJM/aNB7rn3waw4Zx1tguANAyKyWxL+fQXp8VvRmzprz2WikPKH8GzytOsVGFksmYvt/wfOx+H30FhTqgfcBUpNSfmpUB4LeiAwjzNkQvTNL6BWGWPX+soaiDB+KSz06WwKRW1ceN+w1tA4XMV2uS35DXYWg2p/cIEokyKXFfqUAXbbtLaCf/a+RRv1qviE+19YDdtT5quS/aoKTzE6lvED80nRRAriW/o3JsDX1o/qsvgzpJVNYYHRV0VcPQRMsw42zvvK9mw8chWPRVUw0Y6RGgZe450wm6qUCrdITbYCB1a9PQaW8rqWkZUekKqcKVx01b+9vkFYNEnCmqjcVExYO4oNXi3/LeN7+GfzluUoSqF8lkyrxoQUUwnxDUvkUa3aYvDJZF0Eef5XCrdcWR35cedvyfAJk0n/q9fu37IwItNp7uKhWZRu92oKY+BtIF9Ts4b2YKBqpXlDZIYmJtJOKNvrDQZWQoXg3Mzocx0vghQA=
 before_cache:
 - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
@@ -29,3 +32,13 @@ before_install:
 - chmod +x gradlew
 script:
 - "./gradlew assembleRelease"
+deploy:
+  provider: releases
+  file: app/build/outputs/apk/release/WanAndroid_release.apk
+  on:
+    repo: bjchenxz/WanAndroid
+    tags: true
+    all_branches: true
+
+after_deploy:
+- fir p app/build/outputs/apk/release/WanAndroid_release.apk -T $FIR_TOKEN -c "`git cat-file tag $TRAVIS_TAG`"
