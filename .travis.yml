@@ -8,7 +8,9 @@ android:
   - build-tools-27.0.2
   - android-27
   - extra-android-m2repository
+  - extra-google-m2repository
   - extra-android-support
+  - extra-google-google_play_services
   licenses:
   - android-sdk-preview-license-.+
   - android-sdk-license-.+
