@@ -15,6 +15,12 @@ android:
   - android-sdk-preview-license-.+
   - android-sdk-license-.+
   - google-gdk-license-.+
+
+if: tag IS present
+stages:
+  - name: deploy
+    if: branch = master
+
 before_cache:
 - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
