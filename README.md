@@ -18,7 +18,7 @@
 [10]:https://github.com/bjchenxz/WanAndroid
 
 ##### `Github` 地址：[https://github.com/bjchenxz/WanAndroid](https://github.com/bjchenxz/WanAndroid)
-(开源不易，如果喜欢的话希望给个 `Star` 或 `Fork` ，谢谢)
+(开源不易，如果喜欢的话希望给个 `Star` 或 `Fork` ^_^ ，谢谢)
 
 ## 前言
 前段时间学习了 `Kotlin` 的语法知识，然后就写了这个项目熟悉一下 `Kotlin` 语言，总体下来，感觉很爽，相比 `Java` 而言代码行数较少，方法数减少，再加上 `lambda` 语法让代码更加清晰。
@@ -87,13 +87,18 @@
 
 ## 更新日志
 
+**[最新更新日志请点击查看](https://github.com/bjchenxz/WanAndroid/releases)**
+
 **v1.0.0**
 
 - 初始化版本，主要功能都已经完成。
 
 ## Thanks
 
-感谢所有优秀的开源项目 **^_^** 。
+**感谢所有优秀的开源项目 ^_^** 。
+
+## Statement
+**项目中的 API 均来自于 [www.wanandroid.com](http://www.wanandroid.com/) 网站，纯属学习交流使用，不得用于商业用途。**
 
 ## LICENSE
 
