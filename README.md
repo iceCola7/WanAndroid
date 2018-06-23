@@ -77,6 +77,14 @@
  - [VerticalTabLayout](https://github.com/qstumn/VerticalTabLayout)
  - [leakcanary](https://github.com/square/leakcanary)
 
+## 下载体验
+
+- 点击[![](https://img.shields.io/badge/Download-apk-green.svg)](https://fir.im/wanandroid) 下载
+
+- 扫描下方二维码下载（**二维码，每日上限100次，如果达到上限，还是clone源码吧！**）
+
+	![](./art/qr-code.png)
+
 ## 更新日志
 
 **v1.0.0**
@@ -84,7 +92,8 @@
 - 初始化版本，主要功能都已经完成。
 
 ## Thanks
-感谢所有优秀的开源项目
+
+感谢所有优秀的开源项目 **^_^** 。
 
 ## LICENSE
 
