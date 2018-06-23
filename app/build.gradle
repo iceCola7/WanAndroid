@@ -44,7 +44,7 @@ android {
                 variant.outputs.all { output ->
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                        def fileName = "WanAndroid_release.apk"
+                        def fileName = "WanAndroid-release.apk"
                         outputFileName = fileName
                     }
                 }
