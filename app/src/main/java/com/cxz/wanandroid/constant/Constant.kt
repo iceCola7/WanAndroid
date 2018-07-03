@@ -6,7 +6,7 @@ package com.cxz.wanandroid.constant
 
 object Constant {
 
-    const val BASE_URL = "http://wanandroid.com/"
+    const val BASE_URL = "http://www.wanandroid.com/"
 
     const val LOGIN_KEY = "login"
     const val USERNAME_KEY = "username"

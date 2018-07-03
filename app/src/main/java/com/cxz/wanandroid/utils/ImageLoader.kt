@@ -18,10 +18,12 @@ object ImageLoader {
      */
     fun load(context: Context?, url: String?, iv: ImageView?) {
         if (!SettingUtil.getIsNoPhotoMode()) {
-            Glide.with(context)
-                    .load(url)
-                    .transition(DrawableTransitionOptions().crossFade())
-                    .into(iv)
+            iv?.let {
+                Glide.with(context!!)
+                        .load(url)
+                        .transition(DrawableTransitionOptions().crossFade())
+                        .into(iv)
+            }
         }
     }
 

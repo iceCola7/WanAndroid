@@ -58,7 +58,7 @@ class KnowledgeFragment : BaseFragment(), KnowledgeContract.View {
     }
 
     /**
-     * Home Adapter
+     * Knowledge Adapter
      */
     private val knowledgeAdapter: KnowledgeAdapter by lazy {
         KnowledgeAdapter(activity, datas)
@@ -108,7 +108,7 @@ class KnowledgeFragment : BaseFragment(), KnowledgeContract.View {
 
     override fun initView() {
         mPresenter.attachView(this)
-        cid = arguments!!.getInt(Constant.CONTENT_CID_KEY)
+        cid = arguments?.getInt(Constant.CONTENT_CID_KEY) ?: 0
         swipeRefreshLayout.run {
             isRefreshing = true
             setOnRefreshListener(onRefreshListener)
