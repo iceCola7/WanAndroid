@@ -38,7 +38,7 @@ class KnowledgeAdapter(private val context: Context?, datas: MutableList<Article
             helper.getView<ImageView>(R.id.iv_article_thumbnail)
                     .visibility = View.VISIBLE
             context?.let {
-                ImageLoader.load(it, item.envelopePic, helper.getView(R.id.item_project_list_iv))
+                ImageLoader.load(it, item.envelopePic, helper.getView(R.id.iv_article_thumbnail))
             }
         } else {
             helper.getView<ImageView>(R.id.iv_article_thumbnail)
