@@ -113,11 +113,10 @@ dependencies {
     implementation 'com.hyman:flowlayout-lib:1.1.2'
     // EventBus
     implementation 'org.greenrobot:eventbus:3.1.1'
-
     //腾讯 bugly
-    //implementation 'com.tencent.bugly:crashreport:2.6.6.1'
-
+    implementation 'com.tencent.bugly:crashreport:2.6.6.1'
     implementation 'com.cxz.swipebacklibrary:swipeback:1.0.0'
     // MD dialog
     implementation 'com.afollestad.material-dialogs:commons:0.9.4.4'
+    // implementation 'br.com.mauker.materialsearchview:materialsearchview:1.2.3'
 }
