@@ -24,6 +24,12 @@
     <color name="vertical_tab_layout_indicator_color">@color/White</color>
     <color name="item_flow_layout_bg">@color/Grey200</color>
 
+    <color name="light_red">#e26d2e</color>
+    <color name="deep_red">#dc3b1f</color>
+    <color name="while_most_color">#e4e4e4</color>
+    <color name="title_black">#222222</color>
+    <color name="grey_search">#FF999999</color>
+
     <color name="White">#FFFFFF</color>
     <color name="Black">#000000</color>
     <color name="Red">#f44336</color>

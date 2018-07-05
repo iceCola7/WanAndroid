@@ -13,6 +13,7 @@
     <string name="cancel">取消</string>
     <string name="no_data">暂无数据</string>
     <string name="no_network">网络异常</string>
+    <string name="search_tint">发现更多干货</string>
 
     <!-- Menu Action -->
     <string name="action_search">搜索</string>
