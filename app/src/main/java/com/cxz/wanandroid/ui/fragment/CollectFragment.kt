@@ -163,7 +163,7 @@ class CollectFragment : BaseFragment(), CollectContract.View {
      */
     private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
         swipeRefreshLayout.isRefreshing = false
-        val page = collectAdapter.data.size / 20 + 1
+        val page = collectAdapter.data.size / 20
         mPresenter.getCollectList(page)
     }
 

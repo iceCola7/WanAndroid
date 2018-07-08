@@ -178,7 +178,8 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
      * LoadMoreListener
      */
     private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
-        val page = projectAdapter.data.size / 15 + 1
+        swipeRefreshLayout.isRefreshing = false
+        val page = projectAdapter.data.size / 1
         mPresenter.requestProjectList(page, cid)
     }
 

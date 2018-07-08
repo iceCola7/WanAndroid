@@ -177,7 +177,8 @@ class KnowledgeFragment : BaseFragment(), KnowledgeContract.View {
      * LoadMoreListener
      */
     private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
-        val page = knowledgeAdapter.data.size / 20 + 1
+        swipeRefreshLayout.isRefreshing = false
+        val page = knowledgeAdapter.data.size / 20
         mPresenter.requestKnowledgeList(page, cid)
     }
 

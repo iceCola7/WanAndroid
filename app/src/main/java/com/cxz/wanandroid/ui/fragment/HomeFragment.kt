@@ -229,7 +229,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
      */
     private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
         swipeRefreshLayout.isRefreshing = false
-        val page = homeAdapter.data.size / 20 + 1
+        val page = homeAdapter.data.size / 20
         mPresenter.requestArticles(page)
     }
 

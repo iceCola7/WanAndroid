@@ -11,7 +11,6 @@ import android.widget.TextView
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.base.BaseActivity
 import com.cxz.wanandroid.constant.Constant
-import com.cxz.wanandroid.ext.loge
 import com.cxz.wanandroid.mvp.contract.SearchContract
 import com.cxz.wanandroid.mvp.model.bean.HotSearchBean
 import com.cxz.wanandroid.mvp.presenter.SearchPresenter
@@ -130,17 +129,19 @@ class SearchActivity : BaseActivity(), SearchContract.View {
      */
     private val queryTextListener = object : OnQueryTextListener {
         override fun onQueryTextSubmit(query: String?): Boolean {
-            loge("---------->>$query")
             goTo()
             return false
         }
 
         override fun onQueryTextChange(newText: String?): Boolean {
-            loge("==========>>$newText")
             mKey = newText.toString()
             return false
         }
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.detachView()
     }
 
 }

@@ -142,4 +142,15 @@ interface ApiService {
     @GET("hotkey/json")
     fun getHotSearchData(): Observable<HttpResult<List<HotSearchBean>>>
 
+    /**
+     * 搜索
+     * http://www.wanandroid.com/article/query/0/json
+     * @param page
+     * @param key
+     */
+    @POST("article/query/{page}/json")
+    @FormUrlEncoded
+    fun queryBySearchKey(@Path("page") page: Int,
+                         @Field("k") key: String): Observable<HttpResult<ArticleResponseBody>>
+
 }
