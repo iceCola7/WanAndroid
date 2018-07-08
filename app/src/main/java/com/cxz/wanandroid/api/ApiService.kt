@@ -135,4 +135,11 @@ interface ApiService {
     fun removeCollectArticle(@Path("id") id: Int,
                              @Field("originId") originId: Int = -1): Observable<HttpResult<Any>>
 
+    /**
+     * 搜索热词
+     * http://www.wanandroid.com/hotkey/json
+     */
+    @GET("hotkey/json")
+    fun getHotSearchData(): Observable<HttpResult<List<HotSearchBean>>>
+
 }

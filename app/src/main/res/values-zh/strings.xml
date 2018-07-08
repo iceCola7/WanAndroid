@@ -13,7 +13,6 @@
     <string name="cancel">取消</string>
     <string name="no_data">暂无数据</string>
     <string name="no_network">网络异常</string>
-    <string name="search_tint">发现更多干货</string>
 
     <!-- Menu Action -->
     <string name="action_search">搜索</string>
@@ -56,6 +55,13 @@
 
     <!-- Collect -->
     <string name="collect">收藏</string>
+
+    <!-- Search -->
+    <string name="search_tint">发现更多干货</string>
+    <string name="hot_search">热门搜索</string>
+    <string name="clear_all">清空</string>
+    <string name="history_search">搜索历史</string>
+    <string name="search_null_tint">快来搜点干货吧</string>
 
     <!-- AboutUs -->
     <string name="about_us">关于我们</string>
