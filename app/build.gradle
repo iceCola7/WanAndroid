@@ -16,6 +16,7 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         multiDexEnabled true
+        // flavorDimensions "versionCode"
     }
 
     lintOptions {
@@ -73,6 +74,9 @@ static def releaseTime() {
 }
 
 dependencies {
+    configurations {
+        all*.exclude group: 'com.android.support', module: 'support-v13'
+    }
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
@@ -81,7 +85,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     // Support库
-    implementation rootProject.ext.supportLibs
+    api rootProject.ext.supportLibs
     // 网络请求库
     implementation rootProject.ext.networkLibs
     // RxJava2
