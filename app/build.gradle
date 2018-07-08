@@ -74,16 +74,19 @@ static def releaseTime() {
 }
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     configurations {
         all*.exclude group: 'com.android.support', module: 'support-v13'
     }
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
-    testImplementation 'junit:junit:4.12'
-    //noinspection GradleCompatible
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    testImplementation rootProject.ext.testDeps["junit"]
+    androidTestImplementation rootProject.ext.testDeps["runner"]
+    androidTestImplementation rootProject.ext.testDeps["espresso-core"]
+
+    //leakCanary
+    debugImplementation rootProject.ext.testDeps["leakcanary-debug"]
+    releaseImplementation rootProject.ext.testDeps["leakcanary-release"]
     // Support库
     api rootProject.ext.supportLibs
     // 网络请求库
@@ -94,33 +97,8 @@ dependencies {
     // APT dependencies(Kotlin内置的注解处理器)
     kapt rootProject.ext.annotationProcessorLibs
     //GlideOkHttp
-    implementation(rootProject.ext.glideOkhttp) {
+    implementation(rootProject.ext.otherDeps["glideOkhttp"]) {
         exclude group: 'glide-parent'
     }
     implementation project(':multiple-status-view')
-    //leakCanary
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
-    // BaseRecyclerViewAdapterHelper
-    implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.35"
-    //Banner
-    implementation 'cn.bingoogolapple:bga-banner:2.2.4@aar'
-    //Logger
-    implementation 'com.orhanobut:logger:2.1.1'
-    //AgentWeb
-    implementation 'com.just.agentweb:agentweb:3.1.0'
-    // multidex
-    implementation 'com.android.support:multidex:1.0.3'
-    // VerticalTabLayout
-    implementation 'q.rorbin:VerticalTabLayout:1.2.5'
-    // Flowlayout
-    implementation 'com.hyman:flowlayout-lib:1.1.2'
-    // EventBus
-    implementation 'org.greenrobot:eventbus:3.1.1'
-    //腾讯 bugly
-    implementation 'com.tencent.bugly:crashreport:2.6.6.1'
-    implementation 'com.cxz.swipebacklibrary:swipeback:1.0.0'
-    // MD dialog
-    implementation 'com.afollestad.material-dialogs:commons:0.9.4.4'
-    // implementation 'br.com.mauker.materialsearchview:materialsearchview:1.2.3'
 }
