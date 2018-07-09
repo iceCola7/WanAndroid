@@ -140,7 +140,7 @@ interface ApiService {
      * http://www.wanandroid.com/hotkey/json
      */
     @GET("hotkey/json")
-    fun getHotSearchData(): Observable<HttpResult<List<HotSearchBean>>>
+    fun getHotSearchData(): Observable<HttpResult<MutableList<HotSearchBean>>>
 
     /**
      * 搜索

@@ -1,6 +1,7 @@
 package com.cxz.wanandroid.mvp.model.bean
 
 import com.squareup.moshi.Json
+import org.litepal.crud.LitePalSupport
 import java.io.Serializable
 
 /**
@@ -183,3 +184,8 @@ data class HotSearchBean(
         @Json(name = "order") val order: Int,
         @Json(name = "visible") val visible: Int
 )
+
+// 搜索历史
+data class SearchHistoryBean(val name: String) : LitePalSupport() {
+    val id: Long = 0
+}

@@ -54,10 +54,8 @@ ext {
             "leakcanary-release": 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
     ]
 
-    otherDeps = [
+    commonDeps = [
             "glide"             : "com.github.bumptech.glide:glide:${dependVersion.glideSdkVersion}",
-            "glideCompiler"     : "com.github.bumptech.glide:compiler:${dependVersion.glideSdkVersion}",
-            "glideOkhttp"       : "com.github.bumptech.glide:okhttp3-integration:${dependVersion.glideSdkVersion}",
             "brvh"              : 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.35',
             "banner"            : 'cn.bingoogolapple:bga-banner:2.2.4@aar',
             "agentweb"          : 'com.just.agentweb:agentweb:3.1.0',
@@ -69,12 +67,18 @@ ext {
             "swipeback"         : 'com.cxz.swipebacklibrary:swipeback:1.0.0',
             "material-dialogs"  : 'com.afollestad.material-dialogs:commons:0.9.4.4',
             "logger"            : 'com.orhanobut:logger:2.1.1',
+            "litepal"           : 'org.litepal.android:core:2.0.0'
+    ]
+
+    otherDeps = [
+            "glideCompiler": "com.github.bumptech.glide:compiler:${dependVersion.glideSdkVersion}",
+            "glideOkhttp"  : "com.github.bumptech.glide:okhttp3-integration:${dependVersion.glideSdkVersion}"
     ]
 
     supportLibs = supportDeps.values()
     networkLibs = retrofit.values()
     rxJavaLibs = rxJava.values()
-    otherLibs = otherDeps.values()
+    commonLibs = commonDeps.values()
 
     annotationProcessorLibs = [otherDeps["glideCompiler"]]
 

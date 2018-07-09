@@ -52,6 +52,7 @@ android {
             }
         }
         debug {
+            resValue("string", "PORT_NUMBER", "8081")
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -79,11 +80,9 @@ dependencies {
     configurations {
         all*.exclude group: 'com.android.support', module: 'support-v13'
     }
-
     testImplementation rootProject.ext.testDeps["junit"]
     androidTestImplementation rootProject.ext.testDeps["runner"]
     androidTestImplementation rootProject.ext.testDeps["espresso-core"]
-
     //leakCanary
     debugImplementation rootProject.ext.testDeps["leakcanary-debug"]
     releaseImplementation rootProject.ext.testDeps["leakcanary-release"]
@@ -93,7 +92,7 @@ dependencies {
     implementation rootProject.ext.networkLibs
     // RxJava2
     implementation rootProject.ext.rxJavaLibs
-    implementation rootProject.ext.otherLibs
+    implementation rootProject.ext.commonLibs
     // APT dependencies(Kotlin内置的注解处理器)
     kapt rootProject.ext.annotationProcessorLibs
     //GlideOkHttp

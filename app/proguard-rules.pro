@@ -24,3 +24,9 @@
     boolean mShiftingMode;
 }
 -ignorewarnings -keep class * { public private *; }
+-keep class org.litepal.** {
+    *;
+}
+-keep class * extends org.litepal.crud.LitePalSupport{
+    *;
+}

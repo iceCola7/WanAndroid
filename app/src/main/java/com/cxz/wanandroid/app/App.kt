@@ -16,6 +16,7 @@ import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
+import org.litepal.LitePal
 import java.util.*
 import kotlin.properties.Delegates
 
@@ -46,10 +47,20 @@ class App : MultiDexApplication() {
         initConfig()
         DisplayManager.init(this)
         registerActivityLifecycleCallbacks(mActivityLifecycleCallbacks)
-
         initTheme()
+        initLitePal()
     }
 
+    /**
+     * 初始化 LitePal
+     */
+    private fun initLitePal() {
+        LitePal.initialize(this)
+    }
+
+    /**
+     * 初始化主题
+     */
     private fun initTheme() {
 
         if (SettingUtil.getIsAutoNightMode()) {
