@@ -8,7 +8,7 @@ import io.reactivex.Observable
 
 class SearchModel {
 
-    fun getHotSearchData(): Observable<HttpResult<List<HotSearchBean>>> {
+    fun getHotSearchData(): Observable<HttpResult<MutableList<HotSearchBean>>> {
         return RetrofitHelper.service.getHotSearchData()
                 .compose(SchedulerUtils.ioToMain())
     }
