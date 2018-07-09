@@ -9,6 +9,8 @@ import android.support.multidex.MultiDexApplication
 import android.support.v7.app.AppCompatDelegate
 import android.util.Log
 import com.cxz.wanandroid.BuildConfig
+import com.cxz.wanandroid.constant.Constant
+import com.cxz.wanandroid.utils.CommonUtil
 import com.cxz.wanandroid.utils.DisplayManager
 import com.cxz.wanandroid.utils.SettingUtil
 import com.orhanobut.logger.AndroidLogAdapter
@@ -16,6 +18,7 @@ import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
+import com.tencent.bugly.crashreport.CrashReport
 import org.litepal.LitePal
 import java.util.*
 import kotlin.properties.Delegates
@@ -49,6 +52,21 @@ class App : MultiDexApplication() {
         registerActivityLifecycleCallbacks(mActivityLifecycleCallbacks)
         initTheme()
         initLitePal()
+        initBugly()
+    }
+
+    /**
+     * 初始化 Bugly
+     */
+    private fun initBugly() {
+        // 获取当前包名
+        val packageName = applicationContext.packageName
+        // 获取当前进程名
+        val processName = CommonUtil.getProcessName(android.os.Process.myPid())
+        // 设置是否为上报进程
+        val strategy = CrashReport.UserStrategy(applicationContext)
+        strategy.isUploadProcess = false || processName == packageName
+        CrashReport.initCrashReport(applicationContext, Constant.BUGLY_ID, BuildConfig.DEBUG, strategy)
     }
 
     /**
