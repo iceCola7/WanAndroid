@@ -135,4 +135,22 @@ interface ApiService {
     fun removeCollectArticle(@Path("id") id: Int,
                              @Field("originId") originId: Int = -1): Observable<HttpResult<Any>>
 
+    /**
+     * 搜索热词
+     * http://www.wanandroid.com/hotkey/json
+     */
+    @GET("hotkey/json")
+    fun getHotSearchData(): Observable<HttpResult<MutableList<HotSearchBean>>>
+
+    /**
+     * 搜索
+     * http://www.wanandroid.com/article/query/0/json
+     * @param page
+     * @param key
+     */
+    @POST("article/query/{page}/json")
+    @FormUrlEncoded
+    fun queryBySearchKey(@Path("page") page: Int,
+                         @Field("k") key: String): Observable<HttpResult<ArticleResponseBody>>
+
 }

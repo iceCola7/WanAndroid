@@ -9,7 +9,8 @@ ext {
     ]
 
     dependVersion = [
-            androidSupportSdkVersion: "27.0.2",
+            androidSupportSdkVersion: "27.1.1",
+            espressoSdkVersion      : "3.0.2",
             retrofitSdkVersion      : "2.4.0",
             glideSdkVersion         : "4.6.1",
             rxJava                  : "2.1.16",
@@ -19,40 +20,66 @@ ext {
     ]
 
     supportDeps = [
-            supportv4  : "com.android.support:support-v4:$dependVersion.androidSupportSdkVersion",
-            appcompatv7: "com.android.support:appcompat-v7:$dependVersion.androidSupportSdkVersion",
-            cardview   : "com.android.support:cardview-v7:$dependVersion.androidSupportSdkVersion",
-            design     : "com.android.support:design:$dependVersion.androidSupportSdkVersion",
-            annotations: "com.android.support:support-annotations:$dependVersion.androidSupportSdkVersion"
+            "supportv4"        : "com.android.support:support-v4:${dependVersion.androidSupportSdkVersion}",
+            "appcompatv7"      : "com.android.support:appcompat-v7:${dependVersion.androidSupportSdkVersion}",
+            "cardview"         : "com.android.support:cardview-v7:${dependVersion.androidSupportSdkVersion}",
+            "design"           : "com.android.support:design:${dependVersion.androidSupportSdkVersion}",
+            "constraint-layout": "com.android.support.constraint:constraint-layout:1.1.2",
+            "annotations"      : "com.android.support:support-annotations:${dependVersion.androidSupportSdkVersion}"
     ]
 
     retrofit = [
-            retrofit                : "com.squareup.retrofit2:retrofit:$dependVersion.retrofitSdkVersion",
-            retrofitConverterGson   : "com.squareup.retrofit2:converter-gson:$dependVersion.retrofitSdkVersion",
-            retrofitAdapterRxjava2  : "com.squareup.retrofit2:adapter-rxjava2:$dependVersion.retrofitSdkVersion",
-            okhttp3LoggerInterceptor: 'com.squareup.okhttp3:logging-interceptor:3.10.0',
-            retrofitConverterMoshi  : 'com.squareup.retrofit2:converter-moshi:2.1.0',
-            retrofitKotlinMoshi     : "com.squareup.moshi:moshi-kotlin:1.5.0"
+            "retrofit"                : "com.squareup.retrofit2:retrofit:${dependVersion.retrofitSdkVersion}",
+            "retrofitConverterGson"   : "com.squareup.retrofit2:converter-gson:${dependVersion.retrofitSdkVersion}",
+            "retrofitAdapterRxjava2"  : "com.squareup.retrofit2:adapter-rxjava2:${dependVersion.retrofitSdkVersion}",
+            "okhttp3LoggerInterceptor": 'com.squareup.okhttp3:logging-interceptor:3.10.0',
+            "retrofitConverterMoshi"  : 'com.squareup.retrofit2:converter-moshi:2.1.0',
+            "retrofitKotlinMoshi"     : "com.squareup.moshi:moshi-kotlin:1.5.0"
     ]
 
     rxJava = [
-            rxJava   : "io.reactivex.rxjava2:rxjava:$dependVersion.rxJava",
-            rxAndroid: "io.reactivex.rxjava2:rxandroid:$dependVersion.rxAndroid",
-            rxKotlin : "io.reactivex.rxjava2:rxkotlin:$dependVersion.rxKotlin"
+            "rxJava"   : "io.reactivex.rxjava2:rxjava:${dependVersion.rxJava}",
+            "rxAndroid": "io.reactivex.rxjava2:rxandroid:${dependVersion.rxAndroid}",
+            "rxKotlin" : "io.reactivex.rxjava2:rxkotlin:${dependVersion.rxKotlin}",
+            "anko"     : "org.jetbrains.anko:anko:${dependVersion.anko}"
     ]
 
-    glide = "com.github.bumptech.glide:glide:$dependVersion.glideSdkVersion"
-    glideCompiler = "com.github.bumptech.glide:compiler:$dependVersion.glideSdkVersion"
-    glideOkhttp = "com.github.bumptech.glide:okhttp3-integration:$dependVersion.glideSdkVersion"
+    testDeps = [
+            "junit"             : 'junit:junit:4.12',
+            "runner"            : 'com.android.support.test:runner:1.0.2',
+            "espresso-core"     : "com.android.support.test.espresso:espresso-core:${dependVersion.espressoSdkVersion}",
+            "espresso-contrib"  : "com.android.support.test.espresso:espresso-contrib:${dependVersion.espressoSdkVersion}",
+            "espresso-intents"  : "com.android.support.test.espresso:espresso-intents:${dependVersion.espressoSdkVersion}",
+            "leakcanary-debug"  : 'com.squareup.leakcanary:leakcanary-android:1.5.4',
+            "leakcanary-release": 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    ]
 
-    anko = "org.jetbrains.anko:anko:$dependVersion.anko"
+    commonDeps = [
+            "glide"             : "com.github.bumptech.glide:glide:${dependVersion.glideSdkVersion}",
+            "brvh"              : 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.35',
+            "banner"            : 'cn.bingoogolapple:bga-banner:2.2.4@aar',
+            "agentweb"          : 'com.just.agentweb:agentweb:3.1.0',
+            "multidex"          : 'com.android.support:multidex:1.0.3',
+            "vertical-tablayout": 'q.rorbin:VerticalTabLayout:1.2.5',
+            "flow-layout"       : 'com.hyman:flowlayout-lib:1.1.2',
+            "eventbus"          : 'org.greenrobot:eventbus:3.1.1',
+            "bugly"             : 'com.tencent.bugly:crashreport:2.6.6.1',
+            "swipeback"         : 'com.cxz.swipebacklibrary:swipeback:1.0.0',
+            "material-dialogs"  : 'com.afollestad.material-dialogs:commons:0.9.4.4',
+            "logger"            : 'com.orhanobut:logger:2.1.1',
+            "litepal"           : 'org.litepal.android:core:2.0.0'
+    ]
+
+    otherDeps = [
+            "glideCompiler": "com.github.bumptech.glide:compiler:${dependVersion.glideSdkVersion}",
+            "glideOkhttp"  : "com.github.bumptech.glide:okhttp3-integration:${dependVersion.glideSdkVersion}"
+    ]
 
     supportLibs = supportDeps.values()
     networkLibs = retrofit.values()
     rxJavaLibs = rxJava.values()
-    otherLibs = [glide, anko]
+    commonLibs = commonDeps.values()
 
-    // APT
-    annotationProcessorLibs = [glideCompiler]
+    annotationProcessorLibs = [otherDeps["glideCompiler"]]
 
 }

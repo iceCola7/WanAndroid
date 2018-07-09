@@ -6,6 +6,8 @@ package com.cxz.wanandroid.constant
 
 object Constant {
 
+    const val BUGLY_ID = "76e2b2867d"
+
     const val BASE_URL = "http://www.wanandroid.com/"
 
     const val LOGIN_KEY = "login"
@@ -39,10 +41,13 @@ object Constant {
 
     const val TYPE_KEY = "type"
 
+    const val SEARCH_KEY = "search_key"
+
     object Type {
         const val COLLECT_TYPE_KEY = "collect_type"
         const val ABOUT_US_TYPE_KEY = "about_us_type_key"
         const val SETTING_TYPE_KEY = "setting_type_key"
+        const val SEARCH_TYPE_KEY = "search_type_key"
     }
 
 }

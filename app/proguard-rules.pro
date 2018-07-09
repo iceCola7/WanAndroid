@@ -24,3 +24,13 @@
     boolean mShiftingMode;
 }
 -ignorewarnings -keep class * { public private *; }
+#LitePal
+-keep class org.litepal.** {
+    *;
+}
+-keep class * extends org.litepal.crud.LitePalSupport{
+    *;
+}
+#Bugly
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}

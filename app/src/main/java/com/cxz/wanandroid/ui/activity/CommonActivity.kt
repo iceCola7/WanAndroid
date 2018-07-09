@@ -1,12 +1,11 @@
 package com.cxz.wanandroid.ui.activity
 
-import android.view.Menu
-import android.view.MenuItem
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.base.BaseActivity
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.ui.fragment.AboutFragment
 import com.cxz.wanandroid.ui.fragment.CollectFragment
+import com.cxz.wanandroid.ui.fragment.SearchListFragment
 import com.cxz.wanandroid.ui.fragment.SettingFragment
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -36,6 +35,10 @@ class CommonActivity : BaseActivity() {
             Constant.Type.SETTING_TYPE_KEY -> {
                 toolbar.title = getString(R.string.setting)
                 SettingFragment.getInstance(intent.extras)
+            }
+            Constant.Type.SEARCH_TYPE_KEY -> {
+                toolbar.title = intent.extras.getString(Constant.SEARCH_KEY, "")
+                SearchListFragment.getInstance(intent.extras)
             }
             else -> {
                 null

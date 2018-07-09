@@ -47,4 +47,9 @@
         <item name="android:windowExitAnimation">@anim/fade_out</item>
     </style>
 
+    <style name="ToolbarStyle" parent="AppTheme">
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="searchHintIcon">@null</item>
+    </style>
+
 </resources>

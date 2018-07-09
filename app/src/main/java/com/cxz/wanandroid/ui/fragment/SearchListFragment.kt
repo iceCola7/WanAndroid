@@ -7,68 +7,53 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
-import com.cxz.wanandroid.adapter.CollectAdapter
+import com.cxz.wanandroid.adapter.HomeAdapter
+import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.base.BaseFragment
 import com.cxz.wanandroid.constant.Constant
-import com.cxz.wanandroid.event.RefreshHomeEvent
+import com.cxz.wanandroid.ext.showSnackMsg
 import com.cxz.wanandroid.ext.showToast
-import com.cxz.wanandroid.mvp.contract.CollectContract
-import com.cxz.wanandroid.mvp.model.bean.CollectionArticle
-import com.cxz.wanandroid.mvp.model.bean.CollectionResponseBody
-import com.cxz.wanandroid.mvp.presenter.CollectPresenter
+import com.cxz.wanandroid.mvp.contract.SearchListContract
+import com.cxz.wanandroid.mvp.model.bean.Article
+import com.cxz.wanandroid.mvp.model.bean.ArticleResponseBody
+import com.cxz.wanandroid.mvp.presenter.SearchListPresenter
 import com.cxz.wanandroid.ui.activity.ContentActivity
+import com.cxz.wanandroid.ui.activity.LoginActivity
+import com.cxz.wanandroid.utils.NetWorkUtil
 import com.cxz.wanandroid.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
-import org.greenrobot.eventbus.EventBus
 
-/**
- * Created by chenxz on 2018/6/9.
- */
-class CollectFragment : BaseFragment(), CollectContract.View {
+class SearchListFragment : BaseFragment(), SearchListContract.View {
+
+    private var mKey = ""
 
     companion object {
-        fun getInstance(bundle: Bundle): CollectFragment {
-            val fragment = CollectFragment()
+        fun getInstance(bundle: Bundle): SearchListFragment {
+            val fragment = SearchListFragment()
             fragment.arguments = bundle
             return fragment
         }
     }
 
-    private val mPresenter: CollectPresenter by lazy {
-        CollectPresenter()
-    }
-
-    override fun showLoading() {
-        swipeRefreshLayout.run {
-            if (!isRefreshing) {
-                isRefreshing = true
-            }
-        }
-    }
-
-    override fun hideLoading() {
-        swipeRefreshLayout.run {
-            if (isRefreshing) {
-                isRefreshing = false
-            }
-        }
-        collectAdapter.run {
-            loadMoreComplete()
-        }
-    }
-
-    override fun showError(errorMsg: String) {
-        collectAdapter.run {
-            setEnableLoadMore(false)
-            loadMoreFail()
-        }
-        showToast(errorMsg)
+    /**
+     * Presenter
+     */
+    private val mPresenter: SearchListPresenter by lazy {
+        SearchListPresenter()
     }
 
     /**
      * datas
      */
-    private val datas = mutableListOf<CollectionArticle>()
+    private val datas = mutableListOf<Article>()
+
+    /**
+     * Adapter
+     */
+    private val searchListAdapter: HomeAdapter by lazy {
+        HomeAdapter(activity, datas)
+    }
+
     /**
      * LinearLayoutManager
      */
@@ -85,17 +70,30 @@ class CollectFragment : BaseFragment(), CollectContract.View {
         }
     }
 
-    /**
-     * Collect Adapter
-     */
-    private val collectAdapter: CollectAdapter by lazy {
-        CollectAdapter(activity, datas = datas)
+    override fun showLoading() {
+        swipeRefreshLayout.isRefreshing = true
     }
 
-    override fun attachLayoutRes(): Int = R.layout.fragment_refresh_layout
+    override fun hideLoading() {
+        swipeRefreshLayout.isRefreshing = false
+        searchListAdapter.run {
+            loadMoreComplete()
+        }
+    }
+
+    override fun showError(errorMsg: String) {
+        searchListAdapter.run {
+            setEnableLoadMore(false)
+            loadMoreFail()
+        }
+        showError(errorMsg)
+    }
+
+    override fun attachLayoutRes(): Int = R.layout.fragment_search_list
 
     override fun initView() {
         mPresenter.attachView(this)
+        mKey = arguments?.getString(Constant.SEARCH_KEY, "") ?: ""
 
         swipeRefreshLayout.run {
             isRefreshing = true
@@ -104,35 +102,39 @@ class CollectFragment : BaseFragment(), CollectContract.View {
 
         recyclerView.run {
             layoutManager = linearLayoutManager
-            adapter = collectAdapter
+            adapter = searchListAdapter
             itemAnimator = DefaultItemAnimator()
             addItemDecoration(recyclerViewItemDecoration)
         }
 
-        collectAdapter.run {
-            bindToRecyclerView(recyclerView)
+        searchListAdapter.run {
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
-            onItemClickListener = this@CollectFragment.onItemClickListener
-            onItemChildClickListener = this@CollectFragment.onItemChildClickListener
+            onItemClickListener = this@SearchListFragment.onItemClickListener
+            onItemChildClickListener = this@SearchListFragment.onItemChildClickListener
             setEmptyView(R.layout.fragment_empty_layout)
         }
 
     }
 
     override fun lazyLoad() {
-        mPresenter.getCollectList(0)
+        mPresenter.queryBySearchKey(0, mKey)
     }
 
-    override fun showRemoveCollectSuccess(success: Boolean) {
+    override fun showCancelCollectSuccess(success: Boolean) {
         if (success) {
             showToast(getString(R.string.cancel_collect_success))
-            EventBus.getDefault().post(RefreshHomeEvent(true))
         }
     }
 
-    override fun setCollectList(articles: CollectionResponseBody<CollectionArticle>) {
+    override fun showCollectSuccess(success: Boolean) {
+        if (success) {
+            showToast(getString(R.string.collect_success))
+        }
+    }
+
+    override fun showArticles(articles: ArticleResponseBody) {
         articles.datas.let {
-            collectAdapter.run {
+            searchListAdapter.run {
                 if (swipeRefreshLayout.isRefreshing) {
                     replaceData(it)
                 } else {
@@ -155,16 +157,17 @@ class CollectFragment : BaseFragment(), CollectContract.View {
      * RefreshListener
      */
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
-        collectAdapter.setEnableLoadMore(false)
-        mPresenter.getCollectList(0)
+        searchListAdapter.setEnableLoadMore(false)
+        mPresenter.queryBySearchKey(0, mKey)
     }
+
     /**
      * LoadMoreListener
      */
     private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
         swipeRefreshLayout.isRefreshing = false
-        val page = collectAdapter.data.size / 20
-        mPresenter.getCollectList(page)
+        val page = searchListAdapter.data.size / 20
+        mPresenter.queryBySearchKey(page, mKey)
     }
 
     /**
@@ -191,8 +194,25 @@ class CollectFragment : BaseFragment(), CollectContract.View {
                     val data = datas[position]
                     when (view.id) {
                         R.id.iv_like -> {
-                            collectAdapter.remove(position)
-                            mPresenter.removeCollectArticle(data.id, data.originId)
+                            if (isLogin) {
+                                if (!NetWorkUtil.isNetworkAvailable(App.context)) {
+                                    showSnackMsg(resources.getString(R.string.no_network))
+                                    return@OnItemChildClickListener
+                                }
+                                val collect = data.collect
+                                data.collect = !collect
+                                searchListAdapter.setData(position, data)
+                                if (collect) {
+                                    mPresenter.cancelCollectArticle(data.id)
+                                } else {
+                                    mPresenter.addCollectArticle(data.id)
+                                }
+                            } else {
+                                Intent(activity, LoginActivity::class.java).run {
+                                    startActivity(this)
+                                }
+                                showToast(resources.getString(R.string.login_tint))
+                            }
                         }
                     }
                 }
@@ -202,5 +222,4 @@ class CollectFragment : BaseFragment(), CollectContract.View {
         super.onDestroy()
         mPresenter.detachView()
     }
-
 }

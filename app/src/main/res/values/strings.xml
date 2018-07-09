@@ -56,6 +56,13 @@
     <!-- Collect -->
     <string name="collect">Collect</string>
 
+    <!-- Search -->
+    <string name="search_tint">Find more dry goods</string>
+    <string name="hot_search">Hot Search</string>
+    <string name="clear_all">Clear all</string>
+    <string name="history_search">Search History</string>
+    <string name="search_null_tint">Find some dry goods</string>
+
     <!-- AboutUs -->
     <string name="about_us">About US</string>
     <string name="changelog">Update Log</string>

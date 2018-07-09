@@ -1,6 +1,7 @@
 package com.cxz.wanandroid.adapter
 
 import android.content.Context
+import android.text.Html
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -18,7 +19,7 @@ class HomeAdapter(private val context: Context?, datas: MutableList<Article>) : 
     override fun convert(helper: BaseViewHolder?, item: Article?) {
         item ?: return
         helper ?: return
-        helper.setText(R.id.tv_article_title, item.title)
+        helper.setText(R.id.tv_article_title, Html.fromHtml(item.title))
                 .setText(R.id.tv_article_author, item.author)
                 .setText(R.id.tv_article_date, item.niceDate)
                 .setImageResource(R.id.iv_like,
