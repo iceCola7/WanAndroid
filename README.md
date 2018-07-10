@@ -36,7 +36,7 @@
 [https://github.com/hongyangAndroid/wanandroid](https://github.com/hongyangAndroid/wanandroid)
 
 ## 主要功能
-- **首页**：轮播图
+- **首页**：轮播图、文章列表
 - **知识体系**：开发环境、基础知识、用户交互等
 - **知识体系专题**
 - **导航**：常用网站、个人博客、公司博客、开发社区、常用工具等
@@ -44,6 +44,7 @@
 - **登录、注册、注销**
 - **收藏**：我的收藏、添加收藏、取消收藏
 - **文章内容**
+- **搜索**：热门搜索、历史搜索
 - **分享文章**
 - **夜间模式**
 - **无图模式**
@@ -76,6 +77,8 @@
  - [BGABanner-Android](https://github.com/bingoogolapple/BGABanner-Android)
  - [VerticalTabLayout](https://github.com/qstumn/VerticalTabLayout)
  - [leakcanary](https://github.com/square/leakcanary)
+ - [litepal](https://github.com/LitePalFramework/LitePal)
+ - [Android-Debug-Database](https://github.com/amitshekhariitbhu/Android-Debug-Database)
 
 ## 下载体验
 
@@ -88,6 +91,14 @@
 ## 更新日志
 
 **[最新更新日志请点击查看](https://github.com/bjchenxz/WanAndroid/releases)**
+
+**v1.0.1**
+
+- 增加搜索功能，包含热门搜索和历史搜索；
+- 增加 `litepal` 数据库；
+- 增加 `bugly` 收集应用异常信息；
+- 增加 `Android-Debug-Database` 来查看数据库；
+- 修复一直 `bug` 。
 
 **v1.0.0**
 
