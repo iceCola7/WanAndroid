@@ -51,7 +51,8 @@ ext {
             "espresso-contrib"  : "com.android.support.test.espresso:espresso-contrib:${dependVersion.espressoSdkVersion}",
             "espresso-intents"  : "com.android.support.test.espresso:espresso-intents:${dependVersion.espressoSdkVersion}",
             "leakcanary-debug"  : 'com.squareup.leakcanary:leakcanary-android:1.5.4',
-            "leakcanary-release": 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+            "leakcanary-release": 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4',
+            "debug-db"          : 'com.amitshekhar.android:debug-db:1.0.4'
     ]
 
     commonDeps = [

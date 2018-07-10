@@ -106,4 +106,5 @@ dependencies {
         exclude group: 'glide-parent'
     }
     implementation project(':multiple-status-view')
+    debugImplementation rootProject.ext.testDeps["debug-db"]
 }
