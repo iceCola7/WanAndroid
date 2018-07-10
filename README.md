@@ -98,7 +98,7 @@
 - 增加 `litepal` 数据库；
 - 增加 `bugly` 收集应用异常信息；
 - 增加 `Android-Debug-Database` 来查看数据库；
-- 修复一直 `bug` 。
+- 修复已知 `bug` 。
 
 **v1.0.0**
 
