@@ -76,7 +76,6 @@ class MainActivity : BaseActivity() {
         toolbar.run {
             title = getString(R.string.app_name)
             setSupportActionBar(this)
-            //StatusBarUtil.setPaddingSmart(this@MainActivity, toolbar)
         }
 
         bottom_navigation.run {
@@ -147,8 +146,9 @@ class MainActivity : BaseActivity() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun refreshColor(event: ColorEvent) {
         if (event.isRefresh) {
-            nav_view.getHeaderView(0).setBackgroundColor(SettingUtil.getColor())
-            floating_action_btn.backgroundTintList = ColorStateList.valueOf(SettingUtil.getColor())
+            val color = SettingUtil.getColor()
+            nav_view.getHeaderView(0).setBackgroundColor(color)
+            floating_action_btn.backgroundTintList = ColorStateList.valueOf(color)
         }
     }
 

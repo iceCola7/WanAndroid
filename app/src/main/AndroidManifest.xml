@@ -12,7 +12,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- 读取手机状态 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.READ_LOGS" />
     <!-- SD 卡读写权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -37,11 +36,15 @@
         <activity android:name=".ui.activity.MainActivity" />
         <activity android:name=".ui.activity.ContentActivity" />
         <activity android:name=".ui.activity.KnowledgeActivity" />
-        <activity android:name=".ui.activity.LoginActivity" />
-        <activity android:name=".ui.activity.RegisterActivity" />
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:theme="@style/AppTheme.FullScreen" />
+        <activity
+            android:name=".ui.activity.RegisterActivity"
+            android:theme="@style/AppTheme.FullScreen" />
         <activity android:name=".ui.activity.CommonActivity" />
         <activity android:name=".ui.setting.SettingActivity" />
-        <activity android:name=".ui.activity.SearchActivity"></activity>
+        <activity android:name=".ui.activity.SearchActivity" />
     </application>
 
 </manifest>
