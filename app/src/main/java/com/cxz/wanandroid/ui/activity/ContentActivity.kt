@@ -69,7 +69,7 @@ class ContentActivity : BaseActivity(), ContentContract.View {
             title = getString(R.string.loading)
             setSupportActionBar(this)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            //StatusBarUtil.setPaddingSmart(this@ContentActivity, toolbar)
+            //StatusBarUtil2.setPaddingSmart(this@ContentActivity, toolbar)
         }
         intent.extras.let {
             shareId = it.getInt(Constant.CONTENT_ID_KEY)

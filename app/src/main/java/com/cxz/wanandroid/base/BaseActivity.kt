@@ -19,6 +19,7 @@ import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.utils.CommonUtil
 import com.cxz.wanandroid.utils.Preference
 import com.cxz.wanandroid.utils.SettingUtil
+import com.cxz.wanandroid.utils.StatusBarUtil
 
 /**
  * Created by chenxz on 2018/4/21.
@@ -58,8 +59,6 @@ abstract class BaseActivity : SwipeBackActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(attachLayoutRes())
-        //StatusBarUtil.darkMode(this, Color.TRANSPARENT,0F)
-        //StatusBarCompat.compat(this)
         initSwipeBack()
         initData()
         initView()
@@ -69,10 +68,9 @@ abstract class BaseActivity : SwipeBackActivity() {
 
     override fun onResume() {
         super.onResume()
-
-        //if (!SettingUtil.getIsNightMode()){
+        if (!SettingUtil.getIsNightMode()){
             initColor()
-        //}
+        }
     }
 
     open fun initColor() {
