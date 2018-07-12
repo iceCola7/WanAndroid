@@ -34,35 +34,11 @@ class CollectFragment : BaseFragment(), CollectContract.View {
         }
     }
 
+    /**
+     * Presenter
+     */
     private val mPresenter: CollectPresenter by lazy {
         CollectPresenter()
-    }
-
-    override fun showLoading() {
-        swipeRefreshLayout.run {
-            if (!isRefreshing) {
-                isRefreshing = true
-            }
-        }
-    }
-
-    override fun hideLoading() {
-        swipeRefreshLayout.run {
-            if (isRefreshing) {
-                isRefreshing = false
-            }
-        }
-        collectAdapter.run {
-            loadMoreComplete()
-        }
-    }
-
-    override fun showError(errorMsg: String) {
-        collectAdapter.run {
-            setEnableLoadMore(false)
-            loadMoreFail()
-        }
-        showToast(errorMsg)
     }
 
     /**
@@ -90,6 +66,34 @@ class CollectFragment : BaseFragment(), CollectContract.View {
      */
     private val collectAdapter: CollectAdapter by lazy {
         CollectAdapter(activity, datas = datas)
+    }
+
+    /**
+     * is Refresh
+     */
+    private var isRefresh = true
+
+    override fun showLoading() {
+        swipeRefreshLayout.isRefreshing = isRefresh
+    }
+
+    override fun hideLoading() {
+        swipeRefreshLayout?.isRefreshing = false
+        if (isRefresh) {
+            collectAdapter.run {
+                setEnableLoadMore(true)
+            }
+        }
+    }
+
+    override fun showError(errorMsg: String) {
+        collectAdapter.run {
+            if (isRefresh)
+                setEnableLoadMore(true)
+            else
+                loadMoreFail()
+        }
+        showToast(errorMsg)
     }
 
     override fun attachLayoutRes(): Int = R.layout.fragment_refresh_layout
@@ -133,19 +137,16 @@ class CollectFragment : BaseFragment(), CollectContract.View {
     override fun setCollectList(articles: CollectionResponseBody<CollectionArticle>) {
         articles.datas.let {
             collectAdapter.run {
-                if (swipeRefreshLayout.isRefreshing) {
+                if (isRefresh) {
                     replaceData(it)
                 } else {
                     addData(it)
                 }
-                val over = articles.over
-                if (!over) {
-                    loadMoreComplete()
-                    setEnableLoadMore(true)
+                val size = it.size
+                if (size < articles.size) {
+                    loadMoreEnd(isRefresh)
                 } else {
                     loadMoreComplete()
-                    loadMoreEnd()
-                    setEnableLoadMore(false)
                 }
             }
         }
@@ -155,6 +156,7 @@ class CollectFragment : BaseFragment(), CollectContract.View {
      * RefreshListener
      */
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
+        isRefresh = true
         collectAdapter.setEnableLoadMore(false)
         mPresenter.getCollectList(0)
     }
@@ -162,6 +164,7 @@ class CollectFragment : BaseFragment(), CollectContract.View {
      * LoadMoreListener
      */
     private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
+        isRefresh = false
         swipeRefreshLayout.isRefreshing = false
         val page = collectAdapter.data.size / 20
         mPresenter.getCollectList(page)

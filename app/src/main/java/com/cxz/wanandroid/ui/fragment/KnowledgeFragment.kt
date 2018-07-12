@@ -71,25 +71,34 @@ class KnowledgeFragment : BaseFragment(), KnowledgeContract.View {
         LinearLayoutManager(activity)
     }
 
+    /**
+     * is Refresh
+     */
+    private var isRefresh = true
+
     private val mPresenter: KnowledgePresenter by lazy {
         KnowledgePresenter()
     }
 
     override fun showLoading() {
-        swipeRefreshLayout.isRefreshing = true
+        swipeRefreshLayout.isRefreshing = isRefresh
     }
 
     override fun hideLoading() {
         swipeRefreshLayout?.isRefreshing = false
-        knowledgeAdapter.run {
-            loadMoreComplete()
+        if (isRefresh) {
+            knowledgeAdapter.run {
+                setEnableLoadMore(true)
+            }
         }
     }
 
     override fun showError(errorMsg: String) {
         knowledgeAdapter.run {
-            setEnableLoadMore(false)
-            loadMoreFail()
+            if (isRefresh)
+                setEnableLoadMore(true)
+            else
+                loadMoreFail()
         }
         showToast(errorMsg)
     }
@@ -147,19 +156,16 @@ class KnowledgeFragment : BaseFragment(), KnowledgeContract.View {
     override fun setKnowledgeList(articles: ArticleResponseBody) {
         articles.datas.let {
             knowledgeAdapter.run {
-                if (swipeRefreshLayout.isRefreshing) {
+                if (isRefresh) {
                     replaceData(it)
                 } else {
                     addData(it)
                 }
-                val over = articles.over
-                if (!over) {
-                    loadMoreComplete()
-                    setEnableLoadMore(true)
+                val size = it.size
+                if (size < articles.size) {
+                    loadMoreEnd(isRefresh)
                 } else {
                     loadMoreComplete()
-                    loadMoreEnd()
-                    setEnableLoadMore(false)
                 }
             }
         }
@@ -169,6 +175,7 @@ class KnowledgeFragment : BaseFragment(), KnowledgeContract.View {
      * RefreshListener
      */
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
+        isRefresh = true
         knowledgeAdapter.setEnableLoadMore(false)
         mPresenter.requestKnowledgeList(0, cid)
     }
@@ -177,6 +184,7 @@ class KnowledgeFragment : BaseFragment(), KnowledgeContract.View {
      * LoadMoreListener
      */
     private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
+        isRefresh = false
         swipeRefreshLayout.isRefreshing = false
         val page = knowledgeAdapter.data.size / 20
         mPresenter.requestKnowledgeList(page, cid)

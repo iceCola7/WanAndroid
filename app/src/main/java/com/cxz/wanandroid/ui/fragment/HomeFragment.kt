@@ -93,6 +93,11 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         LinearLayoutManager(activity)
     }
 
+    /**
+     * is Refresh
+     */
+    private var isRefresh = true
+
     override fun attachLayoutRes(): Int = R.layout.fragment_refresh_layout
 
     override fun scrollToTop() {
@@ -140,28 +145,24 @@ class HomeFragment : BaseFragment(), HomeContract.View {
     }
 
     override fun showLoading() {
-        swipeRefreshLayout.run {
-            if (!isRefreshing) {
-                isRefreshing = true
-            }
-        }
+        swipeRefreshLayout.isRefreshing = isRefresh
     }
 
     override fun hideLoading() {
-        swipeRefreshLayout.run {
-            if (isRefreshing) {
-                isRefreshing = false
+        swipeRefreshLayout?.isRefreshing = false
+        if (isRefresh) {
+            homeAdapter.run {
+                setEnableLoadMore(true)
             }
-        }
-        homeAdapter.run {
-            loadMoreComplete()
         }
     }
 
     override fun showError(errorMsg: String) {
         homeAdapter.run {
-            setEnableLoadMore(false)
-            loadMoreFail()
+            if (isRefresh)
+                setEnableLoadMore(true)
+            else
+                loadMoreFail()
         }
         showToast(errorMsg)
     }
@@ -185,19 +186,16 @@ class HomeFragment : BaseFragment(), HomeContract.View {
     override fun setArticles(articles: ArticleResponseBody) {
         articles.datas.let {
             homeAdapter.run {
-                if (swipeRefreshLayout.isRefreshing) {
+                if (isRefresh) {
                     replaceData(it)
                 } else {
                     addData(it)
                 }
-                val over = articles.over
-                if (!over) {
-                    loadMoreComplete()
-                    setEnableLoadMore(true)
+                val size = it.size
+                if (size < articles.size) {
+                    loadMoreEnd(isRefresh)
                 } else {
                     loadMoreComplete()
-                    loadMoreEnd()
-                    setEnableLoadMore(false)
                 }
             }
         }
@@ -219,6 +217,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
      * RefreshListener
      */
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
+        isRefresh = true
         homeAdapter.setEnableLoadMore(false)
         mPresenter.requestBanner()
         mPresenter.requestArticles(0)
@@ -228,6 +227,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
      * LoadMoreListener
      */
     private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
+        isRefresh = false
         swipeRefreshLayout.isRefreshing = false
         val page = homeAdapter.data.size / 20
         mPresenter.requestArticles(page)

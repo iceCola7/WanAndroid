@@ -98,7 +98,6 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
 
     override fun showError(errorMsg: String) {
         knowledgeTreeAdapter.run {
-            loadMoreEnd()
             loadMoreFail()
         }
         showToast(errorMsg)

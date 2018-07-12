@@ -39,22 +39,33 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
     }
 
     override fun showLoading() {
-        swipeRefreshLayout.isRefreshing = true
+        swipeRefreshLayout.isRefreshing = isRefresh
     }
 
     override fun hideLoading() {
         swipeRefreshLayout?.isRefreshing = false
-        projectAdapter.run {
-            loadMoreComplete()
+        if (isRefresh) {
+            projectAdapter.run {
+                setEnableLoadMore(true)
+            }
         }
     }
 
     override fun showError(errorMsg: String) {
         projectAdapter.run {
-            setEnableLoadMore(false)
-            loadMoreFail()
+            if (isRefresh)
+                setEnableLoadMore(true)
+            else
+                loadMoreFail()
         }
         showToast(errorMsg)
+    }
+
+    /**
+     * Presenter
+     */
+    private val mPresenter: ProjectListPresenter by lazy {
+        ProjectListPresenter()
     }
 
     /**
@@ -88,9 +99,10 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
         ProjectAdapter(activity, datas)
     }
 
-    private val mPresenter: ProjectListPresenter by lazy {
-        ProjectListPresenter()
-    }
+    /**
+     * is Refresh
+     */
+    private var isRefresh = true
 
     override fun attachLayoutRes(): Int = R.layout.fragment_refresh_layout
 
@@ -126,19 +138,16 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
     override fun setProjectList(articles: ArticleResponseBody) {
         articles.datas.let {
             projectAdapter.run {
-                if (swipeRefreshLayout.isRefreshing) {
+                if (isRefresh) {
                     replaceData(it)
                 } else {
                     addData(it)
                 }
-                val over = articles.over
-                if (!over) {
-                    loadMoreComplete()
-                    setEnableLoadMore(true)
+                val size = it.size
+                if (size < articles.size) {
+                    loadMoreEnd(isRefresh)
                 } else {
                     loadMoreComplete()
-                    loadMoreEnd()
-                    setEnableLoadMore(false)
                 }
             }
         }
@@ -170,6 +179,7 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
      * RefreshListener
      */
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
+        isRefresh = true
         projectAdapter.setEnableLoadMore(false)
         mPresenter.requestProjectList(1, cid)
     }
@@ -178,6 +188,7 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
      * LoadMoreListener
      */
     private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
+        isRefresh = false
         swipeRefreshLayout.isRefreshing = false
         val page = projectAdapter.data.size / 1
         mPresenter.requestProjectList(page, cid)

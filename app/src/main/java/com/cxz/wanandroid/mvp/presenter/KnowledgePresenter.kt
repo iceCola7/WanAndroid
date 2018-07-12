@@ -14,8 +14,7 @@ class KnowledgePresenter : CommonPresenter<KnowledgeContract.View>(), KnowledgeC
     }
 
     override fun requestKnowledgeList(page: Int, cid: Int) {
-        if (page == 0)
-            mRootView?.showLoading()
+        mRootView?.showLoading()
         val disposable = knowledgeModel.requestKnowledgeList(page, cid)
                 .subscribe({ results ->
                     mRootView?.apply {

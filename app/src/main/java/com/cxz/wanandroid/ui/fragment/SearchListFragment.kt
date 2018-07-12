@@ -70,21 +70,30 @@ class SearchListFragment : BaseFragment(), SearchListContract.View {
         }
     }
 
+    /**
+     * is Refresh
+     */
+    private var isRefresh = true
+
     override fun showLoading() {
-        swipeRefreshLayout.isRefreshing = true
+        swipeRefreshLayout.isRefreshing = isRefresh
     }
 
     override fun hideLoading() {
-        swipeRefreshLayout.isRefreshing = false
-        searchListAdapter.run {
-            loadMoreComplete()
+        swipeRefreshLayout?.isRefreshing = false
+        if (isRefresh) {
+            searchListAdapter.run {
+                setEnableLoadMore(true)
+            }
         }
     }
 
     override fun showError(errorMsg: String) {
         searchListAdapter.run {
-            setEnableLoadMore(false)
-            loadMoreFail()
+            if (isRefresh)
+                setEnableLoadMore(true)
+            else
+                loadMoreFail()
         }
         showError(errorMsg)
     }
@@ -135,19 +144,16 @@ class SearchListFragment : BaseFragment(), SearchListContract.View {
     override fun showArticles(articles: ArticleResponseBody) {
         articles.datas.let {
             searchListAdapter.run {
-                if (swipeRefreshLayout.isRefreshing) {
+                if (isRefresh) {
                     replaceData(it)
                 } else {
                     addData(it)
                 }
-                val over = articles.over
-                if (!over) {
-                    loadMoreComplete()
-                    setEnableLoadMore(true)
+                val size = it.size
+                if (size < articles.size) {
+                    loadMoreEnd(isRefresh)
                 } else {
                     loadMoreComplete()
-                    loadMoreEnd()
-                    setEnableLoadMore(false)
                 }
             }
         }
@@ -157,6 +163,7 @@ class SearchListFragment : BaseFragment(), SearchListContract.View {
      * RefreshListener
      */
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
+        isRefresh = true
         searchListAdapter.setEnableLoadMore(false)
         mPresenter.queryBySearchKey(0, mKey)
     }
@@ -165,6 +172,7 @@ class SearchListFragment : BaseFragment(), SearchListContract.View {
      * LoadMoreListener
      */
     private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
+        isRefresh = false
         swipeRefreshLayout.isRefreshing = false
         val page = searchListAdapter.data.size / 20
         mPresenter.queryBySearchKey(page, mKey)
