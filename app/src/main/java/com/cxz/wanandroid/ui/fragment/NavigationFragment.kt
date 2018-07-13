@@ -88,12 +88,7 @@ class NavigationFragment : BaseFragment(), NavigationContract.View {
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (bScroll && (newState == RecyclerView.SCROLL_STATE_IDLE)) {
-                    bScroll = false
-                    var indexDistance: Int = currentIndex - linearLayoutManager.findFirstVisibleItemPosition()
-                    if (indexDistance > 0 && indexDistance < recyclerView!!.childCount) {
-                        var top: Int = recyclerView.getChildAt(indexDistance).top
-                        recyclerView.smoothScrollBy(0, top)
-                    }
+                    scrollRecyclerView()
                 }
                 rightLinkLeft(newState)
             }
@@ -101,12 +96,7 @@ class NavigationFragment : BaseFragment(), NavigationContract.View {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (bScroll) {
-                    bScroll = false
-                    var indexDistance: Int = currentIndex - linearLayoutManager.findFirstVisibleItemPosition()
-                    if (indexDistance > 0 && indexDistance < recyclerView!!.childCount) {
-                        var top: Int = recyclerView.getChildAt(indexDistance).top
-                        recyclerView.smoothScrollBy(0, top)
-                    }
+                    scrollRecyclerView()
                 }
             }
         })
@@ -123,6 +113,15 @@ class NavigationFragment : BaseFragment(), NavigationContract.View {
 
     }
 
+    private fun scrollRecyclerView() {
+        bScroll = false
+        val indexDistance: Int = currentIndex - linearLayoutManager.findFirstVisibleItemPosition()
+        if (indexDistance > 0 && indexDistance < recyclerView!!.childCount) {
+            val top: Int = recyclerView.getChildAt(indexDistance).top
+            recyclerView.smoothScrollBy(0, top)
+        }
+    }
+
     /**
      * Right RecyclerView link Left TabLayout
      *
@@ -134,7 +133,7 @@ class NavigationFragment : BaseFragment(), NavigationContract.View {
                 bClickTab = false
                 return
             }
-            var firstPosition: Int = linearLayoutManager.findFirstVisibleItemPosition()
+            val firstPosition: Int = linearLayoutManager.findFirstVisibleItemPosition()
             if (firstPosition != currentIndex) {
                 currentIndex = firstPosition
                 setChecked(currentIndex)
@@ -162,12 +161,18 @@ class NavigationFragment : BaseFragment(), NavigationContract.View {
     private fun selectTab(position: Int) {
         currentIndex = position
         recyclerView.stopScroll()
-        var firstPosition: Int = linearLayoutManager.findFirstVisibleItemPosition()
-        var lastPosition: Int = linearLayoutManager.findLastVisibleItemPosition()
+        smoothScrollToPosition(position)
+    }
+
+    private fun smoothScrollToPosition(position: Int) {
+        val firstPosition: Int = linearLayoutManager.findFirstVisibleItemPosition()
+        val lastPosition: Int = linearLayoutManager.findLastVisibleItemPosition()
         when {
-            position <= firstPosition -> recyclerView.smoothScrollToPosition(position)
+            position <= firstPosition -> {
+                recyclerView.smoothScrollToPosition(position)
+            }
             position <= lastPosition -> {
-                var top: Int = recyclerView.getChildAt(position - firstPosition).top
+                val top: Int = recyclerView.getChildAt(position - firstPosition).top
                 recyclerView.smoothScrollBy(0, top)
             }
             else -> {
