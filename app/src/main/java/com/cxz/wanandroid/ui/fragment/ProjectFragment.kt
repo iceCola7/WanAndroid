@@ -11,7 +11,6 @@ import com.cxz.wanandroid.mvp.presenter.ProjectPresenter
 import com.cxz.wanandroid.utils.SettingUtil
 import com.cxz.wanandroid.widget.TabLayoutHelper
 import kotlinx.android.synthetic.main.fragment_project.*
-import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
@@ -51,9 +50,10 @@ class ProjectFragment : BaseFragment(), ProjectContract.View {
         ProjectPagerAdapter(projectTree, fragmentManager)
     }
 
+    override fun useEventBus(): Boolean = true
+
     override fun initView() {
         mPresenter.attachView(this)
-        EventBus.getDefault().register(this)
 
         viewPager.run {
             addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
@@ -103,7 +103,6 @@ class ProjectFragment : BaseFragment(), ProjectContract.View {
     override fun onDestroy() {
         super.onDestroy()
         mPresenter.detachView()
-        EventBus.getDefault().unregister(this)
     }
 
 }

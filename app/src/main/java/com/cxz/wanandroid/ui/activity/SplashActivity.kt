@@ -13,9 +13,7 @@ class SplashActivity : BaseActivity() {
 
     override fun attachLayoutRes(): Int = R.layout.activity_splash
 
-    override fun enableSwipeBack(): Boolean {
-        return false
-    }
+    override fun enableSwipeBack(): Boolean = false
 
     override fun initData() {
     }

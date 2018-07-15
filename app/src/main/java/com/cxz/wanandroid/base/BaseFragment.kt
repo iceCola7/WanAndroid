@@ -10,11 +10,12 @@ import com.cxz.multiplestatusview.MultipleStatusView
 import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.utils.Preference
+import org.greenrobot.eventbus.EventBus
 
 /**
  * Created by chenxz on 2018/4/21.
  */
-abstract class BaseFragment: Fragment(){
+abstract class BaseFragment : Fragment() {
 
     /**
      * check login
@@ -38,7 +39,7 @@ abstract class BaseFragment: Fragment(){
      * 加载布局
      */
     @LayoutRes
-    abstract fun attachLayoutRes():Int
+    abstract fun attachLayoutRes(): Int
 
     /**
      * 初始化 View
@@ -50,8 +51,13 @@ abstract class BaseFragment: Fragment(){
      */
     abstract fun lazyLoad()
 
+    /**
+     * 是否使用 EventBus
+     */
+    open fun useEventBus(): Boolean = false
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(attachLayoutRes(),null)
+        return inflater?.inflate(attachLayoutRes(), null)
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
@@ -63,6 +69,9 @@ abstract class BaseFragment: Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (useEventBus()) {
+            EventBus.getDefault().register(this)
+        }
         isViewPrepare = true
         initView()
         lazyLoadDataIfPrepared()
@@ -83,6 +92,9 @@ abstract class BaseFragment: Fragment(){
 
     override fun onDestroy() {
         super.onDestroy()
+        if (useEventBus()) {
+            EventBus.getDefault().unregister(this)
+        }
         activity?.let { App.getRefWatcher(it)?.watch(activity) }
     }
 

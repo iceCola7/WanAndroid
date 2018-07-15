@@ -64,15 +64,14 @@ class MainActivity : BaseActivity() {
 
     override fun attachLayoutRes(): Int = R.layout.activity_main
 
-    override fun enableSwipeBack(): Boolean {
-        return false
-    }
+    override fun enableSwipeBack(): Boolean = false
 
     override fun initData() {
     }
 
+    override fun useEventBus(): Boolean = true
+
     override fun initView() {
-        EventBus.getDefault().register(this)
         toolbar.run {
             title = getString(R.string.app_name)
             setSupportActionBar(this)
@@ -394,11 +393,6 @@ class MainActivity : BaseActivity() {
             return true
         }
         return super.onKeyDown(keyCode, event)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        EventBus.getDefault().unregister(this)
     }
 
 }

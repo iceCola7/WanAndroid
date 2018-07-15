@@ -19,7 +19,7 @@ import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.utils.CommonUtil
 import com.cxz.wanandroid.utils.Preference
 import com.cxz.wanandroid.utils.SettingUtil
-import com.cxz.wanandroid.utils.StatusBarUtil
+import org.greenrobot.eventbus.EventBus
 
 /**
  * Created by chenxz on 2018/4/21.
@@ -56,9 +56,17 @@ abstract class BaseActivity : SwipeBackActivity() {
      */
     abstract fun start()
 
+    /**
+     * 是否使用 EventBus
+     */
+    open fun useEventBus(): Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(attachLayoutRes())
+        if (useEventBus()) {
+            EventBus.getDefault().register(this)
+        }
         initSwipeBack()
         initData()
         initView()
@@ -68,7 +76,7 @@ abstract class BaseActivity : SwipeBackActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (!SettingUtil.getIsNightMode()){
+        if (!SettingUtil.getIsNightMode()) {
             initColor()
         }
     }
@@ -101,9 +109,7 @@ abstract class BaseActivity : SwipeBackActivity() {
     /**
      * SwipeBack Enable
      */
-    open fun enableSwipeBack(): Boolean {
-        return true
-    }
+    open fun enableSwipeBack(): Boolean = true
 
     private fun initListener() {
         mLayoutStatusView?.setOnClickListener(mRetryClickListener)
@@ -141,6 +147,9 @@ abstract class BaseActivity : SwipeBackActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        if (useEventBus()) {
+            EventBus.getDefault().unregister(this)
+        }
         CommonUtil.fixInputMethodManagerLeak(this)
         App.getRefWatcher(this)?.watch(this)
     }

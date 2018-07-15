@@ -71,7 +71,7 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
     /**
      * cid
      */
-    private var cid: Int = 0
+    private var cid: Int = -1
 
     /**
      * Article datas
@@ -108,7 +108,7 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
 
     override fun initView() {
         mPresenter.attachView(this)
-        cid = arguments!!.getInt(Constant.CONTENT_CID_KEY)
+        cid = arguments!!.getInt(Constant.CONTENT_CID_KEY) ?: -1
 
         swipeRefreshLayout.run {
             isRefreshing = true

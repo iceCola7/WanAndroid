@@ -13,7 +13,6 @@ import com.cxz.wanandroid.mvp.model.bean.Knowledge
 import com.cxz.wanandroid.mvp.model.bean.KnowledgeTreeBody
 import com.cxz.wanandroid.utils.SettingUtil
 import kotlinx.android.synthetic.main.activity_knowledge.*
-import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
@@ -50,8 +49,9 @@ class KnowledgeActivity : BaseActivity() {
         }
     }
 
+    override fun useEventBus(): Boolean = true
+
     override fun initView() {
-        EventBus.getDefault().register(this)
         toolbar.run {
             title = toolbarTitle
             setSupportActionBar(this)
@@ -110,11 +110,6 @@ class KnowledgeActivity : BaseActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        EventBus.getDefault().unregister(this)
     }
 
 }
