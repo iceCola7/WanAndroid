@@ -99,8 +99,10 @@ class SearchActivity : BaseActivity(), SearchContract.View {
         }
 
         searchHistoryAdapter.run {
+            bindToRecyclerView(rv_history_search)
             onItemClickListener = this@SearchActivity.onItemClickListener
             onItemChildClickListener = this@SearchActivity.onItemChildClickListener
+            setEmptyView(R.layout.search_empty_view)
         }
 
         search_history_clear_all_tv.setOnClickListener {
