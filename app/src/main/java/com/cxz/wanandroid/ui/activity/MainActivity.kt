@@ -72,6 +72,7 @@ class MainActivity : BaseActivity() {
     override fun useEventBus(): Boolean = true
 
     override fun initView() {
+
         toolbar.run {
             title = getString(R.string.app_name)
             setSupportActionBar(this)
@@ -378,6 +379,20 @@ class MainActivity : BaseActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun recreate() {
+        bottom_navigation.selectedItemId = R.id.action_home
+        try {
+            val fragmentTransaction = supportFragmentManager.beginTransaction()
+            if (mProjectFragment != null) {
+                fragmentTransaction.remove(mProjectFragment)
+            }
+            fragmentTransaction.commitAllowingStateLoss()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        super.recreate()
     }
 
     private var mExitTime: Long = 0
