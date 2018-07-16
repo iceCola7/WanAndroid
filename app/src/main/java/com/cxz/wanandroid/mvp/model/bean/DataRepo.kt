@@ -186,6 +186,6 @@ data class HotSearchBean(
 )
 
 // 搜索历史
-data class SearchHistoryBean(val name: String) : LitePalSupport() {
+data class SearchHistoryBean(val key: String) : LitePalSupport() {
     val id: Long = 0
 }

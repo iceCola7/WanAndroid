@@ -92,6 +92,7 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
                     startActivity(this)
                 }
                 finish()
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
             }
         }
     }
