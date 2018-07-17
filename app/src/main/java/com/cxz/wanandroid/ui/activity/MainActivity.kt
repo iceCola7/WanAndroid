@@ -146,9 +146,8 @@ class MainActivity : BaseActivity() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun refreshColor(event: ColorEvent) {
         if (event.isRefresh) {
-            val color = SettingUtil.getColor()
-            nav_view.getHeaderView(0).setBackgroundColor(color)
-            floating_action_btn.backgroundTintList = ColorStateList.valueOf(color)
+            nav_view.getHeaderView(0).setBackgroundColor(mThemeColor)
+            floating_action_btn.backgroundTintList = ColorStateList.valueOf(mThemeColor)
         }
     }
 

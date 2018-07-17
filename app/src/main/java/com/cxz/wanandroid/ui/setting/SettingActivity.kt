@@ -81,26 +81,10 @@ class SettingActivity : BaseActivity(), ColorChooserDialog.ColorCallback {
     }
 
     override fun onColorSelection(dialog: ColorChooserDialog, selectedColor: Int) {
-        if (supportActionBar != null) {
-            supportActionBar?.setBackgroundDrawable(ColorDrawable(selectedColor))
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            // 状态栏上色
-            window.statusBarColor = CircleView.shiftColorDown(selectedColor)
-            // 最近任务栏上色
-            val tDesc: ActivityManager.TaskDescription = ActivityManager.TaskDescription(getString(R.string.app_name)
-                    , BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher))
-            setTaskDescription(tDesc)
-            // 导航栏上色
-            if (SettingUtil.getNavBar()) {
-                window.navigationBarColor = CircleView.shiftColorDown(selectedColor)
-            } else {
-                window.navigationBarColor = Color.BLACK
-            }
-        }
         if (!dialog.isAccentMode) {
             SettingUtil.setColor(selectedColor)
         }
+        initColor()
         EventBus.getDefault().post(ColorEvent(true))
     }
 
