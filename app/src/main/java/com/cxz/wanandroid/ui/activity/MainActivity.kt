@@ -30,6 +30,7 @@ import com.cxz.wanandroid.utils.DialogUtil
 import com.cxz.wanandroid.utils.Preference
 import com.cxz.wanandroid.utils.SettingUtil
 import com.cxz.wanandroid.widget.helper.BottomNavigationViewHelper
+import com.tencent.bugly.beta.Beta
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.greenrobot.eventbus.EventBus
@@ -67,6 +68,7 @@ class MainActivity : BaseActivity() {
     override fun enableSwipeBack(): Boolean = false
 
     override fun initData() {
+        Beta.checkUpgrade(false, false)
     }
 
     override fun useEventBus(): Boolean = true

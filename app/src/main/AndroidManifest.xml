@@ -45,6 +45,10 @@
         <activity android:name=".ui.activity.CommonActivity" />
         <activity android:name=".ui.setting.SettingActivity" />
         <activity android:name=".ui.activity.SearchActivity" />
+        <activity
+            android:name="com.tencent.bugly.beta.ui.BetaActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
+            android:theme="@android:style/Theme.Translucent" />
     </application>
 
 </manifest>

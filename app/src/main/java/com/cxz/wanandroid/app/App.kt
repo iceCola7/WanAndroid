@@ -18,6 +18,7 @@ import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
+import com.tencent.bugly.Bugly
 import com.tencent.bugly.crashreport.CrashReport
 import org.litepal.LitePal
 import java.util.*
@@ -66,7 +67,8 @@ class App : MultiDexApplication() {
         // 设置是否为上报进程
         val strategy = CrashReport.UserStrategy(applicationContext)
         strategy.isUploadProcess = false || processName == packageName
-        CrashReport.initCrashReport(applicationContext, Constant.BUGLY_ID, BuildConfig.DEBUG, strategy)
+        // CrashReport.initCrashReport(applicationContext, Constant.BUGLY_ID, BuildConfig.DEBUG, strategy)
+        Bugly.init(applicationContext, Constant.BUGLY_ID, BuildConfig.DEBUG, strategy)
     }
 
     /**
