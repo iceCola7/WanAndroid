@@ -1,7 +1,6 @@
 package com.cxz.wanandroid.mvp.presenter
 
 import com.cxz.wanandroid.base.BasePresenter
-import com.cxz.wanandroid.ext.loge
 import com.cxz.wanandroid.http.exception.ExceptionHandle
 import com.cxz.wanandroid.mvp.contract.SearchContract
 import com.cxz.wanandroid.mvp.model.SearchModel
@@ -25,8 +24,7 @@ class SearchPresenter : BasePresenter<SearchContract.View>(), SearchContract.Pre
 
     override fun clearAllHistory() {
         doAsync {
-            val count = LitePal.deleteAll(SearchHistoryBean::class.java)
-            loge("------------>>$count")
+            LitePal.deleteAll(SearchHistoryBean::class.java)
             uiThread {
 
             }
@@ -35,16 +33,21 @@ class SearchPresenter : BasePresenter<SearchContract.View>(), SearchContract.Pre
 
     override fun saveSearchKey(key: String) {
         doAsync {
-            val historyBean = SearchHistoryBean(key)
-            val historyBeans = LitePal.findAll(SearchHistoryBean::class.java)
-            if (!historyBeans.contains(historyBean))
+            val historyBean = SearchHistoryBean(key.trim())
+            val beans = LitePal.where("key = '${key.trim()}'").find(SearchHistoryBean::class.java)
+            if (beans.size == 0) {
                 historyBean.save()
+            } else {
+                deleteById(beans[0].id)
+                historyBean.save()
+            }
         }
     }
 
     override fun queryHistory() {
         doAsync {
             val historyBeans = LitePal.findAll(SearchHistoryBean::class.java)
+            historyBeans.reverse()
             uiThread {
                 mRootView?.showHistoryData(historyBeans)
             }

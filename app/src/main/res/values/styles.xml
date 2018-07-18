@@ -9,6 +9,7 @@
         <item name="viewBackground">@color/viewBackground</item>
         <!--关闭启动窗口-->
         <item name="android:windowDisablePreview">true</item>
+        <item name="android:listDivider">@drawable/bg_divider</item>
     </style>
 
     <style name="AppTheme" parent="BaseAppTheme.NoActionBar">

@@ -19,6 +19,7 @@ import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.utils.CommonUtil
 import com.cxz.wanandroid.utils.Preference
 import com.cxz.wanandroid.utils.SettingUtil
+import com.cxz.wanandroid.utils.StatusBarUtil
 import org.greenrobot.eventbus.EventBus
 
 /**
@@ -30,6 +31,11 @@ abstract class BaseActivity : SwipeBackActivity() {
      * check login
      */
     protected var isLogin: Boolean by Preference(Constant.LOGIN_KEY, false)
+
+    /**
+     * theme color
+     */
+    protected var mThemeColor: Int = SettingUtil.getColor()
 
     /**
      * 多种状态的 View 的切换
@@ -76,25 +82,30 @@ abstract class BaseActivity : SwipeBackActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (!SettingUtil.getIsNightMode()) {
-            initColor()
-        }
+        initColor()
     }
 
     open fun initColor() {
-        val color = SettingUtil.getColor()
-        if (supportActionBar != null)
-            supportActionBar!!.setBackgroundDrawable(ColorDrawable(color))
+        mThemeColor = if (!SettingUtil.getIsNightMode()) {
+            SettingUtil.getColor()
+        } else {
+            resources.getColor(R.color.colorPrimary)
+        }
+        StatusBarUtil.setColor(this, mThemeColor, 0)
+        if (this.supportActionBar != null) {
+            this.supportActionBar?.setBackgroundDrawable(ColorDrawable(mThemeColor))
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.statusBarColor = CircleView.shiftColorDown(color)
-            // 最近任务栏上色
-            val tDesc = ActivityManager.TaskDescription(
-                    getString(R.string.app_name),
-                    BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher),
-                    color)
-            setTaskDescription(tDesc)
+//            window.statusBarColor = CircleView.shiftColorDown(mThemeColor)
+//            // 最近任务栏上色
+//            val tDesc = ActivityManager.TaskDescription(
+//                    getString(R.string.app_name),
+//                    BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher),
+//                    mThemeColor)
+//            setTaskDescription(tDesc)
             if (SettingUtil.getNavBar()) {
-                window.navigationBarColor = CircleView.shiftColorDown(color)
+                window.navigationBarColor = CircleView.shiftColorDown(mThemeColor)
             } else {
                 window.navigationBarColor = Color.BLACK
             }

@@ -33,7 +33,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.MainActivity" />
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".ui.activity.ContentActivity" />
         <activity android:name=".ui.activity.KnowledgeActivity" />
         <activity
@@ -45,6 +47,15 @@
         <activity android:name=".ui.activity.CommonActivity" />
         <activity android:name=".ui.setting.SettingActivity" />
         <activity android:name=".ui.activity.SearchActivity" />
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"

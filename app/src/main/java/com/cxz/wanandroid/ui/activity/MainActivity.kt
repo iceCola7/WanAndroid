@@ -74,6 +74,7 @@ class MainActivity : BaseActivity() {
     override fun useEventBus(): Boolean = true
 
     override fun initView() {
+
         toolbar.run {
             title = getString(R.string.app_name)
             setSupportActionBar(this)
@@ -147,9 +148,8 @@ class MainActivity : BaseActivity() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun refreshColor(event: ColorEvent) {
         if (event.isRefresh) {
-            val color = SettingUtil.getColor()
-            nav_view.getHeaderView(0).setBackgroundColor(color)
-            floating_action_btn.backgroundTintList = ColorStateList.valueOf(color)
+            nav_view.getHeaderView(0).setBackgroundColor(mThemeColor)
+            floating_action_btn.backgroundTintList = ColorStateList.valueOf(mThemeColor)
         }
     }
 
@@ -380,6 +380,20 @@ class MainActivity : BaseActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun recreate() {
+        bottom_navigation.selectedItemId = R.id.action_home
+        try {
+            val fragmentTransaction = supportFragmentManager.beginTransaction()
+            if (mProjectFragment != null) {
+                fragmentTransaction.remove(mProjectFragment)
+            }
+            fragmentTransaction.commitAllowingStateLoss()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        super.recreate()
     }
 
     private var mExitTime: Long = 0

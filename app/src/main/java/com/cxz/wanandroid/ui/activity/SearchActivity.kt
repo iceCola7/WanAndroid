@@ -201,7 +201,7 @@ class SearchActivity : BaseActivity(), SearchContract.View {
     private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
         if (searchHistoryAdapter.data.size != 0) {
             val item = searchHistoryAdapter.data[position]
-            goToSearchList(item.name)
+            goToSearchList(item.key)
         }
     }
 

@@ -13,7 +13,7 @@ class SearchHistoryAdapter(private val context: Context?, datas: MutableList<Sea
         helper ?: return
         item ?: return
 
-        helper.setText(R.id.tv_search_key, item.name)
+        helper.setText(R.id.tv_search_key, item.key)
                 .addOnClickListener(R.id.iv_clear)
 
     }

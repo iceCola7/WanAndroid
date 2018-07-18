@@ -58,8 +58,10 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dp_24"
             android:layout_marginTop="@dimen/dp_24"
+            android:background="@drawable/btn_login_bg"
             android:padding="@dimen/dp_12"
-            android:text="@string/login" />
+            android:text="@string/login"
+            android:textColor="@color/White" />
 
         <TextView
             android:id="@+id/tv_sign_up"
