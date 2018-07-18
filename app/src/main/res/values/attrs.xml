@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <attr name="colorPrimary" format="color"/>
-    <attr name="colorPrimaryDark" format="color"/>
-    <attr name="colorAccent" format="color"/>
-    <attr name="textColorPrimary" format="color"/>
-    <attr name="viewBackground" format="color"/>
+    <attr name="colorPrimary" format="color" />
+    <attr name="colorPrimaryDark" format="color" />
+    <attr name="colorAccent" format="color" />
+    <attr name="textColorPrimary" format="color" />
+    <attr name="viewBackground" format="color" />
 
     <declare-styleable name="CircleImageView">
         <attr name="type" />
@@ -15,7 +15,7 @@
     </declare-styleable>
 
     <declare-styleable name="IconListPreference">
-        <attr name="iconsDrawables" format="reference"/>
+        <attr name="iconsDrawables" format="reference" />
     </declare-styleable>
 
 </resources>

@@ -7,6 +7,7 @@
     <color name="viewBackground">@color/White</color>
     <color name="windowBackground">@color/Grey100</color>
     <color name="line_divider">@color/Grey300</color>
+    <color name="list_divider">@color/Grey400</color>
 
     <!-- item -->
     <color name="common_color">#19191B</color>
