@@ -92,6 +92,11 @@
 
 **[最新更新日志请点击查看](https://github.com/bjchenxz/WanAndroid/releases)**
 
+**v1.0.2**
+
+- 优化细节问题；
+- 修改已知 `bug` 。
+
 **v1.0.1**
 
 - 增加搜索功能，包含热门搜索和历史搜索；
