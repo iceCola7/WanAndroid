@@ -95,7 +95,7 @@ class SearchListFragment : BaseFragment(), SearchListContract.View {
             else
                 loadMoreFail()
         }
-        showError(errorMsg)
+        showToast(errorMsg)
     }
 
     override fun attachLayoutRes(): Int = R.layout.fragment_search_list
