@@ -19,5 +19,6 @@
     <color name="vertical_tab_layout_bg">@color/Grey800</color>
     <color name="vertical_tab_layout_indicator_color">@color/Grey600</color>
     <color name="item_flow_layout_bg">@color/Grey700</color>
+    <color name="arrow_color">@color/Grey400</color>
 
 </resources>
