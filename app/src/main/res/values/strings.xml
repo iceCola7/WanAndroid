@@ -66,11 +66,11 @@
     <!-- AboutUs -->
     <string name="about_us">About US</string>
     <string name="changelog">Update Log</string>
-    <string name="changelog_url">https://github.com/bjchenxz/WanAndroid/releases</string>
+    <string name="changelog_url">https://github.com/iceCola7/WanAndroid/releases</string>
     <string name="about_developers_label">Main Developer</string>
     <string name="about_developers">https://github.com/bjchexz</string>
     <string name="source_code">Source Code</string>
-    <string name="source_code_url">https://github.com/bjchenxz/WanAndroid</string>
+    <string name="source_code_url">https://github.com/iceCola7/WanAndroid</string>
     <string name="about_libraries_label">Open Source License</string>
     <string name="about_libraries_summary">View open source license information</string>
     <string name="copyright">Copyright declaration</string>

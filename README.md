@@ -3,21 +3,21 @@
 [![Platform][1]][2]  [![Build Status][3]][4]  [![Release][5]][6]  [![GitHub license][7]][8]  [![][9]][10]  
 
 [1]:https://img.shields.io/badge/platform-Android-blue.svg  
-[2]:https://github.com/bjchenxz/WanAndroid
+[2]:https://github.com/iceCola7/WanAndroid
 
-[3]:https://travis-ci.org/bjchenxz/WanAndroid.svg?branch=master
-[4]:https://travis-ci.org/bjchenxz/WanAndroid
+[3]:https://travis-ci.org/iceCola7/WanAndroid.svg?branch=master
+[4]:https://travis-ci.org/iceCola7/WanAndroid
 
-[5]:https://img.shields.io/github/release/bjchenxz/WanAndroid.svg
-[6]:https://github.com/bjchenxz/WanAndroid/releases/latest
+[5]:https://img.shields.io/github/release/iceCola7/WanAndroid.svg
+[6]:https://github.com/iceCola7/WanAndroid/releases/latest
 
 [7]:https://img.shields.io/badge/license-Apache%202-blue.svg
-[8]:https://github.com/bjchenxz/WanAndroid/blob/master/LICENSE
+[8]:https://github.com/iceCola7/WanAndroid/blob/master/LICENSE
 
 [9]:https://img.shields.io/badge/QQ-563859095-orange.svg
-[10]:https://github.com/bjchenxz/WanAndroid
+[10]:https://github.com/iceCola7/WanAndroid
 
-##### `Github` 地址：[https://github.com/bjchenxz/WanAndroid](https://github.com/bjchenxz/WanAndroid)
+##### `Github` 地址：[https://github.com/iceCola7/WanAndroid](https://github.com/iceCola7/WanAndroid)
 (开源不易，如果喜欢的话希望给个 `Star` 或 `Fork` ^_^ ，谢谢)
 
 ## 前言
@@ -29,7 +29,7 @@
 - [Anko](http://github.com/kotlin/anko) 是 `JetBrains` 开发的一个强大的库，它主要的目的是用来替代以前 `XML` 的方式来使用代码生成 `UI` 布局的，它包含了很多的非常有帮助的函数和属性来避免让你写很多的模版代码。
 
 ## 简介
-[WanAndroid](https://github.com/bjchenxz/WanAndroid) 采用 `Kotlin` 语言编写，结合 `MVP` + `RxJava` + `Retrofit` + `Glide` + `EventBus` 等架构设计的项目，项目代码结构清晰并且有详细注释，如有任何疑问和建议请提 `Issue` 或联系 
+[WanAndroid](https://github.com/iceCola7/WanAndroid) 采用 `Kotlin` 语言编写，结合 `MVP` + `RxJava` + `Retrofit` + `Glide` + `EventBus` 等架构设计的项目，项目代码结构清晰并且有详细注释，如有任何疑问和建议请提 `Issue` 或联系 
 [![](https://img.shields.io/badge/QQ-563859095-orange.svg)]()，**项目会持续迭代维护，努力打造一款优秀的 [WanAndroid](http://www.wanandroid.com/) 客户端**。
 
 ## API
@@ -90,7 +90,7 @@
 
 ## 更新日志
 
-**[最新更新日志请点击查看](https://github.com/bjchenxz/WanAndroid/releases)**
+**[最新更新日志请点击查看](https://github.com/iceCola7/WanAndroid/releases)**
 
 **v1.0.2**
 
@@ -119,7 +119,7 @@
 ## LICENSE
 
 ```
-Copyright 2018 bjchenxz 
+Copyright 2018 iceCola7 
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
