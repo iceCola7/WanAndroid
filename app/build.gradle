@@ -113,6 +113,7 @@ dependencies {
     implementation(rootProject.ext.otherDeps["glideOkhttp"]) {
         exclude group: 'glide-parent'
     }
-    implementation project(':multiple-status-view')
     debugImplementation rootProject.ext.testDeps["debug-db"]
+    implementation project(':multiple-status-view')
+    implementation project(':verticaltablayout')
 }
