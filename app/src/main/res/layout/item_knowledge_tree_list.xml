@@ -50,7 +50,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_10"
-            app:srcCompat="@drawable/ic_arrow_right_black_24dp" />
+            app:srcCompat="@drawable/ic_arrow_right_24dp" />
 
     </RelativeLayout>
 

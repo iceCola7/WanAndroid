@@ -46,7 +46,7 @@ deploy:
     secure: d9UwYWAdTUXRT1scIQQfSONC8QoygXWZwxoYspR/HGt+ZFbbPVseqztcgz0I2pcCShgIAVAHbxMWCD5zVVAm1Zvu7M2kPW1vaIx7E7fGHNaovIwWA2FTqD+CPZX5gt0L8odhNO+XF9r2T+Ott8kqt7XjO4+OGHTGvi0rbDmYn0FeB2wAXcGzaZ7s4DhkHJjEBUXt9PTnZIk3C6XzkHKPKVsCu91gzhX+l7gBATB0ECOZgPTPLtUZu4jwbOFLf/70PebBcO0LAROmCTbYVulEAUEfQSFfpw3bgDcZIr3TMlFBGPDhLQxmxVRNk7Mdj9td42xCZg+zkqaaZK5LUAU5jChhgWG7b0oSDUj7pMjPjnOvvdR9qF2dMyZ+QDn7MkE7W+MunS5jETjIOAIUpNMazTcOxXcVexmkVSl/dDxivLXQT2t0Z6eZtCuGXYGQw4McjtIZP6itEkvr9pqdQZwG/UE84L1VT8RANneTDsEz80N7fQZ0VERkduDB+/CK0gAZ2C1qwtpD2d8Yd0BnStPuRs7al4KffY91/MHy/Q184al2bBWaB8a689myFbKvqm/ojS8h8x6vzMoJyeevI+DEl5BaloswJtailcrAKFOU+ZeX92YUaxGsRtf54sPImQfKCPRhORHl6dToFOwDXTKUYCji37d60bq4+NQW75t26nM=
   file: app/build/outputs/release/WanAndroid-release.apk
   on:
-    repo: bjchenxz/WanAndroid
+    repo: iceCola7/WanAndroid
     tags: true
     all_branches: true
 after_deploy:
