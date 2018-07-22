@@ -13,6 +13,8 @@
     <string name="cancel">Cancel</string>
     <string name="no_data">No Data</string>
     <string name="no_network">Network Anomaly</string>
+    <string name="no_network_tip">Please check the network and click reload</string>
+    <string name="data_error">Data acquisition failed</string>
 
     <!-- Menu Action -->
     <string name="action_search">Search</string>

@@ -13,6 +13,8 @@
     <string name="cancel">取消</string>
     <string name="no_data">暂无数据</string>
     <string name="no_network">网络异常</string>
+    <string name="no_network_tip">请检查网络后点击重新加载</string>
+    <string name="data_error">数据获取失败</string>
 
     <!-- Menu Action -->
     <string name="action_search">搜索</string>
