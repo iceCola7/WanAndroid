@@ -110,8 +110,8 @@ class LoginActivity : BaseActivity(), LoginContract.View {
      */
     private fun validate(): Boolean {
         var valid = true
-        var username: String = et_username.text.toString()
-        var password: String = et_password.text.toString()
+        val username: String = et_username.text.toString()
+        val password: String = et_password.text.toString()
 
         if (username.isEmpty()) {
             et_username.error = getString(R.string.username_not_empty)

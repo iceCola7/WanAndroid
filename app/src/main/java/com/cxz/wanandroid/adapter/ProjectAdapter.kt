@@ -1,6 +1,7 @@
 package com.cxz.wanandroid.adapter
 
 import android.content.Context
+import android.text.Html
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.cxz.wanandroid.R
@@ -17,8 +18,8 @@ class ProjectAdapter(private val context: Context?, datas: MutableList<Article>)
 
         helper ?: return
         item ?: return
-        helper.setText(R.id.item_project_list_title_tv, item.title)
-                .setText(R.id.item_project_list_content_tv, item.desc)
+        helper.setText(R.id.item_project_list_title_tv, Html.fromHtml(item.title))
+                .setText(R.id.item_project_list_content_tv, Html.fromHtml(item.desc))
                 .setText(R.id.item_project_list_time_tv, item.niceDate)
                 .setText(R.id.item_project_list_author_tv, item.author)
                 .setImageResource(R.id.item_project_list_like_iv,

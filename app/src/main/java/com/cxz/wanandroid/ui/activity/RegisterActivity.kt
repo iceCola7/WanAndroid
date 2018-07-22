@@ -6,6 +6,7 @@ import com.cxz.wanandroid.R
 import com.cxz.wanandroid.base.BaseActivity
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.LoginEvent
+import com.cxz.wanandroid.ext.loge
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.RegisterContract
 import com.cxz.wanandroid.mvp.model.bean.LoginData
@@ -47,7 +48,7 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
     }
 
     override fun showError(errorMsg: String) {
-        showToast(getString(R.string.register_fail))
+        showToast(errorMsg)
     }
 
     override fun registerSuccess(data: LoginData) {
@@ -72,6 +73,7 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
     }
 
     override fun initView() {
+        mPresenter.attachView(this)
         btn_register.setOnClickListener(onClickListener)
         tv_sign_in.setOnClickListener(onClickListener)
     }
@@ -113,9 +115,9 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
      */
     private fun validate(): Boolean {
         var valid = true
-        var username: String = et_username.text.toString()
-        var password: String = et_password.text.toString()
-        var password2: String = et_password2.text.toString()
+        val username: String = et_username.text.toString()
+        val password: String = et_password.text.toString()
+        val password2: String = et_password2.text.toString()
         if (username.isEmpty()) {
             et_username.error = getString(R.string.username_not_empty)
             valid = false
@@ -133,6 +135,11 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
             valid = false
         }
         return valid
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.detachView()
     }
 
 }

@@ -124,6 +124,10 @@ class HomeFragment : BaseFragment(), HomeContract.View {
             addItemDecoration(recyclerViewItemDecoration)
         }
 
+        bannerView.banner.run {
+            setDelegate(bannerDelegate)
+        }
+
         homeAdapter.run {
             bindToRecyclerView(recyclerView)
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
@@ -132,11 +136,6 @@ class HomeFragment : BaseFragment(), HomeContract.View {
             setEmptyView(R.layout.fragment_empty_layout)
             addHeaderView(bannerView)
         }
-
-        bannerView.banner.run {
-            setDelegate(bannerDelegate)
-        }
-
     }
 
     override fun lazyLoad() {

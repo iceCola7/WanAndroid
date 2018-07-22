@@ -28,8 +28,8 @@ class NavigationAdapter(context: Context?, datas: MutableList<NavigationBean>)
     override fun convert(helper: BaseViewHolder?, item: NavigationBean?) {
         item ?: return
         helper?.setText(R.id.item_navigation_tv, item.name)
-        var flowLayout: TagFlowLayout? = helper?.getView(R.id.item_navigation_flow_layout)
-        var articles: List<Article> = item.articles
+        val flowLayout: TagFlowLayout? = helper?.getView(R.id.item_navigation_flow_layout)
+        val articles: List<Article> = item.articles
         flowLayout?.run {
             adapter = object : TagAdapter<Article>(articles) {
                 override fun getView(parent: FlowLayout?, position: Int, article: Article?): View? {

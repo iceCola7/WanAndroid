@@ -1,6 +1,7 @@
 package com.cxz.wanandroid.mvp.presenter
 
 import com.cxz.wanandroid.base.BasePresenter
+import com.cxz.wanandroid.ext.loge
 import com.cxz.wanandroid.http.exception.ExceptionHandle
 import com.cxz.wanandroid.mvp.contract.RegisterContract
 import com.cxz.wanandroid.mvp.model.RegisterModel
