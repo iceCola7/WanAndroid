@@ -92,6 +92,14 @@
 
 **[最新更新日志请点击查看](https://github.com/iceCola7/WanAndroid/releases)**
 
+**v1.0.3**
+
+- 集成 `bugly` 应用内更新；
+- 优化沉浸式状态栏显示效果；
+- 优化登录注册界面；
+- 修改 `VerticalTabLayout` 的点击 `item` 滑动的问题；
+- 优化夜间模式和自动切换夜间模式。
+
 **v1.0.2**
 
 - 优化细节问题；
