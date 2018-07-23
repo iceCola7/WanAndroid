@@ -82,7 +82,9 @@ class KnowledgeActivity : BaseActivity() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun refreshColor(event: ColorEvent) {
         if (event.isRefresh) {
-            tabLayout.setBackgroundColor(SettingUtil.getColor())
+            if (!SettingUtil.getIsNightMode()) {
+                tabLayout.setBackgroundColor(SettingUtil.getColor())
+            }
         }
     }
 
