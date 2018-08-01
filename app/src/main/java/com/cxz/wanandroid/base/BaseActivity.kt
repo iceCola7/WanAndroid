@@ -1,14 +1,14 @@
 package com.cxz.wanandroid.base
 
-import android.app.ActivityManager
-import android.graphics.BitmapFactory
+import android.content.Context
+import android.content.IntentFilter
 import android.graphics.Color
+import android.graphics.PixelFormat
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import com.afollestad.materialdialogs.color.CircleView
 import com.cxz.multiplestatusview.MultipleStatusView
 import com.cxz.swipelibrary.SwipeBackActivity
@@ -16,11 +16,15 @@ import com.cxz.swipelibrary.SwipeBackLayout
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.constant.Constant
+import com.cxz.wanandroid.event.NetworkChangeEvent
+import com.cxz.wanandroid.receiver.NetworkChangeReceiver
 import com.cxz.wanandroid.utils.CommonUtil
 import com.cxz.wanandroid.utils.Preference
 import com.cxz.wanandroid.utils.SettingUtil
 import com.cxz.wanandroid.utils.StatusBarUtil
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 /**
  * Created by chenxz on 2018/4/21.
@@ -33,6 +37,16 @@ abstract class BaseActivity : SwipeBackActivity() {
     protected var isLogin: Boolean by Preference(Constant.LOGIN_KEY, false)
 
     /**
+     * 缓存上一次的网络状态
+     */
+    protected var hasNetwork: Boolean by Preference(Constant.HAS_NETWORK_KEY, true)
+
+    /**
+     * 网络状态变化的广播
+     */
+    protected var mNetworkChangeReceiver: NetworkChangeReceiver? = null
+
+    /**
      * theme color
      */
     protected var mThemeColor: Int = SettingUtil.getColor()
@@ -41,6 +55,13 @@ abstract class BaseActivity : SwipeBackActivity() {
      * 多种状态的 View 的切换
      */
     protected var mLayoutStatusView: MultipleStatusView? = null
+
+    /**
+     * 提示View
+     */
+    protected lateinit var mTipView: View
+    protected lateinit var mWindowManager: WindowManager
+    protected lateinit var mLayoutParams: WindowManager.LayoutParams
 
     /**
      * 布局文件id
@@ -65,7 +86,17 @@ abstract class BaseActivity : SwipeBackActivity() {
     /**
      * 是否使用 EventBus
      */
-    open fun useEventBus(): Boolean = false
+    open fun useEventBus(): Boolean = true
+
+    /**
+     * SwipeBack Enable
+     */
+    open fun enableSwipeBack(): Boolean = true
+
+    /**
+     * 是否需要显示 TipView
+     */
+    open fun enableNetworkTip(): Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,14 +106,26 @@ abstract class BaseActivity : SwipeBackActivity() {
         }
         initSwipeBack()
         initData()
+        initTipView()
         initView()
         start()
         initListener()
     }
 
     override fun onResume() {
+        // 动态注册网络变化广播
+        val filter = IntentFilter()
+        filter.addAction("android.net.conn.CONNECTIVITY_CHANGE")
+        mNetworkChangeReceiver = NetworkChangeReceiver()
+        registerReceiver(mNetworkChangeReceiver, filter)
+
         super.onResume()
+
         initColor()
+
+        // 在无网络情况下打开APP时，系统不会发送网络状况变更的Intent，需要自己手动检查
+        checkNetwork(hasNetwork)
+
     }
 
     open fun initColor() {
@@ -112,15 +155,30 @@ abstract class BaseActivity : SwipeBackActivity() {
         }
     }
 
+    /**
+     * 初始化 TipView
+     */
+    private fun initTipView() {
+        mTipView = layoutInflater.inflate(R.layout.layout_network_tip, null)
+        mWindowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        mLayoutParams = WindowManager.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.TYPE_APPLICATION,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                PixelFormat.TRANSLUCENT)
+        mLayoutParams.gravity = Gravity.TOP
+        mLayoutParams.x = 0
+        mLayoutParams.y = 0
+    }
+
+    /**
+     * 初始化 SwipeBack
+     */
     private fun initSwipeBack() {
         setSwipeBackEnable(enableSwipeBack())
         swipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT)
     }
-
-    /**
-     * SwipeBack Enable
-     */
-    open fun enableSwipeBack(): Boolean = true
 
     private fun initListener() {
         mLayoutStatusView?.setOnClickListener(mRetryClickListener)
@@ -134,6 +192,28 @@ abstract class BaseActivity : SwipeBackActivity() {
         toolbar?.title = title
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(homeAsUpEnabled)
+    }
+
+    /**
+     * Network Change
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onNetworkChangeEvent(event: NetworkChangeEvent) {
+        checkNetwork(event.isConnected)
+    }
+
+    private fun checkNetwork(has: Boolean) {
+        if (enableNetworkTip()) {
+            if (has) {
+                if (mTipView != null && mTipView.getParent() != null) {
+                    mWindowManager.removeView(mTipView)
+                }
+            } else {
+                if (mTipView.getParent() == null) {
+                    mWindowManager.addView(mTipView, mLayoutParams)
+                }
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -156,6 +236,13 @@ abstract class BaseActivity : SwipeBackActivity() {
         }
     }
 
+    override fun onPause() {
+        if (mNetworkChangeReceiver != null) {
+            unregisterReceiver(mNetworkChangeReceiver)
+        }
+        super.onPause()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         if (useEventBus()) {
@@ -163,6 +250,13 @@ abstract class BaseActivity : SwipeBackActivity() {
         }
         CommonUtil.fixInputMethodManagerLeak(this)
         App.getRefWatcher(this)?.watch(this)
+    }
+
+    override fun finish() {
+        super.finish()
+        if (mTipView != null && mTipView.parent != null) {
+            mWindowManager.removeView(mTipView)
+        }
     }
 
 }

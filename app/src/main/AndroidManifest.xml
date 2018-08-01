@@ -60,6 +60,9 @@
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:theme="@android:style/Theme.Translucent" />
+
+        <receiver android:name=".receiver.NetworkChangeReceiver"/>
+
     </application>
 
 </manifest>

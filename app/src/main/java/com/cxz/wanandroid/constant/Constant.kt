@@ -13,6 +13,7 @@ object Constant {
     const val LOGIN_KEY = "login"
     const val USERNAME_KEY = "username"
     const val PASSWORD_KEY = "password"
+    const val HAS_NETWORK_KEY = "has_network"
 
     /**
      * url key
