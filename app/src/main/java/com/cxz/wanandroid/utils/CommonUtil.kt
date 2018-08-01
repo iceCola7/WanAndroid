@@ -3,6 +3,7 @@ package com.cxz.wanandroid.utils
 import android.content.Context
 import android.graphics.Color
 import android.text.TextUtils
+import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import java.io.BufferedReader
@@ -20,6 +21,26 @@ object CommonUtil {
     init {
     }
 
+    fun dp2px(context: Context, dpValue: Float): Int {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue, context.resources.displayMetrics).toInt()
+    }
+
+    fun sp2px(context: Context, spValue: Float): Int {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, spValue, context.resources.displayMetrics).toInt()
+    }
+
+    /**
+     * 获取状态栏高度
+     *
+     * @param context context
+     * @return 状态栏高度
+     */
+    fun getStatusBarHeight(context: Context): Int {
+        // 获得状态栏高度
+        val resourceId = context.resources.getIdentifier("status_bar_height", "dimen", "android")
+        return context.resources.getDimensionPixelSize(resourceId)
+    }
+
     /**
      * 获取随机rgb颜色值
      */
@@ -29,7 +50,7 @@ object CommonUtil {
         var red = random.nextInt(190)
         var green = random.nextInt(190)
         var blue = random.nextInt(190)
-        if (SettingUtil.getIsNightMode()){
+        if (SettingUtil.getIsNightMode()) {
             //150-255
             red = random.nextInt(105) + 150
             green = random.nextInt(105) + 150
