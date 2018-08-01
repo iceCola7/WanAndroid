@@ -76,14 +76,14 @@ class ContentActivity : BaseActivity(), ContentContract.View {
             shareTitle = it.getString(Constant.CONTENT_TITLE_KEY)
             shareUrl = it.getString(Constant.CONTENT_URL_KEY)
         }
-        agentWeb = shareUrl.getAgentWeb(this, container,
-                LinearLayout.LayoutParams(-1, -1),
-                receivedTitleCallback,
-                webChromeClient, webViewClient)
 
     }
 
     override fun start() {
+        agentWeb = shareUrl.getAgentWeb(this, container,
+                LinearLayout.LayoutParams(-1, -1),
+                receivedTitleCallback,
+                webChromeClient, webViewClient)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

@@ -82,6 +82,12 @@ class ProjectFragment : BaseFragment(), ProjectContract.View {
         mPresenter.requestProjectTree()
     }
 
+    override fun doReConnected() {
+        if (projectTree.size == 0) {
+            super.doReConnected()
+        }
+    }
+
     override fun setProjectTree(list: List<ProjectTreeBean>) {
         list.let {
             projectTree.addAll(it)

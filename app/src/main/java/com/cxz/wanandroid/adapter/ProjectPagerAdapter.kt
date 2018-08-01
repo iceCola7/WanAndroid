@@ -15,6 +15,7 @@ class ProjectPagerAdapter(private val list: MutableList<ProjectTreeBean>, fm: Fr
     private val fragments = mutableListOf<Fragment>()
 
     init {
+        fragments.clear()
         list.forEach {
             fragments.add(ProjectListFragment.getInstance(it.id))
         }
