@@ -98,6 +98,13 @@ abstract class BaseActivity : SwipeBackActivity() {
      */
     open fun enableNetworkTip(): Boolean = true
 
+    /**
+     * 无网状态—>有网状态 的自动重连操作，子类可重写该方法
+     */
+    open fun doReConnected() {
+        start()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(attachLayoutRes())
@@ -200,12 +207,14 @@ abstract class BaseActivity : SwipeBackActivity() {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onNetworkChangeEvent(event: NetworkChangeEvent) {
+        hasNetwork = event.isConnected
         checkNetwork(event.isConnected)
     }
 
-    private fun checkNetwork(has: Boolean) {
+    private fun checkNetwork(isConnected: Boolean) {
         if (enableNetworkTip()) {
-            if (has) {
+            if (isConnected) {
+                doReConnected()
                 if (mTipView != null && mTipView.getParent() != null) {
                     mWindowManager.removeView(mTipView)
                 }

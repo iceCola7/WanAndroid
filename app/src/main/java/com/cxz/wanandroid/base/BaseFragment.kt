@@ -9,8 +9,11 @@ import android.view.ViewGroup
 import com.cxz.multiplestatusview.MultipleStatusView
 import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.constant.Constant
+import com.cxz.wanandroid.event.NetworkChangeEvent
 import com.cxz.wanandroid.utils.Preference
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 /**
  * Created by chenxz on 2018/4/21.
@@ -21,6 +24,11 @@ abstract class BaseFragment : Fragment() {
      * check login
      */
     protected var isLogin: Boolean by Preference(Constant.LOGIN_KEY, false)
+
+    /**
+     * 缓存上一次的网络状态
+     */
+    protected var hasNetwork: Boolean by Preference(Constant.HAS_NETWORK_KEY, true)
 
     /**
      * 视图是否加载完毕
@@ -54,7 +62,14 @@ abstract class BaseFragment : Fragment() {
     /**
      * 是否使用 EventBus
      */
-    open fun useEventBus(): Boolean = false
+    open fun useEventBus(): Boolean = true
+
+    /**
+     * 无网状态—>有网状态 的自动重连操作，子类可重写该方法
+     */
+    open fun doReConnected() {
+        lazyLoad()
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(attachLayoutRes(), null)
@@ -88,6 +103,13 @@ abstract class BaseFragment : Fragment() {
 
     open val mRetryClickListener: View.OnClickListener = View.OnClickListener {
         lazyLoad()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onNetworkChangeEvent(event: NetworkChangeEvent) {
+        if (event.isConnected) {
+            doReConnected()
+        }
     }
 
     override fun onDestroy() {

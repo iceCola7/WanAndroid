@@ -17,6 +17,8 @@ class SplashActivity : BaseActivity() {
 
     override fun useEventBus(): Boolean = false
 
+    override fun enableNetworkTip(): Boolean = false
+
     override fun initData() {
     }
 

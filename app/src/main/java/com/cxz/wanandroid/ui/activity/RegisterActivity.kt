@@ -70,6 +70,8 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
 
     override fun useEventBus(): Boolean = false
 
+    override fun enableNetworkTip(): Boolean = false
+
     override fun initData() {
     }
 
