@@ -15,6 +15,8 @@ class SplashActivity : BaseActivity() {
 
     override fun enableSwipeBack(): Boolean = false
 
+    override fun useEventBus(): Boolean = false
+
     override fun initData() {
     }
 

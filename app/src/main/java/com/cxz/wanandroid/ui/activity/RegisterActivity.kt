@@ -6,7 +6,6 @@ import com.cxz.wanandroid.R
 import com.cxz.wanandroid.base.BaseActivity
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.LoginEvent
-import com.cxz.wanandroid.ext.loge
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.RegisterContract
 import com.cxz.wanandroid.mvp.model.bean.LoginData
@@ -68,6 +67,8 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
     override fun attachLayoutRes(): Int = R.layout.activity_register
 
     override fun enableSwipeBack(): Boolean = false
+
+    override fun useEventBus(): Boolean = false
 
     override fun initData() {
     }

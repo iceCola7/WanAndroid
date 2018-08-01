@@ -51,6 +51,8 @@ class LoginActivity : BaseActivity(), LoginContract.View {
 
     override fun enableSwipeBack(): Boolean = false
 
+    override fun useEventBus(): Boolean = false
+
     override fun initData() {
     }
 
