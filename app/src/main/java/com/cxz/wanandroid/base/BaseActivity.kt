@@ -170,6 +170,7 @@ abstract class BaseActivity : SwipeBackActivity() {
         mLayoutParams.gravity = Gravity.TOP
         mLayoutParams.x = 0
         mLayoutParams.y = 0
+        mLayoutParams.windowAnimations = R.style.anim_float_view // add animations
     }
 
     /**

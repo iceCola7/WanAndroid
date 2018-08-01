@@ -12,8 +12,7 @@
         <item name="android:listDivider">@drawable/bg_divider</item>
     </style>
 
-    <style name="AppTheme" parent="BaseAppTheme.NoActionBar">
-    </style>
+    <style name="AppTheme" parent="BaseAppTheme.NoActionBar"></style>
 
     <style name="AppTheme.FullScreen" parent="@style/Theme.AppCompat.DayNight">
         <item name="windowNoTitle">true</item>
@@ -60,6 +59,12 @@
     <style name="ToolbarStyle" parent="AppTheme">
         <item name="android:textColorSecondary">@android:color/white</item>
         <item name="searchHintIcon">@null</item>
+    </style>
+
+    <!-- 浮动窗口动画 -->
+    <style name="anim_float_view">
+        <item name="android:windowEnterAnimation">@anim/push_up_in</item>
+        <item name="android:windowExitAnimation">@anim/push_up_out</item>
     </style>
 
 </resources>
