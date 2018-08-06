@@ -10,7 +10,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.LinearLayout
 import com.cxz.wanandroid.R
-import com.cxz.wanandroid.base.BaseActivity
+import com.cxz.wanandroid.base.BaseSwipeBackActivity
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.RefreshHomeEvent
 import com.cxz.wanandroid.ext.getAgentWeb
@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.container.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.greenrobot.eventbus.EventBus
 
-class ContentActivity : BaseActivity(), ContentContract.View {
+class ContentActivity : BaseSwipeBackActivity(), ContentContract.View {
 
     private lateinit var agentWeb: AgentWeb
     private lateinit var shareTitle: String

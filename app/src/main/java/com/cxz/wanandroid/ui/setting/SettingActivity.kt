@@ -1,24 +1,18 @@
 package com.cxz.wanandroid.ui.setting
 
-import android.app.ActivityManager
 import android.app.Fragment
 import android.app.FragmentTransaction
 import android.content.Intent
-import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import android.os.Bundle
-import com.afollestad.materialdialogs.color.CircleView
 import com.afollestad.materialdialogs.color.ColorChooserDialog
 import com.cxz.wanandroid.R
-import com.cxz.wanandroid.base.BaseActivity
+import com.cxz.wanandroid.base.BaseSwipeBackActivity
 import com.cxz.wanandroid.event.ColorEvent
 import com.cxz.wanandroid.utils.SettingUtil
 import kotlinx.android.synthetic.main.toolbar.*
 import org.greenrobot.eventbus.EventBus
 
-class SettingActivity : BaseActivity(), ColorChooserDialog.ColorCallback {
+class SettingActivity : BaseSwipeBackActivity(), ColorChooserDialog.ColorCallback {
 
     private val EXTRA_SHOW_FRAGMENT = "show_fragment"
     private val EXTRA_SHOW_FRAGMENT_ARGUMENTS = "show_fragment_args"

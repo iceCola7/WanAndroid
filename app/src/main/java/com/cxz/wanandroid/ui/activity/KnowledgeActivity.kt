@@ -6,7 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.KnowledgePagerAdapter
-import com.cxz.wanandroid.base.BaseActivity
+import com.cxz.wanandroid.base.BaseSwipeBackActivity
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.ColorEvent
 import com.cxz.wanandroid.mvp.model.bean.Knowledge
@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_knowledge.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class KnowledgeActivity : BaseActivity() {
+class KnowledgeActivity : BaseSwipeBackActivity() {
 
     /**
      * datas

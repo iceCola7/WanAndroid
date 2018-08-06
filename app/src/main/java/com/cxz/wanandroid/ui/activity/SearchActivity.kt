@@ -13,7 +13,7 @@ import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.SearchHistoryAdapter
-import com.cxz.wanandroid.base.BaseActivity
+import com.cxz.wanandroid.base.BaseSwipeBackActivity
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.SearchContract
@@ -28,7 +28,7 @@ import com.zhy.view.flowlayout.TagAdapter
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.toolbar_search.*
 
-class SearchActivity : BaseActivity(), SearchContract.View {
+class SearchActivity : BaseSwipeBackActivity(), SearchContract.View {
 
     /**
      * Presenter

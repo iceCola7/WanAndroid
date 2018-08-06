@@ -13,8 +13,6 @@ class SplashActivity : BaseActivity() {
 
     override fun attachLayoutRes(): Int = R.layout.activity_splash
 
-    override fun enableSwipeBack(): Boolean = false
-
     override fun useEventBus(): Boolean = false
 
     override fun enableNetworkTip(): Boolean = false

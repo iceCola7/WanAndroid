@@ -65,8 +65,6 @@ class MainActivity : BaseActivity() {
 
     override fun attachLayoutRes(): Int = R.layout.activity_main
 
-    override fun enableSwipeBack(): Boolean = false
-
     override fun initData() {
         Beta.checkUpgrade(false, false)
     }

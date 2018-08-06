@@ -66,8 +66,6 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
 
     override fun attachLayoutRes(): Int = R.layout.activity_register
 
-    override fun enableSwipeBack(): Boolean = false
-
     override fun useEventBus(): Boolean = false
 
     override fun enableNetworkTip(): Boolean = false

@@ -49,8 +49,6 @@ class LoginActivity : BaseActivity(), LoginContract.View {
 
     override fun attachLayoutRes(): Int = R.layout.activity_login
 
-    override fun enableSwipeBack(): Boolean = false
-
     override fun useEventBus(): Boolean = false
 
     override fun enableNetworkTip(): Boolean = false
