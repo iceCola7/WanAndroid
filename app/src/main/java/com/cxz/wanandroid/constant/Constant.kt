@@ -44,6 +44,8 @@ object Constant {
 
     const val SEARCH_KEY = "search_key"
 
+    const val TODO_TYPE = "todo_type"
+
     object Type {
         const val COLLECT_TYPE_KEY = "collect_type"
         const val ABOUT_US_TYPE_KEY = "about_us_type_key"

@@ -189,3 +189,9 @@ data class HotSearchBean(
 data class SearchHistoryBean(val key: String) : LitePalSupport() {
     val id: Long = 0
 }
+
+// TODO工具 类型
+data class TodoTypeBean(
+        val type: Int,
+        val name: String
+)
