@@ -29,6 +29,7 @@
     <string name="nav_about_us">关于我们</string>
     <string name="nav_logout">退出登录</string>
     <string name="nav_night_mode">夜间模式</string>
+    <string name="nav_todo">TODO工具</string>
 
     <!-- Login -->
     <string name="username">用户名</string>

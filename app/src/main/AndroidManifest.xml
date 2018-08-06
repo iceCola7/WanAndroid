@@ -47,6 +47,7 @@
         <activity android:name=".ui.activity.CommonActivity" />
         <activity android:name=".ui.setting.SettingActivity" />
         <activity android:name=".ui.activity.SearchActivity" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -56,13 +57,15 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:theme="@android:style/Theme.Translucent" />
 
-        <receiver android:name=".receiver.NetworkChangeReceiver"/>
+        <receiver android:name=".receiver.NetworkChangeReceiver" />
 
+        <activity android:name=".ui.activity.TodoActivity"/>
     </application>
 
 </manifest>

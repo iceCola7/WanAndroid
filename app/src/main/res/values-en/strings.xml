@@ -29,6 +29,7 @@
     <string name="nav_about_us">About Us</string>
     <string name="nav_logout">Logout</string>
     <string name="nav_night_mode">Night Mode</string>
+    <string name="nav_todo">TODO Tool</string>
 
     <!-- Login -->
     <string name="username">Username</string>

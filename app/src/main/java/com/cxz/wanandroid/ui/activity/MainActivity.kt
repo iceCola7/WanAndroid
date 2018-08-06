@@ -315,6 +315,19 @@ class MainActivity : BaseActivity() {
                         window.setWindowAnimations(R.style.WindowAnimationFadeInOut)
                         recreate()
                     }
+                    R.id.nav_todo->{
+                        if (isLogin) {
+                            Intent(this@MainActivity, TodoActivity::class.java).run {
+                                startActivity(this)
+                            }
+                        } else {
+                            showToast(resources.getString(R.string.login_tint))
+                            Intent(this@MainActivity, LoginActivity::class.java).run {
+                                startActivity(this)
+                            }
+                        }
+                        drawer_layout.closeDrawer(GravityCompat.START)
+                    }
                 }
                 true
             }
