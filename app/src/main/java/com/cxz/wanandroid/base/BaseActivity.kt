@@ -7,12 +7,11 @@ import android.graphics.PixelFormat
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.*
 import com.afollestad.materialdialogs.color.CircleView
 import com.cxz.multiplestatusview.MultipleStatusView
-import com.cxz.swipelibrary.SwipeBackActivity
-import com.cxz.swipelibrary.SwipeBackLayout
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.constant.Constant
@@ -29,7 +28,7 @@ import org.greenrobot.eventbus.ThreadMode
 /**
  * Created by chenxz on 2018/4/21.
  */
-abstract class BaseActivity : SwipeBackActivity() {
+abstract class BaseActivity : AppCompatActivity() {
 
     /**
      * check login
@@ -89,11 +88,6 @@ abstract class BaseActivity : SwipeBackActivity() {
     open fun useEventBus(): Boolean = true
 
     /**
-     * SwipeBack Enable
-     */
-    open fun enableSwipeBack(): Boolean = true
-
-    /**
      * 是否需要显示 TipView
      */
     open fun enableNetworkTip(): Boolean = true
@@ -111,7 +105,6 @@ abstract class BaseActivity : SwipeBackActivity() {
         if (useEventBus()) {
             EventBus.getDefault().register(this)
         }
-        initSwipeBack()
         initData()
         initTipView()
         initView()
@@ -178,14 +171,6 @@ abstract class BaseActivity : SwipeBackActivity() {
         mLayoutParams.x = 0
         mLayoutParams.y = 0
         mLayoutParams.windowAnimations = R.style.anim_float_view // add animations
-    }
-
-    /**
-     * 初始化 SwipeBack
-     */
-    private fun initSwipeBack() {
-        setSwipeBackEnable(enableSwipeBack())
-        swipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT)
     }
 
     private fun initListener() {
