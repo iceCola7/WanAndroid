@@ -7,10 +7,7 @@ import com.cxz.wanandroid.base.BaseSwipeBackActivity
 import com.cxz.wanandroid.event.ColorEvent
 import com.cxz.wanandroid.mvp.model.bean.TodoTypeBean
 import com.cxz.wanandroid.utils.SettingUtil
-import com.cxz.wanandroid.widget.TabLayoutHelper
-import kotlinx.android.synthetic.main.activity_knowledge.*
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
+import kotlinx.android.synthetic.main.activity_todo.*
 
 class TodoActivity : BaseSwipeBackActivity() {
 
@@ -62,11 +59,28 @@ class TodoActivity : BaseSwipeBackActivity() {
         refreshColor(ColorEvent(true))
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
     fun refreshColor(event: ColorEvent) {
         if (event.isRefresh) {
             if (!SettingUtil.getIsNightMode()) {
-                tabLayout.setBackgroundColor(SettingUtil.getColor())
+                val color = SettingUtil.getColor()
+                tabLayout.setBackgroundColor(color)
+
+                fab_menu.menuButtonColorNormal = color
+                fab_menu.menuButtonColorPressed = color
+                fab_menu.menuButtonColorRipple = color
+
+                fab_add.colorNormal = color
+                fab_add.colorPressed = color
+                fab_add.colorRipple = color
+
+                fab_todo.colorNormal = color
+                fab_todo.colorPressed = color
+                fab_todo.colorRipple = color
+
+                fab_done.colorNormal = color
+                fab_done.colorPressed = color
+                fab_done.colorRipple = color
+
             }
         }
     }

@@ -41,4 +41,46 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fab_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/dp_20"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_10"
+        app:menu_animationDelayPerItem="0"
+        app:menu_colorNormal="@color/colorPrimary"
+        app:menu_colorPressed="@color/colorPrimary"
+        app:menu_colorRipple="@color/colorPrimary"
+        app:menu_labels_hideAnimation="@anim/jump_to_down"
+        app:menu_labels_showAnimation="@anim/jump_from_down"
+        app:menu_labels_style="@style/MenuLabelsStyle"
+        app:menu_shadowColor="#444">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_add"
+            style="@style/MenuButtonsStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_label="新增" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_todo"
+            style="@style/MenuButtonsStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_label="待办" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_done"
+            style="@style/MenuButtonsStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_label="已完成" />
+
+    </com.github.clans.fab.FloatingActionMenu>
+
 </android.support.design.widget.CoordinatorLayout>
