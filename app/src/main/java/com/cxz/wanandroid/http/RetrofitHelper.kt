@@ -75,7 +75,7 @@ object RetrofitHelper {
                 val domain = request.url().host()
                 // set-cookie maybe has multi, login to save cookie
                 if ((requestUrl.contains(HttpConstant.SAVE_USER_LOGIN_KEY)
-                        || requestUrl.contains(HttpConstant.SAVE_USER_REGISTER_KEY))
+                                || requestUrl.contains(HttpConstant.SAVE_USER_REGISTER_KEY))
                         && !response.headers(HttpConstant.SET_COOKIE_KEY).isEmpty()) {
                     val cookies = response.headers(HttpConstant.SET_COOKIE_KEY)
                     val cookie = HttpConstant.encodeCookie(cookies)
@@ -89,8 +89,9 @@ object RetrofitHelper {
                 val domain = request.url().host()
                 val url = request.url().toString()
                 if (domain.isNotEmpty() && (url.contains(HttpConstant.COLLECTIONS_WEBSITE)
-                        || url.contains(HttpConstant.UNCOLLECTIONS_WEBSITE)
-                        || url.contains(HttpConstant.ARTICLE_WEBSITE))) {
+                                || url.contains(HttpConstant.UNCOLLECTIONS_WEBSITE)
+                                || url.contains(HttpConstant.ARTICLE_WEBSITE)
+                                || url.contains(HttpConstant.TODO_WEBSITE))) {
                     val spDomain: String by Preference(domain, "")
                     val cookie: String = if (spDomain.isNotEmpty()) spDomain else ""
                     if (cookie.isNotEmpty()) {
