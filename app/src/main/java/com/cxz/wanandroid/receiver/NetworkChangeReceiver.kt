@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.NetworkChangeEvent
-import com.cxz.wanandroid.ext.loge
 import com.cxz.wanandroid.utils.NetWorkUtil
 import com.cxz.wanandroid.utils.Preference
 import org.greenrobot.eventbus.EventBus
@@ -22,7 +21,6 @@ class NetworkChangeReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val isConnected = NetWorkUtil.isNetworkConnected(context)
-        loge("onReceive：当前网络状态------>>$isConnected")
         if (isConnected) {
             if (isConnected != hasNetwork) {
                 EventBus.getDefault().post(NetworkChangeEvent(isConnected))

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import android.widget.ImageView
 import cn.bingoogolapple.bgabanner.BGABanner
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -57,9 +58,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
     /**
      * banner view
      */
-    private val bannerView by lazy {
-        layoutInflater.inflate(R.layout.item_home_banner, null)
-    }
+    private var bannerView: View? = null
 
     /**
      * RecyclerView Divider
@@ -124,7 +123,8 @@ class HomeFragment : BaseFragment(), HomeContract.View {
             addItemDecoration(recyclerViewItemDecoration)
         }
 
-        bannerView.banner.run {
+        bannerView = layoutInflater.inflate(R.layout.item_home_banner, null)
+        bannerView?.banner?.run {
             setDelegate(bannerDelegate)
         }
 
@@ -175,7 +175,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
                     bannerFeedList.add(list.imagePath)
                     bannerTitleList.add(list.title)
                 })
-        bannerView.banner.run {
+        bannerView?.banner?.run {
             setAutoPlayAble(bannerFeedList.size > 1)
             setData(bannerFeedList, bannerTitleList)
             setAdapter(bannerAdapter)
