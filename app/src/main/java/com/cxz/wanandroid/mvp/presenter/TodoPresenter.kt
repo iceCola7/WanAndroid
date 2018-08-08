@@ -1,7 +1,6 @@
 package com.cxz.wanandroid.mvp.presenter
 
 import com.cxz.wanandroid.base.BasePresenter
-import com.cxz.wanandroid.ext.loge
 import com.cxz.wanandroid.http.exception.ExceptionHandle
 import com.cxz.wanandroid.mvp.contract.TodoContract
 import com.cxz.wanandroid.mvp.model.TodoModel
@@ -34,14 +33,16 @@ class TodoPresenter : BasePresenter<TodoContract.View>(), TodoContract.Presenter
         addSubscription(disposable)
     }
 
-    override fun getTodoList(type: Int, page: Int) {
-        mRootView?.showLoading()
+    override fun getNoTodoList(type: Int, page: Int) {
+        if (page == 1)
+            mRootView?.showLoading()
         val disposable = todoModel.getNoTodoList(type, page)
                 .subscribe({ results ->
                     mRootView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
                         } else {
+                            showNoTodoList(results.data)
                         }
                         hideLoading()
                     }
