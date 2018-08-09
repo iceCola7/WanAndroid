@@ -71,6 +71,12 @@ class TodoFragment : BaseFragment(), TodoContract.View {
         }
     }
 
+    private val stickyHeaderDecoration = object : StickyHeaderDecoration() {
+        override fun getHeaderName(pos: Int): String {
+            return if (todoAdapter.data.size == 0) "" else todoAdapter.data[pos].dateStr
+        }
+    }
+
     override fun showLoading() {
         swipeRefreshLayout?.isRefreshing = false
         if (isRefresh) {
@@ -110,13 +116,22 @@ class TodoFragment : BaseFragment(), TodoContract.View {
             setOnRefreshListener(onRefreshListener)
         }
 
+        stickyHeaderDecoration.setOnDecorationHeadDraw {
+            val headView = layoutInflater.inflate(R.layout.item_sticky_header, null)
+            if (todoAdapter.data.size > 0) {
+                val tv_header = headView.findViewById<TextView>(R.id.tv_header)
+                tv_header.text = todoAdapter.data[it].dateStr
+            }
+            headView
+        }
+
         recyclerView.run {
             layoutManager = linearLayoutManager
             adapter = todoAdapter
             itemAnimator = DefaultItemAnimator()
             addItemDecoration(recyclerViewItemDecoration)
             addOnItemTouchListener(SwipeItemLayout.OnSwipeItemTouchListener(activity))
-            // addItemDecoration(stickyHeaderDecoration)
+            addItemDecoration(stickyHeaderDecoration)
         }
 
         todoAdapter.run {
@@ -124,7 +139,7 @@ class TodoFragment : BaseFragment(), TodoContract.View {
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@TodoFragment.onItemClickListener
             onItemChildClickListener = this@TodoFragment.onItemChildClickListener
-            setEmptyView(R.layout.fragment_empty_layout)
+            // setEmptyView(R.layout.fragment_empty_layout)
         }
 
     }
@@ -147,20 +162,7 @@ class TodoFragment : BaseFragment(), TodoContract.View {
                 } else {
                     loadMoreComplete()
                 }
-                if (it.size > 0) {
-                    val stickyHeaderDecoration = object : StickyHeaderDecoration() {
-                        override fun getHeaderName(pos: Int): String {
-                            return todoAdapter.data[pos].dateStr
-                        }
-                    }
-                    stickyHeaderDecoration.setOnDecorationHeadDraw {
-                        val headView = layoutInflater.inflate(R.layout.item_sticky_header, null)
-                        val tv_header = headView.findViewById<TextView>(R.id.tv_header)
-                        tv_header.text = todoAdapter.data[it].dateStr
-                        headView
-                    }
-                    recyclerView.addItemDecoration(stickyHeaderDecoration)
-                }
+
             }
         }
     }
