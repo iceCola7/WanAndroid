@@ -55,4 +55,26 @@ class TodoPresenter : BasePresenter<TodoContract.View>(), TodoContract.Presenter
         addSubscription(disposable)
     }
 
+    override fun getDoneList(page: Int, type: Int) {
+        if (page == 1)
+            mRootView?.showLoading()
+        val disposable = todoModel.getDoneList(page, type)
+                .subscribe({ results ->
+                    mRootView?.apply {
+                        if (results.errorCode != 0) {
+                            showError(results.errorMsg)
+                        } else {
+                            showNoTodoList(results.data)
+                        }
+                        hideLoading()
+                    }
+                }, {
+                    mRootView?.apply {
+                        hideLoading()
+                        showError(ExceptionHandle.handleException(it))
+                    }
+                })
+
+    }
+
 }

@@ -19,6 +19,8 @@ class TodoAdapter(datas: MutableList<TodoBean>)
         item ?: return
 
         helper.setText(R.id.tv_todo_title, item.title)
+                .addOnClickListener(R.id.btn_delete)
+                .addOnClickListener(R.id.btn_done)
         val tv_todo_desc = helper.getView<TextView>(R.id.tv_todo_desc)
         tv_todo_desc.visibility = View.INVISIBLE
         if (item.content.isNotEmpty()) {

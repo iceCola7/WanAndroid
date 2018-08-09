@@ -22,4 +22,9 @@ class TodoModel {
                 .compose(SchedulerUtils.ioToMain())
     }
 
+    fun getDoneList(page: Int, type: Int): Observable<HttpResult<TodoResponseBody>> {
+        return RetrofitHelper.service.getDoneList(page, type)
+                .compose(SchedulerUtils.ioToMain())
+    }
+
 }

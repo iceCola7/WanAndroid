@@ -162,7 +162,6 @@ class TodoFragment : BaseFragment(), TodoContract.View {
                 } else {
                     loadMoreComplete()
                 }
-
             }
         }
     }
@@ -203,7 +202,10 @@ class TodoFragment : BaseFragment(), TodoContract.View {
                 if (datas.size != 0) {
                     val data = datas[position]
                     when (view.id) {
-
+                        R.id.btn_delete -> {
+                        }
+                        R.id.btn_done -> {
+                        }
                     }
                 }
             }

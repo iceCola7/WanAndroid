@@ -21,6 +21,8 @@ interface TodoContract {
 
         fun getNoTodoList(page: Int, type: Int)
 
+        fun getDoneList(page: Int, type: Int)
+
     }
 
 }
