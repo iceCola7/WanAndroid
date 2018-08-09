@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -76,7 +77,7 @@ public abstract class StickyHeaderDecoration extends RecyclerView.ItemDecoration
         int pos = parent.getChildAdapterPosition(itemView); //获取当前itemView的位置
         String curHeaderName = getHeaderName(pos);         //根据pos获取要悬浮的头部名
 
-        if (curHeaderName == null) {
+        if (TextUtils.isEmpty(curHeaderName)) {
             return;
         }
         if (pos == 0 || !curHeaderName.equals(getHeaderName(pos - 1))) {//如果当前位置为0，或者与上一个item头部名不同的，都腾出头部空间
@@ -88,7 +89,6 @@ public abstract class StickyHeaderDecoration extends RecyclerView.ItemDecoration
 
     private SparseArray<Integer> stickyHeaderPosArray = new SparseArray<>();//记录每个头部和悬浮头部的坐标信息【用于点击事件】
     private GestureDetector gestureDetector;
-
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -125,12 +125,11 @@ public abstract class StickyHeaderDecoration extends RecyclerView.ItemDecoration
                 firstHeaderName = curHeaderName;
                 firstPos = pos;
             }
-            if (curHeaderName == null)
+            if (TextUtils.isEmpty(curHeaderName))
                 continue;//如果headerName为空，跳过此次循环
 
             int viewTop = childView.getTop() + recyclerView.getPaddingTop();
             if (pos == 0 || !curHeaderName.equals(getHeaderName(pos - 1))) {//如果当前位置为0，或者与上一个item头部名不同的，都腾出头部空间
-                //绘制每个组头【奥拓上头的a(奥迪上头就不用绘制a),本田上头的b】
                 if (headerDrawEvent != null) {
                     View headerView;
                     if (headViewMap.get(pos) == null) {
@@ -160,7 +159,6 @@ public abstract class StickyHeaderDecoration extends RecyclerView.ItemDecoration
         }
         if (firstHeaderName == null)
             return;
-
 
         canvas.save();
         canvas.translate(0, translateTop);
@@ -200,7 +198,6 @@ public abstract class StickyHeaderDecoration extends RecyclerView.ItemDecoration
     public void setOnHeaderClickListener(OnHeaderClickListener headerClickListener) {
         this.headerClickEvent = headerClickListener;
     }
-
 
     private GestureDetector.OnGestureListener gestureListener = new GestureDetector.OnGestureListener() {
         @Override
@@ -255,7 +252,6 @@ public abstract class StickyHeaderDecoration extends RecyclerView.ItemDecoration
         this.headerDrawEvent = decorationHeadDraw;
     }
 
-
     public void loadImage(final String url, final int pos, ImageView imageView) {
 
         if (getImg(url) != null) {
@@ -274,7 +270,6 @@ public abstract class StickyHeaderDecoration extends RecyclerView.ItemDecoration
                 }
             });
         }
-
     }
 
     private Map<String, Drawable> imgDrawableMap = new HashMap<>();
