@@ -19,7 +19,7 @@ interface TodoContract {
 
         fun getAllTodoList(type: Int)
 
-        fun getNoTodoList(type: Int, page: Int)
+        fun getNoTodoList(page: Int, type: Int)
 
     }
 

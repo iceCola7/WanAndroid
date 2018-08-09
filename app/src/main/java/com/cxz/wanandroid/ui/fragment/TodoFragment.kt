@@ -145,7 +145,7 @@ class TodoFragment : BaseFragment(), TodoContract.View {
     }
 
     override fun lazyLoad() {
-        mPresenter.getNoTodoList(mType, 1)
+        mPresenter.getNoTodoList(1, mType)
     }
 
     override fun showNoTodoList(todoResponseBody: TodoResponseBody) {
@@ -173,7 +173,7 @@ class TodoFragment : BaseFragment(), TodoContract.View {
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
         isRefresh = true
         todoAdapter.setEnableLoadMore(false)
-        mPresenter.getNoTodoList(mType, 1)
+        mPresenter.getNoTodoList(1, mType)
     }
     /**
      * LoadMoreListener
@@ -182,7 +182,7 @@ class TodoFragment : BaseFragment(), TodoContract.View {
         isRefresh = false
         swipeRefreshLayout.isRefreshing = false
         val page = todoAdapter.data.size / 20 + 1
-        mPresenter.getNoTodoList(mType, page)
+        mPresenter.getNoTodoList(page, mType)
     }
 
     /**

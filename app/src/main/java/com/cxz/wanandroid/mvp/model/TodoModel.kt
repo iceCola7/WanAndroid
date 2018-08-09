@@ -17,8 +17,8 @@ class TodoModel {
                 .compose(SchedulerUtils.ioToMain())
     }
 
-    fun getNoTodoList(type: Int, page: Int): Observable<HttpResult<TodoResponseBody>> {
-        return RetrofitHelper.service.getNoTodoList(type, page)
+    fun getNoTodoList(page: Int, type: Int): Observable<HttpResult<TodoResponseBody>> {
+        return RetrofitHelper.service.getNoTodoList(page, type)
                 .compose(SchedulerUtils.ioToMain())
     }
 

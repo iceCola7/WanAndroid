@@ -168,7 +168,7 @@ interface ApiService {
      * @param page 拼接在链接上，从1开始
      */
     @POST("/lg/todo/listnotdo/{type}/json/{page}")
-    fun getNoTodoList(@Path("type") type: Int, @Path("page") page: Int): Observable<HttpResult<TodoResponseBody>>
+    fun getNoTodoList(@Path("page") page: Int, @Path("type") type: Int): Observable<HttpResult<TodoResponseBody>>
 
     /**
      * 获取已完成Todo列表
@@ -177,7 +177,7 @@ interface ApiService {
      * @param page 拼接在链接上，从1开始
      */
     @POST("/lg/todo/listdone/{type}/json/{page}")
-    fun getDoneList(@Path("type") type: Int, @Path("page") page: Int): Observable<HttpResult<TodoResponseBody>>
+    fun getDoneList(@Path("page") page: Int, @Path("type") type: Int): Observable<HttpResult<TodoResponseBody>>
 
     /**
      * 仅更新完成状态Todo
