@@ -1,6 +1,7 @@
 package com.cxz.wanandroid.adapter
 
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseSectionQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -33,6 +34,12 @@ class TodoAdapter : BaseSectionQuickAdapter<TodoDataBean, BaseViewHolder> {
         if (itemData.content.isNotEmpty()) {
             tv_todo_desc.visibility = View.VISIBLE
             tv_todo_desc.text = itemData.content
+        }
+        val btn_done = helper.getView<Button>(R.id.btn_done)
+        if (itemData.status == 0) {
+            btn_done.text = mContext.resources.getString(R.string.mark_done)
+        } else if (itemData.status == 1) {
+            btn_done.text = mContext.resources.getString(R.string.restore)
         }
     }
 
