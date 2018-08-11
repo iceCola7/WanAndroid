@@ -74,7 +74,47 @@ class TodoPresenter : BasePresenter<TodoContract.View>(), TodoContract.Presenter
                         showError(ExceptionHandle.handleException(it))
                     }
                 })
+        addSubscription(disposable)
+    }
 
+    override fun deleteTodoById(id: Int) {
+        val disposable = todoModel.deleteTodoById(id)
+                .subscribe({ results ->
+                    mRootView?.apply {
+                        if (results.errorCode != 0) {
+                            showError(results.errorMsg)
+                        } else {
+                            showDeleteSuccess(true)
+                        }
+                        hideLoading()
+                    }
+                }, {
+                    mRootView?.apply {
+                        hideLoading()
+                        showError(ExceptionHandle.handleException(it))
+                    }
+                })
+        addSubscription(disposable)
+    }
+
+    override fun updateTodoById(id: Int, status: Int) {
+        val disposable = todoModel.updateTodoById(id, status)
+                .subscribe({ results ->
+                    mRootView?.apply {
+                        if (results.errorCode != 0) {
+                            showError(results.errorMsg)
+                        } else {
+                            showUpdateSuccess(true)
+                        }
+                        hideLoading()
+                    }
+                }, {
+                    mRootView?.apply {
+                        hideLoading()
+                        showError(ExceptionHandle.handleException(it))
+                    }
+                })
+        addSubscription(disposable)
     }
 
 }

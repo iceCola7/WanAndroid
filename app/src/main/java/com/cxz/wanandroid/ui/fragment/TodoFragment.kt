@@ -1,5 +1,6 @@
 package com.cxz.wanandroid.ui.fragment
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
@@ -9,14 +10,18 @@ import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.TodoAdapter
 import com.cxz.wanandroid.base.BaseFragment
 import com.cxz.wanandroid.constant.Constant
+import com.cxz.wanandroid.event.TodoEvent
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.TodoContract
 import com.cxz.wanandroid.mvp.model.bean.TodoDataBean
 import com.cxz.wanandroid.mvp.model.bean.TodoResponseBody
 import com.cxz.wanandroid.mvp.presenter.TodoPresenter
+import com.cxz.wanandroid.utils.DialogUtil
 import com.cxz.wanandroid.widget.SpaceItemDecoration
 import com.cxz.wanandroid.widget.SwipeItemLayout
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 /**
  * Created by chenxz on 2018/8/6.
@@ -46,6 +51,11 @@ class TodoFragment : BaseFragment(), TodoContract.View {
     private var isRefresh = true
 
     private var mType: Int = 0
+
+    /**
+     * 是否是已完成 false->待办 true->已完成
+     */
+    private var bDone: Boolean = false
 
     private val datas = mutableListOf<TodoDataBean>()
 
@@ -127,7 +137,30 @@ class TodoFragment : BaseFragment(), TodoContract.View {
     }
 
     override fun lazyLoad() {
-        mPresenter.getNoTodoList(1, mType)
+        if (bDone) {
+            mPresenter.getDoneList(1, mType)
+        } else {
+            mPresenter.getNoTodoList(1, mType)
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doTodoEvent(event: TodoEvent) {
+        if (mType == event.curIndex) {
+            when (event.type) {
+                Constant.TODO_ADD -> {
+
+                }
+                Constant.TODO_NO -> {
+                    bDone = false
+                    lazyLoad()
+                }
+                Constant.TODO_DONE -> {
+                    bDone = true
+                    lazyLoad()
+                }
+            }
+        }
     }
 
     override fun showNoTodoList(todoResponseBody: TodoResponseBody) {
@@ -163,13 +196,25 @@ class TodoFragment : BaseFragment(), TodoContract.View {
         }
     }
 
+    override fun showDeleteSuccess(success: Boolean) {
+        if (success) {
+            showToast(resources.getString(R.string.delete_success))
+        }
+    }
+
+    override fun showUpdateSuccess(success: Boolean) {
+        if (success) {
+            showToast(resources.getString(R.string.completed))
+        }
+    }
+
     /**
      * RefreshListener
      */
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
         isRefresh = true
         mAdapter.setEnableLoadMore(false)
-        mPresenter.getNoTodoList(1, mType)
+        lazyLoad()
     }
     /**
      * LoadMoreListener
@@ -178,7 +223,11 @@ class TodoFragment : BaseFragment(), TodoContract.View {
         isRefresh = false
         swipeRefreshLayout.isRefreshing = false
         val page = mAdapter.data.size / 20 + 1
-        mPresenter.getNoTodoList(page, mType)
+        if (bDone) {
+            mPresenter.getDoneList(page, mType)
+        } else {
+            mPresenter.getNoTodoList(page, mType)
+        }
     }
 
     /**
@@ -197,12 +246,24 @@ class TodoFragment : BaseFragment(), TodoContract.View {
     private val onItemChildClickListener =
             BaseQuickAdapter.OnItemChildClickListener { _, view, position ->
                 if (datas.size != 0) {
-                    val data = datas[position]
+                    val data = datas[position].t
                     when (view.id) {
                         R.id.btn_delete -> {
-                            mAdapter.remove(position)
+                            activity?.let {
+                                DialogUtil.getConfirmDialog(it, resources.getString(R.string.confirm_delete),
+                                        DialogInterface.OnClickListener { _, _ ->
+                                            mPresenter.deleteTodoById(data.id)
+                                            mAdapter.remove(position)
+                                        }).show()
+                            }
                         }
                         R.id.btn_done -> {
+                            if (bDone) {
+                                mPresenter.updateTodoById(data.id, 0)
+                            } else {
+                                mPresenter.updateTodoById(data.id, 1)
+                            }
+                            mAdapter.remove(position)
                         }
                     }
                 }

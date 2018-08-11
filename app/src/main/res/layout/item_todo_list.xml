@@ -47,7 +47,7 @@
             android:background="@drawable/bg_done"
             android:paddingLeft="@dimen/dp_6"
             android:paddingRight="@dimen/dp_6"
-            android:text="标记为已完成"
+            android:text="@string/mark_done"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_12" />
 
@@ -58,7 +58,7 @@
             android:background="@drawable/bg_delete"
             android:paddingLeft="@dimen/dp_6"
             android:paddingRight="@dimen/dp_6"
-            android:text="删除"
+            android:text="@string/delete"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_12" />
 

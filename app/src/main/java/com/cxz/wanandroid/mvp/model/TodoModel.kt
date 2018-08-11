@@ -27,4 +27,14 @@ class TodoModel {
                 .compose(SchedulerUtils.ioToMain())
     }
 
+    fun deleteTodoById(id: Int): Observable<HttpResult<Any>> {
+        return RetrofitHelper.service.deleteTodoById(id)
+                .compose(SchedulerUtils.ioToMain())
+    }
+
+    fun updateTodoById(id: Int, status: Int): Observable<HttpResult<Any>> {
+        return RetrofitHelper.service.updateTodoById(id, status)
+                .compose(SchedulerUtils.ioToMain())
+    }
+
 }

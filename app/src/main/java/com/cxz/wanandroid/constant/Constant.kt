@@ -15,6 +15,10 @@ object Constant {
     const val PASSWORD_KEY = "password"
     const val HAS_NETWORK_KEY = "has_network"
 
+    const val TODO_NO = "todo_no"
+    const val TODO_ADD = "todo_add"
+    const val TODO_DONE = "todo_done"
+
     /**
      * url key
      */

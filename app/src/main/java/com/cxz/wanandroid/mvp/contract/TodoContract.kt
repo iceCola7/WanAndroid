@@ -13,6 +13,10 @@ interface TodoContract {
 
         fun showNoTodoList(todoResponseBody: TodoResponseBody)
 
+        fun showDeleteSuccess(success: Boolean)
+
+        fun showUpdateSuccess(success: Boolean)
+
     }
 
     interface Presenter : IPresenter<View> {
@@ -22,6 +26,10 @@ interface TodoContract {
         fun getNoTodoList(page: Int, type: Int)
 
         fun getDoneList(page: Int, type: Int)
+
+        fun deleteTodoById(id: Int)
+
+        fun updateTodoById(id: Int, status: Int)
 
     }
 
