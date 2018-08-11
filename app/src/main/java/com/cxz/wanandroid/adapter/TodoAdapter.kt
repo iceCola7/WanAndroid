@@ -2,30 +2,39 @@ package com.cxz.wanandroid.adapter
 
 import android.view.View
 import android.widget.TextView
-import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.BaseSectionQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.mvp.model.bean.TodoBean
+import com.cxz.wanandroid.mvp.model.bean.TodoDataBean
 
 /**
  * Created by chenxz on 2018/8/8.
  */
-class TodoAdapter(datas: MutableList<TodoBean>)
-    : BaseQuickAdapter<TodoBean, BaseViewHolder>(R.layout.item_todo_list, datas) {
+class TodoAdapter : BaseSectionQuickAdapter<TodoDataBean, BaseViewHolder> {
 
-    override fun convert(helper: BaseViewHolder?, item: TodoBean?) {
+    constructor(layoutResId: Int, sectionHeadResId: Int, data: MutableList<TodoDataBean>) : super(layoutResId, sectionHeadResId, data)
 
+    override fun convertHead(helper: BaseViewHolder?, item: TodoDataBean?) {
         helper ?: return
         item ?: return
+        helper.setText(R.id.tv_header, item.header)
+    }
 
-        helper.setText(R.id.tv_todo_title, item.title)
+    override fun convert(helper: BaseViewHolder?, item: TodoDataBean?) {
+        helper ?: return
+        item ?: return
+        val itemData = item.t as TodoBean
+        helper.setText(R.id.tv_todo_title, itemData.title)
                 .addOnClickListener(R.id.btn_delete)
                 .addOnClickListener(R.id.btn_done)
         val tv_todo_desc = helper.getView<TextView>(R.id.tv_todo_desc)
         tv_todo_desc.visibility = View.INVISIBLE
-        if (item.content.isNotEmpty()) {
+        if (itemData.content.isNotEmpty()) {
             tv_todo_desc.visibility = View.VISIBLE
-            tv_todo_desc.text = item.content
+            tv_todo_desc.text = itemData.content
         }
     }
+
+
 }
