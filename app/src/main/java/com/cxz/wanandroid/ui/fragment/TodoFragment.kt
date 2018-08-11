@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
-import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.TodoAdapter
@@ -12,11 +11,10 @@ import com.cxz.wanandroid.base.BaseFragment
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.TodoContract
-import com.cxz.wanandroid.mvp.model.bean.TodoBean
+import com.cxz.wanandroid.mvp.model.bean.TodoDataBean
 import com.cxz.wanandroid.mvp.model.bean.TodoResponseBody
 import com.cxz.wanandroid.mvp.presenter.TodoPresenter
 import com.cxz.wanandroid.widget.SpaceItemDecoration
-import com.cxz.wanandroid.widget.StickyHeaderDecoration
 import com.cxz.wanandroid.widget.SwipeItemLayout
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 
@@ -49,10 +47,10 @@ class TodoFragment : BaseFragment(), TodoContract.View {
 
     private var mType: Int = 0
 
-    private val datas = mutableListOf<TodoBean>()
+    private val datas = mutableListOf<TodoDataBean>()
 
-    private val todoAdapter: TodoAdapter by lazy {
-        TodoAdapter(datas)
+    private val mAdapter: TodoAdapter by lazy {
+        TodoAdapter(R.layout.item_todo_list, R.layout.item_sticky_header, datas)
     }
 
     /**
@@ -71,16 +69,10 @@ class TodoFragment : BaseFragment(), TodoContract.View {
         }
     }
 
-    private val stickyHeaderDecoration = object : StickyHeaderDecoration() {
-        override fun getHeaderName(pos: Int): String {
-            return if (todoAdapter.data.size == 0) "" else todoAdapter.data[pos].dateStr
-        }
-    }
-
     override fun showLoading() {
         swipeRefreshLayout?.isRefreshing = false
         if (isRefresh) {
-            todoAdapter.run {
+            mAdapter.run {
                 setEnableLoadMore(true)
             }
         }
@@ -89,14 +81,14 @@ class TodoFragment : BaseFragment(), TodoContract.View {
     override fun hideLoading() {
         swipeRefreshLayout?.isRefreshing = false
         if (isRefresh) {
-            todoAdapter.run {
+            mAdapter.run {
                 setEnableLoadMore(true)
             }
         }
     }
 
     override fun showError(errorMsg: String) {
-        todoAdapter.run {
+        mAdapter.run {
             if (isRefresh)
                 setEnableLoadMore(true)
             else
@@ -116,30 +108,20 @@ class TodoFragment : BaseFragment(), TodoContract.View {
             setOnRefreshListener(onRefreshListener)
         }
 
-        stickyHeaderDecoration.setOnDecorationHeadDraw {
-            val headView = layoutInflater.inflate(R.layout.item_sticky_header, null)
-            if (todoAdapter.data.size > 0) {
-                val tv_header = headView.findViewById<TextView>(R.id.tv_header)
-                tv_header.text = todoAdapter.data[it].dateStr
-            }
-            headView
-        }
-
         recyclerView.run {
             layoutManager = linearLayoutManager
-            adapter = todoAdapter
+            adapter = mAdapter
             itemAnimator = DefaultItemAnimator()
             addItemDecoration(recyclerViewItemDecoration)
             addOnItemTouchListener(SwipeItemLayout.OnSwipeItemTouchListener(activity))
-            addItemDecoration(stickyHeaderDecoration)
         }
 
-        todoAdapter.run {
+        mAdapter.run {
             bindToRecyclerView(recyclerView)
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@TodoFragment.onItemClickListener
             onItemChildClickListener = this@TodoFragment.onItemChildClickListener
-            // setEmptyView(R.layout.fragment_empty_layout)
+            setEmptyView(R.layout.fragment_empty_layout)
         }
 
     }
@@ -149,8 +131,23 @@ class TodoFragment : BaseFragment(), TodoContract.View {
     }
 
     override fun showNoTodoList(todoResponseBody: TodoResponseBody) {
-        todoResponseBody.datas.let {
-            todoAdapter.run {
+        val list = mutableListOf<TodoDataBean>()
+        var bHeader = true
+        todoResponseBody.datas.forEach { todoBean ->
+            bHeader = true
+            for (i in list.indices) {
+                if (todoBean.dateStr == list[i].header) {
+                    bHeader = false
+                    break
+                }
+            }
+            if (bHeader)
+                list.add(TodoDataBean(true, todoBean.dateStr))
+            list.add(TodoDataBean(todoBean))
+        }
+
+        list.let {
+            mAdapter.run {
                 if (isRefresh) {
                     replaceData(it)
                 } else {
@@ -171,7 +168,7 @@ class TodoFragment : BaseFragment(), TodoContract.View {
      */
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
         isRefresh = true
-        todoAdapter.setEnableLoadMore(false)
+        mAdapter.setEnableLoadMore(false)
         mPresenter.getNoTodoList(1, mType)
     }
     /**
@@ -180,7 +177,7 @@ class TodoFragment : BaseFragment(), TodoContract.View {
     private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
         isRefresh = false
         swipeRefreshLayout.isRefreshing = false
-        val page = todoAdapter.data.size / 20 + 1
+        val page = mAdapter.data.size / 20 + 1
         mPresenter.getNoTodoList(page, mType)
     }
 
@@ -203,6 +200,7 @@ class TodoFragment : BaseFragment(), TodoContract.View {
                     val data = datas[position]
                     when (view.id) {
                         R.id.btn_delete -> {
+                            mAdapter.remove(position)
                         }
                         R.id.btn_done -> {
                         }

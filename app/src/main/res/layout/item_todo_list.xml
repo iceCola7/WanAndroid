@@ -49,7 +49,7 @@
             android:paddingRight="@dimen/dp_6"
             android:text="标记为已完成"
             android:textColor="@color/white"
-            android:textSize="@dimen/sp_16" />
+            android:textSize="@dimen/sp_12" />
 
         <Button
             android:id="@+id/btn_delete"
@@ -60,7 +60,7 @@
             android:paddingRight="@dimen/dp_6"
             android:text="删除"
             android:textColor="@color/white"
-            android:textSize="@dimen/sp_16" />
+            android:textSize="@dimen/sp_12" />
 
     </LinearLayout>
 
