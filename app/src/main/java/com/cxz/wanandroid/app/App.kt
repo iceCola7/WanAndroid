@@ -53,7 +53,7 @@ class App : MultiDexApplication() {
         registerActivityLifecycleCallbacks(mActivityLifecycleCallbacks)
         initTheme()
         initLitePal()
-        // initBugly()
+        initBugly()
     }
 
     /**

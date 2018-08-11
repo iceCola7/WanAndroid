@@ -110,4 +110,12 @@
     <string name="auto_night_start">夜间模式开始时间</string>
     <string name="auto_day_start">日间模式开始时间</string>
 
+    <!-- TODO工具 -->
+    <string name="delete_success">删除成功</string>
+    <string name="delete">删除</string>
+    <string name="mark_done">标为已完成</string>
+    <string name="restore">复原</string>
+    <string name="completed">已完成</string>
+    <string name="confirm_delete">确认删除</string>
+
 </resources>
