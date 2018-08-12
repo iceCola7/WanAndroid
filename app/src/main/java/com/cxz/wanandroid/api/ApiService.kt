@@ -197,4 +197,29 @@ interface ApiService {
     @POST("/lg/todo/delete/{id}/json")
     fun deleteTodoById(@Path("id") id: Int): Observable<HttpResult<Any>>
 
+    /**
+     * 新增一条Todo
+     * http://www.wanandroid.com/lg/todo/add/json
+     * @param body
+     *          title: 新增标题
+     *          content: 新增详情
+     *          date: 2018-08-01
+     *          type: 0
+     */
+    @POST("/lg/todo/add/json")
+    fun addTodo(@Body body: AddTodoBean): Observable<HttpResult<Any>>
+
+    /**
+     * 更新一条Todo内容
+     * http://www.wanandroid.com/lg/todo/update/83/json
+     * @param body
+     *          title: 新增标题
+     *          content: 新增详情
+     *          date: 2018-08-01
+     *          status: 0 // 0为未完成，1为完成
+     *          type: 0
+     */
+    @POST("/lg/todo/update/{id}/json")
+    fun updateTodo(@Path("id") id: Int, @Body body: UpdateTodoBean): Observable<HttpResult<Any>>
+
 }
