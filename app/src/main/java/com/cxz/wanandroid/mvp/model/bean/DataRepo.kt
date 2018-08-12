@@ -232,3 +232,21 @@ data class TodoResponseBody(
         @Json(name = "total") val total: Int
 )
 
+// 新增TODO的实体
+data class AddTodoBean(
+        @Json(name = "title") val title: String,
+        @Json(name = "content") val content: String,
+        @Json(name = "date") val date: String,
+        @Json(name = "type") val type: Int
+)
+
+// 更新TODO的实体
+data class UpdateTodoBean(
+        @Json(name = "title") val title: String,
+        @Json(name = "content") val content: String,
+        @Json(name = "date") val date: String,
+        @Json(name = "status") val status: Int,
+        @Json(name = "type") val type: Int
+
+)
+
