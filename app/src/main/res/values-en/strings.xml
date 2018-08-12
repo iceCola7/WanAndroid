@@ -121,10 +121,10 @@
     <string name="notodo">Todo</string>
     <string name="save">Save</string>
     <string name="non_compulsory">Non Compulsory</string>
-    <string name="details">Details</string>
+    <string name="details">Details：</string>
     <string name="compulsory">Compulsory</string>
-    <string name="title">Title</string>
-    <string name="date">Date</string>
+    <string name="title">Title：</string>
+    <string name="date">Date：</string>
     <string name="title_tip">title is not empty!</string>
     <string name="save_success">Save Success</string>
     <string name="edit">Edit</string>

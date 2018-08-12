@@ -12,6 +12,7 @@ import com.cxz.wanandroid.mvp.contract.AddTodoContract
 import com.cxz.wanandroid.mvp.model.bean.TodoBean
 import com.cxz.wanandroid.mvp.presenter.AddTodoPresenter
 import com.cxz.wanandroid.utils.DialogUtil
+import com.cxz.wanandroid.utils.KeyBordUtil
 import kotlinx.android.synthetic.main.fragment_add_todo.*
 import org.greenrobot.eventbus.EventBus
 import java.util.*
@@ -107,6 +108,7 @@ class AddTodoFragment : BaseFragment(), AddTodoContract.View {
         }
 
         ll_date.setOnClickListener {
+            KeyBordUtil.closeKeyBord(et_content, activity!!)
             val now = Calendar.getInstance()
             val dpd = android.app.DatePickerDialog(
                     activity,

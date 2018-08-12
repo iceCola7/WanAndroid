@@ -31,6 +31,7 @@
                 android:background="@null"
                 android:hint="@string/compulsory"
                 android:maxLines="1"
+                android:textColor="@color/common_color"
                 android:textSize="@dimen/sp_16" />
 
         </LinearLayout>
@@ -56,12 +57,14 @@
             <EditText
                 android:id="@+id/et_content"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_100"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:background="@null"
                 android:gravity="top"
                 android:hint="@string/non_compulsory"
                 android:inputType="text|textMultiLine"
+                android:minHeight="@dimen/dp_100"
+                android:textColor="@color/common_color"
                 android:textSize="@dimen/sp_16" />
 
         </LinearLayout>
@@ -91,6 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:background="@null"
+                android:textColor="@color/common_color"
                 android:textSize="@dimen/sp_16"
                 tools:text="2018-01-01" />
         </LinearLayout>

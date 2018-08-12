@@ -121,10 +121,10 @@
     <string name="notodo">待办</string>
     <string name="save">保存</string>
     <string name="non_compulsory">非必填</string>
-    <string name="details">详情</string>
+    <string name="details">详情：</string>
     <string name="compulsory">必填</string>
-    <string name="title">标题</string>
-    <string name="date">日期</string>
+    <string name="title">标题：</string>
+    <string name="date">日期：</string>
     <string name="title_tip">标题不能为空！</string>
     <string name="save_success">保存成功</string>
     <string name="edit">编辑</string>
