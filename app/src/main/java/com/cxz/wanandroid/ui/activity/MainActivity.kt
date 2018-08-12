@@ -284,25 +284,25 @@ class MainActivity : BaseActivity() {
                                 startActivity(this)
                             }
                         }
-                        drawer_layout.closeDrawer(GravityCompat.START)
+                        // drawer_layout.closeDrawer(GravityCompat.START)
                     }
                     R.id.nav_setting -> {
                         Intent(this@MainActivity, SettingActivity::class.java).run {
                             // putExtra(Constant.TYPE_KEY, Constant.Type.SETTING_TYPE_KEY)
                             startActivity(this)
                         }
-                        drawer_layout.closeDrawer(GravityCompat.START)
+                        // drawer_layout.closeDrawer(GravityCompat.START)
                     }
                     R.id.nav_about_us -> {
                         Intent(this@MainActivity, CommonActivity::class.java).run {
                             putExtra(Constant.TYPE_KEY, Constant.Type.ABOUT_US_TYPE_KEY)
                             startActivity(this)
                         }
-                        drawer_layout.closeDrawer(GravityCompat.START)
+                        // drawer_layout.closeDrawer(GravityCompat.START)
                     }
                     R.id.nav_logout -> {
                         logout()
-                        drawer_layout.closeDrawer(GravityCompat.START)
+                        // drawer_layout.closeDrawer(GravityCompat.START)
                     }
                     R.id.nav_night_mode -> {
                         if (SettingUtil.getIsNightMode()) {
@@ -326,7 +326,7 @@ class MainActivity : BaseActivity() {
                                 startActivity(this)
                             }
                         }
-                        drawer_layout.closeDrawer(GravityCompat.START)
+                        // drawer_layout.closeDrawer(GravityCompat.START)
                     }
                 }
                 true
