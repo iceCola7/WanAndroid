@@ -66,6 +66,7 @@
             style="@style/MenuButtonsStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@drawable/ic_add_24dp"
             app:fab_label="@string/add" />
 
         <com.github.clans.fab.FloatingActionButton
@@ -73,6 +74,7 @@
             style="@style/MenuButtonsStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@drawable/ic_todo_24dp"
             app:fab_label="@string/notodo" />
 
         <com.github.clans.fab.FloatingActionButton
@@ -80,6 +82,7 @@
             style="@style/MenuButtonsStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@drawable/ic_done_24dp"
             app:fab_label="@string/completed" />
 
     </com.github.clans.fab.FloatingActionMenu>

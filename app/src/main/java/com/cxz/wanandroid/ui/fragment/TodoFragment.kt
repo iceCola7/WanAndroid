@@ -279,7 +279,7 @@ class TodoFragment : BaseFragment(), TodoContract.View {
                             }
                             mAdapter.remove(position)
                         }
-                        R.id.item_todo_content -> {
+                        R.id.item_todo_content->{
                             if (bDone) {
                                 Intent(activity, CommonActivity::class.java).run {
                                     putExtra(Constant.TYPE_KEY, Constant.Type.SEE_TODO_TYPE_KEY)

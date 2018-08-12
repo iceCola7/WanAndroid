@@ -129,5 +129,6 @@
     <string name="save_success">Save Success</string>
     <string name="edit">Edit</string>
     <string name="see">See</string>
+    <string name="save_ing"> Save...</string>
 
 </resources>

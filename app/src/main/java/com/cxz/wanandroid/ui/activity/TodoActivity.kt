@@ -28,8 +28,6 @@ class TodoActivity : BaseSwipeBackActivity() {
         datas = getData()
     }
 
-    override fun enableSwipeBack(): Boolean = false
-
     override fun initView() {
         toolbar.run {
             title = getString(R.string.nav_todo)

@@ -10,6 +10,7 @@ import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.AddTodoContract
 import com.cxz.wanandroid.mvp.model.bean.TodoBean
 import com.cxz.wanandroid.mvp.presenter.AddTodoPresenter
+import com.cxz.wanandroid.utils.DialogUtil
 import kotlinx.android.synthetic.main.fragment_add_todo.*
 import java.util.*
 
@@ -44,11 +45,21 @@ class AddTodoFragment : BaseFragment(), AddTodoContract.View {
      * 新增，编辑，查看 三种状态
      */
     private var mTypeKey = ""
+    /**
+     * id
+     */
+    private var mId: Int? = 0
+
+    private val mDialog by lazy {
+        DialogUtil.getWaitDialog(activity!!, getString(R.string.save_ing))
+    }
 
     override fun showLoading() {
+        mDialog.show()
     }
 
     override fun hideLoading() {
+        mDialog.dismiss()
     }
 
     override fun showError(errorMsg: String) {
@@ -61,6 +72,8 @@ class AddTodoFragment : BaseFragment(), AddTodoContract.View {
     override fun getCurrentDate(): String = mCurrentDate
     override fun getTitle(): String = et_title.text.toString()
     override fun getContent(): String = et_content.text.toString()
+    override fun getStatus(): Int = mTodoBean?.status ?: 0
+    override fun getItemId(): Int = mTodoBean?.id ?: 0
 
     override fun initView() {
         mPresenter.attachView(this)
@@ -113,7 +126,7 @@ class AddTodoFragment : BaseFragment(), AddTodoContract.View {
                     mPresenter.addTodo()
                 }
                 Constant.Type.EDIT_TODO_TYPE_KEY -> {
-
+                    mPresenter.updateTodo(getItemId())
                 }
             }
         }

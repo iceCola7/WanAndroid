@@ -2,8 +2,6 @@ package com.cxz.wanandroid.mvp.contract
 
 import com.cxz.wanandroid.base.IPresenter
 import com.cxz.wanandroid.base.IView
-import com.cxz.wanandroid.mvp.model.bean.AddTodoBean
-import com.cxz.wanandroid.mvp.model.bean.UpdateTodoBean
 
 /**
  * Created by chenxz on 2018/8/11.
@@ -20,6 +18,8 @@ interface AddTodoContract {
         fun getCurrentDate(): String
         fun getTitle(): String
         fun getContent(): String
+        fun getStatus(): Int
+        fun getItemId(): Int
 
     }
 
@@ -27,7 +27,7 @@ interface AddTodoContract {
 
         fun addTodo()
 
-        fun updateTodo()
+        fun updateTodo(id: Int)
 
     }
 
