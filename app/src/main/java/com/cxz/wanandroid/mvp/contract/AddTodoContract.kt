@@ -16,13 +16,18 @@ interface AddTodoContract {
 
         fun showUpdateTodo(success: Boolean)
 
+        fun getType(): Int
+        fun getCurrentDate(): String
+        fun getTitle(): String
+        fun getContent(): String
+
     }
 
     interface Presenter : IPresenter<View> {
 
-        fun addTodo(body: AddTodoBean)
+        fun addTodo()
 
-        fun updateTodo(id: Int, body: UpdateTodoBean)
+        fun updateTodo()
 
     }
 

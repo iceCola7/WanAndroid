@@ -208,7 +208,7 @@ data class TodoBean(
         @Json(name = "title") val title: String,
         @Json(name = "type") val type: Int,
         @Json(name = "userId") val userId: Int
-)
+) : Serializable
 
 data class TodoListBean(
         @Json(name = "date") val date: Long,
@@ -247,6 +247,5 @@ data class UpdateTodoBean(
         @Json(name = "date") val date: String,
         @Json(name = "status") val status: Int,
         @Json(name = "type") val type: Int
-
 )
 

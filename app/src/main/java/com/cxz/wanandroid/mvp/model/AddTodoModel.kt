@@ -12,13 +12,13 @@ import io.reactivex.Observable
  */
 class AddTodoModel {
 
-    fun addTodo(body: AddTodoBean): Observable<HttpResult<Any>> {
-        return RetrofitHelper.service.addTodo(body)
+    fun addTodo(map: MutableMap<String, Any>): Observable<HttpResult<Any>> {
+        return RetrofitHelper.service.addTodo(map)
                 .compose(SchedulerUtils.ioToMain())
     }
 
-    fun updateTodo(id: Int, body: UpdateTodoBean): Observable<HttpResult<Any>> {
-        return RetrofitHelper.service.updateTodo(id, body)
+    fun updateTodo(id: Int, map: MutableMap<String, Any>): Observable<HttpResult<Any>> {
+        return RetrofitHelper.service.updateTodo(id, map)
                 .compose(SchedulerUtils.ioToMain())
     }
 

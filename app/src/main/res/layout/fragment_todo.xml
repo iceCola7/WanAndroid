@@ -11,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbarSize="@dimen/dp_10"
-        android:scrollbars="vertical"
-        tools:listitem="@layout/item_home_list" />
+        android:scrollbars="vertical" />
 
 </android.support.v4.widget.SwipeRefreshLayout>
