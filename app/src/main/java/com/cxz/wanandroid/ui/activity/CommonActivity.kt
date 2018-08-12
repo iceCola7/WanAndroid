@@ -3,10 +3,7 @@ package com.cxz.wanandroid.ui.activity
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.base.BaseSwipeBackActivity
 import com.cxz.wanandroid.constant.Constant
-import com.cxz.wanandroid.ui.fragment.AboutFragment
-import com.cxz.wanandroid.ui.fragment.CollectFragment
-import com.cxz.wanandroid.ui.fragment.SearchListFragment
-import com.cxz.wanandroid.ui.fragment.SettingFragment
+import com.cxz.wanandroid.ui.fragment.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 class CommonActivity : BaseSwipeBackActivity() {
@@ -39,6 +36,18 @@ class CommonActivity : BaseSwipeBackActivity() {
             Constant.Type.SEARCH_TYPE_KEY -> {
                 toolbar.title = intent.extras.getString(Constant.SEARCH_KEY, "")
                 SearchListFragment.getInstance(intent.extras)
+            }
+            Constant.Type.ADD_TODO_TYPE_KEY -> {
+                toolbar.title = getString(R.string.add)
+                AddTodoFragment.getInstance(intent.extras)
+            }
+            Constant.Type.EDIT_TODO_TYPE_KEY -> {
+                toolbar.title = getString(R.string.edit)
+                AddTodoFragment.getInstance(intent.extras)
+            }
+            Constant.Type.SEE_TODO_TYPE_KEY -> {
+                toolbar.title = getString(R.string.see)
+                AddTodoFragment.getInstance(intent.extras)
             }
             else -> {
                 null

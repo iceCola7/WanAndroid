@@ -66,21 +66,21 @@
             style="@style/MenuButtonsStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_label="新增" />
+            app:fab_label="@string/add" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_todo"
             style="@style/MenuButtonsStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_label="待办" />
+            app:fab_label="@string/notodo" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_done"
             style="@style/MenuButtonsStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_label="已完成" />
+            app:fab_label="@string/completed" />
 
     </com.github.clans.fab.FloatingActionMenu>
 

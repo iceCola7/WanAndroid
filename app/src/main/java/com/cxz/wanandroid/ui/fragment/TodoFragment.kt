@@ -1,6 +1,7 @@
 package com.cxz.wanandroid.ui.fragment
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
@@ -8,18 +9,22 @@ import android.support.v7.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.TodoAdapter
+import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.base.BaseFragment
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.TodoEvent
+import com.cxz.wanandroid.ext.showSnackMsg
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.TodoContract
 import com.cxz.wanandroid.mvp.model.bean.TodoDataBean
 import com.cxz.wanandroid.mvp.model.bean.TodoResponseBody
 import com.cxz.wanandroid.mvp.presenter.TodoPresenter
+import com.cxz.wanandroid.ui.activity.CommonActivity
 import com.cxz.wanandroid.utils.DialogUtil
+import com.cxz.wanandroid.utils.NetWorkUtil
 import com.cxz.wanandroid.widget.SpaceItemDecoration
 import com.cxz.wanandroid.widget.SwipeItemLayout
-import kotlinx.android.synthetic.main.fragment_refresh_layout.*
+import kotlinx.android.synthetic.main.fragment_todo.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
@@ -117,7 +122,6 @@ class TodoFragment : BaseFragment(), TodoContract.View {
             isRefreshing = true
             setOnRefreshListener(onRefreshListener)
         }
-
         recyclerView.run {
             layoutManager = linearLayoutManager
             adapter = mAdapter
@@ -125,7 +129,6 @@ class TodoFragment : BaseFragment(), TodoContract.View {
             addItemDecoration(recyclerViewItemDecoration)
             addOnItemTouchListener(SwipeItemLayout.OnSwipeItemTouchListener(activity))
         }
-
         mAdapter.run {
             bindToRecyclerView(recyclerView)
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
@@ -149,7 +152,11 @@ class TodoFragment : BaseFragment(), TodoContract.View {
         if (mType == event.curIndex) {
             when (event.type) {
                 Constant.TODO_ADD -> {
-
+                    Intent(activity, CommonActivity::class.java).run {
+                        putExtra(Constant.TYPE_KEY, Constant.Type.ADD_TODO_TYPE_KEY)
+                        putExtra(Constant.TODO_TYPE, mType)
+                        startActivity(this)
+                    }
                 }
                 Constant.TODO_NO -> {
                     bDone = false
@@ -236,7 +243,6 @@ class TodoFragment : BaseFragment(), TodoContract.View {
     private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
         if (datas.size != 0) {
             val data = datas[position]
-
         }
     }
 
@@ -249,6 +255,10 @@ class TodoFragment : BaseFragment(), TodoContract.View {
                     val data = datas[position].t
                     when (view.id) {
                         R.id.btn_delete -> {
+                            if (!NetWorkUtil.isNetworkAvailable(App.context)) {
+                                showSnackMsg(resources.getString(R.string.no_network))
+                                return@OnItemChildClickListener
+                            }
                             activity?.let {
                                 DialogUtil.getConfirmDialog(it, resources.getString(R.string.confirm_delete),
                                         DialogInterface.OnClickListener { _, _ ->
@@ -258,12 +268,33 @@ class TodoFragment : BaseFragment(), TodoContract.View {
                             }
                         }
                         R.id.btn_done -> {
+                            if (!NetWorkUtil.isNetworkAvailable(App.context)) {
+                                showSnackMsg(resources.getString(R.string.no_network))
+                                return@OnItemChildClickListener
+                            }
                             if (bDone) {
                                 mPresenter.updateTodoById(data.id, 0)
                             } else {
                                 mPresenter.updateTodoById(data.id, 1)
                             }
                             mAdapter.remove(position)
+                        }
+                        R.id.item_todo_content -> {
+                            if (bDone) {
+                                Intent(activity, CommonActivity::class.java).run {
+                                    putExtra(Constant.TYPE_KEY, Constant.Type.SEE_TODO_TYPE_KEY)
+                                    putExtra(Constant.TODO_BEAN, data)
+                                    putExtra(Constant.TODO_TYPE, mType)
+                                    startActivity(this)
+                                }
+                            } else {
+                                Intent(activity, CommonActivity::class.java).run {
+                                    putExtra(Constant.TYPE_KEY, Constant.Type.EDIT_TODO_TYPE_KEY)
+                                    putExtra(Constant.TODO_BEAN, data)
+                                    putExtra(Constant.TODO_TYPE, mType)
+                                    startActivity(this)
+                                }
+                            }
                         }
                     }
                 }

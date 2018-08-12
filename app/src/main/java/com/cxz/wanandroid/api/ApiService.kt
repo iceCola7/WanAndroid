@@ -207,7 +207,8 @@ interface ApiService {
      *          type: 0
      */
     @POST("/lg/todo/add/json")
-    fun addTodo(@Body body: AddTodoBean): Observable<HttpResult<Any>>
+    @FormUrlEncoded
+    fun addTodo(@FieldMap map: MutableMap<String, Any>): Observable<HttpResult<Any>>
 
     /**
      * 更新一条Todo内容
@@ -220,6 +221,7 @@ interface ApiService {
      *          type: 0
      */
     @POST("/lg/todo/update/{id}/json")
-    fun updateTodo(@Path("id") id: Int, @Body body: UpdateTodoBean): Observable<HttpResult<Any>>
+    @FormUrlEncoded
+    fun updateTodo(@Path("id") id: Int, @FieldMap map: MutableMap<String, Any>): Observable<HttpResult<Any>>
 
 }

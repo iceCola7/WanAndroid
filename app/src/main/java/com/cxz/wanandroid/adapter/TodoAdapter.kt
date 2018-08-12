@@ -29,6 +29,7 @@ class TodoAdapter : BaseSectionQuickAdapter<TodoDataBean, BaseViewHolder> {
         helper.setText(R.id.tv_todo_title, itemData.title)
                 .addOnClickListener(R.id.btn_delete)
                 .addOnClickListener(R.id.btn_done)
+                .addOnClickListener(R.id.item_todo_content)
         val tv_todo_desc = helper.getView<TextView>(R.id.tv_todo_desc)
         tv_todo_desc.visibility = View.INVISIBLE
         if (itemData.content.isNotEmpty()) {
