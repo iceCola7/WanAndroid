@@ -12,6 +12,7 @@ import com.cxz.wanandroid.adapter.TodoAdapter
 import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.base.BaseFragment
 import com.cxz.wanandroid.constant.Constant
+import com.cxz.wanandroid.event.RefreshTodoEvent
 import com.cxz.wanandroid.event.TodoEvent
 import com.cxz.wanandroid.ext.showSnackMsg
 import com.cxz.wanandroid.ext.showToast
@@ -170,7 +171,17 @@ class TodoFragment : BaseFragment(), TodoContract.View {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doRefresh(event: RefreshTodoEvent) {
+        if (event.isRefresh) {
+            if (mType == event.type) {
+                lazyLoad()
+            }
+        }
+    }
+
     override fun showNoTodoList(todoResponseBody: TodoResponseBody) {
+        // TODO 待优化
         val list = mutableListOf<TodoDataBean>()
         var bHeader = true
         todoResponseBody.datas.forEach { todoBean ->
@@ -279,7 +290,7 @@ class TodoFragment : BaseFragment(), TodoContract.View {
                             }
                             mAdapter.remove(position)
                         }
-                        R.id.item_todo_content->{
+                        R.id.item_todo_content -> {
                             if (bDone) {
                                 Intent(activity, CommonActivity::class.java).run {
                                     putExtra(Constant.TYPE_KEY, Constant.Type.SEE_TODO_TYPE_KEY)

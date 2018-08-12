@@ -5,6 +5,7 @@ import android.view.View
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.base.BaseFragment
 import com.cxz.wanandroid.constant.Constant
+import com.cxz.wanandroid.event.RefreshTodoEvent
 import com.cxz.wanandroid.ext.formatCurrentDate
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.AddTodoContract
@@ -12,6 +13,7 @@ import com.cxz.wanandroid.mvp.model.bean.TodoBean
 import com.cxz.wanandroid.mvp.presenter.AddTodoPresenter
 import com.cxz.wanandroid.utils.DialogUtil
 import kotlinx.android.synthetic.main.fragment_add_todo.*
+import org.greenrobot.eventbus.EventBus
 import java.util.*
 
 /**
@@ -139,6 +141,7 @@ class AddTodoFragment : BaseFragment(), AddTodoContract.View {
     override fun showAddTodo(success: Boolean) {
         if (success) {
             showToast(getString(R.string.save_success))
+            EventBus.getDefault().post(RefreshTodoEvent(true, mType))
             activity?.finish()
         }
     }
@@ -146,6 +149,7 @@ class AddTodoFragment : BaseFragment(), AddTodoContract.View {
     override fun showUpdateTodo(success: Boolean) {
         if (success) {
             showToast(getString(R.string.save_success))
+            EventBus.getDefault().post(RefreshTodoEvent(true, mType))
             activity?.finish()
         }
     }
