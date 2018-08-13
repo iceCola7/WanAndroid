@@ -45,6 +45,7 @@
 - **收藏**：我的收藏、添加收藏、取消收藏
 - **文章内容**
 - **搜索**：热门搜索、历史搜索
+- **TODO功能**：新增、待办、已完成等功能
 - **分享文章**
 - **夜间模式**
 - **无图模式**
@@ -79,6 +80,8 @@
  - [leakcanary](https://github.com/square/leakcanary)
  - [litepal](https://github.com/LitePalFramework/LitePal)
  - [Android-Debug-Database](https://github.com/amitshekhariitbhu/Android-Debug-Database)
+ - [fab](https://github.com/Clans/FloatingActionButton)
+ - [materialdatetimepicker](https://github.com/wdullaer/MaterialDateTimePicker)
 
 ## 下载体验
 
@@ -91,6 +94,13 @@
 ## 更新日志
 
 **[最新更新日志请点击查看](https://github.com/iceCola7/WanAndroid/releases)**
+
+**v1.0.5**
+
+- 增加TODO功能；
+- 增加有无网络的状态提示信息；
+- 增加无网切换到有网的重连操作；
+- 修改已知 `bug`，如：[#6](https://github.com/iceCola7/WanAndroid/issues/6) 。
 
 **v1.0.3**
 
