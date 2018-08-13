@@ -110,4 +110,25 @@
     <string name="auto_night_start">夜间模式开始时间</string>
     <string name="auto_day_start">日间模式开始时间</string>
 
+    <!-- TODO工具 -->
+    <string name="delete_success">删除成功</string>
+    <string name="delete">删除</string>
+    <string name="mark_done">标为已完成</string>
+    <string name="restore">复原</string>
+    <string name="completed">已完成</string>
+    <string name="confirm_delete">确认删除</string>
+    <string name="add">新增</string>
+    <string name="notodo">待办</string>
+    <string name="save">保存</string>
+    <string name="non_compulsory">非必填</string>
+    <string name="details">详情：</string>
+    <string name="compulsory">必填</string>
+    <string name="title">标题：</string>
+    <string name="date">日期：</string>
+    <string name="title_tip">标题不能为空！</string>
+    <string name="save_success">保存成功</string>
+    <string name="edit">编辑</string>
+    <string name="see">查看</string>
+    <string name="save_ing">正在保存...</string>
+
 </resources>

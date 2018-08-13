@@ -208,7 +208,7 @@ data class TodoBean(
         @Json(name = "title") val title: String,
         @Json(name = "type") val type: Int,
         @Json(name = "userId") val userId: Int
-)
+) : Serializable
 
 data class TodoListBean(
         @Json(name = "date") val date: Long,
@@ -230,5 +230,22 @@ data class TodoResponseBody(
         @Json(name = "pageCount") val pageCount: Int,
         @Json(name = "size") val size: Int,
         @Json(name = "total") val total: Int
+)
+
+// 新增TODO的实体
+data class AddTodoBean(
+        @Json(name = "title") val title: String,
+        @Json(name = "content") val content: String,
+        @Json(name = "date") val date: String,
+        @Json(name = "type") val type: Int
+)
+
+// 更新TODO的实体
+data class UpdateTodoBean(
+        @Json(name = "title") val title: String,
+        @Json(name = "content") val content: String,
+        @Json(name = "date") val date: String,
+        @Json(name = "status") val status: Int,
+        @Json(name = "type") val type: Int
 )
 

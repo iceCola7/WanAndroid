@@ -17,8 +17,23 @@ class TodoModel {
                 .compose(SchedulerUtils.ioToMain())
     }
 
-    fun getNoTodoList(type: Int, page: Int): Observable<HttpResult<TodoResponseBody>> {
-        return RetrofitHelper.service.getNoTodoList(type, page)
+    fun getNoTodoList(page: Int, type: Int): Observable<HttpResult<TodoResponseBody>> {
+        return RetrofitHelper.service.getNoTodoList(page, type)
+                .compose(SchedulerUtils.ioToMain())
+    }
+
+    fun getDoneList(page: Int, type: Int): Observable<HttpResult<TodoResponseBody>> {
+        return RetrofitHelper.service.getDoneList(page, type)
+                .compose(SchedulerUtils.ioToMain())
+    }
+
+    fun deleteTodoById(id: Int): Observable<HttpResult<Any>> {
+        return RetrofitHelper.service.deleteTodoById(id)
+                .compose(SchedulerUtils.ioToMain())
+    }
+
+    fun updateTodoById(id: Int, status: Int): Observable<HttpResult<Any>> {
+        return RetrofitHelper.service.updateTodoById(id, status)
                 .compose(SchedulerUtils.ioToMain())
     }
 

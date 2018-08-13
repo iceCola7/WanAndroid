@@ -110,4 +110,25 @@
     <string name="auto_night_start">Night Mode Start Time</string>
     <string name="auto_day_start">Day Mode Start Time</string>
 
+    <!-- TODO工具 -->
+    <string name="delete_success">Delete Success</string>
+    <string name="delete">Delete</string>
+    <string name="mark_done">Marked as completed</string>
+    <string name="restore">Restore</string>
+    <string name="completed">Completed</string>
+    <string name="confirm_delete">Confirm Delete</string>
+    <string name="add">Add</string>
+    <string name="notodo">Todo</string>
+    <string name="save">Save</string>
+    <string name="non_compulsory">Non Compulsory</string>
+    <string name="details">Details：</string>
+    <string name="compulsory">Compulsory</string>
+    <string name="title">Title：</string>
+    <string name="date">Date：</string>
+    <string name="title_tip">title is not empty!</string>
+    <string name="save_success">Save Success</string>
+    <string name="edit">Edit</string>
+    <string name="see">See</string>
+    <string name="save_ing"> Save...</string>
+
 </resources>

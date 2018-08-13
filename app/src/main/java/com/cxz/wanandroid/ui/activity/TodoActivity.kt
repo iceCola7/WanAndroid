@@ -1,13 +1,17 @@
 package com.cxz.wanandroid.ui.activity
 
 import android.support.design.widget.TabLayout
+import android.view.View
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.TodoPagerAdapter
 import com.cxz.wanandroid.base.BaseSwipeBackActivity
+import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.ColorEvent
+import com.cxz.wanandroid.event.TodoEvent
 import com.cxz.wanandroid.mvp.model.bean.TodoTypeBean
 import com.cxz.wanandroid.utils.SettingUtil
 import kotlinx.android.synthetic.main.activity_todo.*
+import org.greenrobot.eventbus.EventBus
 
 class TodoActivity : BaseSwipeBackActivity() {
 
@@ -40,6 +44,29 @@ class TodoActivity : BaseSwipeBackActivity() {
             setupWithViewPager(viewPager)
             addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(viewPager))
         }
+
+        fab_menu.setClosedOnTouchOutside(true)
+
+        fab_add.setOnClickListener(clickListener)
+        fab_todo.setOnClickListener(clickListener)
+        fab_done.setOnClickListener(clickListener)
+
+    }
+
+    private val clickListener = View.OnClickListener {
+        val curIndex = viewPager.currentItem
+        fab_menu.close(true)
+        when (it.id) {
+            R.id.fab_add -> {
+                EventBus.getDefault().post(TodoEvent(Constant.TODO_ADD, curIndex))
+            }
+            R.id.fab_todo -> {
+                EventBus.getDefault().post(TodoEvent(Constant.TODO_NO, curIndex))
+            }
+            R.id.fab_done -> {
+                EventBus.getDefault().post(TodoEvent(Constant.TODO_DONE, curIndex))
+            }
+        }
     }
 
     override fun start() {
@@ -59,7 +86,7 @@ class TodoActivity : BaseSwipeBackActivity() {
         refreshColor(ColorEvent(true))
     }
 
-    fun refreshColor(event: ColorEvent) {
+    private fun refreshColor(event: ColorEvent) {
         if (event.isRefresh) {
             if (!SettingUtil.getIsNightMode()) {
                 val color = SettingUtil.getColor()

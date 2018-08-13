@@ -168,7 +168,7 @@ interface ApiService {
      * @param page 拼接在链接上，从1开始
      */
     @POST("/lg/todo/listnotdo/{type}/json/{page}")
-    fun getNoTodoList(@Path("type") type: Int, @Path("page") page: Int): Observable<HttpResult<TodoResponseBody>>
+    fun getNoTodoList(@Path("page") page: Int, @Path("type") type: Int): Observable<HttpResult<TodoResponseBody>>
 
     /**
      * 获取已完成Todo列表
@@ -177,7 +177,7 @@ interface ApiService {
      * @param page 拼接在链接上，从1开始
      */
     @POST("/lg/todo/listdone/{type}/json/{page}")
-    fun getDoneList(@Path("type") type: Int, @Path("page") page: Int): Observable<HttpResult<TodoResponseBody>>
+    fun getDoneList(@Path("page") page: Int, @Path("type") type: Int): Observable<HttpResult<TodoResponseBody>>
 
     /**
      * 仅更新完成状态Todo
@@ -196,5 +196,32 @@ interface ApiService {
      */
     @POST("/lg/todo/delete/{id}/json")
     fun deleteTodoById(@Path("id") id: Int): Observable<HttpResult<Any>>
+
+    /**
+     * 新增一条Todo
+     * http://www.wanandroid.com/lg/todo/add/json
+     * @param body
+     *          title: 新增标题
+     *          content: 新增详情
+     *          date: 2018-08-01
+     *          type: 0
+     */
+    @POST("/lg/todo/add/json")
+    @FormUrlEncoded
+    fun addTodo(@FieldMap map: MutableMap<String, Any>): Observable<HttpResult<Any>>
+
+    /**
+     * 更新一条Todo内容
+     * http://www.wanandroid.com/lg/todo/update/83/json
+     * @param body
+     *          title: 新增标题
+     *          content: 新增详情
+     *          date: 2018-08-01
+     *          status: 0 // 0为未完成，1为完成
+     *          type: 0
+     */
+    @POST("/lg/todo/update/{id}/json")
+    @FormUrlEncoded
+    fun updateTodo(@Path("id") id: Int, @FieldMap map: MutableMap<String, Any>): Observable<HttpResult<Any>>
 
 }

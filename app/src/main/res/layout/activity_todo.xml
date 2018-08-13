@@ -51,6 +51,7 @@
         android:layout_marginLeft="@dimen/dp_10"
         android:layout_marginRight="@dimen/dp_20"
         android:layout_marginTop="@dimen/dp_10"
+        app:layout_behavior="com.cxz.wanandroid.widget.behavior.ScrollAwareFAB2Behavior"
         app:menu_animationDelayPerItem="0"
         app:menu_colorNormal="@color/colorPrimary"
         app:menu_colorPressed="@color/colorPrimary"
@@ -65,21 +66,24 @@
             style="@style/MenuButtonsStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_label="新增" />
+            android:src="@drawable/ic_add_24dp"
+            app:fab_label="@string/add" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_todo"
             style="@style/MenuButtonsStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_label="待办" />
+            android:src="@drawable/ic_todo_24dp"
+            app:fab_label="@string/notodo" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_done"
             style="@style/MenuButtonsStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_label="已完成" />
+            android:src="@drawable/ic_done_24dp"
+            app:fab_label="@string/completed" />
 
     </com.github.clans.fab.FloatingActionMenu>
 

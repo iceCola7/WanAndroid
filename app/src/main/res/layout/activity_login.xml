@@ -52,13 +52,14 @@
                 android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.v7.widget.AppCompatButton
+        <TextView
             android:id="@+id/btn_login"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dp_24"
             android:layout_marginTop="@dimen/dp_24"
             android:background="@drawable/btn_login_bg"
+            android:gravity="center"
             android:padding="@dimen/dp_12"
             android:text="@string/login"
             android:textColor="@color/White" />

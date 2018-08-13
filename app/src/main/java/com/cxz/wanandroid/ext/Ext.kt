@@ -15,6 +15,8 @@ import com.cxz.wanandroid.widget.CustomToast
 import com.just.agentweb.AgentWeb
 import com.just.agentweb.ChromeClientCallbackManager
 import com.just.agentweb.DefaultWebClient
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Created by chenxz on 2018/4/22.
@@ -79,3 +81,11 @@ fun String.getAgentWeb(
         .createAgentWeb()//
         .ready()
         .go(this)!!
+
+/**
+ * 格式化当前日期
+ */
+fun formatCurrentDate(): String {
+    val formatter = SimpleDateFormat("yyyy-MM-dd")
+    return formatter.format(Date())
+}
