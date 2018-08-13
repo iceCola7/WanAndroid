@@ -1,5 +1,7 @@
 # WanAndroid
 
+### 特讯：新版TODO功能已经上线了，欢迎大家下载体验！！！
+
 [![Platform][1]][2]  [![Build Status][3]][4]  [![Release][5]][6]  [![GitHub license][7]][8]  [![][9]][10]  
 
 [1]:https://img.shields.io/badge/platform-Android-blue.svg  
