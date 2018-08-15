@@ -33,15 +33,10 @@ fun loge(tag: String, content: String?) {
 }
 
 fun Fragment.showToast(content: String) {
-//    val toast = Toast.makeText(this.activity?.applicationContext, content, Toast.LENGTH_SHORT)
-//    toast.show()
-    CustomToast(this.activity?.applicationContext, content).show()
-
+    CustomToast(this?.activity?.applicationContext, content).show()
 }
 
 fun Context.showToast(content: String) {
-//    val toast = Toast.makeText(App.context, content, Toast.LENGTH_SHORT)
-//    toast.show()
     CustomToast(this, content).show()
 }
 
