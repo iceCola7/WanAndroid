@@ -14,7 +14,8 @@ import com.cxz.wanandroid.utils.ImageLoader
 /**
  * Created by chenxz on 2018/4/22.
  */
-class HomeAdapter(private val context: Context?, datas: MutableList<Article>) : BaseQuickAdapter<Article, BaseViewHolder>(R.layout.item_home_list, datas) {
+class HomeAdapter(private val context: Context?, datas: MutableList<Article>)
+    : BaseQuickAdapter<Article, BaseViewHolder>(R.layout.item_home_list, datas) {
 
     override fun convert(helper: BaseViewHolder?, item: Article?) {
         item ?: return
@@ -41,6 +42,12 @@ class HomeAdapter(private val context: Context?, datas: MutableList<Article>) : 
         } else {
             helper.getView<ImageView>(R.id.iv_article_thumbnail)
                     .visibility = View.GONE
+        }
+        val tv_fresh = helper.getView<TextView>(R.id.tv_article_fresh)
+        if (item.fresh) {
+            tv_fresh.visibility = View.VISIBLE
+        } else {
+            tv_fresh.visibility = View.GONE
         }
     }
 

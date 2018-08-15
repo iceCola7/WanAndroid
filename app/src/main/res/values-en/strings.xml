@@ -56,6 +56,7 @@
     <!-- Home -->
     <string name="collect_success">Collect Success</string>
     <string name="cancel_collect_success">Cancel Collect Success</string>
+    <string name="new_fresh">New</string>
 
     <!-- Collect -->
     <string name="collect">Collect</string>

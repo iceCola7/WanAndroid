@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -18,10 +19,28 @@
         android:paddingTop="@dimen/item_content_padding">
 
         <TextView
-            android:id="@+id/tv_article_author"
+            android:id="@+id/tv_article_fresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_10"
+            android:background="@drawable/bg_fresh"
+            android:paddingBottom="@dimen/dp_2"
+            android:paddingLeft="@dimen/dp_4"
+            android:paddingRight="@dimen/dp_4"
+            android:paddingTop="@dimen/dp_2"
+            android:textColor="@color/Red"
+            android:textSize="@dimen/dp_10"
+            android:visibility="gone"
+            android:text="@string/new_fresh"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tv_article_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tv_article_fresh"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_toRightOf="@+id/tv_article_fresh"
             android:text="@string/app_name"
             android:textColor="@color/item_author"
             android:textSize="@dimen/item_tv_author" />
@@ -30,6 +49,7 @@
             android:id="@+id/tv_article_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tv_article_fresh"
             android:layout_alignParentRight="true"
             android:text="@string/app_name"
             android:textColor="@color/item_date"
