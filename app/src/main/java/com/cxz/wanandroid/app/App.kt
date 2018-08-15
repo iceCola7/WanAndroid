@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatDelegate
 import android.util.Log
 import com.cxz.wanandroid.BuildConfig
 import com.cxz.wanandroid.constant.Constant
+import com.cxz.wanandroid.utils.AutoDensityUtil
 import com.cxz.wanandroid.utils.CommonUtil
 import com.cxz.wanandroid.utils.DisplayManager
 import com.cxz.wanandroid.utils.SettingUtil
@@ -37,6 +38,8 @@ class App : MultiDexApplication() {
         var context: Context by Delegates.notNull()
             private set
 
+        lateinit var instance: Application
+
         fun getRefWatcher(context: Context): RefWatcher? {
             val app = context.applicationContext as App
             return app.refWatcher
@@ -46,6 +49,7 @@ class App : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
+        instance = this
         context = applicationContext
         refWatcher = setupLeakCanary()
         initConfig()
@@ -54,6 +58,7 @@ class App : MultiDexApplication() {
         initTheme()
         initLitePal()
         initBugly()
+        AutoDensityUtil.init()
     }
 
     /**
