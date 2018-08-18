@@ -156,9 +156,4 @@ class AddTodoFragment : BaseFragment(), AddTodoContract.View {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mPresenter.detachView()
-    }
-
 }

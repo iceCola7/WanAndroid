@@ -106,9 +106,4 @@ class ProjectFragment : BaseFragment(), ProjectContract.View {
         fragment.scrollToTop()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mPresenter.detachView()
-    }
-
 }

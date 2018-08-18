@@ -138,9 +138,4 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
         return valid
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mPresenter.detachView()
-    }
-
 }

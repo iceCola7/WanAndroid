@@ -311,9 +311,4 @@ class TodoFragment : BaseFragment(), TodoContract.View {
                 }
             }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mPresenter.detachView()
-    }
-
 }

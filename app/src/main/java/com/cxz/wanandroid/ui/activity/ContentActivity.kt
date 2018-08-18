@@ -155,7 +155,6 @@ class ContentActivity : BaseSwipeBackActivity(), ContentContract.View {
     override fun onDestroy() {
         agentWeb.webLifeCycle.onDestroy()
         super.onDestroy()
-        mPresenter.detachView()
     }
 
     /**

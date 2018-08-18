@@ -201,9 +201,4 @@ class CollectFragment : BaseFragment(), CollectContract.View {
                 }
             }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mPresenter.detachView()
-    }
-
 }

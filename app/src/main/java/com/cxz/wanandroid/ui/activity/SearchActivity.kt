@@ -221,9 +221,4 @@ class SearchActivity : BaseSwipeBackActivity(), SearchContract.View {
                 }
             }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mPresenter.detachView()
-    }
-
 }
