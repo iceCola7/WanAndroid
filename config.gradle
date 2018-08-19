@@ -45,14 +45,15 @@ ext {
     ]
 
     testDeps = [
-            "junit"             : 'junit:junit:4.12',
-            "runner"            : 'com.android.support.test:runner:1.0.2',
-            "espresso-core"     : "com.android.support.test.espresso:espresso-core:${dependVersion.espressoSdkVersion}",
-            "espresso-contrib"  : "com.android.support.test.espresso:espresso-contrib:${dependVersion.espressoSdkVersion}",
-            "espresso-intents"  : "com.android.support.test.espresso:espresso-intents:${dependVersion.espressoSdkVersion}",
-            "leakcanary-debug"  : 'com.squareup.leakcanary:leakcanary-android:1.5.4',
-            "leakcanary-release": 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4',
-            "debug-db"          : 'com.amitshekhar.android:debug-db:1.0.4'
+            "junit"                    : 'junit:junit:4.12',
+            "runner"                   : 'com.android.support.test:runner:1.0.2',
+            "espresso-core"            : "com.android.support.test.espresso:espresso-core:${dependVersion.espressoSdkVersion}",
+            "espresso-contrib"         : "com.android.support.test.espresso:espresso-contrib:${dependVersion.espressoSdkVersion}",
+            "espresso-intents"         : "com.android.support.test.espresso:espresso-intents:${dependVersion.espressoSdkVersion}",
+            "leakcanary-debug"         : 'com.squareup.leakcanary:leakcanary-android:1.6.1',
+            "leakcanary-release"       : 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1',
+            "leakcanary-debug-fragment": 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.1',
+            "debug-db"                 : 'com.amitshekhar.android:debug-db:1.0.4'
     ]
 
     commonDeps = [
