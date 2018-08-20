@@ -60,7 +60,7 @@ ext {
             "glide"                 : "com.github.bumptech.glide:glide:${dependVersion.glideSdkVersion}",
             "brvh"                  : 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.35',
             "banner"                : 'cn.bingoogolapple:bga-banner:2.2.4@aar',
-            "agentweb"              : 'com.just.agentweb:agentweb:3.1.0',
+            "agentweb"              : 'com.just.agentweb:agentweb:4.0.2',
             "multidex"              : 'com.android.support:multidex:1.0.3',
             //"vertical-tablayout": 'q.rorbin:VerticalTabLayout:1.2.5',
             "flow-layout"           : 'com.hyman:flowlayout-lib:1.1.2',
