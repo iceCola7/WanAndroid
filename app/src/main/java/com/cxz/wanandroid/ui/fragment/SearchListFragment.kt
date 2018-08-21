@@ -226,8 +226,4 @@ class SearchListFragment : BaseFragment(), SearchListContract.View {
                 }
             }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mPresenter.detachView()
-    }
 }

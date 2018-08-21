@@ -201,11 +201,6 @@ class NavigationFragment : BaseFragment(), NavigationContract.View {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mPresenter.detachView()
-    }
-
     fun scrollToTop() {
         navigation_tab_layout.setTabSelected(0)
     }

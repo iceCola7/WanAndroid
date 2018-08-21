@@ -142,9 +142,4 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mPresenter.detachView()
-    }
-
 }
