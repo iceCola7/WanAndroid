@@ -1,4 +1,4 @@
-package com.hazz.kotlinmvp.view.recyclerview
+package com.cxz.wanandroid.common.adapter
 
 import android.annotation.SuppressLint
 import android.support.v7.widget.RecyclerView
@@ -12,7 +12,7 @@ import android.widget.TextView
 /**
  * desc:
  */
-
+@Deprecated("")
 class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     //用于缓存已找的界面

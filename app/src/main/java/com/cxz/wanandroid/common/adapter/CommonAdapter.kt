@@ -1,17 +1,14 @@
-package com.hazz.kotlinmvp.view.recyclerview.adapter
+package com.cxz.wanandroid.common.adapter
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-
-import com.hazz.kotlinmvp.view.recyclerview.MultipleType
-import com.hazz.kotlinmvp.view.recyclerview.ViewHolder
 
 /**
  * desc: 通用的 Adapter
  */
+@Deprecated("")
 abstract class CommonAdapter<T>(var mContext: Context, var mData: ArrayList<T>, //条目布局
                                 private var mLayoutId: Int) : RecyclerView.Adapter<ViewHolder>() {
     protected var mInflater: LayoutInflater? = null
