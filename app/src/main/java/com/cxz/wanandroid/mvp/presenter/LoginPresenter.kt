@@ -2,6 +2,7 @@ package com.cxz.wanandroid.mvp.presenter
 
 import com.cxz.wanandroid.base.BasePresenter
 import com.cxz.wanandroid.http.exception.ExceptionHandle
+import com.cxz.wanandroid.http.function.RetryWithDelay
 import com.cxz.wanandroid.mvp.contract.LoginContract
 import com.cxz.wanandroid.mvp.model.LoginModel
 
@@ -17,6 +18,7 @@ class LoginPresenter : BasePresenter<LoginContract.View>(), LoginContract.Presen
     override fun loginWanAndroid(username: String, password: String) {
         mRootView?.showLoading()
         val disposable = loginModel.loginWanAndroid(username, password)
+                .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
                     mRootView?.apply {
                         if (results.errorCode != 0) {

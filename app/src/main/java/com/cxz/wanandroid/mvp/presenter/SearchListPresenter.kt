@@ -1,6 +1,7 @@
 package com.cxz.wanandroid.mvp.presenter
 
 import com.cxz.wanandroid.http.exception.ExceptionHandle
+import com.cxz.wanandroid.http.function.RetryWithDelay
 import com.cxz.wanandroid.mvp.contract.SearchListContract
 import com.cxz.wanandroid.mvp.model.SearchListModel
 
@@ -14,6 +15,7 @@ class SearchListPresenter : CommonPresenter<SearchListContract.View>(), SearchLi
         if (page == 0)
             mRootView?.showLoading()
         val disposable = searchListModel.queryBySearchKey(page, key)
+                .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
                     mRootView?.apply {
                         if (results.errorCode != 0) {

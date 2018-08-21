@@ -1,6 +1,7 @@
 package com.cxz.wanandroid.mvp.presenter
 
 import com.cxz.wanandroid.http.exception.ExceptionHandle
+import com.cxz.wanandroid.http.function.RetryWithDelay
 import com.cxz.wanandroid.mvp.contract.KnowledgeContract
 import com.cxz.wanandroid.mvp.model.KnowledgeModel
 
@@ -16,6 +17,7 @@ class KnowledgePresenter : CommonPresenter<KnowledgeContract.View>(), KnowledgeC
     override fun requestKnowledgeList(page: Int, cid: Int) {
         mRootView?.showLoading()
         val disposable = knowledgeModel.requestKnowledgeList(page, cid)
+                .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
                     mRootView?.apply {
                         if (results.errorCode != 0) {

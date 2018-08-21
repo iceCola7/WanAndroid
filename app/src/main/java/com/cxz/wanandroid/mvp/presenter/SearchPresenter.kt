@@ -2,6 +2,7 @@ package com.cxz.wanandroid.mvp.presenter
 
 import com.cxz.wanandroid.base.BasePresenter
 import com.cxz.wanandroid.http.exception.ExceptionHandle
+import com.cxz.wanandroid.http.function.RetryWithDelay
 import com.cxz.wanandroid.mvp.contract.SearchContract
 import com.cxz.wanandroid.mvp.model.SearchModel
 import com.cxz.wanandroid.mvp.model.bean.SearchHistoryBean
@@ -57,6 +58,7 @@ class SearchPresenter : BasePresenter<SearchContract.View>(), SearchContract.Pre
     override fun getHotSearchData() {
         mRootView?.showLoading()
         val disposable = searchModel.getHotSearchData()
+                .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
                     mRootView?.apply {
                         if (results.errorCode != 0) {

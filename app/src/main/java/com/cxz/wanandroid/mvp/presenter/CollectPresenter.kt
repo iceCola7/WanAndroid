@@ -2,6 +2,7 @@ package com.cxz.wanandroid.mvp.presenter
 
 import com.cxz.wanandroid.base.BasePresenter
 import com.cxz.wanandroid.http.exception.ExceptionHandle
+import com.cxz.wanandroid.http.function.RetryWithDelay
 import com.cxz.wanandroid.mvp.contract.CollectContract
 import com.cxz.wanandroid.mvp.model.CollectModel
 
@@ -18,6 +19,7 @@ class CollectPresenter : BasePresenter<CollectContract.View>(), CollectContract.
     override fun getCollectList(page: Int) {
         mRootView?.showLoading()
         val disposable = collectModel.getCollectList(page)
+                .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
                     mRootView?.run {
                         if (results.errorCode != 0) {
@@ -38,6 +40,7 @@ class CollectPresenter : BasePresenter<CollectContract.View>(), CollectContract.
 
     override fun removeCollectArticle(id: Int, originId: Int) {
         val disposable = collectModel.removeCollectArticle(id, originId)
+                .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
                     mRootView?.run {
                         if (results.errorCode != 0) {

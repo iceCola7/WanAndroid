@@ -1,6 +1,7 @@
 package com.cxz.wanandroid.mvp.presenter
 
 import com.cxz.wanandroid.http.exception.ExceptionHandle
+import com.cxz.wanandroid.http.function.RetryWithDelay
 import com.cxz.wanandroid.mvp.contract.HomeContract
 import com.cxz.wanandroid.mvp.model.HomeModel
 
@@ -15,6 +16,7 @@ class HomePresenter : CommonPresenter<HomeContract.View>(), HomeContract.Present
 
     override fun requestBanner() {
         val disposable = homeModel.requestBanner()
+                .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
                     mRootView?.apply {
                         setBanner(results.data)
@@ -32,6 +34,7 @@ class HomePresenter : CommonPresenter<HomeContract.View>(), HomeContract.Present
         if (num == 0)
             mRootView?.showLoading()
         val disposable = homeModel.requestArticles(num)
+                .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
                     mRootView?.apply {
                         if (results.errorCode != 0) {

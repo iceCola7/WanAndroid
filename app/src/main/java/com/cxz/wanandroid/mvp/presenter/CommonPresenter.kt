@@ -2,6 +2,7 @@ package com.cxz.wanandroid.mvp.presenter
 
 import com.cxz.wanandroid.base.BasePresenter
 import com.cxz.wanandroid.http.exception.ExceptionHandle
+import com.cxz.wanandroid.http.function.RetryWithDelay
 import com.cxz.wanandroid.mvp.contract.CommonContract
 import com.cxz.wanandroid.mvp.model.CommonModel
 
@@ -17,6 +18,7 @@ open class CommonPresenter<V : CommonContract.View>
 
     override fun addCollectArticle(id: Int) {
         val disposable = mModel.addCollectArticle(id)
+                .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
                     mRootView?.run {
                         if (results.errorCode != 0) {
@@ -36,6 +38,7 @@ open class CommonPresenter<V : CommonContract.View>
 
     override fun cancelCollectArticle(id: Int) {
         val disposable = mModel.cancelCollectArticle(id)
+                .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
                     mRootView?.run {
                         if (results.errorCode != 0) {

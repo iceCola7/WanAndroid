@@ -3,6 +3,7 @@ package com.cxz.wanandroid.mvp.presenter
 import com.cxz.wanandroid.base.BasePresenter
 import com.cxz.wanandroid.ext.loge
 import com.cxz.wanandroid.http.exception.ExceptionHandle
+import com.cxz.wanandroid.http.function.RetryWithDelay
 import com.cxz.wanandroid.mvp.contract.RegisterContract
 import com.cxz.wanandroid.mvp.model.RegisterModel
 
@@ -18,6 +19,7 @@ class RegisterPresenter : BasePresenter<RegisterContract.View>(), RegisterContra
     override fun registerWanAndroid(username: String, password: String, repassword: String) {
         mRootView?.showLoading()
         val disposable = registerModel.registerWanAndroid(username, password, repassword)
+                .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
                     mRootView?.apply {
                         if (results.errorCode != 0) {

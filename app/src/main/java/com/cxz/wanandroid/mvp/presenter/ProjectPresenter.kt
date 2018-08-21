@@ -2,6 +2,7 @@ package com.cxz.wanandroid.mvp.presenter
 
 import com.cxz.wanandroid.base.BasePresenter
 import com.cxz.wanandroid.http.exception.ExceptionHandle
+import com.cxz.wanandroid.http.function.RetryWithDelay
 import com.cxz.wanandroid.mvp.contract.ProjectContract
 import com.cxz.wanandroid.mvp.model.ProjectModel
 
@@ -17,6 +18,7 @@ class ProjectPresenter : BasePresenter<ProjectContract.View>(), ProjectContract.
     override fun requestProjectTree() {
         mRootView?.showLoading()
         val disposable = projectModel.requestProjectTree()
+                .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
                     mRootView?.run {
                         if (results.errorCode != 0) {

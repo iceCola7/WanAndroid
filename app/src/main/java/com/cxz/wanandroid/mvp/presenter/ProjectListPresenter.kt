@@ -1,6 +1,7 @@
 package com.cxz.wanandroid.mvp.presenter
 
 import com.cxz.wanandroid.http.exception.ExceptionHandle
+import com.cxz.wanandroid.http.function.RetryWithDelay
 import com.cxz.wanandroid.mvp.contract.ProjectListContract
 import com.cxz.wanandroid.mvp.model.ProjectListModel
 
@@ -17,6 +18,7 @@ class ProjectListPresenter : CommonPresenter<ProjectListContract.View>(), Projec
         if (page == 1)
             mRootView?.showLoading()
         val disposable = projectListModel.requestProjectList(page, cid)
+                .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
                     mRootView?.run {
                         if (results.errorCode != 0) {
