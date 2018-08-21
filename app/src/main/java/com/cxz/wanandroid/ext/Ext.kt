@@ -13,7 +13,6 @@ import android.widget.TextView
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.widget.CustomToast
 import com.just.agentweb.AgentWeb
-import com.just.agentweb.ChromeClientCallbackManager
 import com.just.agentweb.DefaultWebClient
 import java.text.SimpleDateFormat
 import java.util.*
@@ -61,17 +60,14 @@ fun Fragment.showSnackMsg(msg: String) {
 fun String.getAgentWeb(
         activity: Activity, webContent: ViewGroup,
         layoutParams: ViewGroup.LayoutParams,
-        receivedTitleCallback: ChromeClientCallbackManager.ReceivedTitleCallback?,
         webChromeClient: WebChromeClient?,
         webViewClient: WebViewClient
 ) = AgentWeb.with(activity)//传入Activity or Fragment
         .setAgentWebParent(webContent, layoutParams)//传入AgentWeb 的父控件
         .useDefaultIndicator()// 使用默认进度条
-        .defaultProgressBarColor() // 使用默认进度条颜色
         .setWebChromeClient(webChromeClient)
         .setWebViewClient(webViewClient)
         .setMainFrameErrorView(R.layout.agentweb_error_page, -1)
-        .setReceivedTitleCallback(receivedTitleCallback) //设置 Web 页面的 title 回调
         .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK)//打开其他应用时，弹窗咨询用户是否前往其他应用
         .createAgentWeb()//
         .ready()

@@ -18,7 +18,6 @@ import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.ContentContract
 import com.cxz.wanandroid.mvp.presenter.ContentPresenter
 import com.just.agentweb.AgentWeb
-import com.just.agentweb.ChromeClientCallbackManager
 import kotlinx.android.synthetic.main.container.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.greenrobot.eventbus.EventBus
@@ -82,8 +81,8 @@ class ContentActivity : BaseSwipeBackActivity(), ContentContract.View {
     override fun start() {
         agentWeb = shareUrl.getAgentWeb(this, container,
                 LinearLayout.LayoutParams(-1, -1),
-                receivedTitleCallback,
-                webChromeClient, webViewClient)
+                webChromeClient,
+                webViewClient)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -155,17 +154,18 @@ class ContentActivity : BaseSwipeBackActivity(), ContentContract.View {
     override fun onDestroy() {
         agentWeb.webLifeCycle.onDestroy()
         super.onDestroy()
+
     }
 
     /**
      * receivedTitleCallback
      */
-    private val receivedTitleCallback =
-            ChromeClientCallbackManager.ReceivedTitleCallback { _, title ->
-                title?.let {
-                    toolbar.title = it
-                }
-            }
+//    private val receivedTitleCallback =
+//            ChromeClientCallbackManager.ReceivedTitleCallback { _, title ->
+//                title?.let {
+//                    toolbar.title = it
+//                }
+//            }
 
     /**
      * webViewClient
@@ -182,6 +182,9 @@ class ContentActivity : BaseSwipeBackActivity(), ContentContract.View {
 
         override fun onReceivedTitle(view: WebView, title: String) {
             super.onReceivedTitle(view, title)
+            title.let {
+                toolbar.title = it
+            }
         }
     }
 
