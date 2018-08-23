@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatDelegate
 import android.util.Log
 import com.cxz.wanandroid.BuildConfig
 import com.cxz.wanandroid.constant.Constant
-import com.cxz.wanandroid.utils.AutoDensityUtil
 import com.cxz.wanandroid.utils.CommonUtil
 import com.cxz.wanandroid.utils.DisplayManager
 import com.cxz.wanandroid.utils.SettingUtil

@@ -17,7 +17,10 @@ import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.NetworkChangeEvent
 import com.cxz.wanandroid.receiver.NetworkChangeReceiver
-import com.cxz.wanandroid.utils.*
+import com.cxz.wanandroid.utils.CommonUtil
+import com.cxz.wanandroid.utils.Preference
+import com.cxz.wanandroid.utils.SettingUtil
+import com.cxz.wanandroid.utils.StatusBarUtil
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -97,7 +100,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AutoDensityUtil.setCustomDensity(this, App.instance)
+        // AutoDensityUtil.setCustomDensity(this, App.instance)
         super.onCreate(savedInstanceState)
         setContentView(attachLayoutRes())
         if (useEventBus()) {
