@@ -58,7 +58,7 @@ class App : MultiDexApplication() {
         initTheme()
         initLitePal()
         initBugly()
-        AutoDensityUtil.init()
+        // AutoDensityUtil.init()
     }
 
     /**
