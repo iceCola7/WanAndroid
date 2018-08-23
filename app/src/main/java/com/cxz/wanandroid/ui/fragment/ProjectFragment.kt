@@ -47,7 +47,7 @@ class ProjectFragment : BaseFragment(), ProjectContract.View {
      * ViewPagerAdapter
      */
     private val viewPagerAdapter: ProjectPagerAdapter by lazy {
-        ProjectPagerAdapter(projectTree, fragmentManager)
+        ProjectPagerAdapter(projectTree, childFragmentManager)
     }
 
     override fun useEventBus(): Boolean = true

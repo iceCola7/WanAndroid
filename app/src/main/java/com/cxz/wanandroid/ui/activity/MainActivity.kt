@@ -3,10 +3,10 @@ package com.cxz.wanandroid.ui.activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.NavigationView
 import android.support.v4.app.FragmentTransaction
-import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatDelegate
 import android.view.KeyEvent
@@ -41,6 +41,8 @@ import org.jetbrains.anko.uiThread
 
 class MainActivity : BaseActivity() {
 
+    private val BOTTOM_INDEX: String = "bottom_index"
+
     private val FRAGMENT_HOME = 0x01
     private val FRAGMENT_KNOWLEDGE = 0x02
     private val FRAGMENT_NAVIGATION = 0x03
@@ -71,6 +73,13 @@ class MainActivity : BaseActivity() {
 
     override fun useEventBus(): Boolean = true
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        if (savedInstanceState != null) {
+            mIndex = savedInstanceState?.getInt(BOTTOM_INDEX)
+        }
+        super.onCreate(savedInstanceState)
+    }
+
     override fun initView() {
 
         toolbar.run {
@@ -81,7 +90,6 @@ class MainActivity : BaseActivity() {
         bottom_navigation.run {
             BottomNavigationViewHelper.disableShiftMode(this)
             setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
-            selectedItemId = R.id.action_home
         }
 
         initDrawerLayout()
@@ -172,6 +180,11 @@ class MainActivity : BaseActivity() {
             toggle.syncState()
         }
 
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putInt(BOTTOM_INDEX, mIndex)
     }
 
     /**
@@ -315,7 +328,7 @@ class MainActivity : BaseActivity() {
                         window.setWindowAnimations(R.style.WindowAnimationFadeInOut)
                         recreate()
                     }
-                    R.id.nav_todo->{
+                    R.id.nav_todo -> {
                         if (isLogin) {
                             Intent(this@MainActivity, TodoActivity::class.java).run {
                                 startActivity(this)
@@ -391,20 +404,6 @@ class MainActivity : BaseActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun recreate() {
-        bottom_navigation.selectedItemId = R.id.action_home
-        try {
-            val fragmentTransaction = supportFragmentManager.beginTransaction()
-            if (mProjectFragment != null) {
-                fragmentTransaction.remove(mProjectFragment)
-            }
-            fragmentTransaction.commitAllowingStateLoss()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        super.recreate()
     }
 
     private var mExitTime: Long = 0
