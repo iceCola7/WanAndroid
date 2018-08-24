@@ -15,7 +15,7 @@ object SettingUtil {
      * 获取是否开启无图模式
      */
     fun getIsNoPhotoMode(): Boolean {
-        return setting.getBoolean("switch_noPhotoMode", false) && NetWorkUtil.isMobile(App.context)
+        return setting.getBoolean("switch_noPhotoMode", false) //&& NetWorkUtil.isMobile(App.context)
     }
 
     /**

@@ -43,6 +43,7 @@ class TodoActivity : BaseSwipeBackActivity() {
         tabLayout.run {
             setupWithViewPager(viewPager)
             addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(viewPager))
+            addOnTabSelectedListener(onTabSelectedListener)
         }
 
         fab_menu.setClosedOnTouchOutside(true)
@@ -79,6 +80,22 @@ class TodoActivity : BaseSwipeBackActivity() {
         list.add(TodoTypeBean(2, "学习"))
         list.add(TodoTypeBean(3, "生活"))
         return list
+    }
+
+    /**
+     * onTabSelectedListener
+     */
+    private val onTabSelectedListener = object : TabLayout.OnTabSelectedListener {
+        override fun onTabReselected(tab: TabLayout.Tab?) {
+        }
+
+        override fun onTabUnselected(tab: TabLayout.Tab?) {
+        }
+
+        override fun onTabSelected(tab: TabLayout.Tab?) {
+            // 默认切换的时候，会有一个过渡动画，设为false后，取消动画，直接显示
+            viewPager.setCurrentItem(tab?.position!!, false)
+        }
     }
 
     override fun initColor() {
