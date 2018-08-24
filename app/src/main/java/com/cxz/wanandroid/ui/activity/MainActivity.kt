@@ -63,7 +63,7 @@ class MainActivity : BaseActivity() {
     /**
      * username TextView
      */
-    private lateinit var nav_username: TextView
+    private var nav_username: TextView? = null
 
     override fun attachLayoutRes(): Int = R.layout.activity_main
 
@@ -99,7 +99,7 @@ class MainActivity : BaseActivity() {
             nav_username = getHeaderView(0).findViewById(R.id.tv_username)
             menu.findItem(R.id.nav_logout).isVisible = isLogin
         }
-        nav_username.run {
+        nav_username?.run {
             text = if (!isLogin) {
                 getString(R.string.login)
             } else {
@@ -134,11 +134,11 @@ class MainActivity : BaseActivity() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun loginEvent(event: LoginEvent) {
         if (event.isLogin) {
-            nav_username.text = username
+            nav_username?.text = username
             nav_view.menu.findItem(R.id.nav_logout).isVisible = true
             mHomeFragment?.lazyLoad()
         } else {
-            nav_username.text = resources.getString(R.string.login)
+            nav_username?.text = resources.getString(R.string.login)
             nav_view.menu.findItem(R.id.nav_logout).isVisible = false
             mHomeFragment?.lazyLoad()
         }
@@ -419,6 +419,15 @@ class MainActivity : BaseActivity() {
             return true
         }
         return super.onKeyDown(keyCode, event)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mHomeFragment = null
+        mNavigationFragment = null
+        mKnowledgeTreeFragment = null
+        mProjectFragment = null
+        nav_username = null
     }
 
 }

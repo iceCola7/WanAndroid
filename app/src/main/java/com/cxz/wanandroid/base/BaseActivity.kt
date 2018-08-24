@@ -201,11 +201,11 @@ abstract class BaseActivity : AppCompatActivity() {
         if (enableNetworkTip()) {
             if (isConnected) {
                 doReConnected()
-                if (mTipView != null && mTipView.getParent() != null) {
+                if (mTipView != null && mTipView.parent != null) {
                     mWindowManager.removeView(mTipView)
                 }
             } else {
-                if (mTipView.getParent() == null) {
+                if (mTipView.parent == null) {
                     mWindowManager.addView(mTipView, mLayoutParams)
                 }
             }
