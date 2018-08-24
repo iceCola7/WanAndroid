@@ -84,6 +84,7 @@
  - [Android-Debug-Database](https://github.com/amitshekhariitbhu/Android-Debug-Database)
  - [fab](https://github.com/Clans/FloatingActionButton)
  - [materialdatetimepicker](https://github.com/wdullaer/MaterialDateTimePicker)
+ - [AndroidAutoSize](https://github.com/JessYanCoding/AndroidAutoSize)
 
 ## 下载体验
 
@@ -96,6 +97,16 @@
 ## 更新日志
 
 **[最新更新日志请点击查看](https://github.com/iceCola7/WanAndroid/releases)**
+
+**v1.0.6**
+
+- 增加 `Lifecycle` 组件使得 `Presenter` 和 `Activity` 生命周期绑定；
+- 增加今日头条提供的屏幕适配方案，开源库 `AndroidAutoSize`；
+- 升级 `AgentWeb` 到 `4.0.2` 版本，并修改部分 `API` 改动的问题；
+- 增加网络请求失败后的请求重连操作，具体请查看类 [RetryWithDelay](https://github.com/iceCola7/WanAndroid/blob/master/app/src/main/java/com/cxz/wanandroid/http/function/RetryWithDelay.kt)；
+- 解决转屏时，项目页视图空白的问题；
+- 去掉 `Tablayout` 切换时的动画，优化体验；
+- 修改其他已知 `bug` 。
 
 **v1.0.5**
 
