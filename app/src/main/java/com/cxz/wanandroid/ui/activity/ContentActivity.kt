@@ -24,7 +24,7 @@ import org.greenrobot.eventbus.EventBus
 
 class ContentActivity : BaseSwipeBackActivity(), ContentContract.View {
 
-    private lateinit var agentWeb: AgentWeb
+    private var agentWeb: AgentWeb? = null
     private lateinit var shareTitle: String
     private lateinit var shareUrl: String
     private var shareId: Int = 0
@@ -71,9 +71,9 @@ class ContentActivity : BaseSwipeBackActivity(), ContentContract.View {
             //StatusBarUtil2.setPaddingSmart(this@ContentActivity, toolbar)
         }
         intent.extras.let {
-            shareId = it.getInt(Constant.CONTENT_ID_KEY)
-            shareTitle = it.getString(Constant.CONTENT_TITLE_KEY)
-            shareUrl = it.getString(Constant.CONTENT_URL_KEY)
+            shareId = it.getInt(Constant.CONTENT_ID_KEY, -1)
+            shareTitle = it.getString(Constant.CONTENT_TITLE_KEY, "")
+            shareUrl = it.getString(Constant.CONTENT_URL_KEY, "")
         }
 
     }
@@ -142,17 +142,17 @@ class ContentActivity : BaseSwipeBackActivity(), ContentContract.View {
     }
 
     override fun onResume() {
-        agentWeb.webLifeCycle.onResume()
+        agentWeb?.webLifeCycle?.onResume()
         super.onResume()
     }
 
     override fun onPause() {
-        agentWeb.webLifeCycle.onPause()
+        agentWeb?.webLifeCycle?.onPause()
         super.onPause()
     }
 
     override fun onDestroy() {
-        agentWeb.webLifeCycle.onDestroy()
+        agentWeb?.webLifeCycle?.onDestroy()
         super.onDestroy()
 
     }

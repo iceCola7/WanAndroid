@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
+// apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -108,7 +108,7 @@ dependencies {
     implementation rootProject.ext.rxJavaLibs
     implementation rootProject.ext.commonLibs
     // APT dependencies(Kotlin内置的注解处理器)
-    kapt rootProject.ext.annotationProcessorLibs
+    annotationProcessor rootProject.ext.annotationProcessorLibs
     //GlideOkHttp
     implementation(rootProject.ext.otherDeps["glideOkhttp"]) {
         exclude group: 'glide-parent'

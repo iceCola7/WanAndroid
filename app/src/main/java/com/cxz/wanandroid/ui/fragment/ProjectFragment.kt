@@ -63,6 +63,7 @@ class ProjectFragment : BaseFragment(), ProjectContract.View {
             setupWithViewPager(viewPager)
             TabLayoutHelper.setUpIndicatorWidth(tabLayout)
             addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(viewPager))
+            addOnTabSelectedListener(onTabSelectedListener)
         }
 
         refreshColor(ColorEvent(true))
@@ -95,6 +96,22 @@ class ProjectFragment : BaseFragment(), ProjectContract.View {
                 adapter = viewPagerAdapter
                 offscreenPageLimit = projectTree.size
             }
+        }
+    }
+
+    /**
+     * onTabSelectedListener
+     */
+    private val onTabSelectedListener = object : TabLayout.OnTabSelectedListener {
+        override fun onTabReselected(tab: TabLayout.Tab?) {
+        }
+
+        override fun onTabUnselected(tab: TabLayout.Tab?) {
+        }
+
+        override fun onTabSelected(tab: TabLayout.Tab?) {
+            // 默认切换的时候，会有一个过渡动画，设为false后，取消动画，直接显示
+            viewPager.setCurrentItem(tab?.position!!, false)
         }
     }
 
