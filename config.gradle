@@ -73,7 +73,7 @@ ext {
             "litepal"               : 'org.litepal.android:core:2.0.0',
             "fab"                   : 'com.github.clans:fab:1.6.4',
             "materialdatetimepicker": 'com.wdullaer:materialdatetimepicker:3.6.3',
-            "android-autosize"      : 'me.jessyan:autosize:0.7.0'
+            "android-autosize"      : 'me.jessyan:autosize:0.9.1'
     ]
 
     otherDeps = [
