@@ -365,6 +365,28 @@ class MainActivity : BaseActivity(), MainContract.View {
                 true
             }
 
+    override fun recreate() {
+        try {
+            val fragmentTransaction = supportFragmentManager.beginTransaction()
+            if (mHomeFragment != null) {
+                fragmentTransaction.remove(mHomeFragment)
+            }
+            if (mKnowledgeTreeFragment != null) {
+                fragmentTransaction.remove(mKnowledgeTreeFragment)
+            }
+            if (mNavigationFragment != null) {
+                fragmentTransaction.remove(mNavigationFragment)
+            }
+            if (mProjectFragment != null) {
+                fragmentTransaction.remove(mProjectFragment)
+            }
+            fragmentTransaction.commitAllowingStateLoss()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        super.recreate()
+    }
+
     /**
      * 退出登录 Dialog
      */

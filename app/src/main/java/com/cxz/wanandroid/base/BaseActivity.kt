@@ -235,6 +235,7 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onPause() {
         if (mNetworkChangeReceiver != null) {
             unregisterReceiver(mNetworkChangeReceiver)
+            mNetworkChangeReceiver = null
         }
         super.onPause()
     }
