@@ -88,6 +88,13 @@ interface ApiService {
                            @Field("repassword") repassword: String): Observable<HttpResult<LoginData>>
 
     /**
+     * 退出登录
+     * http://www.wanandroid.com/user/logout/json
+     */
+    @GET("user/logout/json")
+    fun logout(): Observable<HttpResult<Any>>
+
+    /**
      *  获取收藏列表
      *  http://www.wanandroid.com/lg/collect/list/0/json
      *  @param page

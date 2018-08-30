@@ -49,6 +49,7 @@
     <string name="register_fail">Register Fail</string>
     <string name="confirm_logout">Confirm Logout？</string>
     <string name="logout_success">Logout Success</string>
+    <string name="logout_ing">Logout...</string>
     <string name="login_tint">Please Login</string>
     <string name="login_ing">Login...</string>
     <string name="register_ing">Register...</string>

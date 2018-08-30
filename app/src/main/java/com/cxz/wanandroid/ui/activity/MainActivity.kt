@@ -21,6 +21,8 @@ import com.cxz.wanandroid.event.ColorEvent
 import com.cxz.wanandroid.event.LoginEvent
 import com.cxz.wanandroid.event.RefreshHomeEvent
 import com.cxz.wanandroid.ext.showToast
+import com.cxz.wanandroid.mvp.contract.MainContract
+import com.cxz.wanandroid.mvp.presenter.MainPresenter
 import com.cxz.wanandroid.ui.fragment.HomeFragment
 import com.cxz.wanandroid.ui.fragment.KnowledgeTreeFragment
 import com.cxz.wanandroid.ui.fragment.NavigationFragment
@@ -39,7 +41,7 @@ import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), MainContract.View {
 
     private val BOTTOM_INDEX: String = "bottom_index"
 
@@ -54,6 +56,13 @@ class MainActivity : BaseActivity() {
     private var mKnowledgeTreeFragment: KnowledgeTreeFragment? = null
     private var mNavigationFragment: NavigationFragment? = null
     private var mProjectFragment: ProjectFragment? = null
+
+    /**
+     * Presenter
+     */
+    private val mPresenter: MainPresenter by lazy {
+        MainPresenter()
+    }
 
     /**
      * local username
@@ -73,6 +82,16 @@ class MainActivity : BaseActivity() {
 
     override fun useEventBus(): Boolean = true
 
+    override fun showLoading() {
+    }
+
+    override fun hideLoading() {
+    }
+
+    override fun showError(errorMsg: String) {
+        showToast(errorMsg)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
             mIndex = savedInstanceState?.getInt(BOTTOM_INDEX)
@@ -81,6 +100,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initView() {
+        mPresenter.attachView(this)
 
         toolbar.run {
             title = getString(R.string.app_name)
@@ -346,27 +366,40 @@ class MainActivity : BaseActivity() {
             }
 
     /**
+     * 退出登录 Dialog
+     */
+    private val mDialog by lazy {
+        DialogUtil.getWaitDialog(this@MainActivity, resources.getString(R.string.logout_ing))
+    }
+
+    /**
      * Logout
      */
     private fun logout() {
         DialogUtil.getConfirmDialog(this, resources.getString(R.string.confirm_logout),
                 DialogInterface.OnClickListener { _, _ ->
-                    val dialog = DialogUtil.getWaitDialog(this@MainActivity, "")
-                    dialog.show()
-                    doAsync {
-                        // CookieManager().clearAllCookies()
-                        Preference.clearPreference()
-                        uiThread {
-                            dialog.dismiss()
-                            showToast(resources.getString(R.string.logout_success))
-                            isLogin = false
-                            EventBus.getDefault().post(LoginEvent(false))
-                            Intent(this@MainActivity, LoginActivity::class.java).run {
-                                startActivity(this)
-                            }
-                        }
-                    }
+                    mDialog.show()
+                    // mPresenter.logout()
+                    showLogoutSuccess(true)
                 }).show()
+    }
+
+    override fun showLogoutSuccess(success: Boolean) {
+        if (success) {
+            doAsync {
+                // CookieManager().clearAllCookies()
+                Preference.clearPreference()
+                uiThread {
+                    mDialog.dismiss()
+                    showToast(resources.getString(R.string.logout_success))
+                    isLogin = false
+                    EventBus.getDefault().post(LoginEvent(false))
+                    Intent(this@MainActivity, LoginActivity::class.java).run {
+                        startActivity(this)
+                    }
+                }
+            }
+        }
     }
 
     /**

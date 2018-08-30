@@ -49,6 +49,7 @@
     <string name="register_fail">注册失败</string>
     <string name="confirm_logout">确认退出登录？</string>
     <string name="logout_success">已退出登录</string>
+    <string name="logout_ing">正在退出登录</string>
     <string name="login_tint">请先登录</string>
     <string name="login_ing">登录中...</string>
     <string name="register_ing">注册中...</string>
