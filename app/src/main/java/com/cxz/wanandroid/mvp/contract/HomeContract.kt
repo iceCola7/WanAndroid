@@ -20,6 +20,8 @@ interface HomeContract {
 
     interface Presenter : CommonContract.Presenter<View> {
 
+        fun requestHomeData()
+
         fun requestBanner()
 
         fun requestArticles(num: Int)

@@ -139,8 +139,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
     }
 
     override fun lazyLoad() {
-        mPresenter.requestBanner()
-        mPresenter.requestArticles(0)
+        mPresenter.requestHomeData()
     }
 
     override fun showLoading() {
@@ -218,8 +217,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
         isRefresh = true
         homeAdapter.setEnableLoadMore(false)
-        mPresenter.requestBanner()
-        mPresenter.requestArticles(0)
+        mPresenter.requestHomeData()
     }
 
     /**
