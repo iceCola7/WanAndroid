@@ -19,7 +19,7 @@ class TodoPresenter : BasePresenter<TodoContract.View>(), TodoContract.Presenter
         val disposable = todoModel.getTodoList(type)
                 .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
-                    mRootView?.apply {
+                    mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
                         } else {
@@ -27,7 +27,7 @@ class TodoPresenter : BasePresenter<TodoContract.View>(), TodoContract.Presenter
                         hideLoading()
                     }
                 }, {
-                    mRootView?.apply {
+                    mView?.apply {
                         hideLoading()
                         showError(ExceptionHandle.handleException(it))
                     }
@@ -37,11 +37,11 @@ class TodoPresenter : BasePresenter<TodoContract.View>(), TodoContract.Presenter
 
     override fun getNoTodoList(page: Int, type: Int) {
         if (page == 1)
-            mRootView?.showLoading()
+            mView?.showLoading()
         val disposable = todoModel.getNoTodoList(page, type)
                 .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
-                    mRootView?.apply {
+                    mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
                         } else {
@@ -50,7 +50,7 @@ class TodoPresenter : BasePresenter<TodoContract.View>(), TodoContract.Presenter
                         hideLoading()
                     }
                 }, {
-                    mRootView?.apply {
+                    mView?.apply {
                         hideLoading()
                         showError(ExceptionHandle.handleException(it))
                     }
@@ -60,11 +60,11 @@ class TodoPresenter : BasePresenter<TodoContract.View>(), TodoContract.Presenter
 
     override fun getDoneList(page: Int, type: Int) {
         if (page == 1)
-            mRootView?.showLoading()
+            mView?.showLoading()
         val disposable = todoModel.getDoneList(page, type)
                 .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
-                    mRootView?.apply {
+                    mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
                         } else {
@@ -73,7 +73,7 @@ class TodoPresenter : BasePresenter<TodoContract.View>(), TodoContract.Presenter
                         hideLoading()
                     }
                 }, {
-                    mRootView?.apply {
+                    mView?.apply {
                         hideLoading()
                         showError(ExceptionHandle.handleException(it))
                     }
@@ -85,7 +85,7 @@ class TodoPresenter : BasePresenter<TodoContract.View>(), TodoContract.Presenter
         val disposable = todoModel.deleteTodoById(id)
                 .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
-                    mRootView?.apply {
+                    mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
                         } else {
@@ -94,7 +94,7 @@ class TodoPresenter : BasePresenter<TodoContract.View>(), TodoContract.Presenter
                         hideLoading()
                     }
                 }, {
-                    mRootView?.apply {
+                    mView?.apply {
                         hideLoading()
                         showError(ExceptionHandle.handleException(it))
                     }
@@ -106,7 +106,7 @@ class TodoPresenter : BasePresenter<TodoContract.View>(), TodoContract.Presenter
         val disposable = todoModel.updateTodoById(id, status)
                 .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
-                    mRootView?.apply {
+                    mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
                         } else {
@@ -115,7 +115,7 @@ class TodoPresenter : BasePresenter<TodoContract.View>(), TodoContract.Presenter
                         hideLoading()
                     }
                 }, {
-                    mRootView?.apply {
+                    mView?.apply {
                         hideLoading()
                         showError(ExceptionHandle.handleException(it))
                     }

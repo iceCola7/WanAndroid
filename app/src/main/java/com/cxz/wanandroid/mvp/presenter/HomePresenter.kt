@@ -18,11 +18,11 @@ class HomePresenter : CommonPresenter<HomeContract.View>(), HomeContract.Present
         val disposable = homeModel.requestBanner()
                 .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
-                    mRootView?.apply {
+                    mView?.apply {
                         setBanner(results.data)
                     }
                 }, { t ->
-                    mRootView?.apply {
+                    mView?.apply {
                         hideLoading()
                         showError(ExceptionHandle.handleException(t))
                     }
@@ -32,11 +32,11 @@ class HomePresenter : CommonPresenter<HomeContract.View>(), HomeContract.Present
 
     override fun requestArticles(num: Int) {
         if (num == 0)
-            mRootView?.showLoading()
+            mView?.showLoading()
         val disposable = homeModel.requestArticles(num)
                 .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
-                    mRootView?.apply {
+                    mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
                         } else {
@@ -45,7 +45,7 @@ class HomePresenter : CommonPresenter<HomeContract.View>(), HomeContract.Present
                         hideLoading()
                     }
                 }, { t ->
-                    mRootView?.apply {
+                    mView?.apply {
                         hideLoading()
                         showError(ExceptionHandle.handleException(t))
                     }

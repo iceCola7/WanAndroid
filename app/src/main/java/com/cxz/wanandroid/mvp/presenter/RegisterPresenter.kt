@@ -17,11 +17,11 @@ class RegisterPresenter : BasePresenter<RegisterContract.View>(), RegisterContra
     }
 
     override fun registerWanAndroid(username: String, password: String, repassword: String) {
-        mRootView?.showLoading()
+        mView?.showLoading()
         val disposable = registerModel.registerWanAndroid(username, password, repassword)
                 .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
-                    mRootView?.apply {
+                    mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
                             registerFail()
@@ -31,7 +31,7 @@ class RegisterPresenter : BasePresenter<RegisterContract.View>(), RegisterContra
                         hideLoading()
                     }
                 }, { t ->
-                    mRootView?.apply {
+                    mView?.apply {
                         hideLoading()
                         showError(ExceptionHandle.handleException(t))
                     }

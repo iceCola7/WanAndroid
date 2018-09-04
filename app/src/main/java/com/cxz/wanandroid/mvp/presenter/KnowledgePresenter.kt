@@ -15,11 +15,11 @@ class KnowledgePresenter : CommonPresenter<KnowledgeContract.View>(), KnowledgeC
     }
 
     override fun requestKnowledgeList(page: Int, cid: Int) {
-        mRootView?.showLoading()
+        mView?.showLoading()
         val disposable = knowledgeModel.requestKnowledgeList(page, cid)
                 .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
-                    mRootView?.apply {
+                    mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
                         } else {
@@ -28,7 +28,7 @@ class KnowledgePresenter : CommonPresenter<KnowledgeContract.View>(), KnowledgeC
                         hideLoading()
                     }
                 }, { t ->
-                    mRootView?.apply {
+                    mView?.apply {
                         hideLoading()
                         showError(ExceptionHandle.handleException(t))
                     }

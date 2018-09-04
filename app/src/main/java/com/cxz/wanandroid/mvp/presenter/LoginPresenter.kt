@@ -16,11 +16,11 @@ class LoginPresenter : BasePresenter<LoginContract.View>(), LoginContract.Presen
     }
 
     override fun loginWanAndroid(username: String, password: String) {
-        mRootView?.showLoading()
+        mView?.showLoading()
         val disposable = loginModel.loginWanAndroid(username, password)
                 .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
-                    mRootView?.apply {
+                    mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
                             loginFail()
@@ -30,7 +30,7 @@ class LoginPresenter : BasePresenter<LoginContract.View>(), LoginContract.Presen
                         hideLoading()
                     }
                 }, { t ->
-                    mRootView?.apply {
+                    mView?.apply {
                         hideLoading()
                         showError(ExceptionHandle.handleException(t))
                     }

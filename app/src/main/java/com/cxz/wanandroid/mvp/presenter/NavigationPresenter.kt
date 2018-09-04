@@ -16,11 +16,11 @@ class NavigationPresenter : BasePresenter<NavigationContract.View>(), Navigation
     }
 
     override fun requestNavigationList() {
-        mRootView?.showLoading()
+        mView?.showLoading()
         val disposable = navigationModel.requestNavigationList()
                 .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
-                    mRootView?.run {
+                    mView?.run {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
                         } else {
@@ -28,7 +28,7 @@ class NavigationPresenter : BasePresenter<NavigationContract.View>(), Navigation
                         }
                     }
                 }, { t ->
-                    mRootView?.apply {
+                    mView?.apply {
                         hideLoading()
                         showError(ExceptionHandle.handleException(t))
                     }

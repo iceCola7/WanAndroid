@@ -5,7 +5,7 @@ package com.cxz.wanandroid.base
  */
 interface IPresenter<in V : IView> {
 
-    fun attachView(mRootView: V)
+    fun attachView(mView: V)
 
     fun detachView()
 

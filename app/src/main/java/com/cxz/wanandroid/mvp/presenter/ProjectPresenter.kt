@@ -16,11 +16,11 @@ class ProjectPresenter : BasePresenter<ProjectContract.View>(), ProjectContract.
     }
 
     override fun requestProjectTree() {
-        mRootView?.showLoading()
+        mView?.showLoading()
         val disposable = projectModel.requestProjectTree()
                 .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
-                    mRootView?.run {
+                    mView?.run {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
                         } else {
@@ -29,7 +29,7 @@ class ProjectPresenter : BasePresenter<ProjectContract.View>(), ProjectContract.
                         hideLoading()
                     }
                 }, { t ->
-                    mRootView?.apply {
+                    mView?.apply {
                         hideLoading()
                         showError(ExceptionHandle.handleException(t))
                     }

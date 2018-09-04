@@ -50,17 +50,17 @@ class SearchPresenter : BasePresenter<SearchContract.View>(), SearchContract.Pre
             val historyBeans = LitePal.findAll(SearchHistoryBean::class.java)
             historyBeans.reverse()
             uiThread {
-                mRootView?.showHistoryData(historyBeans)
+                mView?.showHistoryData(historyBeans)
             }
         }
     }
 
     override fun getHotSearchData() {
-        mRootView?.showLoading()
+        mView?.showLoading()
         val disposable = searchModel.getHotSearchData()
                 .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
-                    mRootView?.apply {
+                    mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
                         } else {
@@ -69,7 +69,7 @@ class SearchPresenter : BasePresenter<SearchContract.View>(), SearchContract.Pre
                         hideLoading()
                     }
                 }, { t ->
-                    mRootView?.apply {
+                    mView?.apply {
                         hideLoading()
                         showError(ExceptionHandle.handleException(t))
                     }

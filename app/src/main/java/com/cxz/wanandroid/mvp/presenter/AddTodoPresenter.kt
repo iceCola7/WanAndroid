@@ -16,21 +16,21 @@ class AddTodoPresenter : BasePresenter<AddTodoContract.View>(), AddTodoContract.
     }
 
     override fun addTodo() {
-        val type = mRootView?.getType() ?: 0
-        val title = mRootView?.getTitle().toString()
-        val content = mRootView?.getContent().toString()
-        val date = mRootView?.getCurrentDate().toString()
+        val type = mView?.getType() ?: 0
+        val title = mView?.getTitle().toString()
+        val content = mView?.getContent().toString()
+        val date = mView?.getCurrentDate().toString()
         val map = mutableMapOf<String, Any>()
         map["type"] = type
         map["title"] = title
         map["content"] = content
         map["date"] = date
 
-        mRootView?.showLoading()
+        mView?.showLoading()
         val disposable = addTodoModel.addTodo(map)
                 .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
-                    mRootView?.apply {
+                    mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
                         } else {
@@ -39,7 +39,7 @@ class AddTodoPresenter : BasePresenter<AddTodoContract.View>(), AddTodoContract.
                         hideLoading()
                     }
                 }, {
-                    mRootView?.apply {
+                    mView?.apply {
                         hideLoading()
                         showError(ExceptionHandle.handleException(it))
                     }
@@ -48,22 +48,22 @@ class AddTodoPresenter : BasePresenter<AddTodoContract.View>(), AddTodoContract.
     }
 
     override fun updateTodo(id: Int) {
-        val type = mRootView?.getType() ?: 0
-        val title = mRootView?.getTitle().toString()
-        val content = mRootView?.getContent().toString()
-        val date = mRootView?.getCurrentDate().toString()
-        val status = mRootView?.getStatus() ?: 0
+        val type = mView?.getType() ?: 0
+        val title = mView?.getTitle().toString()
+        val content = mView?.getContent().toString()
+        val date = mView?.getCurrentDate().toString()
+        val status = mView?.getStatus() ?: 0
         val map = mutableMapOf<String, Any>()
         map["type"] = type
         map["title"] = title
         map["content"] = content
         map["date"] = date
         map["status"] = status
-        mRootView?.showLoading()
+        mView?.showLoading()
         val disposable = addTodoModel.updateTodo(id, map)
                 .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
-                    mRootView?.apply {
+                    mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
                         } else {
@@ -72,7 +72,7 @@ class AddTodoPresenter : BasePresenter<AddTodoContract.View>(), AddTodoContract.
                         hideLoading()
                     }
                 }, {
-                    mRootView?.apply {
+                    mView?.apply {
                         hideLoading()
                         showError(ExceptionHandle.handleException(it))
                     }

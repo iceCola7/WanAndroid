@@ -16,11 +16,11 @@ class KnowledgeTreePresenter : BasePresenter<KnowledgeTreeContract.View>(), Know
     }
 
     override fun requestKnowledgeTree() {
-        mRootView?.showLoading()
+        mView?.showLoading()
         val disposable = knowledgeTreeModel.requestKnowledgeTree()
                 .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
-                    mRootView?.apply {
+                    mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
                         } else {
@@ -29,7 +29,7 @@ class KnowledgeTreePresenter : BasePresenter<KnowledgeTreeContract.View>(), Know
                         hideLoading()
                     }
                 }, { t ->
-                    mRootView?.apply {
+                    mView?.apply {
                         hideLoading()
                         showError(ExceptionHandle.handleException(t))
                     }

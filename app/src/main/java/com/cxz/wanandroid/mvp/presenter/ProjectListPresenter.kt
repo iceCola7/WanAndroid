@@ -16,11 +16,11 @@ class ProjectListPresenter : CommonPresenter<ProjectListContract.View>(), Projec
 
     override fun requestProjectList(page: Int, cid: Int) {
         if (page == 1)
-            mRootView?.showLoading()
+            mView?.showLoading()
         val disposable = projectListModel.requestProjectList(page, cid)
                 .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
-                    mRootView?.run {
+                    mView?.run {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
                         } else {
@@ -29,7 +29,7 @@ class ProjectListPresenter : CommonPresenter<ProjectListContract.View>(), Projec
                         hideLoading()
                     }
                 }, { t ->
-                    mRootView?.apply {
+                    mView?.apply {
                         hideLoading()
                         showError(ExceptionHandle.handleException(t))
                     }

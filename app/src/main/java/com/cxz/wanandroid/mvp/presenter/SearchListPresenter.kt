@@ -13,11 +13,11 @@ class SearchListPresenter : CommonPresenter<SearchListContract.View>(), SearchLi
 
     override fun queryBySearchKey(page: Int, key: String) {
         if (page == 0)
-            mRootView?.showLoading()
+            mView?.showLoading()
         val disposable = searchListModel.queryBySearchKey(page, key)
                 .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
-                    mRootView?.apply {
+                    mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
                         } else {
@@ -26,7 +26,7 @@ class SearchListPresenter : CommonPresenter<SearchListContract.View>(), SearchLi
                         hideLoading()
                     }
                 }, { t ->
-                    mRootView?.apply {
+                    mView?.apply {
                         hideLoading()
                         showError(ExceptionHandle.handleException(t))
                     }

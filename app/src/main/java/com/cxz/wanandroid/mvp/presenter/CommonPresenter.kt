@@ -20,7 +20,7 @@ open class CommonPresenter<V : CommonContract.View>
         val disposable = mModel.addCollectArticle(id)
                 .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
-                    mRootView?.run {
+                    mView?.run {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
                         } else {
@@ -28,7 +28,7 @@ open class CommonPresenter<V : CommonContract.View>
                         }
                     }
                 }, { t ->
-                    mRootView?.apply {
+                    mView?.apply {
                         hideLoading()
                         showError(ExceptionHandle.handleException(t))
                     }
@@ -40,7 +40,7 @@ open class CommonPresenter<V : CommonContract.View>
         val disposable = mModel.cancelCollectArticle(id)
                 .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
-                    mRootView?.run {
+                    mView?.run {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
                         } else {
@@ -48,7 +48,7 @@ open class CommonPresenter<V : CommonContract.View>
                         }
                     }
                 }, { t ->
-                    mRootView?.apply {
+                    mView?.apply {
                         hideLoading()
                         showError(ExceptionHandle.handleException(t))
                     }

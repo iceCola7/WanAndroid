@@ -15,13 +15,12 @@ class CollectPresenter : BasePresenter<CollectContract.View>(), CollectContract.
         CollectModel()
     }
 
-
     override fun getCollectList(page: Int) {
-        mRootView?.showLoading()
+        mView?.showLoading()
         val disposable = collectModel.getCollectList(page)
                 .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
-                    mRootView?.run {
+                    mView?.run {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
                         } else {
@@ -30,7 +29,7 @@ class CollectPresenter : BasePresenter<CollectContract.View>(), CollectContract.
                         hideLoading()
                     }
                 }, { t ->
-                    mRootView?.apply {
+                    mView?.apply {
                         hideLoading()
                         showError(ExceptionHandle.handleException(t))
                     }
@@ -42,7 +41,7 @@ class CollectPresenter : BasePresenter<CollectContract.View>(), CollectContract.
         val disposable = collectModel.removeCollectArticle(id, originId)
                 .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
-                    mRootView?.run {
+                    mView?.run {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
                         } else {
@@ -51,7 +50,7 @@ class CollectPresenter : BasePresenter<CollectContract.View>(), CollectContract.
                         hideLoading()
                     }
                 }, { t ->
-                    mRootView?.apply {
+                    mView?.apply {
                         hideLoading()
                         showError(ExceptionHandle.handleException(t))
                     }
