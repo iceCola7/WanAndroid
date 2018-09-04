@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.PagerAdapter
+import android.text.Html
 import com.cxz.wanandroid.mvp.model.bean.Knowledge
 import com.cxz.wanandroid.ui.fragment.KnowledgeFragment
 
@@ -24,7 +25,7 @@ class KnowledgePagerAdapter(val list: List<Knowledge>, fm: FragmentManager) : Fr
 
     override fun getCount(): Int = list.size
 
-    override fun getPageTitle(position: Int): CharSequence? = list[position].name
+    override fun getPageTitle(position: Int): CharSequence? = Html.fromHtml(list[position].name)
 
     override fun getItemPosition(`object`: Any): Int = PagerAdapter.POSITION_NONE
 }
