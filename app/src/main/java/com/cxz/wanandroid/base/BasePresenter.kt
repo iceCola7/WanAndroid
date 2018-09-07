@@ -19,11 +19,12 @@ abstract class BasePresenter<V : IView> : IPresenter<V>, LifecycleObserver {
     private val isViewAttached: Boolean
         get() = mView != null
 
-    private var mCompositeDisposable = CompositeDisposable()
+    private var mCompositeDisposable: CompositeDisposable? = null
 
     open fun useEventBus(): Boolean = false
 
     override fun attachView(mView: V) {
+        mCompositeDisposable = CompositeDisposable()
         this.mView = mView
         if (mView is LifecycleOwner) {
             (mView as LifecycleOwner).lifecycle.addObserver(this)
@@ -47,13 +48,14 @@ abstract class BasePresenter<V : IView> : IPresenter<V>, LifecycleObserver {
     }
 
     open fun addSubscription(disposable: Disposable) {
-        mCompositeDisposable.add(disposable)
+        mCompositeDisposable?.add(disposable)
     }
 
     private fun unDispose() {
         if (mCompositeDisposable != null) {
-            mCompositeDisposable.clear()  // 保证Activity结束时取消
+            mCompositeDisposable?.clear()  // 保证Activity结束时取消
         }
+        mCompositeDisposable = null
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
