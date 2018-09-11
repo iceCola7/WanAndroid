@@ -125,7 +125,11 @@ abstract class BaseActivity : AppCompatActivity() {
         initColor()
 
         // 在无网络情况下打开APP时，系统不会发送网络状况变更的Intent，需要自己手动检查
-        checkNetwork(hasNetwork)
+
+        // 1.第一次进入界面会导致 start() 方法走两次
+        // 2.后台切换到前台时，会调用 start() 方法执行相应的操作
+        // 此处不应该调用，删掉，修改 #13
+        // checkNetwork(hasNetwork)
 
     }
 
