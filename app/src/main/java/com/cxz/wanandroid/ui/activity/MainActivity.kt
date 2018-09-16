@@ -401,8 +401,7 @@ class MainActivity : BaseActivity(), MainContract.View {
         DialogUtil.getConfirmDialog(this, resources.getString(R.string.confirm_logout),
                 DialogInterface.OnClickListener { _, _ ->
                     mDialog.show()
-                    // mPresenter.logout()
-                    showLogoutSuccess(true)
+                    mPresenter.logout()
                 }).show()
     }
 
