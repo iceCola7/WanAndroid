@@ -6,6 +6,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
+import com.cxz.wanandroid.R
 import com.cxz.wanandroid.app.App
 
 /**
@@ -25,8 +26,10 @@ object ImageLoader {
     fun load(context: Context?, url: String?, iv: ImageView?) {
         if (isLoadImage) {
             iv?.apply {
+                Glide.with(context!!).clear(iv)
                 val options = RequestOptions()
                         .diskCacheStrategy(DiskCacheStrategy.DATA)
+                        .placeholder(R.drawable.bg_placeholder)
                 Glide.with(context!!)
                         .load(url)
                         .transition(DrawableTransitionOptions().crossFade())
