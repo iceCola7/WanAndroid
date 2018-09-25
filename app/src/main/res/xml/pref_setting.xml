@@ -9,6 +9,13 @@
             android:summary="@string/switch_no_photo_mode_summary"
             android:title="@string/switch_photo_mode" />
 
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="switch_show_top"
+            android:layout="@layout/custom_preference_layout"
+            android:summary="@string/switch_show_top_summary"
+            android:title="@string/switch_show_top_title" />
+
         <Preference
             android:key="auto_nightMode"
             android:layout="@layout/custom_preference_layout"

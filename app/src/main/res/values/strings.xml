@@ -89,6 +89,8 @@
     <string name="basic_setting">基本设置</string>
     <string name="switch_photo_mode">无图模式</string>
     <string name="switch_no_photo_mode_summary">开启后在非Wifi环境下不加载图片</string>
+    <string name="switch_show_top_summary">开启后将不会显示首页置顶文章</string>
+    <string name="switch_show_top_title">是否显示首页置顶文章</string>
     <string name="switch_night_mode">夜间模式</string>
     <string name="switch_night_mode_summary">切换夜间皮肤</string>
     <string name="clear_cache">清除缓存</string>

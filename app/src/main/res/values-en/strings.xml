@@ -89,6 +89,8 @@
     <string name="basic_setting">Base Setting</string>
     <string name="switch_photo_mode">Without Image Mode</string>
     <string name="switch_no_photo_mode_summary">Unload pictures in non Wifi environment after opening</string>
+    <string name="switch_show_top_summary">Top articles will not be displayed after opening</string>
+    <string name="switch_show_top_title">Whether to display home top articles</string>
     <string name="switch_night_mode">Night Mode</string>
     <string name="switch_night_mode_summary">Switch Night Mode</string>
     <string name="clear_cache">Clear Cache</string>

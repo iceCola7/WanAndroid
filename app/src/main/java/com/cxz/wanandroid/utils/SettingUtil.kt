@@ -19,6 +19,13 @@ object SettingUtil {
     }
 
     /**
+     * 获取是否开启显示首页置顶文章，true: 不显示  false: 显示
+     */
+    fun getIsShowTopArticle(): Boolean {
+        return setting.getBoolean("switch_show_top", false)
+    }
+
+    /**
      * 获取主题颜色
      */
     fun getColor(): Int {

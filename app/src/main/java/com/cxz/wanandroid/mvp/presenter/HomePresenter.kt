@@ -7,6 +7,7 @@ import com.cxz.wanandroid.mvp.model.HomeModel
 import com.cxz.wanandroid.mvp.model.bean.Article
 import com.cxz.wanandroid.mvp.model.bean.ArticleResponseBody
 import com.cxz.wanandroid.mvp.model.bean.HttpResult
+import com.cxz.wanandroid.utils.SettingUtil
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 
@@ -65,16 +66,24 @@ class HomePresenter : CommonPresenter<HomeContract.View>(), HomeContract.Present
 
     override fun requestHomeData() {
         mView?.showLoading()
+
         requestBanner()
-        val disposable = Observable.zip(homeModel.requestTopArticles(), homeModel.requestArticles(0),
-                BiFunction<HttpResult<MutableList<Article>>, HttpResult<ArticleResponseBody>, HttpResult<ArticleResponseBody>> { t1, t2 ->
-                    t1.data.forEach {
-                        // 置顶数据中没有标识，手动添加一个标识
-                        it.top = "1"
-                    }
-                    t2.data.datas.addAll(0,t1.data)
-                    t2
-                })
+
+        val observable = if (SettingUtil.getIsShowTopArticle()) {
+            homeModel.requestArticles(0)
+        } else {
+            Observable.zip(homeModel.requestTopArticles(), homeModel.requestArticles(0),
+                    BiFunction<HttpResult<MutableList<Article>>, HttpResult<ArticleResponseBody>,
+                            HttpResult<ArticleResponseBody>> { t1, t2 ->
+                        t1.data.forEach {
+                            // 置顶数据中没有标识，手动添加一个标识
+                            it.top = "1"
+                        }
+                        t2.data.datas.addAll(0, t1.data)
+                        t2
+                    })
+        }
+        val disposable = observable
                 .retryWhen(RetryWithDelay())
                 .subscribe({ results ->
                     mView?.apply {
