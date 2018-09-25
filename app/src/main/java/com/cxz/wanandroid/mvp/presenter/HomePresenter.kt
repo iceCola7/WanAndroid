@@ -68,10 +68,11 @@ class HomePresenter : CommonPresenter<HomeContract.View>(), HomeContract.Present
         requestBanner()
         val disposable = Observable.zip(homeModel.requestTopArticles(), homeModel.requestArticles(0),
                 BiFunction<HttpResult<MutableList<Article>>, HttpResult<ArticleResponseBody>, HttpResult<ArticleResponseBody>> { t1, t2 ->
-                    val list = mutableListOf<Article>()
-                    list.addAll(t1.data)
-                    list.addAll(t2.data.datas)
-                    t2.data.datas = list
+                    t1.data.forEach {
+                        // 置顶数据中没有标识，手动添加一个标识
+                        it.top = "1"
+                    }
+                    t2.data.datas.addAll(0,t1.data)
                     t2
                 })
                 .retryWhen(RetryWithDelay())

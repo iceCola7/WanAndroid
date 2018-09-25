@@ -46,7 +46,8 @@ data class Article(
         @Json(name = "type") val type: Int,
         @Json(name = "userId") val userId: Int,
         @Json(name = "visible") val visible: Int,
-        @Json(name = "zan") val zan: Int
+        @Json(name = "zan") val zan: Int,
+        @Json(name = "top") var top: String
 )
 
 data class Tag(

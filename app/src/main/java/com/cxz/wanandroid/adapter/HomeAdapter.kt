@@ -49,6 +49,12 @@ class HomeAdapter(private val context: Context?, datas: MutableList<Article>)
         } else {
             tv_fresh.visibility = View.GONE
         }
+        val tv_top = helper.getView<TextView>(R.id.tv_article_top)
+        if (item.top == "1") {
+            tv_top.visibility = View.VISIBLE
+        } else {
+            tv_top.visibility = View.GONE
+        }
     }
 
 }
