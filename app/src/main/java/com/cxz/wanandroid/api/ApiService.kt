@@ -17,6 +17,13 @@ interface ApiService {
     fun getBanners(): Observable<HttpResult<List<Banner>>>
 
     /**
+     * 获取首页置顶文章列表
+     * http://www.wanandroid.com/article/top/json
+     */
+    @GET("article/top/json")
+    fun getTopArticles(): Observable<HttpResult<MutableList<Article>>>
+
+    /**
      * 获取文章列表
      * http://www.wanandroid.com/article/list/0/json
      * @param pageNum

@@ -14,7 +14,7 @@ data class HttpResult<T>(@Json(name = "data") val data: T,
 //文章
 data class ArticleResponseBody(
         @Json(name = "curPage") val curPage: Int,
-        @Json(name = "datas") val datas: MutableList<Article>,
+        @Json(name = "datas") var datas: MutableList<Article>,
         @Json(name = "offset") val offset: Int,
         @Json(name = "over") val over: Boolean,
         @Json(name = "pageCount") val pageCount: Int,
