@@ -10,9 +10,14 @@ import android.preference.PreferenceFragment
 import android.support.v7.app.AlertDialog
 import com.afollestad.materialdialogs.color.ColorChooserDialog
 import com.cxz.wanandroid.R
+import com.cxz.wanandroid.event.RefreshHomeEvent
 import com.cxz.wanandroid.ext.showSnackMsg
+import com.cxz.wanandroid.rx.SchedulerUtils
 import com.cxz.wanandroid.utils.CacheDataUtil
 import com.cxz.wanandroid.widget.IconPreference
+import io.reactivex.Observable
+import org.greenrobot.eventbus.EventBus
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by chenxz on 2018/6/13.
@@ -37,6 +42,17 @@ class SettingFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferen
         colorPreview = findPreference("color") as IconPreference
 
         setDefaultText()
+
+        findPreference("switch_show_top").setOnPreferenceChangeListener { preference, newValue ->
+            // 通知首页刷新数据
+            // 延迟发送通知：为了保证刷新数据时 SettingUtil.getIsShowTopArticle() 得到最新的值
+            Observable.timer(10, TimeUnit.MILLISECONDS)
+                    .compose(SchedulerUtils.ioToMain())
+                    .subscribe({
+                        EventBus.getDefault().post(RefreshHomeEvent(true))
+                    }, {})
+            true
+        }
 
         findPreference("auto_nightMode").setOnPreferenceClickListener {
             context?.startWithFragment(AutoNightModeFragment::class.java.name, null, null, 0, null)
