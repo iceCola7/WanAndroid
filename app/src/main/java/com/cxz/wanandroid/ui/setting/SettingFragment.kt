@@ -46,7 +46,7 @@ class SettingFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferen
         findPreference("switch_show_top").setOnPreferenceChangeListener { preference, newValue ->
             // 通知首页刷新数据
             // 延迟发送通知：为了保证刷新数据时 SettingUtil.getIsShowTopArticle() 得到最新的值
-            Observable.timer(10, TimeUnit.MILLISECONDS)
+            Observable.timer(100, TimeUnit.MILLISECONDS)
                     .compose(SchedulerUtils.ioToMain())
                     .subscribe({
                         EventBus.getDefault().post(RefreshHomeEvent(true))
