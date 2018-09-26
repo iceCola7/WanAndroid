@@ -1,5 +1,7 @@
 package com.cxz.wanandroid.constant
 
+import com.cxz.wanandroid.utils.Preference
+
 /**
  * Created by chenxz on 2018/6/9.
  */
@@ -16,6 +18,8 @@ object HttpConstant {
 
     const val SET_COOKIE_KEY = "set-cookie"
     const val COOKIE_NAME = "Cookie"
+
+    const val MAX_CACHE_SIZE: Long = 1024 * 1024 * 50 // 50M 的缓存大小
 
     fun encodeCookie(cookies: List<String>): String {
         val sb = StringBuilder()
@@ -37,6 +41,17 @@ object HttpConstant {
             sb.deleteCharAt(last)
         }
         return sb.toString()
+    }
+
+    fun saveCookie(url: String?, domain: String?, cookies: String) {
+        url ?: return
+        var spUrl: String by Preference(url, cookies)
+        @Suppress("UNUSED_VALUE")
+        spUrl = cookies
+        domain ?: return
+        var spDomain: String by Preference(domain, cookies)
+        @Suppress("UNUSED_VALUE")
+        spDomain = cookies
     }
 
 }
