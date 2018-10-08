@@ -12,11 +12,11 @@ ext {
             androidSupportSdkVersion: "27.1.1",
             espressoSdkVersion      : "3.0.2",
             retrofitSdkVersion      : "2.4.0",
-            glideSdkVersion         : "4.6.1",
-            rxJava                  : "2.1.16",
-            rxAndroid               : "2.0.2",
-            rxKotlin                : "2.0.0",
-            anko                    : "0.10.5"
+            glideSdkVersion         : "4.8.0",
+            rxJava                  : "2.2.2",
+            rxAndroid               : "2.1.0",
+            rxKotlin                : "2.3.0",
+            anko                    : "0.10.7"
     ]
 
     supportDeps = [
@@ -32,9 +32,9 @@ ext {
             "retrofit"                : "com.squareup.retrofit2:retrofit:${dependVersion.retrofitSdkVersion}",
             "retrofitConverterGson"   : "com.squareup.retrofit2:converter-gson:${dependVersion.retrofitSdkVersion}",
             "retrofitAdapterRxjava2"  : "com.squareup.retrofit2:adapter-rxjava2:${dependVersion.retrofitSdkVersion}",
-            "okhttp3LoggerInterceptor": 'com.squareup.okhttp3:logging-interceptor:3.10.0',
-            "retrofitConverterMoshi"  : 'com.squareup.retrofit2:converter-moshi:2.1.0',
-            "retrofitKotlinMoshi"     : "com.squareup.moshi:moshi-kotlin:1.5.0"
+            "okhttp3LoggerInterceptor": 'com.squareup.okhttp3:logging-interceptor:3.11.0',
+            "retrofitConverterMoshi"  : 'com.squareup.retrofit2:converter-moshi:2.4.0',
+            "retrofitKotlinMoshi"     : "com.squareup.moshi:moshi-kotlin:1.7.0"
     ]
 
     rxJava = [
@@ -72,8 +72,8 @@ ext {
             "logger"                : 'com.orhanobut:logger:2.1.1',
             "litepal"               : 'org.litepal.android:core:2.0.0',
             "fab"                   : 'com.github.clans:fab:1.6.4',
-            "materialdatetimepicker": 'com.wdullaer:materialdatetimepicker:3.6.3',
-            "android-autosize"      : 'me.jessyan:autosize:0.9.1'
+            "materialdatetimepicker": 'com.wdullaer:materialdatetimepicker:3.6.4',
+            "android-autosize"      : 'me.jessyan:autosize:0.9.5'
     ]
 
     otherDeps = [
