@@ -15,9 +15,11 @@ import com.cxz.wanandroid.ext.showSnackMsg
 import com.cxz.wanandroid.rx.SchedulerUtils
 import com.cxz.wanandroid.utils.CacheDataUtil
 import com.cxz.wanandroid.widget.IconPreference
+import com.tencent.bugly.beta.Beta
 import io.reactivex.Observable
 import org.greenrobot.eventbus.EventBus
 import java.util.concurrent.TimeUnit
+
 
 /**
  * Created by chenxz on 2018/6/13.
@@ -83,6 +85,11 @@ class SettingFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferen
             findPreference("version").summary = version
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
+        }
+
+        findPreference("version").setOnPreferenceClickListener {
+            Beta.checkUpgrade()
+            false
         }
 
         findPreference("changelog").setOnPreferenceClickListener {

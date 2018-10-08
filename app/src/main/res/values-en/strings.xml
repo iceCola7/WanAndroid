@@ -114,6 +114,9 @@
     <string name="auto_night_category">Time</string>
     <string name="auto_night_start">Night Mode Start Time</string>
     <string name="auto_day_start">Day Mode Start Time</string>
+    <string name="check_version_fail">Failed to check new version. Please try again later.</string>
+    <string name="check_version_ing">Checking, please wait.</string>
+    <string name="check_no_version">This is the latest version.</string>
 
     <!-- TODO工具 -->
     <string name="delete_success">Delete Success</string>

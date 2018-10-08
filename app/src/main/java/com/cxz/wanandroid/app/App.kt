@@ -9,7 +9,9 @@ import android.support.multidex.MultiDexApplication
 import android.support.v7.app.AppCompatDelegate
 import android.util.Log
 import com.cxz.wanandroid.BuildConfig
+import com.cxz.wanandroid.R
 import com.cxz.wanandroid.constant.Constant
+import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.utils.CommonUtil
 import com.cxz.wanandroid.utils.DisplayManager
 import com.cxz.wanandroid.utils.SettingUtil
@@ -19,6 +21,8 @@ import com.orhanobut.logger.PrettyFormatStrategy
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
 import com.tencent.bugly.Bugly
+import com.tencent.bugly.beta.Beta
+import com.tencent.bugly.beta.upgrade.UpgradeStateListener
 import com.tencent.bugly.crashreport.CrashReport
 import org.litepal.LitePal
 import java.util.*
@@ -68,6 +72,31 @@ class App : MultiDexApplication() {
         val packageName = applicationContext.packageName
         // 获取当前进程名
         val processName = CommonUtil.getProcessName(android.os.Process.myPid())
+        Beta.upgradeStateListener = object : UpgradeStateListener {
+            override fun onDownloadCompleted(isManual: Boolean) {
+            }
+
+            override fun onUpgradeSuccess(isManual: Boolean) {
+            }
+
+            override fun onUpgradeFailed(isManual: Boolean) {
+                if (isManual) {
+                    showToast(getString(R.string.check_version_fail))
+                }
+            }
+
+            override fun onUpgrading(isManual: Boolean) {
+                if (isManual) {
+                    showToast(getString(R.string.check_version_ing))
+                }
+            }
+
+            override fun onUpgradeNoVersion(isManual: Boolean) {
+                if (isManual) {
+                    showToast(getString(R.string.check_no_version))
+                }
+            }
+        }
         // 设置是否为上报进程
         val strategy = CrashReport.UserStrategy(applicationContext)
         strategy.isUploadProcess = false || processName == packageName
