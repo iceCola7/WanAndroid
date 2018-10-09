@@ -98,6 +98,13 @@
 
 **[最新更新日志请点击查看](https://github.com/iceCola7/WanAndroid/releases)**
 
+**v1.0.7**
+
+- 增加首页置顶文章；
+- 增加退出登录接口；
+- 增加手动检查更新；
+- 优化代码，修改已知 `bug` 。
+
 **v1.0.6**
 
 - 增加 `Lifecycle` 组件使得 `Presenter` 和 `Activity` 生命周期绑定；
