@@ -2,7 +2,7 @@
 
 ### 特讯：新版TODO功能已经上线了，欢迎大家下载体验！！！
 
-[![Platform][1]][2]  [![Build Status][3]][4]  [![Release][5]][6]  [![GitHub license][7]][8]  [![][9]][10]  
+[![Platform][1]][2]  [![Build Status][3]][4]  [![Release][5]][6]  [![Release][7]][8]  [![GitHub license][9]][10]  [![][11]][12]  
 
 [1]:https://img.shields.io/badge/platform-Android-blue.svg  
 [2]:https://github.com/iceCola7/WanAndroid
@@ -10,14 +10,17 @@
 [3]:https://travis-ci.org/iceCola7/WanAndroid.svg?branch=master
 [4]:https://travis-ci.org/iceCola7/WanAndroid
 
-[5]:https://img.shields.io/github/release/iceCola7/WanAndroid.svg
-[6]:https://github.com/iceCola7/WanAndroid/releases/latest
+[5]:https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat
+[6]:https://android-arsenal.com/api?level=16
 
-[7]:https://img.shields.io/badge/license-Apache%202-blue.svg
-[8]:https://github.com/iceCola7/WanAndroid/blob/master/LICENSE
+[7]:https://img.shields.io/github/release/iceCola7/WanAndroid.svg
+[8]:https://github.com/iceCola7/WanAndroid/releases/latest
 
-[9]:https://img.shields.io/badge/QQ-563859095-orange.svg
-[10]:https://github.com/iceCola7/WanAndroid
+[9]:https://img.shields.io/badge/license-Apache%202-blue.svg
+[10]:https://github.com/iceCola7/WanAndroid/blob/master/LICENSE
+
+[11]:https://img.shields.io/badge/QQ-563859095-orange.svg
+[12]:https://github.com/iceCola7/WanAndroid
 
 ##### `Github` 地址：[https://github.com/iceCola7/WanAndroid](https://github.com/iceCola7/WanAndroid)
 (开源不易，如果喜欢的话希望给个 `Star` 或 `Fork` ^_^ ，谢谢)
@@ -81,10 +84,10 @@
  - [BGABanner-Android](https://github.com/bingoogolapple/BGABanner-Android)
  - [VerticalTabLayout](https://github.com/qstumn/VerticalTabLayout)
  - [leakcanary](https://github.com/square/leakcanary)
- - [litepal](https://github.com/LitePalFramework/LitePal)
+ - [LitePal](https://github.com/LitePalFramework/LitePal)
  - [Android-Debug-Database](https://github.com/amitshekhariitbhu/Android-Debug-Database)
- - [fab](https://github.com/Clans/FloatingActionButton)
- - [materialdatetimepicker](https://github.com/wdullaer/MaterialDateTimePicker)
+ - [FloatingActionButton](https://github.com/Clans/FloatingActionButton)
+ - [MaterialDateTimePicker](https://github.com/wdullaer/MaterialDateTimePicker)
  - [AndroidAutoSize](https://github.com/JessYanCoding/AndroidAutoSize)
 
 ## 下载体验
