@@ -119,7 +119,7 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
             layoutManager = linearLayoutManager
             adapter = projectAdapter
             itemAnimator = DefaultItemAnimator()
-            addItemDecoration(recyclerViewItemDecoration)
+            recyclerViewItemDecoration?.let { addItemDecoration(it) }
         }
 
         projectAdapter.run {

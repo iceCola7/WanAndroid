@@ -126,7 +126,7 @@ class KnowledgeFragment : BaseFragment(), KnowledgeContract.View {
             layoutManager = linearLayoutManager
             adapter = knowledgeAdapter
             itemAnimator = DefaultItemAnimator()
-            addItemDecoration(recyclerViewItemDecoration)
+            recyclerViewItemDecoration?.let { addItemDecoration(it) }
         }
 
         knowledgeAdapter.run {

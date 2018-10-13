@@ -70,7 +70,7 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
             layoutManager = linearLayoutManager
             adapter = knowledgeTreeAdapter
             itemAnimator = DefaultItemAnimator()
-            addItemDecoration(recyclerViewItemDecoration)
+            recyclerViewItemDecoration?.let { addItemDecoration(it) }
         }
 
         knowledgeTreeAdapter.run {

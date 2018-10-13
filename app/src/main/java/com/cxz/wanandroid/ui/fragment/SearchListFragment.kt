@@ -113,7 +113,7 @@ class SearchListFragment : BaseFragment(), SearchListContract.View {
             layoutManager = linearLayoutManager
             adapter = searchListAdapter
             itemAnimator = DefaultItemAnimator()
-            addItemDecoration(recyclerViewItemDecoration)
+            recyclerViewItemDecoration?.let { addItemDecoration(it) }
         }
 
         searchListAdapter.run {

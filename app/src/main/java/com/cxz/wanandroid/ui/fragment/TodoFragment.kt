@@ -127,7 +127,7 @@ class TodoFragment : BaseFragment(), TodoContract.View {
             layoutManager = linearLayoutManager
             adapter = mAdapter
             itemAnimator = DefaultItemAnimator()
-            addItemDecoration(recyclerViewItemDecoration)
+            recyclerViewItemDecoration?.let { addItemDecoration(it) }
             addOnItemTouchListener(SwipeItemLayout.OnSwipeItemTouchListener(activity))
         }
         mAdapter.run {

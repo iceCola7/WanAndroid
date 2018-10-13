@@ -120,7 +120,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
             layoutManager = linearLayoutManager
             adapter = homeAdapter
             itemAnimator = DefaultItemAnimator()
-            addItemDecoration(recyclerViewItemDecoration)
+            recyclerViewItemDecoration?.let { addItemDecoration(it) }
         }
 
         bannerView = layoutInflater.inflate(R.layout.item_home_banner, null)

@@ -108,7 +108,7 @@ class MainActivity : BaseActivity(), MainContract.View {
         }
 
         bottom_navigation.run {
-            BottomNavigationViewHelper.disableShiftMode(this)
+            // BottomNavigationViewHelper.disableShiftMode(this)
             setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
         }
 
@@ -221,9 +221,9 @@ class MainActivity : BaseActivity(), MainContract.View {
                 toolbar.title = getString(R.string.app_name)
                 if (mHomeFragment == null) {
                     mHomeFragment = HomeFragment.getInstance()
-                    transaction.add(R.id.container, mHomeFragment, "home")
+                    transaction.add(R.id.container, mHomeFragment!!, "home")
                 } else {
-                    transaction.show(mHomeFragment)
+                    transaction.show(mHomeFragment!!)
                 }
             }
             FRAGMENT_KNOWLEDGE // 知识体系
@@ -231,9 +231,9 @@ class MainActivity : BaseActivity(), MainContract.View {
                 toolbar.title = getString(R.string.knowledge_system)
                 if (mKnowledgeTreeFragment == null) {
                     mKnowledgeTreeFragment = KnowledgeTreeFragment.getInstance()
-                    transaction.add(R.id.container, mKnowledgeTreeFragment, "knowledge")
+                    transaction.add(R.id.container, mKnowledgeTreeFragment!!, "knowledge")
                 } else {
-                    transaction.show(mKnowledgeTreeFragment)
+                    transaction.show(mKnowledgeTreeFragment!!)
                 }
             }
             FRAGMENT_NAVIGATION // 导航
@@ -241,9 +241,9 @@ class MainActivity : BaseActivity(), MainContract.View {
                 toolbar.title = getString(R.string.navigation)
                 if (mNavigationFragment == null) {
                     mNavigationFragment = NavigationFragment.getInstance()
-                    transaction.add(R.id.container, mNavigationFragment, "navigation")
+                    transaction.add(R.id.container, mNavigationFragment!!, "navigation")
                 } else {
-                    transaction.show(mNavigationFragment)
+                    transaction.show(mNavigationFragment!!)
                 }
             }
             FRAGMENT_PROJECT // 项目
@@ -251,9 +251,9 @@ class MainActivity : BaseActivity(), MainContract.View {
                 toolbar.title = getString(R.string.project)
                 if (mProjectFragment == null) {
                     mProjectFragment = ProjectFragment.getInstance()
-                    transaction.add(R.id.container, mProjectFragment, "project")
+                    transaction.add(R.id.container, mProjectFragment!!, "project")
                 } else {
-                    transaction.show(mProjectFragment)
+                    transaction.show(mProjectFragment!!)
                 }
             }
         }
@@ -369,16 +369,16 @@ class MainActivity : BaseActivity(), MainContract.View {
         try {
             val fragmentTransaction = supportFragmentManager.beginTransaction()
             if (mHomeFragment != null) {
-                fragmentTransaction.remove(mHomeFragment)
+                fragmentTransaction.remove(mHomeFragment!!)
             }
             if (mKnowledgeTreeFragment != null) {
-                fragmentTransaction.remove(mKnowledgeTreeFragment)
+                fragmentTransaction.remove(mKnowledgeTreeFragment!!)
             }
             if (mNavigationFragment != null) {
-                fragmentTransaction.remove(mNavigationFragment)
+                fragmentTransaction.remove(mNavigationFragment!!)
             }
             if (mProjectFragment != null) {
-                fragmentTransaction.remove(mProjectFragment)
+                fragmentTransaction.remove(mProjectFragment!!)
             }
             fragmentTransaction.commitAllowingStateLoss()
         } catch (e: Exception) {

@@ -57,17 +57,17 @@ class RecyclerViewItemDecoration : RecyclerView.ItemDecoration {
         dividerHeight = mDivider!!.intrinsicHeight
     }
 
-    override fun getItemOffsets(outRect: Rect?, view: View?, parent: RecyclerView?, state: RecyclerView.State?) {
+    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
-        outRect?.set(0, 0, 0, dividerHeight)
+        outRect.set(0, 0, 0, dividerHeight)
     }
 
-    override fun onDraw(c: Canvas?, parent: RecyclerView?, state: RecyclerView.State?) {
+    override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         super.onDraw(c, parent, state)
         if (orientation == LinearLayoutManager.VERTICAL) {
-            drawVertical(c!!, parent!!)
+            drawVertical(c, parent)
         } else {
-            drawHorizontal(c!!, parent!!)
+            drawHorizontal(c, parent)
         }
     }
 

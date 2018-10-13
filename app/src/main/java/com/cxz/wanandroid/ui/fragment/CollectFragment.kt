@@ -110,7 +110,7 @@ class CollectFragment : BaseFragment(), CollectContract.View {
             layoutManager = linearLayoutManager
             adapter = collectAdapter
             itemAnimator = DefaultItemAnimator()
-            addItemDecoration(recyclerViewItemDecoration)
+            recyclerViewItemDecoration?.let { addItemDecoration(it) }
         }
 
         collectAdapter.run {

@@ -85,7 +85,7 @@ class NavigationFragment : BaseFragment(), NavigationContract.View {
      */
     private fun leftRightLink() {
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (bScroll && (newState == RecyclerView.SCROLL_STATE_IDLE)) {
                     scrollRecyclerView()
@@ -93,7 +93,7 @@ class NavigationFragment : BaseFragment(), NavigationContract.View {
                 rightLinkLeft(newState)
             }
 
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (bScroll) {
                     scrollRecyclerView()
