@@ -1,4 +1,4 @@
-package com.cxz.wanandroid.widget
+package com.cxz.wanandroid.widget.helper
 
 import android.os.Build
 import android.support.design.widget.TabLayout

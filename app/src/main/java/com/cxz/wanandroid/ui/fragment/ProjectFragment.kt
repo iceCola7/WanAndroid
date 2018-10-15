@@ -9,7 +9,6 @@ import com.cxz.wanandroid.mvp.contract.ProjectContract
 import com.cxz.wanandroid.mvp.model.bean.ProjectTreeBean
 import com.cxz.wanandroid.mvp.presenter.ProjectPresenter
 import com.cxz.wanandroid.utils.SettingUtil
-import com.cxz.wanandroid.widget.TabLayoutHelper
 import kotlinx.android.synthetic.main.fragment_project.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
