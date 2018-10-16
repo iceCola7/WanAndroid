@@ -57,6 +57,13 @@ class HomeAdapter(private val context: Context?, datas: MutableList<Article>)
         } else {
             tv_top.visibility = View.GONE
         }
+        val tv_article_tag = helper.getView<TextView>(R.id.tv_article_tag)
+        if (item.tags.size > 0) {
+            tv_article_tag.visibility = View.VISIBLE
+            tv_article_tag.text = item.tags[0].name
+        } else {
+            tv_article_tag.visibility = View.GONE
+        }
     }
 
 }
