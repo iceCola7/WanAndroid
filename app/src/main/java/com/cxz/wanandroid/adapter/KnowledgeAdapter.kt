@@ -5,7 +5,6 @@ import android.text.Html
 import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.cxz.wanandroid.R
@@ -28,12 +27,14 @@ class KnowledgeAdapter(private val context: Context?, datas: MutableList<Article
                         if (item.collect) R.drawable.ic_like else R.drawable.ic_like_not
                 )
                 .addOnClickListener(R.id.iv_like)
-        if (!TextUtils.isEmpty(item.chapterName)) {
-            helper.setText(R.id.tv_article_chapterName, item.chapterName)
-            helper.getView<TextView>(R.id.tv_article_chapterName).visibility = View.VISIBLE
-        } else {
-            helper.getView<TextView>(R.id.tv_article_chapterName).visibility = View.INVISIBLE
+        val chapterName = when {
+            item.superChapterName.isNotEmpty() and item.chapterName.isNotEmpty() ->
+                "${item.superChapterName} / ${item.chapterName}"
+            item.superChapterName.isNotEmpty() -> item.superChapterName
+            item.chapterName.isNotEmpty() -> item.chapterName
+            else -> ""
         }
+        helper.setText(R.id.tv_article_chapterName, chapterName)
 
         if (!TextUtils.isEmpty(item.envelopePic)) {
             helper.getView<ImageView>(R.id.iv_article_thumbnail)

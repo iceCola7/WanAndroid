@@ -4,7 +4,6 @@ import android.content.Context
 import android.text.Html
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.cxz.wanandroid.R
@@ -26,12 +25,7 @@ class CollectAdapter(private val context: Context?, datas: MutableList<Collectio
                 .setImageResource(R.id.iv_like, R.drawable.ic_like)
                 .addOnClickListener(R.id.iv_like)
 
-        if (item.chapterName.isNotEmpty()) {
-            helper.setText(R.id.tv_article_chapterName, item.chapterName)
-            helper.getView<TextView>(R.id.tv_article_chapterName).visibility = View.VISIBLE
-        } else {
-            helper.getView<TextView>(R.id.tv_article_chapterName).visibility = View.INVISIBLE
-        }
+        helper.setText(R.id.tv_article_chapterName, item.chapterName)
         if (item.envelopePic.isNotEmpty()) {
             helper.getView<ImageView>(R.id.iv_article_thumbnail)
                     .visibility = View.VISIBLE

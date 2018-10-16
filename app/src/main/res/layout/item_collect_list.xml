@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,27 +14,27 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/item_content_padding"
+        android:paddingTop="@dimen/item_content_padding"
         android:paddingRight="@dimen/item_content_padding"
-        android:paddingTop="@dimen/item_content_padding">
+        android:paddingBottom="@dimen/item_content_padding">
 
         <TextView
             android:id="@+id/tv_article_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_10"
-            android:text="@string/app_name"
             android:textColor="@color/item_author"
-            android:textSize="@dimen/item_tv_author" />
+            android:textSize="@dimen/item_tv_author"
+            tools:text="@string/app_name" />
 
         <TextView
             android:id="@+id/tv_article_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="@string/app_name"
             android:textColor="@color/item_date"
-            android:textSize="@dimen/item_tv_date" />
+            android:textSize="@dimen/item_tv_date"
+            tools:text="@string/app_name" />
 
         <ImageView
             android:id="@+id/iv_article_thumbnail"
@@ -65,25 +66,24 @@
             android:id="@+id/tv_article_chapterName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_below="@+id/tv_article_title"
-            android:layout_marginEnd="@dimen/dp_10"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:layout_marginRight="@dimen/dp_10"
+            android:layout_alignParentBottom="true"
             android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
             android:layout_toRightOf="@+id/iv_article_thumbnail"
-            android:background="@drawable/bg_tag_one"
             android:gravity="center"
-            android:text="@string/app_name"
-            android:textColor="@color/item_tag_tv"
-            android:textSize="@dimen/item_tv_tag" />
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/item_tv_tag"
+            tools:text="@string/app_name" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
             android:orientation="horizontal">
 
             <ImageView

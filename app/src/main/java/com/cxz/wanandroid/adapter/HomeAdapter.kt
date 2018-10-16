@@ -27,12 +27,14 @@ class HomeAdapter(private val context: Context?, datas: MutableList<Article>)
                         if (item.collect) R.drawable.ic_like else R.drawable.ic_like_not
                 )
                 .addOnClickListener(R.id.iv_like)
-        if (item.chapterName.isNotEmpty()) {
-            helper.setText(R.id.tv_article_chapterName, item.chapterName)
-            helper.getView<TextView>(R.id.tv_article_chapterName).visibility = View.VISIBLE
-        } else {
-            helper.getView<TextView>(R.id.tv_article_chapterName).visibility = View.INVISIBLE
+        val chapterName = when {
+            item.superChapterName.isNotEmpty() and item.chapterName.isNotEmpty() ->
+                "${item.superChapterName} / ${item.chapterName}"
+            item.superChapterName.isNotEmpty() -> item.superChapterName
+            item.chapterName.isNotEmpty() -> item.chapterName
+            else -> ""
         }
+        helper.setText(R.id.tv_article_chapterName, chapterName)
         if (item.envelopePic.isNotEmpty()) {
             helper.getView<ImageView>(R.id.iv_article_thumbnail)
                     .visibility = View.VISIBLE

@@ -14,9 +14,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/item_content_padding"
+        android:paddingTop="@dimen/item_content_padding"
         android:paddingRight="@dimen/item_content_padding"
-        android:paddingTop="@dimen/item_content_padding">
+        android:paddingBottom="@dimen/item_content_padding">
 
         <TextView
             android:id="@+id/tv_article_top"
@@ -24,10 +24,10 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_10"
             android:background="@drawable/bg_fresh"
-            android:paddingBottom="@dimen/dp_2"
             android:paddingLeft="@dimen/dp_4"
-            android:paddingRight="@dimen/dp_4"
             android:paddingTop="@dimen/dp_2"
+            android:paddingRight="@dimen/dp_4"
+            android:paddingBottom="@dimen/dp_2"
             android:text="@string/top_tip"
             android:textColor="@color/Red"
             android:textSize="@dimen/dp_10"
@@ -41,10 +41,10 @@
             android:layout_marginLeft="@dimen/dp_10"
             android:layout_toRightOf="@+id/tv_article_top"
             android:background="@drawable/bg_fresh"
-            android:paddingBottom="@dimen/dp_2"
             android:paddingLeft="@dimen/dp_4"
-            android:paddingRight="@dimen/dp_4"
             android:paddingTop="@dimen/dp_2"
+            android:paddingRight="@dimen/dp_4"
+            android:paddingBottom="@dimen/dp_2"
             android:text="@string/new_fresh"
             android:textColor="@color/Red"
             android:textSize="@dimen/dp_10"
@@ -58,9 +58,9 @@
             android:layout_alignBaseline="@+id/tv_article_fresh"
             android:layout_marginLeft="@dimen/dp_10"
             android:layout_toRightOf="@+id/tv_article_fresh"
-            android:text="@string/app_name"
             android:textColor="@color/item_author"
-            android:textSize="@dimen/item_tv_author" />
+            android:textSize="@dimen/item_tv_author"
+            tools:text="@string/app_name" />
 
         <TextView
             android:id="@+id/tv_article_date"
@@ -68,9 +68,9 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/tv_article_fresh"
             android:layout_alignParentRight="true"
-            android:text="@string/app_name"
             android:textColor="@color/item_date"
-            android:textSize="@dimen/item_tv_date" />
+            android:textSize="@dimen/item_tv_date"
+            tools:text="@string/app_name" />
 
         <ImageView
             android:id="@+id/iv_article_thumbnail"
@@ -102,25 +102,24 @@
             android:id="@+id/tv_article_chapterName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_below="@+id/tv_article_title"
-            android:layout_marginEnd="@dimen/dp_10"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:layout_marginRight="@dimen/dp_10"
+            android:layout_alignParentBottom="true"
             android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
             android:layout_toRightOf="@+id/iv_article_thumbnail"
-            android:background="@drawable/bg_tag_one"
             android:gravity="center"
-            android:text="@string/app_name"
-            android:textColor="@color/item_tag_tv"
-            android:textSize="@dimen/item_tv_tag" />
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/item_tv_tag"
+            tools:text="@string/app_name" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
             android:orientation="horizontal">
 
             <ImageView
