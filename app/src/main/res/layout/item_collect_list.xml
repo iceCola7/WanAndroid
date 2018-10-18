@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
+    android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
     app:cardBackgroundColor="@color/viewBackground"
     app:cardCornerRadius="@dimen/dp_1"
@@ -43,8 +44,8 @@
             android:layout_below="@+id/tv_article_author"
             android:layout_marginLeft="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_8"
-            android:contentDescription="article thumbnail"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_placeholder" />
 
         <TextView
             android:id="@+id/tv_article_title"
@@ -75,7 +76,7 @@
             android:layout_marginRight="@dimen/dp_10"
             android:layout_toRightOf="@+id/iv_article_thumbnail"
             android:gravity="center"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/item_chapter"
             android:textSize="@dimen/item_tv_tag"
             tools:text="@string/app_name" />
 
@@ -90,7 +91,6 @@
                 android:id="@+id/iv_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="like article"
                 app:srcCompat="@drawable/ic_like_not" />
 
         </LinearLayout>

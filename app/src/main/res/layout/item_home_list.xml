@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
+    android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
     app:cardBackgroundColor="@color/viewBackground"
     app:cardCornerRadius="@dimen/dp_1"
@@ -30,7 +31,7 @@
             android:paddingBottom="@dimen/dp_2"
             android:text="@string/top_tip"
             android:textColor="@color/Red"
-            android:textSize="@dimen/dp_10"
+            android:textSize="@dimen/sp_10"
             android:visibility="gone"
             tools:visibility="visible" />
 
@@ -47,7 +48,7 @@
             android:paddingBottom="@dimen/dp_2"
             android:text="@string/new_fresh"
             android:textColor="@color/Red"
-            android:textSize="@dimen/dp_10"
+            android:textSize="@dimen/sp_10"
             android:visibility="gone"
             tools:visibility="visible" />
 
@@ -63,7 +64,7 @@
             android:paddingRight="@dimen/dp_4"
             android:paddingBottom="@dimen/dp_2"
             android:textColor="@color/colorAccent"
-            android:textSize="@dimen/dp_10"
+            android:textSize="@dimen/sp_10"
             android:visibility="gone"
             tools:text="@string/app_name"
             tools:visibility="visible" />
@@ -83,7 +84,7 @@
             android:id="@+id/tv_article_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/tv_article_fresh"
+            android:layout_alignBaseline="@+id/tv_article_top"
             android:layout_alignParentRight="true"
             android:textColor="@color/item_date"
             android:textSize="@dimen/item_tv_date"
@@ -96,7 +97,6 @@
             android:layout_below="@+id/tv_article_author"
             android:layout_marginLeft="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_8"
-            android:contentDescription="article thumbnail"
             android:scaleType="centerCrop" />
 
         <TextView
@@ -128,7 +128,7 @@
             android:layout_marginRight="@dimen/dp_10"
             android:layout_toRightOf="@+id/iv_article_thumbnail"
             android:gravity="center"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/item_chapter"
             android:textSize="@dimen/item_tv_tag"
             tools:text="@string/app_name" />
 
@@ -143,7 +143,6 @@
                 android:id="@+id/iv_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="like article"
                 app:srcCompat="@drawable/ic_like_not" />
 
         </LinearLayout>

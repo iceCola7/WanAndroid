@@ -16,6 +16,7 @@
     <color name="item_desc">@color/Grey600</color>
     <color name="item_time">@color/Grey600</color>
     <color name="item_date">@color/Grey600</color>
+    <color name="item_chapter">@color/Grey600</color>
     <color name="item_tag_tv">#ffFFFFFF</color>
     <color name="item_nav_color_tv">#19191B</color>
     <color name="color_title_bg">#CCFFFFFF</color>

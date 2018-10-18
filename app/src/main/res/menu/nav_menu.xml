@@ -5,7 +5,7 @@
 
         <item
             android:id="@+id/nav_collect"
-            android:icon="@drawable/ic_like"
+            android:icon="@drawable/ic_like_not"
             android:title="@string/nav_my_collect" />
 
         <item
@@ -15,12 +15,12 @@
 
         <item
             android:id="@+id/nav_night_mode"
-            android:icon="@drawable/ic_night_white_24dp"
+            android:icon="@drawable/ic_night_24dp"
             android:title="@string/nav_night_mode" />
 
         <item
             android:id="@+id/nav_setting"
-            android:icon="@drawable/ic_setting_white_24dp"
+            android:icon="@drawable/ic_setting_24dp"
             android:title="@string/nav_setting" />
 
         <item

@@ -15,6 +15,7 @@
     <color name="item_desc">@color/Grey500</color>
     <color name="item_time">@color/Grey500</color>
     <color name="item_date">@color/Grey500</color>
+    <color name="item_chapter">@color/Grey500</color>
     <color name="item_nav_color_tv">@color/Grey500</color>
     <color name="vertical_tab_layout_bg">@color/Grey800</color>
     <color name="vertical_tab_layout_indicator_color">@color/Grey600</color>
