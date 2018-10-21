@@ -238,4 +238,33 @@ interface ApiService {
     @FormUrlEncoded
     fun updateTodo(@Path("id") id: Int, @FieldMap map: MutableMap<String, Any>): Observable<HttpResult<Any>>
 
+    /**
+     * 获取公众号列表
+     * http://wanandroid.com/wxarticle/chapters/json
+     */
+    @GET("/wxarticle/chapters/json")
+    fun getWXChapters(): Observable<WXChapterBean>
+
+    /**
+     * 查看某个公众号历史数据
+     * http://wanandroid.com/wxarticle/list/405/1/json
+     * @param id 公众号 ID
+     * @param page 公众号页码
+     */
+    @GET("/wxarticle/list/{id}/{page}/json")
+    fun getWXArticles(@Path("id") id: Int,
+                      @Path("page") page: Int): Observable<HttpResult<ArticleResponseBody>>
+
+    /**
+     * 在某个公众号中搜索历史文章
+     * http://wanandroid.com/wxarticle/list/405/1/json?k=Java
+     * @param id 公众号 ID
+     * @param key 搜索关键字
+     * @param page 公众号页码
+     */
+    @GET("/wxarticle/list/{id}/{page}/json")
+    fun queryWXArticles(@Path("id") id: Int,
+                        @Query("k") key: String,
+                        @Path("page") page: Int): Observable<HttpResult<ArticleResponseBody>>
+
 }
