@@ -1,9 +1,11 @@
 package com.cxz.wanandroid.ui.activity
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.support.design.widget.TabLayout
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.KnowledgePagerAdapter
 import com.cxz.wanandroid.base.BaseSwipeBackActivity
@@ -11,6 +13,7 @@ import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.ColorEvent
 import com.cxz.wanandroid.mvp.model.bean.Knowledge
 import com.cxz.wanandroid.mvp.model.bean.KnowledgeTreeBody
+import com.cxz.wanandroid.ui.fragment.KnowledgeFragment
 import com.cxz.wanandroid.utils.SettingUtil
 import kotlinx.android.synthetic.main.activity_knowledge.*
 import org.greenrobot.eventbus.Subscribe
@@ -38,9 +41,9 @@ class KnowledgeActivity : BaseSwipeBackActivity() {
     override fun attachLayoutRes(): Int = R.layout.activity_knowledge
 
     override fun initData() {
-        intent.extras.let {
-            toolbarTitle = it.getString(Constant.CONTENT_TITLE_KEY)
-            it.getSerializable(Constant.CONTENT_DATA_KEY).let {
+        intent.extras?.let {
+            toolbarTitle = it.getString(Constant.CONTENT_TITLE_KEY) ?: ""
+            it.getSerializable(Constant.CONTENT_DATA_KEY)?.let {
                 val data = it as KnowledgeTreeBody
                 data.children.let { children ->
                     knowledges.addAll(children)
@@ -69,6 +72,9 @@ class KnowledgeActivity : BaseSwipeBackActivity() {
             addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(viewPager))
             addOnTabSelectedListener(onTabSelectedListener)
         }
+        floating_action_btn.run {
+            setOnClickListener(onFABClickListener)
+        }
 
     }
 
@@ -85,6 +91,7 @@ class KnowledgeActivity : BaseSwipeBackActivity() {
         if (event.isRefresh) {
             if (!SettingUtil.getIsNightMode()) {
                 tabLayout.setBackgroundColor(SettingUtil.getColor())
+                floating_action_btn.backgroundTintList = ColorStateList.valueOf(mThemeColor)
             }
         }
     }
@@ -101,8 +108,21 @@ class KnowledgeActivity : BaseSwipeBackActivity() {
 
         override fun onTabSelected(tab: TabLayout.Tab?) {
             // 默认切换的时候，会有一个过渡动画，设为false后，取消动画，直接显示
-            viewPager.setCurrentItem(tab?.position!!, false)
+            tab?.let {
+                viewPager.setCurrentItem(it.position, false)
+            }
         }
+    }
+
+    /**
+     * FAB 监听
+     */
+    private val onFABClickListener = View.OnClickListener {
+        if (viewPagerAdapter.count == 0) {
+            return@OnClickListener
+        }
+        val fragment: KnowledgeFragment = viewPagerAdapter.getItem(viewPager.currentItem) as KnowledgeFragment
+        fragment.scrollToTop()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

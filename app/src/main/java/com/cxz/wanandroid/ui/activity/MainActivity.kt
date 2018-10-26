@@ -127,7 +127,7 @@ class MainActivity : BaseActivity(), MainContract.View {
             } else {
                 username
             }
-            setOnClickListener({
+            setOnClickListener {
                 if (!isLogin) {
                     Intent(this@MainActivity, LoginActivity::class.java).run {
                         startActivity(this)
@@ -135,7 +135,7 @@ class MainActivity : BaseActivity(), MainContract.View {
                 } else {
 
                 }
-            })
+            }
         }
 
         showFragment(mIndex)

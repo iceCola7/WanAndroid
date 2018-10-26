@@ -110,7 +110,9 @@ class ProjectFragment : BaseFragment(), ProjectContract.View {
 
         override fun onTabSelected(tab: TabLayout.Tab?) {
             // 默认切换的时候，会有一个过渡动画，设为false后，取消动画，直接显示
-            viewPager.setCurrentItem(tab?.position!!, false)
+            tab?.let {
+                viewPager.setCurrentItem(it.position, false)
+            }
         }
     }
 
