@@ -23,10 +23,7 @@ import com.cxz.wanandroid.event.RefreshHomeEvent
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.MainContract
 import com.cxz.wanandroid.mvp.presenter.MainPresenter
-import com.cxz.wanandroid.ui.fragment.HomeFragment
-import com.cxz.wanandroid.ui.fragment.KnowledgeTreeFragment
-import com.cxz.wanandroid.ui.fragment.NavigationFragment
-import com.cxz.wanandroid.ui.fragment.ProjectFragment
+import com.cxz.wanandroid.ui.fragment.*
 import com.cxz.wanandroid.ui.setting.SettingActivity
 import com.cxz.wanandroid.utils.DialogUtil
 import com.cxz.wanandroid.utils.Preference
@@ -48,6 +45,7 @@ class MainActivity : BaseActivity(), MainContract.View {
     private val FRAGMENT_KNOWLEDGE = 0x02
     private val FRAGMENT_NAVIGATION = 0x03
     private val FRAGMENT_PROJECT = 0x04
+    private val FRAGMENT_WECHAT = 0x05
 
     private var mIndex = FRAGMENT_HOME
 
@@ -55,6 +53,7 @@ class MainActivity : BaseActivity(), MainContract.View {
     private var mKnowledgeTreeFragment: KnowledgeTreeFragment? = null
     private var mNavigationFragment: NavigationFragment? = null
     private var mProjectFragment: ProjectFragment? = null
+    private var mWeChatFragment: WeChatFragment? = null
 
     /**
      * Presenter
@@ -258,6 +257,16 @@ class MainActivity : BaseActivity(), MainContract.View {
                     transaction.show(mProjectFragment!!)
                 }
             }
+            FRAGMENT_WECHAT // 公众号
+            -> {
+                toolbar.title = getString(R.string.wechat)
+                if (mWeChatFragment == null) {
+                    mWeChatFragment = WeChatFragment.getInstance()
+                    transaction.add(R.id.container, mWeChatFragment!!, "wechat")
+                } else {
+                    transaction.show(mWeChatFragment!!)
+                }
+            }
         }
         transaction.commit()
     }
@@ -270,6 +279,7 @@ class MainActivity : BaseActivity(), MainContract.View {
         mKnowledgeTreeFragment?.let { transaction.hide(it) }
         mNavigationFragment?.let { transaction.hide(it) }
         mProjectFragment?.let { transaction.hide(it) }
+        mWeChatFragment?.let { transaction.hide(it) }
     }
 
     /**
@@ -292,6 +302,10 @@ class MainActivity : BaseActivity(), MainContract.View {
                     }
                     R.id.action_project -> {
                         showFragment(FRAGMENT_PROJECT)
+                        true
+                    }
+                    R.id.action_wechat -> {
+                        showFragment(FRAGMENT_WECHAT)
                         true
                     }
                     else -> {
@@ -382,6 +396,9 @@ class MainActivity : BaseActivity(), MainContract.View {
             if (mProjectFragment != null) {
                 fragmentTransaction.remove(mProjectFragment!!)
             }
+            if (mWeChatFragment != null) {
+                fragmentTransaction.remove(mWeChatFragment!!)
+            }
             fragmentTransaction.commitAllowingStateLoss()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -442,6 +459,9 @@ class MainActivity : BaseActivity(), MainContract.View {
             FRAGMENT_PROJECT -> {
                 mProjectFragment?.scrollToTop()
             }
+            FRAGMENT_WECHAT -> {
+                mWeChatFragment?.scrollToTop()
+            }
         }
     }
 
@@ -483,6 +503,7 @@ class MainActivity : BaseActivity(), MainContract.View {
         mNavigationFragment = null
         mKnowledgeTreeFragment = null
         mProjectFragment = null
+        mWeChatFragment = null
         nav_username = null
     }
 

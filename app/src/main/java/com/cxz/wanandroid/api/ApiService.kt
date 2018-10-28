@@ -243,7 +243,7 @@ interface ApiService {
      * http://wanandroid.com/wxarticle/chapters/json
      */
     @GET("/wxarticle/chapters/json")
-    fun getWXChapters(): Observable<WXChapterBean>
+    fun getWXChapters(): Observable<HttpResult<MutableList<WXChapterBean>>>
 
     /**
      * 查看某个公众号历史数据
