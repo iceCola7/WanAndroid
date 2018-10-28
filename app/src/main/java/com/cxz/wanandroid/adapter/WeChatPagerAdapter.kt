@@ -5,13 +5,16 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.PagerAdapter
 import android.text.Html
-import com.cxz.wanandroid.mvp.model.bean.Knowledge
+import com.cxz.wanandroid.mvp.model.bean.WXChapterBean
 import com.cxz.wanandroid.ui.fragment.KnowledgeFragment
 
 /**
- * Created by chenxz on 2018/5/10.
+ * @author chenxz
+ * @date 2018/10/28
+ * @desc
  */
-class KnowledgePagerAdapter(val list: List<Knowledge>, fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+class WeChatPagerAdapter(private val list: MutableList<WXChapterBean>, fm: FragmentManager?)
+    : FragmentStatePagerAdapter(fm) {
 
     private val fragments = mutableListOf<Fragment>()
 
@@ -29,4 +32,6 @@ class KnowledgePagerAdapter(val list: List<Knowledge>, fm: FragmentManager) : Fr
     override fun getPageTitle(position: Int): CharSequence? = Html.fromHtml(list[position].name)
 
     override fun getItemPosition(`object`: Any): Int = PagerAdapter.POSITION_NONE
+
+
 }
