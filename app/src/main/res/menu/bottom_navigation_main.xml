@@ -16,13 +16,13 @@
     <item
         android:id="@+id/action_navigation"
         android:enabled="true"
-        android:icon="@drawable/ic_navigation"
+        android:icon="@drawable/ic_navigation_black_24dp"
         android:title="@string/navigation"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_project"
         android:enabled="true"
-        android:icon="@drawable/ic_project"
+        android:icon="@drawable/ic_project_black_24dp"
         android:title="@string/project"
         app:showAsAction="ifRoom"/>
 
