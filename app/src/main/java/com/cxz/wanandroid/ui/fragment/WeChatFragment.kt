@@ -125,7 +125,7 @@ class WeChatFragment : BaseFragment(), WeChatContract.View {
         if (viewPagerAdapter.count == 0) {
             return
         }
-        val fragment: ProjectListFragment = viewPagerAdapter.getItem(viewPager.currentItem) as ProjectListFragment
+        val fragment: KnowledgeFragment = viewPagerAdapter.getItem(viewPager.currentItem) as KnowledgeFragment
         fragment.scrollToTop()
     }
 
