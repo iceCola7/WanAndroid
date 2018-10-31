@@ -4,8 +4,8 @@ ext {
             buildToolsVersion: "28.0.3",
             minSdkVersion    : 16,
             targetSdkVersion : 28,
-            versionCode      : 8,
-            versionName      : "1.0.7"
+            versionCode      : 9,
+            versionName      : "1.0.8"
     ]
 
     dependVersion = [
@@ -73,7 +73,7 @@ ext {
             "litepal"               : 'org.litepal.android:core:2.0.0',
             "fab"                   : 'com.github.clans:fab:1.6.4',
             "materialdatetimepicker": 'com.wdullaer:materialdatetimepicker:3.6.4',
-            "android-autosize"      : 'me.jessyan:autosize:0.9.5'
+            "android-autosize"      : 'me.jessyan:autosize:1.0.5'
     ]
 
     otherDeps = [
