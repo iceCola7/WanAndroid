@@ -44,6 +44,7 @@
 - **首页**：轮播图、文章列表
 - **知识体系**：开发环境、基础知识、用户交互等
 - **知识体系专题**
+- **公众号**
 - **导航**：常用网站、个人博客、公司博客、开发社区、常用工具等
 - **完整项目**
 - **登录、注册、注销**
@@ -92,7 +93,7 @@
 
 ## 下载体验
 
-- 点击[![](https://img.shields.io/badge/Download-apk-green.svg)](https://fir.im/wanandroid) 下载
+- 点击[![](https://img.shields.io/badge/Download-apk-green.svg)](https://github.com/iceCola7/WanAndroid/raw/master/app/release/WanAndroid-release.apk) 下载
 
 - 扫描下方二维码下载（**二维码，每日上限100次，如果达到上限，还是clone源码吧！**）
 
@@ -101,6 +102,12 @@
 ## 更新日志
 
 **[最新更新日志请点击查看](https://github.com/iceCola7/WanAndroid/releases)**
+
+**v1.0.8**
+
+- 新增公众号模块，阅读公众号文章更方便；
+- 优化部分 `UI` ；
+- 修改已知 `bug` 。
 
 **v1.0.7**
 
