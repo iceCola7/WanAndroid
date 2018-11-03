@@ -34,7 +34,7 @@
 - [Anko](http://github.com/kotlin/anko) 是 `JetBrains` 开发的一个强大的库，它主要的目的是用来替代以前 `XML` 的方式来使用代码生成 `UI` 布局的，它包含了很多的非常有帮助的函数和属性来避免让你写很多的模版代码。
 
 ## 简介
-[WanAndroid](https://github.com/iceCola7/WanAndroid) 采用 `Kotlin` 语言编写，结合 `MVP` + `RxJava` + `Retrofit` + `Glide` + `EventBus` 等架构设计的项目，项目代码结构清晰并且有详细注释，如有任何疑问和建议请提 `Issue` 或联系 
+[WanAndroid](https://github.com/iceCola7/WanAndroid) 采用 `Kotlin` 语言编写，结合 `MVP` + `RxJava` + `Retrofit` + `Glide` + `EventBus` 等架构设计的项目，项目代码结构清晰并且有详细注释，如有任何疑问和建议请提 [Issues](https://github.com/iceCola7/WanAndroid/issues) 或联系 
 [![](https://img.shields.io/badge/QQ-563859095-orange.svg)]()，**项目会持续迭代维护，努力打造一款优秀的 [WanAndroid](http://www.wanandroid.com/) 客户端**。
 
 ## API
