@@ -27,12 +27,17 @@ class LoginActivity : BaseActivity(), LoginContract.View {
      */
     private var pwd: String by Preference(Constant.PASSWORD_KEY, "")
 
+    /**
+     * token
+     */
+    private var token: String by Preference(Constant.TOKEN_KEY, "")
+
     private val mPresenter: LoginPresenter by lazy {
         LoginPresenter()
     }
 
     private val mDialog by lazy {
-        DialogUtil.getWaitDialog(this,getString(R.string.login_ing))
+        DialogUtil.getWaitDialog(this, getString(R.string.login_ing))
     }
 
     override fun showLoading() {
@@ -71,6 +76,7 @@ class LoginActivity : BaseActivity(), LoginContract.View {
         isLogin = true
         user = data.username
         pwd = data.password
+        token = data.token
 
         EventBus.getDefault().post(LoginEvent(true))
         finish()

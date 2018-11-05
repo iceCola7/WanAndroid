@@ -1,5 +1,6 @@
 package com.cxz.wanandroid.http.interceptor
 
+import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.constant.HttpConstant
 import com.cxz.wanandroid.utils.Preference
 import okhttp3.Interceptor
@@ -15,7 +16,7 @@ class HeaderInterceptor : Interceptor {
     /**
      * token
      */
-    private var token: String by Preference("token", "")
+    private var token: String by Preference(Constant.TOKEN_KEY, "")
 
     override fun intercept(chain: Interceptor.Chain): Response {
 
@@ -23,8 +24,8 @@ class HeaderInterceptor : Interceptor {
         val builder = request.newBuilder()
 
         builder.addHeader("Content-type", "application/json; charset=utf-8")
-                // .header("token", token)
-                // .method(request.method(), request.body())
+        // .header("token", token)
+        // .method(request.method(), request.body())
 
         val domain = request.url().host()
         val url = request.url().toString()
