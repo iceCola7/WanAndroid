@@ -45,7 +45,7 @@
             android:layout_marginLeft="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_8"
             android:scaleType="centerCrop"
-            android:src="@drawable/bg_placeholder" />
+            app:srcCompat="@drawable/bg_placeholder" />
 
         <TextView
             android:id="@+id/tv_article_title"

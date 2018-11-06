@@ -19,7 +19,7 @@
         android:layout_width="@dimen/avatar_width"
         android:layout_height="@dimen/avatar_height"
         android:layout_gravity="center_horizontal"
-        android:src="@mipmap/ic_default_avatar"
+        app:srcCompat="@mipmap/ic_default_avatar"
         app:borderColor="@color/white"
         app:borderWidth="2dp"
         app:type="1" />

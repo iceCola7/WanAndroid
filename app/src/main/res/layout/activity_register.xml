@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/viewBackground"
     android:fitsSystemWindows="true">
 
@@ -18,7 +19,7 @@
             android:layout_height="@dimen/dp_80"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/dp_24"
-            android:src="@mipmap/ic_launcher" />
+            app:srcCompat="@mipmap/ic_launcher" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
