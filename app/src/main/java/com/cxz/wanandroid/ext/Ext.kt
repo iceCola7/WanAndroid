@@ -23,12 +23,12 @@ import java.util.*
 /**
  * Log
  */
-fun loge(content: String?) {
-    loge("CXZ", content)
+fun Any.loge(content: String?) {
+    loge(this.javaClass.simpleName, content ?: "")
 }
 
 fun loge(tag: String, content: String?) {
-    Log.e(tag, content ?: tag)
+    Log.e(tag, content ?: "")
 }
 
 fun Fragment.showToast(content: String) {
@@ -71,7 +71,7 @@ fun String.getAgentWeb(
         .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK)//打开其他应用时，弹窗咨询用户是否前往其他应用
         .createAgentWeb()//
         .ready()
-        .go(this)!!
+        .go(this)
 
 /**
  * 格式化当前日期

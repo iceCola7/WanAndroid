@@ -2,12 +2,12 @@ package com.cxz.wanandroid.ui.activity
 
 import android.content.Intent
 import android.net.Uri
+import android.net.http.SslError
+import android.os.Build
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
-import android.webkit.WebChromeClient
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import android.widget.LinearLayout
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.base.BaseSwipeBackActivity
@@ -83,6 +83,12 @@ class ContentActivity : BaseSwipeBackActivity(), ContentContract.View {
                 LinearLayout.LayoutParams(-1, -1),
                 webChromeClient,
                 webViewClient)
+        agentWeb?.webCreator?.webView?.let {
+            it.settings.domStorageEnabled = true
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                it.settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -131,8 +137,15 @@ class ContentActivity : BaseSwipeBackActivity(), ContentContract.View {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+    override fun onBackPressed() {
+        agentWeb?.let {
+            if (!it.back()) {
+                super.onBackPressed()
+            }
+        }
+    }
 
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         return if (agentWeb?.handleKeyEvent(keyCode, event)!!) {
             true
         } else {
@@ -154,7 +167,6 @@ class ContentActivity : BaseSwipeBackActivity(), ContentContract.View {
     override fun onDestroy() {
         agentWeb?.webLifeCycle?.onDestroy()
         super.onDestroy()
-
     }
 
     /**
@@ -171,6 +183,18 @@ class ContentActivity : BaseSwipeBackActivity(), ContentContract.View {
      * webViewClient
      */
     private val webViewClient = object : WebViewClient() {
+        override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+            return super.shouldOverrideUrlLoading(view, request)
+        }
+
+        override fun onPageFinished(view: WebView?, url: String?) {
+            super.onPageFinished(view, url)
+        }
+
+        override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
+            // super.onReceivedSslError(view, handler, error)
+            handler?.proceed()
+        }
     }
 
     /**
