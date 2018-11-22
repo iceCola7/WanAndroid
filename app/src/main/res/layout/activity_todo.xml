@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/viewBackground">
@@ -45,12 +46,12 @@
         android:id="@+id/fab_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="@dimen/dp_20"
+        android:layout_alignParentBottom="true"
         android:layout_marginLeft="@dimen/dp_10"
-        android:layout_marginRight="@dimen/dp_20"
         android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_20"
+        android:layout_marginBottom="@dimen/dp_20"
         app:layout_behavior="com.cxz.wanandroid.widget.behavior.ScrollAwareFAB2Behavior"
         app:menu_animationDelayPerItem="0"
         app:menu_colorNormal="@color/colorPrimary"
@@ -66,24 +67,30 @@
             style="@style/MenuButtonsStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@drawable/ic_add_24dp"
+            app:fab_label="@string/add"
             app:srcCompat="@drawable/ic_add_24dp"
-            app:fab_label="@string/add" />
+            tools:ignore="VectorDrawableCompat" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_todo"
             style="@style/MenuButtonsStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@drawable/ic_todo_24dp"
+            app:fab_label="@string/notodo"
             app:srcCompat="@drawable/ic_todo_24dp"
-            app:fab_label="@string/notodo" />
+            tools:ignore="VectorDrawableCompat" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_done"
             style="@style/MenuButtonsStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@drawable/ic_done_24dp"
+            app:fab_label="@string/completed"
             app:srcCompat="@drawable/ic_done_24dp"
-            app:fab_label="@string/completed" />
+            tools:ignore="VectorDrawableCompat" />
 
     </com.github.clans.fab.FloatingActionMenu>
 
