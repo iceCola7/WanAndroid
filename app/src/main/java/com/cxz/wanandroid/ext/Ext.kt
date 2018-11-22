@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
+import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.TextView
 import com.cxz.wanandroid.R
@@ -58,13 +59,16 @@ fun Fragment.showSnackMsg(msg: String) {
  * getAgentWeb
  */
 fun String.getAgentWeb(
-        activity: Activity, webContent: ViewGroup,
+        activity: Activity,
+        webContent: ViewGroup,
         layoutParams: ViewGroup.LayoutParams,
+        webView: WebView,
         webChromeClient: WebChromeClient?,
         webViewClient: WebViewClient
 ) = AgentWeb.with(activity)//传入Activity or Fragment
-        .setAgentWebParent(webContent, layoutParams)//传入AgentWeb 的父控件
+        .setAgentWebParent(webContent, 1, layoutParams)//传入AgentWeb 的父控件
         .useDefaultIndicator()// 使用默认进度条
+        .setWebView(webView)
         .setWebChromeClient(webChromeClient)
         .setWebViewClient(webViewClient)
         .setMainFrameErrorView(R.layout.agentweb_error_page, -1)

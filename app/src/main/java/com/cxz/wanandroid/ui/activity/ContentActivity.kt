@@ -4,11 +4,12 @@ import android.content.Intent
 import android.net.Uri
 import android.net.http.SslError
 import android.os.Build
+import android.support.design.widget.AppBarLayout
+import android.support.design.widget.CoordinatorLayout
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.webkit.*
-import android.widget.LinearLayout
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.base.BaseSwipeBackActivity
 import com.cxz.wanandroid.constant.Constant
@@ -18,7 +19,8 @@ import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.ContentContract
 import com.cxz.wanandroid.mvp.presenter.ContentPresenter
 import com.just.agentweb.AgentWeb
-import kotlinx.android.synthetic.main.container.*
+import com.just.agentweb.NestedScrollAgentWebView
+import kotlinx.android.synthetic.main.activity_content.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.greenrobot.eventbus.EventBus
 
@@ -75,14 +77,21 @@ class ContentActivity : BaseSwipeBackActivity(), ContentContract.View {
             shareTitle = it.getString(Constant.CONTENT_TITLE_KEY, "")
             shareUrl = it.getString(Constant.CONTENT_URL_KEY, "")
         }
-
     }
 
     override fun start() {
-        agentWeb = shareUrl.getAgentWeb(this, container,
-                LinearLayout.LayoutParams(-1, -1),
+
+        val webView = NestedScrollAgentWebView(this)
+        val layoutParams = CoordinatorLayout.LayoutParams(-1, -1)
+        layoutParams.behavior = AppBarLayout.ScrollingViewBehavior()
+
+        agentWeb = shareUrl.getAgentWeb(this,
+                cl_main,
+                layoutParams,
+                webView,
                 webChromeClient,
                 webViewClient)
+
         agentWeb?.webCreator?.webView?.let {
             it.settings.domStorageEnabled = true
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
