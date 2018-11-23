@@ -1,7 +1,7 @@
 package com.cxz.wanandroid.base
 
-import android.os.Bundle
 import android.view.View
+import com.cxz.wanandroid.ext.showToast
 
 /**
  * @author chenxz
@@ -18,8 +18,7 @@ abstract class BaseMvpFragment<in V : IView, P : IPresenter<V>> : BaseFragment()
 
     protected abstract fun createPresenter(): P
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initView(view: View) {
         mPresenter = createPresenter()
         if (mPresenter != null) {
             mPresenter?.attachView(this as V)
@@ -32,6 +31,24 @@ abstract class BaseMvpFragment<in V : IView, P : IPresenter<V>> : BaseFragment()
             mPresenter?.detachView()
         }
         this.mPresenter = null
+    }
+
+    override fun showLoading() {
+    }
+
+    override fun hideLoading() {
+    }
+
+    override fun showError(errorMsg: String) {
+        showToast(errorMsg)
+    }
+
+    override fun showDefaultMsg(msg: String) {
+        showToast(msg)
+    }
+
+    override fun showMsg(msg: String) {
+        showToast(msg)
     }
 
 }

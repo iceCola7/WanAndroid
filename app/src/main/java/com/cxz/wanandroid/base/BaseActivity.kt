@@ -100,6 +100,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         // AutoDensityUtil.setCustomDensity(this, App.instance)
         super.onCreate(savedInstanceState)
         setContentView(attachLayoutRes())
