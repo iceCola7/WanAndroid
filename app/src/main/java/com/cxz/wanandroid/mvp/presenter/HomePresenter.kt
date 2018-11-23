@@ -14,16 +14,14 @@ import io.reactivex.functions.BiFunction
 /**
  * Created by chenxz on 2018/4/21.
  */
-class HomePresenter : CommonPresenter<HomeContract.View>(), HomeContract.Presenter {
+class HomePresenter : CommonPresenter<HomeContract.Model, HomeContract.View>(), HomeContract.Presenter {
 
-    private val homeModel: HomeModel by lazy {
-        HomeModel()
-    }
+    override fun createModel(): HomeContract.Model? = HomeModel()
 
     override fun requestBanner() {
-        val disposable = homeModel.requestBanner()
-                .retryWhen(RetryWithDelay())
-                .subscribe({ results ->
+        val disposable = mModel?.requestBanner()
+                ?.retryWhen(RetryWithDelay())
+                ?.subscribe({ results ->
                     mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
@@ -44,9 +42,9 @@ class HomePresenter : CommonPresenter<HomeContract.View>(), HomeContract.Present
     override fun requestArticles(num: Int) {
         if (num == 0)
             mView?.showLoading()
-        val disposable = homeModel.requestArticles(num)
-                .retryWhen(RetryWithDelay())
-                .subscribe({ results ->
+        val disposable = mModel?.requestArticles(num)
+                ?.retryWhen(RetryWithDelay())
+                ?.subscribe({ results ->
                     mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
@@ -70,9 +68,9 @@ class HomePresenter : CommonPresenter<HomeContract.View>(), HomeContract.Present
         requestBanner()
 
         val observable = if (SettingUtil.getIsShowTopArticle()) {
-            homeModel.requestArticles(0)
+            mModel?.requestArticles(0)
         } else {
-            Observable.zip(homeModel.requestTopArticles(), homeModel.requestArticles(0),
+            Observable.zip(mModel?.requestTopArticles(), mModel?.requestArticles(0),
                     BiFunction<HttpResult<MutableList<Article>>, HttpResult<ArticleResponseBody>,
                             HttpResult<ArticleResponseBody>> { t1, t2 ->
                         t1.data.forEach {
@@ -84,8 +82,8 @@ class HomePresenter : CommonPresenter<HomeContract.View>(), HomeContract.Present
                     })
         }
         val disposable = observable
-                .retryWhen(RetryWithDelay())
-                .subscribe({ results ->
+                ?.retryWhen(RetryWithDelay())
+                ?.subscribe({ results ->
                     mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)

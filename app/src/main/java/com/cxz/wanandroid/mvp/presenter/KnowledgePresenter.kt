@@ -8,17 +8,15 @@ import com.cxz.wanandroid.mvp.model.KnowledgeModel
 /**
  * Created by chenxz on 2018/5/12.
  */
-class KnowledgePresenter : CommonPresenter<KnowledgeContract.View>(), KnowledgeContract.Presenter {
+class KnowledgePresenter : CommonPresenter<KnowledgeContract.Model, KnowledgeContract.View>(), KnowledgeContract.Presenter {
 
-    private val knowledgeModel: KnowledgeModel by lazy {
-        KnowledgeModel()
-    }
+    override fun createModel(): KnowledgeContract.Model? = KnowledgeModel()
 
     override fun requestKnowledgeList(page: Int, cid: Int) {
         mView?.showLoading()
-        val disposable = knowledgeModel.requestKnowledgeList(page, cid)
-                .retryWhen(RetryWithDelay())
-                .subscribe({ results ->
+        val disposable = mModel?.requestKnowledgeList(page, cid)
+                ?.retryWhen(RetryWithDelay())
+                ?.subscribe({ results ->
                     mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)

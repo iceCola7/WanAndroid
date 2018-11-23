@@ -5,25 +5,28 @@ import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.HomeAdapter
 import com.cxz.wanandroid.app.App
-import com.cxz.wanandroid.base.BaseFragment
+import com.cxz.wanandroid.base.BaseMvpFragment
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.ext.showSnackMsg
 import com.cxz.wanandroid.ext.showToast
+import com.cxz.wanandroid.mvp.contract.SearchContract
 import com.cxz.wanandroid.mvp.contract.SearchListContract
 import com.cxz.wanandroid.mvp.model.bean.Article
 import com.cxz.wanandroid.mvp.model.bean.ArticleResponseBody
 import com.cxz.wanandroid.mvp.presenter.SearchListPresenter
+import com.cxz.wanandroid.mvp.presenter.SearchPresenter
 import com.cxz.wanandroid.ui.activity.ContentActivity
 import com.cxz.wanandroid.ui.activity.LoginActivity
 import com.cxz.wanandroid.utils.NetWorkUtil
 import com.cxz.wanandroid.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 
-class SearchListFragment : BaseFragment(), SearchListContract.View {
+class SearchListFragment : BaseMvpFragment<SearchListContract.View, SearchListContract.Presenter>(), SearchListContract.View {
 
     private var mKey = ""
 
@@ -35,12 +38,7 @@ class SearchListFragment : BaseFragment(), SearchListContract.View {
         }
     }
 
-    /**
-     * Presenter
-     */
-    private val mPresenter: SearchListPresenter by lazy {
-        SearchListPresenter()
-    }
+    override fun createPresenter(): SearchListContract.Presenter = SearchListPresenter()
 
     /**
      * datas
@@ -100,8 +98,8 @@ class SearchListFragment : BaseFragment(), SearchListContract.View {
 
     override fun attachLayoutRes(): Int = R.layout.fragment_search_list
 
-    override fun initView() {
-        mPresenter.attachView(this)
+    override fun initView(view: View) {
+        super.initView(view)
         mKey = arguments?.getString(Constant.SEARCH_KEY, "") ?: ""
 
         swipeRefreshLayout.run {
@@ -126,7 +124,7 @@ class SearchListFragment : BaseFragment(), SearchListContract.View {
     }
 
     override fun lazyLoad() {
-        mPresenter.queryBySearchKey(0, mKey)
+        mPresenter?.queryBySearchKey(0, mKey)
     }
 
     override fun showCancelCollectSuccess(success: Boolean) {
@@ -165,7 +163,7 @@ class SearchListFragment : BaseFragment(), SearchListContract.View {
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
         isRefresh = true
         searchListAdapter.setEnableLoadMore(false)
-        mPresenter.queryBySearchKey(0, mKey)
+        mPresenter?.queryBySearchKey(0, mKey)
     }
 
     /**
@@ -175,7 +173,7 @@ class SearchListFragment : BaseFragment(), SearchListContract.View {
         isRefresh = false
         swipeRefreshLayout.isRefreshing = false
         val page = searchListAdapter.data.size / 20
-        mPresenter.queryBySearchKey(page, mKey)
+        mPresenter?.queryBySearchKey(page, mKey)
     }
 
     /**
@@ -211,9 +209,9 @@ class SearchListFragment : BaseFragment(), SearchListContract.View {
                                 data.collect = !collect
                                 searchListAdapter.setData(position, data)
                                 if (collect) {
-                                    mPresenter.cancelCollectArticle(data.id)
+                                    mPresenter?.cancelCollectArticle(data.id)
                                 } else {
-                                    mPresenter.addCollectArticle(data.id)
+                                    mPresenter?.addCollectArticle(data.id)
                                 }
                             } else {
                                 Intent(activity, LoginActivity::class.java).run {

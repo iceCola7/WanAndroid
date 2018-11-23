@@ -9,17 +9,15 @@ import com.cxz.wanandroid.mvp.model.LoginModel
 /**
  * Created by chenxz on 2018/5/27.
  */
-class LoginPresenter : BasePresenter<LoginContract.View>(), LoginContract.Presenter {
+class LoginPresenter : BasePresenter<LoginContract.Model, LoginContract.View>(), LoginContract.Presenter {
 
-    private val loginModel: LoginModel by lazy {
-        LoginModel()
-    }
+    override fun createModel(): LoginContract.Model? = LoginModel()
 
     override fun loginWanAndroid(username: String, password: String) {
         mView?.showLoading()
-        val disposable = loginModel.loginWanAndroid(username, password)
-                .retryWhen(RetryWithDelay())
-                .subscribe({ results ->
+        val disposable = mModel?.loginWanAndroid(username, password)
+                ?.retryWhen(RetryWithDelay())
+                ?.subscribe({ results ->
                     mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)

@@ -9,11 +9,9 @@ import com.cxz.wanandroid.mvp.model.AddTodoModel
 /**
  * Created by chenxz on 2018/8/11.
  */
-class AddTodoPresenter : BasePresenter<AddTodoContract.View>(), AddTodoContract.Presenter {
+class AddTodoPresenter : BasePresenter<AddTodoContract.Model, AddTodoContract.View>(), AddTodoContract.Presenter {
 
-    private val addTodoModel: AddTodoModel by lazy {
-        AddTodoModel()
-    }
+    override fun createModel(): AddTodoContract.Model? = AddTodoModel()
 
     override fun addTodo() {
         val type = mView?.getType() ?: 0
@@ -27,9 +25,9 @@ class AddTodoPresenter : BasePresenter<AddTodoContract.View>(), AddTodoContract.
         map["date"] = date
 
         mView?.showLoading()
-        val disposable = addTodoModel.addTodo(map)
-                .retryWhen(RetryWithDelay())
-                .subscribe({ results ->
+        val disposable = mModel?.addTodo(map)
+                ?.retryWhen(RetryWithDelay())
+                ?.subscribe({ results ->
                     mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
@@ -60,9 +58,9 @@ class AddTodoPresenter : BasePresenter<AddTodoContract.View>(), AddTodoContract.
         map["date"] = date
         map["status"] = status
         mView?.showLoading()
-        val disposable = addTodoModel.updateTodo(id, map)
-                .retryWhen(RetryWithDelay())
-                .subscribe({ results ->
+        val disposable = mModel?.updateTodo(id, map)
+                ?.retryWhen(RetryWithDelay())
+                ?.subscribe({ results ->
                     mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)

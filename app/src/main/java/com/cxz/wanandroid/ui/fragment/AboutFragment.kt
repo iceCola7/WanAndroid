@@ -3,6 +3,7 @@ package com.cxz.wanandroid.ui.fragment
 import android.os.Bundle
 import android.text.Html
 import android.text.method.LinkMovementMethod
+import android.view.View
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_about.*
@@ -20,10 +21,7 @@ class AboutFragment : BaseFragment() {
         }
     }
 
-    override fun attachLayoutRes(): Int = R.layout.fragment_about
-
-    override fun initView() {
-
+    override fun initView(view: View) {
         about_content.run {
             text = Html.fromHtml(getString(R.string.about_content))
             movementMethod = LinkMovementMethod.getInstance()
@@ -31,8 +29,9 @@ class AboutFragment : BaseFragment() {
 
         val versionStr = getString(R.string.app_name) + " V" + activity?.packageManager?.getPackageInfo(activity?.packageName, 0)?.versionName
         about_version.text = versionStr
-
     }
+
+    override fun attachLayoutRes(): Int = R.layout.fragment_about
 
     override fun lazyLoad() {
     }

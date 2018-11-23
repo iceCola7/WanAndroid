@@ -9,16 +9,14 @@ import com.cxz.wanandroid.mvp.model.TodoModel
 /**
  * Created by chenxz on 2018/8/7.
  */
-class TodoPresenter : BasePresenter<TodoContract.View>(), TodoContract.Presenter {
+class TodoPresenter : BasePresenter<TodoContract.Model, TodoContract.View>(), TodoContract.Presenter {
 
-    private val todoModel by lazy {
-        TodoModel()
-    }
+    override fun createModel(): TodoContract.Model? = TodoModel()
 
     override fun getAllTodoList(type: Int) {
-        val disposable = todoModel.getTodoList(type)
-                .retryWhen(RetryWithDelay())
-                .subscribe({ results ->
+        val disposable = mModel?.getTodoList(type)
+                ?.retryWhen(RetryWithDelay())
+                ?.subscribe({ results ->
                     mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
@@ -38,9 +36,9 @@ class TodoPresenter : BasePresenter<TodoContract.View>(), TodoContract.Presenter
     override fun getNoTodoList(page: Int, type: Int) {
         if (page == 1)
             mView?.showLoading()
-        val disposable = todoModel.getNoTodoList(page, type)
-                .retryWhen(RetryWithDelay())
-                .subscribe({ results ->
+        val disposable = mModel?.getNoTodoList(page, type)
+                ?.retryWhen(RetryWithDelay())
+                ?.subscribe({ results ->
                     mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
@@ -61,9 +59,9 @@ class TodoPresenter : BasePresenter<TodoContract.View>(), TodoContract.Presenter
     override fun getDoneList(page: Int, type: Int) {
         if (page == 1)
             mView?.showLoading()
-        val disposable = todoModel.getDoneList(page, type)
-                .retryWhen(RetryWithDelay())
-                .subscribe({ results ->
+        val disposable = mModel?.getDoneList(page, type)
+                ?.retryWhen(RetryWithDelay())
+                ?.subscribe({ results ->
                     mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
@@ -82,9 +80,9 @@ class TodoPresenter : BasePresenter<TodoContract.View>(), TodoContract.Presenter
     }
 
     override fun deleteTodoById(id: Int) {
-        val disposable = todoModel.deleteTodoById(id)
-                .retryWhen(RetryWithDelay())
-                .subscribe({ results ->
+        val disposable = mModel?.deleteTodoById(id)
+                ?.retryWhen(RetryWithDelay())
+                ?.subscribe({ results ->
                     mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)
@@ -103,9 +101,9 @@ class TodoPresenter : BasePresenter<TodoContract.View>(), TodoContract.Presenter
     }
 
     override fun updateTodoById(id: Int, status: Int) {
-        val disposable = todoModel.updateTodoById(id, status)
-                .retryWhen(RetryWithDelay())
-                .subscribe({ results ->
+        val disposable = mModel?.updateTodoById(id, status)
+                ?.retryWhen(RetryWithDelay())
+                ?.subscribe({ results ->
                     mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)

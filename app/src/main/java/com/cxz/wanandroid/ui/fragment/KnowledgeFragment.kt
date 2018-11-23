@@ -5,11 +5,12 @@ import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.KnowledgeAdapter
 import com.cxz.wanandroid.app.App
-import com.cxz.wanandroid.base.BaseFragment
+import com.cxz.wanandroid.base.BaseMvpFragment
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.ext.showSnackMsg
 import com.cxz.wanandroid.ext.showToast
@@ -26,7 +27,7 @@ import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 /**
  * Created by chenxz on 2018/5/10.
  */
-class KnowledgeFragment : BaseFragment(), KnowledgeContract.View {
+class KnowledgeFragment : BaseMvpFragment<KnowledgeContract.View, KnowledgeContract.Presenter>(), KnowledgeContract.View {
 
     companion object {
         fun getInstance(cid: Int): KnowledgeFragment {
@@ -37,6 +38,8 @@ class KnowledgeFragment : BaseFragment(), KnowledgeContract.View {
             return fragment
         }
     }
+
+    override fun createPresenter(): KnowledgeContract.Presenter = KnowledgePresenter()
 
     /**
      * cid
@@ -76,10 +79,6 @@ class KnowledgeFragment : BaseFragment(), KnowledgeContract.View {
      */
     private var isRefresh = true
 
-    private val mPresenter: KnowledgePresenter by lazy {
-        KnowledgePresenter()
-    }
-
     override fun showLoading() {
         swipeRefreshLayout.isRefreshing = isRefresh
     }
@@ -115,8 +114,8 @@ class KnowledgeFragment : BaseFragment(), KnowledgeContract.View {
 
     override fun attachLayoutRes(): Int = R.layout.fragment_refresh_layout
 
-    override fun initView() {
-        mPresenter.attachView(this)
+    override fun initView(view: View) {
+        super.initView(view)
         cid = arguments?.getInt(Constant.CONTENT_CID_KEY) ?: 0
         swipeRefreshLayout.run {
             isRefreshing = true
@@ -138,7 +137,7 @@ class KnowledgeFragment : BaseFragment(), KnowledgeContract.View {
     }
 
     override fun lazyLoad() {
-        mPresenter.requestKnowledgeList(0, cid)
+        mPresenter?.requestKnowledgeList(0, cid)
     }
 
     override fun showCancelCollectSuccess(success: Boolean) {
@@ -177,7 +176,7 @@ class KnowledgeFragment : BaseFragment(), KnowledgeContract.View {
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
         isRefresh = true
         knowledgeAdapter.setEnableLoadMore(false)
-        mPresenter.requestKnowledgeList(0, cid)
+        mPresenter?.requestKnowledgeList(0, cid)
     }
 
     /**
@@ -187,7 +186,7 @@ class KnowledgeFragment : BaseFragment(), KnowledgeContract.View {
         isRefresh = false
         swipeRefreshLayout.isRefreshing = false
         val page = knowledgeAdapter.data.size / 20
-        mPresenter.requestKnowledgeList(page, cid)
+        mPresenter?.requestKnowledgeList(page, cid)
     }
 
     /**
@@ -223,9 +222,9 @@ class KnowledgeFragment : BaseFragment(), KnowledgeContract.View {
                                 data.collect = !collect
                                 knowledgeAdapter.setData(position, data)
                                 if (collect) {
-                                    mPresenter.cancelCollectArticle(data.id)
+                                    mPresenter?.cancelCollectArticle(data.id)
                                 } else {
-                                    mPresenter.addCollectArticle(data.id)
+                                    mPresenter?.addCollectArticle(data.id)
                                 }
                             } else {
                                 Intent(activity, LoginActivity::class.java).run {

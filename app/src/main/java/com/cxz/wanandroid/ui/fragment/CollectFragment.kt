@@ -5,10 +5,11 @@ import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.CollectAdapter
-import com.cxz.wanandroid.base.BaseFragment
+import com.cxz.wanandroid.base.BaseMvpFragment
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.RefreshHomeEvent
 import com.cxz.wanandroid.ext.showToast
@@ -24,7 +25,7 @@ import org.greenrobot.eventbus.EventBus
 /**
  * Created by chenxz on 2018/6/9.
  */
-class CollectFragment : BaseFragment(), CollectContract.View {
+class CollectFragment : BaseMvpFragment<CollectContract.View, CollectContract.Presenter>(), CollectContract.View {
 
     companion object {
         fun getInstance(bundle: Bundle): CollectFragment {
@@ -34,12 +35,7 @@ class CollectFragment : BaseFragment(), CollectContract.View {
         }
     }
 
-    /**
-     * Presenter
-     */
-    private val mPresenter: CollectPresenter by lazy {
-        CollectPresenter()
-    }
+    override fun createPresenter(): CollectContract.Presenter = CollectPresenter()
 
     /**
      * datas
@@ -98,9 +94,8 @@ class CollectFragment : BaseFragment(), CollectContract.View {
 
     override fun attachLayoutRes(): Int = R.layout.fragment_refresh_layout
 
-    override fun initView() {
-        mPresenter.attachView(this)
-
+    override fun initView(view: View) {
+        super.initView(view)
         swipeRefreshLayout.run {
             isRefreshing = true
             setOnRefreshListener(onRefreshListener)
@@ -124,7 +119,7 @@ class CollectFragment : BaseFragment(), CollectContract.View {
     }
 
     override fun lazyLoad() {
-        mPresenter.getCollectList(0)
+        mPresenter?.getCollectList(0)
     }
 
     override fun showRemoveCollectSuccess(success: Boolean) {
@@ -158,7 +153,7 @@ class CollectFragment : BaseFragment(), CollectContract.View {
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
         isRefresh = true
         collectAdapter.setEnableLoadMore(false)
-        mPresenter.getCollectList(0)
+        mPresenter?.getCollectList(0)
     }
     /**
      * LoadMoreListener
@@ -167,7 +162,7 @@ class CollectFragment : BaseFragment(), CollectContract.View {
         isRefresh = false
         swipeRefreshLayout.isRefreshing = false
         val page = collectAdapter.data.size / 20
-        mPresenter.getCollectList(page)
+        mPresenter?.getCollectList(page)
     }
 
     /**
@@ -195,7 +190,7 @@ class CollectFragment : BaseFragment(), CollectContract.View {
                     when (view.id) {
                         R.id.iv_like -> {
                             collectAdapter.remove(position)
-                            mPresenter.removeCollectArticle(data.id, data.originId)
+                            mPresenter?.removeCollectArticle(data.id, data.originId)
                         }
                     }
                 }

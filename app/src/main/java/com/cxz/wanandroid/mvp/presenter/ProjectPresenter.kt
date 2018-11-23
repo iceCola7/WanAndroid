@@ -9,17 +9,15 @@ import com.cxz.wanandroid.mvp.model.ProjectModel
 /**
  * Created by chenxz on 2018/5/15.
  */
-class ProjectPresenter : BasePresenter<ProjectContract.View>(), ProjectContract.Presenter {
+class ProjectPresenter : BasePresenter<ProjectContract.Model, ProjectContract.View>(), ProjectContract.Presenter {
 
-    private val projectModel: ProjectModel by lazy {
-        ProjectModel()
-    }
+    override fun createModel(): ProjectContract.Model? = ProjectModel()
 
     override fun requestProjectTree() {
         mView?.showLoading()
-        val disposable = projectModel.requestProjectTree()
-                .retryWhen(RetryWithDelay())
-                .subscribe({ results ->
+        val disposable = mModel?.requestProjectTree()
+                ?.retryWhen(RetryWithDelay())
+                ?.subscribe({ results ->
                     mView?.run {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)

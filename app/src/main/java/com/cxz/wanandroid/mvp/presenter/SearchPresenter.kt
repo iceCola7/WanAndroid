@@ -10,11 +10,10 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import org.litepal.LitePal
 
-class SearchPresenter : BasePresenter<SearchContract.View>(), SearchContract.Presenter {
+class SearchPresenter : BasePresenter<SearchContract.Model, SearchContract.View>(), SearchContract.Presenter {
 
-    private val searchModel by lazy {
-        SearchModel()
-    }
+
+    override fun createModel(): SearchContract.Model? = SearchModel()
 
     override fun deleteById(id: Long) {
         doAsync {
@@ -57,9 +56,9 @@ class SearchPresenter : BasePresenter<SearchContract.View>(), SearchContract.Pre
 
     override fun getHotSearchData() {
         mView?.showLoading()
-        val disposable = searchModel.getHotSearchData()
-                .retryWhen(RetryWithDelay())
-                .subscribe({ results ->
+        val disposable = mModel?.getHotSearchData()
+                ?.retryWhen(RetryWithDelay())
+                ?.subscribe({ results ->
                     mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)

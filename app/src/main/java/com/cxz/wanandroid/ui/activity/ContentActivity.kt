@@ -11,7 +11,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.webkit.*
 import com.cxz.wanandroid.R
-import com.cxz.wanandroid.base.BaseSwipeBackActivity
+import com.cxz.wanandroid.base.BaseMvpSwipeBackActivity
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.RefreshHomeEvent
 import com.cxz.wanandroid.ext.getAgentWeb
@@ -24,28 +24,16 @@ import kotlinx.android.synthetic.main.activity_content.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.greenrobot.eventbus.EventBus
 
-class ContentActivity : BaseSwipeBackActivity(), ContentContract.View {
+class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentContract.Presenter>(), ContentContract.View {
 
     private var agentWeb: AgentWeb? = null
     private lateinit var shareTitle: String
     private lateinit var shareUrl: String
     private var shareId: Int = 0
 
-    private val mPresenter: ContentPresenter by lazy {
-        ContentPresenter()
-    }
+    override fun createPresenter(): ContentContract.Presenter = ContentPresenter()
 
     override fun attachLayoutRes(): Int = R.layout.activity_content
-
-    override fun showLoading() {
-    }
-
-    override fun hideLoading() {
-    }
-
-    override fun showError(errorMsg: String) {
-        showToast(errorMsg)
-    }
 
     override fun showCollectSuccess(success: Boolean) {
         if (success) {
@@ -65,7 +53,7 @@ class ContentActivity : BaseSwipeBackActivity(), ContentContract.View {
     }
 
     override fun initView() {
-        mPresenter.attachView(this)
+        super.initView()
         toolbar.run {
             title = getString(R.string.loading)
             setSupportActionBar(this)
@@ -124,7 +112,7 @@ class ContentActivity : BaseSwipeBackActivity(), ContentContract.View {
             }
             R.id.action_like -> {
                 if (isLogin) {
-                    mPresenter.addCollectArticle(shareId)
+                    mPresenter?.addCollectArticle(shareId)
                 } else {
                     Intent(this, LoginActivity::class.java).run {
                         startActivity(this)

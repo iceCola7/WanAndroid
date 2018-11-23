@@ -11,17 +11,15 @@ import com.cxz.wanandroid.mvp.model.WeChatModel
  * @date 2018/10/28
  * @desc
  */
-class WeChatPresenter : BasePresenter<WeChatContract.View>(), WeChatContract.Presenter {
+class WeChatPresenter : BasePresenter<WeChatContract.Model, WeChatContract.View>(), WeChatContract.Presenter {
 
-    private val weChatModel: WeChatModel by lazy {
-        WeChatModel()
-    }
+    override fun createModel(): WeChatContract.Model? = WeChatModel()
 
     override fun getWXChapters() {
         mView?.showLoading()
-        val disposable = weChatModel.getWXChapters()
-                .retryWhen(RetryWithDelay())
-                .subscribe({ results ->
+        val disposable = mModel?.getWXChapters()
+                ?.retryWhen(RetryWithDelay())
+                ?.subscribe({ results ->
                     mView?.run {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)

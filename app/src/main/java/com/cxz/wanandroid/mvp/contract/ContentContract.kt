@@ -13,4 +13,8 @@ interface ContentContract {
 
     }
 
+    interface Model : CommonContract.Model {
+
+    }
+
 }

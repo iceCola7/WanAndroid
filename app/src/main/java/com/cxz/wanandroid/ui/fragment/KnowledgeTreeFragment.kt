@@ -4,10 +4,11 @@ import android.content.Intent
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.KnowledgeTreeAdapter
-import com.cxz.wanandroid.base.BaseFragment
+import com.cxz.wanandroid.base.BaseMvpFragment
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.KnowledgeTreeContract
@@ -20,15 +21,13 @@ import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 /**
  * Created by chenxz on 2018/5/8.
  */
-class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
+class KnowledgeTreeFragment : BaseMvpFragment<KnowledgeTreeContract.View, KnowledgeTreeContract.Presenter>(), KnowledgeTreeContract.View {
 
     companion object {
         fun getInstance(): KnowledgeTreeFragment = KnowledgeTreeFragment()
     }
 
-    private val mPresenter by lazy {
-        KnowledgeTreePresenter()
-    }
+    override fun createPresenter(): KnowledgeTreeContract.Presenter = KnowledgeTreePresenter()
 
     override fun attachLayoutRes(): Int = R.layout.fragment_refresh_layout
 
@@ -56,12 +55,12 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
     /**
      * LinearLayoutManager
      */
-    private val linearLayoutManager : LinearLayoutManager by lazy {
+    private val linearLayoutManager: LinearLayoutManager by lazy {
         LinearLayoutManager(activity)
     }
 
-    override fun initView() {
-        mPresenter.attachView(this)
+    override fun initView(view: View) {
+        super.initView(view)
         swipeRefreshLayout.run {
             isRefreshing = true
             setOnRefreshListener(onRefreshListener)
@@ -82,7 +81,7 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
     }
 
     override fun lazyLoad() {
-        mPresenter.requestKnowledgeTree()
+        mPresenter?.requestKnowledgeTree()
     }
 
     override fun showLoading() {
@@ -125,7 +124,7 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
      * RefreshListener
      */
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
-        mPresenter.requestKnowledgeTree()
+        mPresenter?.requestKnowledgeTree()
     }
 
     /**

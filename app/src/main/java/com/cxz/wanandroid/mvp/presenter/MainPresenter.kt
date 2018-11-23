@@ -10,16 +10,14 @@ import com.cxz.wanandroid.mvp.model.MainModel
  * @date 2018/8/30
  * @desc
  */
-class MainPresenter : BasePresenter<MainContract.View>(), MainContract.Presenter {
+class MainPresenter : BasePresenter<MainContract.Model, MainContract.View>(), MainContract.Presenter {
 
-    private val mainModel: MainModel by lazy {
-        MainModel()
-    }
+    override fun createModel(): MainContract.Model? = MainModel()
 
     override fun logout() {
         mView?.showLoading()
-        val disposable = mainModel.logout()
-                .subscribe({ results ->
+        val disposable = mModel?.logout()
+                ?.subscribe({ results ->
                     mView?.apply {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)

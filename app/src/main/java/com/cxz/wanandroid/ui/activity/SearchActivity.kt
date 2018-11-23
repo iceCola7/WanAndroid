@@ -13,7 +13,7 @@ import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.SearchHistoryAdapter
-import com.cxz.wanandroid.base.BaseSwipeBackActivity
+import com.cxz.wanandroid.base.BaseMvpSwipeBackActivity
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.SearchContract
@@ -28,14 +28,9 @@ import com.zhy.view.flowlayout.TagAdapter
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.toolbar_search.*
 
-class SearchActivity : BaseSwipeBackActivity(), SearchContract.View {
+class SearchActivity : BaseMvpSwipeBackActivity<SearchContract.View, SearchContract.Presenter>(), SearchContract.View {
 
-    /**
-     * Presenter
-     */
-    private val mPresenter by lazy {
-        SearchPresenter()
-    }
+    override fun createPresenter(): SearchContract.Presenter = SearchPresenter()
 
     /**
      * 热搜数据
@@ -74,8 +69,7 @@ class SearchActivity : BaseSwipeBackActivity(), SearchContract.View {
     }
 
     override fun initView() {
-        mPresenter.attachView(this)
-
+        super.initView()
         toolbar.run {
             setSupportActionBar(this)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -109,32 +103,22 @@ class SearchActivity : BaseSwipeBackActivity(), SearchContract.View {
         search_history_clear_all_tv.setOnClickListener {
             datas.clear()
             searchHistoryAdapter.replaceData(datas)
-            mPresenter.clearAllHistory()
+            mPresenter?.clearAllHistory()
         }
 
-        mPresenter.getHotSearchData()
+        mPresenter?.getHotSearchData()
     }
 
     override fun onResume() {
         super.onResume()
-        mPresenter.queryHistory()
+        mPresenter?.queryHistory()
     }
 
     override fun start() {
     }
 
-    override fun showLoading() {
-    }
-
-    override fun hideLoading() {
-    }
-
-    override fun showError(errorMsg: String) {
-        showToast(errorMsg)
-    }
-
     private fun goToSearchList(key: String) {
-        mPresenter.saveSearchKey(key)
+        mPresenter?.saveSearchKey(key)
         Intent(this, CommonActivity::class.java).run {
             putExtra(Constant.TYPE_KEY, Constant.Type.SEARCH_TYPE_KEY)
             putExtra(Constant.SEARCH_KEY, key)
@@ -214,7 +198,7 @@ class SearchActivity : BaseSwipeBackActivity(), SearchContract.View {
                     val item = searchHistoryAdapter.data[position]
                     when (view.id) {
                         R.id.iv_clear -> {
-                            mPresenter.deleteById(item.id)
+                            mPresenter?.deleteById(item.id)
                             searchHistoryAdapter.remove(position)
                         }
                     }

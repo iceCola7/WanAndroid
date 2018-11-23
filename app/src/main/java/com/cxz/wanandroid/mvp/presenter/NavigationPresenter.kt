@@ -9,17 +9,15 @@ import com.cxz.wanandroid.mvp.model.NavigationModel
 /**
  * Created by chenxz on 2018/5/13.
  */
-class NavigationPresenter : BasePresenter<NavigationContract.View>(), NavigationContract.Presenter {
+class NavigationPresenter : BasePresenter<NavigationContract.Model, NavigationContract.View>(), NavigationContract.Presenter {
 
-    private val navigationModel by lazy {
-        NavigationModel()
-    }
+    override fun createModel(): NavigationContract.Model? = NavigationModel()
 
     override fun requestNavigationList() {
         mView?.showLoading()
-        val disposable = navigationModel.requestNavigationList()
-                .retryWhen(RetryWithDelay())
-                .subscribe({ results ->
+        val disposable = mModel?.requestNavigationList()
+                ?.retryWhen(RetryWithDelay())
+                ?.subscribe({ results ->
                     mView?.run {
                         if (results.errorCode != 0) {
                             showError(results.errorMsg)

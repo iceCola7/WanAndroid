@@ -3,11 +3,11 @@ package com.cxz.wanandroid.ui.fragment
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.NavigationAdapter
 import com.cxz.wanandroid.adapter.NavigationTabAdapter
-import com.cxz.wanandroid.base.BaseFragment
-import com.cxz.wanandroid.ext.showToast
+import com.cxz.wanandroid.base.BaseMvpFragment
 import com.cxz.wanandroid.mvp.contract.NavigationContract
 import com.cxz.wanandroid.mvp.model.bean.NavigationBean
 import com.cxz.wanandroid.mvp.presenter.NavigationPresenter
@@ -18,21 +18,9 @@ import q.rorbin.verticaltablayout.widget.TabView
 /**
  * Created by chenxz on 2018/5/13.
  */
-class NavigationFragment : BaseFragment(), NavigationContract.View {
+class NavigationFragment : BaseMvpFragment<NavigationContract.View, NavigationContract.Presenter>(), NavigationContract.View {
 
-    private val mPresenter by lazy {
-        NavigationPresenter()
-    }
-
-    override fun showLoading() {
-    }
-
-    override fun hideLoading() {
-    }
-
-    override fun showError(errorMsg: String) {
-        showToast(errorMsg)
-    }
+    override fun createPresenter(): NavigationContract.Presenter = NavigationPresenter()
 
     companion object {
         fun getInstance(): NavigationFragment = NavigationFragment()
@@ -63,9 +51,8 @@ class NavigationFragment : BaseFragment(), NavigationContract.View {
 
     override fun attachLayoutRes(): Int = R.layout.fragment_navigation
 
-    override fun initView() {
-        mPresenter.attachView(this)
-
+    override fun initView(view: View) {
+        super.initView(view)
         recyclerView.run {
             layoutManager = linearLayoutManager
             adapter = navigationAdapter
@@ -183,7 +170,7 @@ class NavigationFragment : BaseFragment(), NavigationContract.View {
     }
 
     override fun lazyLoad() {
-        mPresenter.requestNavigationList()
+        mPresenter?.requestNavigationList()
     }
 
     override fun setNavigationData(list: List<NavigationBean>) {

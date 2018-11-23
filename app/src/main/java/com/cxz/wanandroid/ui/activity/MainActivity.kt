@@ -15,7 +15,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import com.cxz.wanandroid.R
-import com.cxz.wanandroid.base.BaseActivity
+import com.cxz.wanandroid.base.BaseMvpActivity
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.ColorEvent
 import com.cxz.wanandroid.event.LoginEvent
@@ -37,7 +37,7 @@ import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
-class MainActivity : BaseActivity(), MainContract.View {
+class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(), MainContract.View {
 
     private val BOTTOM_INDEX: String = "bottom_index"
 
@@ -55,12 +55,7 @@ class MainActivity : BaseActivity(), MainContract.View {
     private var mProjectFragment: ProjectFragment? = null
     private var mWeChatFragment: WeChatFragment? = null
 
-    /**
-     * Presenter
-     */
-    private val mPresenter: MainPresenter by lazy {
-        MainPresenter()
-    }
+    override fun createPresenter(): MainContract.Presenter = MainPresenter()
 
     /**
      * local username
@@ -80,16 +75,6 @@ class MainActivity : BaseActivity(), MainContract.View {
 
     override fun useEventBus(): Boolean = true
 
-    override fun showLoading() {
-    }
-
-    override fun hideLoading() {
-    }
-
-    override fun showError(errorMsg: String) {
-        showToast(errorMsg)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
             mIndex = savedInstanceState?.getInt(BOTTOM_INDEX)
@@ -98,8 +83,7 @@ class MainActivity : BaseActivity(), MainContract.View {
     }
 
     override fun initView() {
-        mPresenter.attachView(this)
-
+        super.initView()
         toolbar.run {
             title = getString(R.string.app_name)
             setSupportActionBar(this)
@@ -420,7 +404,7 @@ class MainActivity : BaseActivity(), MainContract.View {
         DialogUtil.getConfirmDialog(this, resources.getString(R.string.confirm_logout),
                 DialogInterface.OnClickListener { _, _ ->
                     mDialog.show()
-                    mPresenter.logout()
+                    mPresenter?.logout()
                 }).show()
     }
 

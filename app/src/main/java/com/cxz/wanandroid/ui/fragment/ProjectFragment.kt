@@ -1,9 +1,10 @@
 package com.cxz.wanandroid.ui.fragment
 
 import android.support.design.widget.TabLayout
+import android.view.View
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.ProjectPagerAdapter
-import com.cxz.wanandroid.base.BaseFragment
+import com.cxz.wanandroid.base.BaseMvpFragment
 import com.cxz.wanandroid.event.ColorEvent
 import com.cxz.wanandroid.mvp.contract.ProjectContract
 import com.cxz.wanandroid.mvp.model.bean.ProjectTreeBean
@@ -16,24 +17,13 @@ import org.greenrobot.eventbus.ThreadMode
 /**
  * Created by chenxz on 2018/5/15.
  */
-class ProjectFragment : BaseFragment(), ProjectContract.View {
+class ProjectFragment : BaseMvpFragment<ProjectContract.View, ProjectContract.Presenter>(), ProjectContract.View {
 
     companion object {
         fun getInstance(): ProjectFragment = ProjectFragment()
     }
 
-    private val mPresenter: ProjectPresenter by lazy {
-        ProjectPresenter()
-    }
-
-    override fun showLoading() {
-    }
-
-    override fun hideLoading() {
-    }
-
-    override fun showError(errorMsg: String) {
-    }
+    override fun createPresenter(): ProjectContract.Presenter = ProjectPresenter()
 
     override fun attachLayoutRes(): Int = R.layout.fragment_project
 
@@ -51,9 +41,8 @@ class ProjectFragment : BaseFragment(), ProjectContract.View {
 
     override fun useEventBus(): Boolean = true
 
-    override fun initView() {
-        mPresenter.attachView(this)
-
+    override fun initView(view: View) {
+        super.initView(view)
         viewPager.run {
             addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
         }
@@ -79,7 +68,7 @@ class ProjectFragment : BaseFragment(), ProjectContract.View {
     }
 
     override fun lazyLoad() {
-        mPresenter.requestProjectTree()
+        mPresenter?.requestProjectTree()
     }
 
     override fun doReConnected() {
