@@ -25,7 +25,7 @@ abstract class BaseObserver<T : BaseBean>(view: IView? = null) : ResourceObserve
         super.onStart()
         mView?.showLoading()
         if (!NetWorkUtil.isNetworkConnected(App.instance)) {
-            mView?.showDefaultMsg("当前网络不可用，请检查网络设置")
+            mView?.showDefaultMsg("网络连接不可用,请检查网络设置!")
             onComplete()
         }
     }

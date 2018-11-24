@@ -1,5 +1,6 @@
 package com.cxz.wanandroid.ext
 
+import com.cxz.wanandroid.R
 import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.base.IModel
 import com.cxz.wanandroid.base.IView
@@ -22,6 +23,7 @@ import io.reactivex.disposables.Disposable
 fun <T : BaseBean> Observable<T>.ss(
         model: IModel?,
         view: IView?,
+        isShowLoading: Boolean = true,
         onSuccess: (T) -> Unit
 ) {
     this.compose(SchedulerUtils.ioToMain())
@@ -32,10 +34,12 @@ fun <T : BaseBean> Observable<T>.ss(
                 }
 
                 override fun onSubscribe(d: Disposable) {
-                    view?.showLoading()
+                    if (isShowLoading) {
+                        view?.showLoading()
+                    }
                     model?.addDisposable(d)
                     if (!NetWorkUtil.isNetworkConnected(App.instance)) {
-                        view?.showDefaultMsg("当前网络不可用，请检查网络设置")
+                        view?.showDefaultMsg(App.instance.resources.getString(R.string.network_unavailable_tip))
                         onComplete()
                     }
                 }
@@ -52,16 +56,19 @@ fun <T : BaseBean> Observable<T>.ss(
 
                 override fun onError(t: Throwable) {
                     view?.hideLoading()
-                    ExceptionHandle.handleException(t)
+                    view?.showError(ExceptionHandle.handleException(t))
                 }
             })
 }
 
 fun <T : BaseBean> Observable<T>.sss(
         view: IView?,
+        isShowLoading: Boolean = true,
         onSuccess: (T) -> Unit
 ): Disposable {
-    view?.showLoading()
+    if (isShowLoading) {
+        view?.showLoading()
+    }
     return this.compose(SchedulerUtils.ioToMain())
             .retryWhen(RetryWithDelay())
             .subscribe({
@@ -75,7 +82,7 @@ fun <T : BaseBean> Observable<T>.sss(
                 view?.hideLoading()
             }, {
                 view?.hideLoading()
-                ExceptionHandle.handleException(it)
+                view?.showError(ExceptionHandle.handleException(it))
             })
 }
 
