@@ -164,10 +164,10 @@ class HomeFragment : BaseMvpFragment<HomeContract.View, HomeContract.Presenter>(
         val bannerFeedList = ArrayList<String>()
         val bannerTitleList = ArrayList<String>()
         Observable.fromIterable(banners)
-                .subscribe({ list ->
+                .subscribe { list ->
                     bannerFeedList.add(list.imagePath)
                     bannerTitleList.add(list.title)
-                })
+                }
         bannerView?.banner?.run {
             setAutoPlayAble(bannerFeedList.size > 1)
             setData(bannerFeedList, bannerTitleList)

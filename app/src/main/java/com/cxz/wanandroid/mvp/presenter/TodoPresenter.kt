@@ -2,7 +2,6 @@ package com.cxz.wanandroid.mvp.presenter
 
 import com.cxz.wanandroid.base.BasePresenter
 import com.cxz.wanandroid.ext.ss
-import com.cxz.wanandroid.ext.sss
 import com.cxz.wanandroid.mvp.contract.TodoContract
 import com.cxz.wanandroid.mvp.model.TodoModel
 
@@ -20,23 +19,15 @@ class TodoPresenter : BasePresenter<TodoContract.Model, TodoContract.View>(), To
     }
 
     override fun getNoTodoList(page: Int, type: Int) {
-        if (page == 1)
-            mView?.showLoading()
-        addDisposable(
-                mModel?.getNoTodoList(page, type)?.sss(mView) {
-                    mView?.showNoTodoList(it.data)
-                }
-        )
+        mModel?.getNoTodoList(page, type)?.ss(mModel, mView, page == 1) {
+            mView?.showNoTodoList(it.data)
+        }
     }
 
     override fun getDoneList(page: Int, type: Int) {
-        if (page == 1)
-            mView?.showLoading()
-        addDisposable(
-                mModel?.getDoneList(page, type)?.sss(mView) {
-                    mView?.showNoTodoList(it.data)
-                }
-        )
+        mModel?.getDoneList(page, type)?.ss(mModel, mView, page == 1) {
+            mView?.showNoTodoList(it.data)
+        }
     }
 
     override fun deleteTodoById(id: Int) {

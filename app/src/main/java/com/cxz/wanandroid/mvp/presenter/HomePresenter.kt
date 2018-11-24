@@ -1,7 +1,6 @@
 package com.cxz.wanandroid.mvp.presenter
 
 import com.cxz.wanandroid.ext.ss
-import com.cxz.wanandroid.ext.sss
 import com.cxz.wanandroid.mvp.contract.HomeContract
 import com.cxz.wanandroid.mvp.model.HomeModel
 import com.cxz.wanandroid.mvp.model.bean.Article
@@ -19,23 +18,18 @@ class HomePresenter : CommonPresenter<HomeContract.Model, HomeContract.View>(), 
     override fun createModel(): HomeContract.Model? = HomeModel()
 
     override fun requestBanner() {
-        mModel?.requestBanner()?.ss(mModel, mView) {
+        mModel?.requestBanner()?.ss(mModel, mView, false) {
             mView?.setBanner(it.data)
         }
     }
 
     override fun requestArticles(num: Int) {
-        if (num == 0)
-            mView?.showLoading()
-        addDisposable(
-                mModel?.requestArticles(num)?.sss(mView) {
-                    mView?.setArticles(it.data)
-                }
-        )
+        mModel?.requestArticles(num)?.ss(mModel, mView, num == 0) {
+            mView?.setArticles(it.data)
+        }
     }
 
     override fun requestHomeData() {
-        mView?.showLoading()
 
         requestBanner()
 
@@ -53,7 +47,7 @@ class HomePresenter : CommonPresenter<HomeContract.Model, HomeContract.View>(), 
                         t2
                     })
         }
-        observable?.ss(mModel, mView) {
+        observable?.ss(mModel, mView, false) {
             mView?.setArticles(it.data)
         }
     }
