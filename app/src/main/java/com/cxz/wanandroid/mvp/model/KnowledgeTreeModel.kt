@@ -5,7 +5,6 @@ import com.cxz.wanandroid.http.RetrofitHelper
 import com.cxz.wanandroid.mvp.contract.KnowledgeTreeContract
 import com.cxz.wanandroid.mvp.model.bean.HttpResult
 import com.cxz.wanandroid.mvp.model.bean.KnowledgeTreeBody
-import com.cxz.wanandroid.rx.SchedulerUtils
 import io.reactivex.Observable
 
 /**
@@ -15,7 +14,6 @@ class KnowledgeTreeModel : BaseModel(), KnowledgeTreeContract.Model {
 
     override fun requestKnowledgeTree(): Observable<HttpResult<List<KnowledgeTreeBody>>> {
         return RetrofitHelper.service.getKnowledgeTree()
-                .compose(SchedulerUtils.ioToMain())
     }
 
 }

@@ -5,7 +5,6 @@ import com.cxz.wanandroid.http.RetrofitHelper
 import com.cxz.wanandroid.mvp.contract.WeChatContract
 import com.cxz.wanandroid.mvp.model.bean.HttpResult
 import com.cxz.wanandroid.mvp.model.bean.WXChapterBean
-import com.cxz.wanandroid.rx.SchedulerUtils
 import io.reactivex.Observable
 
 /**
@@ -17,7 +16,6 @@ class WeChatModel : BaseModel(), WeChatContract.Model {
 
     override fun getWXChapters(): Observable<HttpResult<MutableList<WXChapterBean>>> {
         return RetrofitHelper.service.getWXChapters()
-                .compose(SchedulerUtils.ioToMain())
     }
 
 }

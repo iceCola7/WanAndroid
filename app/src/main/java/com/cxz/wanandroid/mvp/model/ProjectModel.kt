@@ -5,7 +5,6 @@ import com.cxz.wanandroid.http.RetrofitHelper
 import com.cxz.wanandroid.mvp.contract.ProjectContract
 import com.cxz.wanandroid.mvp.model.bean.HttpResult
 import com.cxz.wanandroid.mvp.model.bean.ProjectTreeBean
-import com.cxz.wanandroid.rx.SchedulerUtils
 import io.reactivex.Observable
 
 /**
@@ -15,7 +14,6 @@ class ProjectModel : BaseModel(), ProjectContract.Model {
 
     override fun requestProjectTree(): Observable<HttpResult<List<ProjectTreeBean>>> {
         return RetrofitHelper.service.getProjectTree()
-                .compose(SchedulerUtils.ioToMain())
     }
 
 }

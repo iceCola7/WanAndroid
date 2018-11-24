@@ -1,7 +1,7 @@
 package com.cxz.wanandroid.mvp.presenter
 
-import com.cxz.wanandroid.http.exception.ExceptionHandle
-import com.cxz.wanandroid.http.function.RetryWithDelay
+import com.cxz.wanandroid.ext.ss
+import com.cxz.wanandroid.ext.sss
 import com.cxz.wanandroid.mvp.contract.HomeContract
 import com.cxz.wanandroid.mvp.model.HomeModel
 import com.cxz.wanandroid.mvp.model.bean.Article
@@ -19,47 +19,19 @@ class HomePresenter : CommonPresenter<HomeContract.Model, HomeContract.View>(), 
     override fun createModel(): HomeContract.Model? = HomeModel()
 
     override fun requestBanner() {
-        val disposable = mModel?.requestBanner()
-                ?.retryWhen(RetryWithDelay())
-                ?.subscribe({ results ->
-                    mView?.apply {
-                        if (results.errorCode != 0) {
-                            showError(results.errorMsg)
-                        } else {
-                            setBanner(results.data)
-                        }
-                        hideLoading()
-                    }
-                }, { t ->
-                    mView?.apply {
-                        hideLoading()
-                        showError(ExceptionHandle.handleException(t))
-                    }
-                })
-        addSubscription(disposable)
+        mModel?.requestBanner()?.ss(mModel, mView) {
+            mView?.setBanner(it.data)
+        }
     }
 
     override fun requestArticles(num: Int) {
         if (num == 0)
             mView?.showLoading()
-        val disposable = mModel?.requestArticles(num)
-                ?.retryWhen(RetryWithDelay())
-                ?.subscribe({ results ->
-                    mView?.apply {
-                        if (results.errorCode != 0) {
-                            showError(results.errorMsg)
-                        } else {
-                            setArticles(results.data)
-                        }
-                        hideLoading()
-                    }
-                }, { t ->
-                    mView?.apply {
-                        hideLoading()
-                        showError(ExceptionHandle.handleException(t))
-                    }
-                })
-        addSubscription(disposable)
+        addDisposable(
+                mModel?.requestArticles(num)?.sss(mView) {
+                    mView?.setArticles(it.data)
+                }
+        )
     }
 
     override fun requestHomeData() {
@@ -81,24 +53,9 @@ class HomePresenter : CommonPresenter<HomeContract.Model, HomeContract.View>(), 
                         t2
                     })
         }
-        val disposable = observable
-                ?.retryWhen(RetryWithDelay())
-                ?.subscribe({ results ->
-                    mView?.apply {
-                        if (results.errorCode != 0) {
-                            showError(results.errorMsg)
-                        } else {
-                            setArticles(results.data)
-                        }
-                        hideLoading()
-                    }
-                }, { t ->
-                    mView?.apply {
-                        hideLoading()
-                        showError(ExceptionHandle.handleException(t))
-                    }
-                })
-        addSubscription(disposable)
+        observable?.ss(mModel, mView) {
+            mView?.setArticles(it.data)
+        }
     }
 
 }

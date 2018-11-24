@@ -1,8 +1,7 @@
 package com.cxz.wanandroid.mvp.presenter
 
 import com.cxz.wanandroid.base.BasePresenter
-import com.cxz.wanandroid.http.exception.ExceptionHandle
-import com.cxz.wanandroid.http.function.RetryWithDelay
+import com.cxz.wanandroid.ext.ss
 import com.cxz.wanandroid.mvp.contract.NavigationContract
 import com.cxz.wanandroid.mvp.model.NavigationModel
 
@@ -14,24 +13,9 @@ class NavigationPresenter : BasePresenter<NavigationContract.Model, NavigationCo
     override fun createModel(): NavigationContract.Model? = NavigationModel()
 
     override fun requestNavigationList() {
-        mView?.showLoading()
-        val disposable = mModel?.requestNavigationList()
-                ?.retryWhen(RetryWithDelay())
-                ?.subscribe({ results ->
-                    mView?.run {
-                        if (results.errorCode != 0) {
-                            showError(results.errorMsg)
-                        } else {
-                            setNavigationData(results.data)
-                        }
-                    }
-                }, { t ->
-                    mView?.apply {
-                        hideLoading()
-                        showError(ExceptionHandle.handleException(t))
-                    }
-                })
-        addSubscription(disposable)
+        mModel?.requestNavigationList()?.ss(mModel, mView) {
+            mView?.setNavigationData(it.data)
+        }
     }
 
 }

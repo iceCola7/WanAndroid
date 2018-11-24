@@ -6,7 +6,6 @@ import com.cxz.wanandroid.mvp.model.bean.Article
 import com.cxz.wanandroid.mvp.model.bean.ArticleResponseBody
 import com.cxz.wanandroid.mvp.model.bean.Banner
 import com.cxz.wanandroid.mvp.model.bean.HttpResult
-import com.cxz.wanandroid.rx.SchedulerUtils
 import io.reactivex.Observable
 
 /**
@@ -16,17 +15,14 @@ class HomeModel : CommonModel(), HomeContract.Model {
 
     override fun requestBanner(): Observable<HttpResult<List<Banner>>> {
         return RetrofitHelper.service.getBanners()
-                .compose(SchedulerUtils.ioToMain())
     }
 
     override fun requestTopArticles(): Observable<HttpResult<MutableList<Article>>> {
         return RetrofitHelper.service.getTopArticles()
-                .compose(SchedulerUtils.ioToMain())
     }
 
     override fun requestArticles(num: Int): Observable<HttpResult<ArticleResponseBody>> {
         return RetrofitHelper.service.getArticles(num)
-                .compose(SchedulerUtils.ioToMain())
     }
 
 }

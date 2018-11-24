@@ -4,7 +4,6 @@ import com.cxz.wanandroid.base.BaseModel
 import com.cxz.wanandroid.http.RetrofitHelper
 import com.cxz.wanandroid.mvp.contract.CommonContract
 import com.cxz.wanandroid.mvp.model.bean.HttpResult
-import com.cxz.wanandroid.rx.SchedulerUtils
 import io.reactivex.Observable
 
 /**
@@ -14,12 +13,10 @@ open class CommonModel : BaseModel(), CommonContract.Model {
 
     override fun addCollectArticle(id: Int): Observable<HttpResult<Any>> {
         return RetrofitHelper.service.addCollectArticle(id)
-                .compose(SchedulerUtils.ioToMain())
     }
 
     override fun cancelCollectArticle(id: Int): Observable<HttpResult<Any>> {
         return RetrofitHelper.service.cancelCollectArticle(id)
-                .compose(SchedulerUtils.ioToMain())
     }
 
 }

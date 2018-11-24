@@ -4,7 +4,6 @@ import com.cxz.wanandroid.base.BaseModel
 import com.cxz.wanandroid.http.RetrofitHelper
 import com.cxz.wanandroid.mvp.contract.MainContract
 import com.cxz.wanandroid.mvp.model.bean.HttpResult
-import com.cxz.wanandroid.rx.SchedulerUtils
 import io.reactivex.Observable
 
 /**
@@ -16,7 +15,6 @@ class MainModel : BaseModel(), MainContract.Model {
 
     override fun logout(): Observable<HttpResult<Any>> {
         return RetrofitHelper.service.logout()
-                .compose(SchedulerUtils.ioToMain())
     }
 
 }

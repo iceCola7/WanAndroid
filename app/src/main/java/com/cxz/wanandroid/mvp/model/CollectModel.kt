@@ -6,7 +6,6 @@ import com.cxz.wanandroid.mvp.contract.CollectContract
 import com.cxz.wanandroid.mvp.model.bean.CollectionArticle
 import com.cxz.wanandroid.mvp.model.bean.CollectionResponseBody
 import com.cxz.wanandroid.mvp.model.bean.HttpResult
-import com.cxz.wanandroid.rx.SchedulerUtils
 import io.reactivex.Observable
 
 /**
@@ -16,12 +15,10 @@ class CollectModel : BaseModel(), CollectContract.Model {
 
     override fun getCollectList(page: Int): Observable<HttpResult<CollectionResponseBody<CollectionArticle>>> {
         return RetrofitHelper.service.getCollectList(page)
-                .compose(SchedulerUtils.ioToMain())
     }
 
     override fun removeCollectArticle(id: Int, originId: Int): Observable<HttpResult<Any>> {
         return RetrofitHelper.service.removeCollectArticle(id, originId)
-                .compose(SchedulerUtils.ioToMain())
     }
 
 }
