@@ -2,8 +2,8 @@ package com.cxz.wanandroid.mvp.model
 
 import com.cxz.wanandroid.base.BaseModel
 import com.cxz.wanandroid.http.RetrofitHelper
+import com.cxz.wanandroid.mvp.contract.MainContract
 import com.cxz.wanandroid.mvp.model.bean.HttpResult
-import com.cxz.wanandroid.rx.SchedulerUtils
 import io.reactivex.Observable
 
 /**
@@ -11,11 +11,10 @@ import io.reactivex.Observable
  * @date 2018/8/30
  * @desc
  */
-class MainModel : BaseModel() {
+class MainModel : BaseModel(), MainContract.Model {
 
-    fun logout(): Observable<HttpResult<Any>> {
+    override fun logout(): Observable<HttpResult<Any>> {
         return RetrofitHelper.service.logout()
-                .compose(SchedulerUtils.ioToMain())
     }
 
 }

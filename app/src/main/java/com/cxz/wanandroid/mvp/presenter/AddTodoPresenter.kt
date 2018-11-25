@@ -1,19 +1,16 @@
 package com.cxz.wanandroid.mvp.presenter
 
 import com.cxz.wanandroid.base.BasePresenter
-import com.cxz.wanandroid.http.exception.ExceptionHandle
-import com.cxz.wanandroid.http.function.RetryWithDelay
+import com.cxz.wanandroid.ext.ss
 import com.cxz.wanandroid.mvp.contract.AddTodoContract
 import com.cxz.wanandroid.mvp.model.AddTodoModel
 
 /**
  * Created by chenxz on 2018/8/11.
  */
-class AddTodoPresenter : BasePresenter<AddTodoContract.View>(), AddTodoContract.Presenter {
+class AddTodoPresenter : BasePresenter<AddTodoContract.Model, AddTodoContract.View>(), AddTodoContract.Presenter {
 
-    private val addTodoModel: AddTodoModel by lazy {
-        AddTodoModel()
-    }
+    override fun createModel(): AddTodoContract.Model? = AddTodoModel()
 
     override fun addTodo() {
         val type = mView?.getType() ?: 0
@@ -26,25 +23,9 @@ class AddTodoPresenter : BasePresenter<AddTodoContract.View>(), AddTodoContract.
         map["content"] = content
         map["date"] = date
 
-        mView?.showLoading()
-        val disposable = addTodoModel.addTodo(map)
-                .retryWhen(RetryWithDelay())
-                .subscribe({ results ->
-                    mView?.apply {
-                        if (results.errorCode != 0) {
-                            showError(results.errorMsg)
-                        } else {
-                            showAddTodo(true)
-                        }
-                        hideLoading()
-                    }
-                }, {
-                    mView?.apply {
-                        hideLoading()
-                        showError(ExceptionHandle.handleException(it))
-                    }
-                })
-        addSubscription(disposable)
+        mModel?.addTodo(map)?.ss(mModel, mView) {
+            mView?.showAddTodo(true)
+        }
     }
 
     override fun updateTodo(id: Int) {
@@ -59,25 +40,10 @@ class AddTodoPresenter : BasePresenter<AddTodoContract.View>(), AddTodoContract.
         map["content"] = content
         map["date"] = date
         map["status"] = status
-        mView?.showLoading()
-        val disposable = addTodoModel.updateTodo(id, map)
-                .retryWhen(RetryWithDelay())
-                .subscribe({ results ->
-                    mView?.apply {
-                        if (results.errorCode != 0) {
-                            showError(results.errorMsg)
-                        } else {
-                            showUpdateTodo(true)
-                        }
-                        hideLoading()
-                    }
-                }, {
-                    mView?.apply {
-                        hideLoading()
-                        showError(ExceptionHandle.handleException(it))
-                    }
-                })
-        addSubscription(disposable)
+
+        mModel?.updateTodo(id, map)?.ss(mModel, mView) {
+            mView?.showUpdateTodo(true)
+        }
     }
 
 

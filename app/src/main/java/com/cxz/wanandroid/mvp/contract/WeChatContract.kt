@@ -1,8 +1,11 @@
 package com.cxz.wanandroid.mvp.contract
 
+import com.cxz.wanandroid.base.IModel
 import com.cxz.wanandroid.base.IPresenter
 import com.cxz.wanandroid.base.IView
+import com.cxz.wanandroid.mvp.model.bean.HttpResult
 import com.cxz.wanandroid.mvp.model.bean.WXChapterBean
+import io.reactivex.Observable
 
 /**
  * @author chenxz
@@ -21,6 +24,10 @@ interface WeChatContract {
 
     interface Presenter : IPresenter<View> {
         fun getWXChapters()
+    }
+
+    interface Model : IModel {
+        fun getWXChapters(): Observable<HttpResult<MutableList<WXChapterBean>>>
     }
 
 }

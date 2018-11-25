@@ -3,7 +3,7 @@ package com.cxz.wanandroid.ui.fragment
 import android.os.Bundle
 import android.view.View
 import com.cxz.wanandroid.R
-import com.cxz.wanandroid.base.BaseFragment
+import com.cxz.wanandroid.base.BaseMvpFragment
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.RefreshTodoEvent
 import com.cxz.wanandroid.ext.formatCurrentDate
@@ -20,7 +20,7 @@ import java.util.*
 /**
  * Created by chenxz on 2018/8/11.
  */
-class AddTodoFragment : BaseFragment(), AddTodoContract.View {
+class AddTodoFragment : BaseMvpFragment<AddTodoContract.View, AddTodoContract.Presenter>(), AddTodoContract.View {
 
     companion object {
         fun getInstance(bundle: Bundle): AddTodoFragment {
@@ -30,9 +30,7 @@ class AddTodoFragment : BaseFragment(), AddTodoContract.View {
         }
     }
 
-    private val mPresenter by lazy {
-        AddTodoPresenter()
-    }
+    override fun createPresenter(): AddTodoContract.Presenter = AddTodoPresenter()
 
     /**
      * Date
@@ -65,10 +63,6 @@ class AddTodoFragment : BaseFragment(), AddTodoContract.View {
         mDialog.dismiss()
     }
 
-    override fun showError(errorMsg: String) {
-        showToast(errorMsg)
-    }
-
     override fun attachLayoutRes(): Int = R.layout.fragment_add_todo
 
     override fun getType(): Int = mType
@@ -78,8 +72,8 @@ class AddTodoFragment : BaseFragment(), AddTodoContract.View {
     override fun getStatus(): Int = mTodoBean?.status ?: 0
     override fun getItemId(): Int = mTodoBean?.id ?: 0
 
-    override fun initView() {
-        mPresenter.attachView(this)
+    override fun initView(view: View) {
+        super.initView(view)
         tv_date.text = mCurrentDate
 
         mType = arguments?.getInt(Constant.TODO_TYPE) ?: 0
@@ -127,10 +121,10 @@ class AddTodoFragment : BaseFragment(), AddTodoContract.View {
         btn_save.setOnClickListener {
             when (mTypeKey) {
                 Constant.Type.ADD_TODO_TYPE_KEY -> {
-                    mPresenter.addTodo()
+                    mPresenter?.addTodo()
                 }
                 Constant.Type.EDIT_TODO_TYPE_KEY -> {
-                    mPresenter.updateTodo(getItemId())
+                    mPresenter?.updateTodo(getItemId())
                 }
             }
         }

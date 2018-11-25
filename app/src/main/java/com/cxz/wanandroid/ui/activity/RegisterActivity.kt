@@ -3,7 +3,7 @@ package com.cxz.wanandroid.ui.activity
 import android.content.Intent
 import android.view.View
 import com.cxz.wanandroid.R
-import com.cxz.wanandroid.base.BaseActivity
+import com.cxz.wanandroid.base.BaseMvpActivity
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.LoginEvent
 import com.cxz.wanandroid.ext.showToast
@@ -15,7 +15,7 @@ import com.cxz.wanandroid.utils.Preference
 import kotlinx.android.synthetic.main.activity_register.*
 import org.greenrobot.eventbus.EventBus
 
-class RegisterActivity : BaseActivity(), RegisterContract.View {
+class RegisterActivity : BaseMvpActivity<RegisterContract.View, RegisterContract.Presenter>(), RegisterContract.View {
 
     /**
      * local username
@@ -27,12 +27,7 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
      */
     private var pwd: String by Preference(Constant.PASSWORD_KEY, "")
 
-    /**
-     * Presenter
-     */
-    private val mPresenter by lazy {
-        RegisterPresenter()
-    }
+    override fun createPresenter(): RegisterContract.Presenter = RegisterPresenter()
 
     private val mDialog by lazy {
         DialogUtil.getWaitDialog(this, getString(R.string.register_ing))
@@ -44,10 +39,6 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
 
     override fun hideLoading() {
         mDialog.dismiss()
-    }
-
-    override fun showError(errorMsg: String) {
-        showToast(errorMsg)
     }
 
     override fun registerSuccess(data: LoginData) {
@@ -74,7 +65,7 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
     }
 
     override fun initView() {
-        mPresenter.attachView(this)
+        super.initView()
         btn_register.setOnClickListener(onClickListener)
         tv_sign_in.setOnClickListener(onClickListener)
     }
@@ -105,7 +96,7 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
      */
     private fun register() {
         if (validate()) {
-            mPresenter.registerWanAndroid(et_username.text.toString(),
+            mPresenter?.registerWanAndroid(et_username.text.toString(),
                     et_password.text.toString(),
                     et_password2.text.toString())
         }

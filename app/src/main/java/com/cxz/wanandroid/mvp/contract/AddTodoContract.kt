@@ -1,7 +1,10 @@
 package com.cxz.wanandroid.mvp.contract
 
+import com.cxz.wanandroid.base.IModel
 import com.cxz.wanandroid.base.IPresenter
 import com.cxz.wanandroid.base.IView
+import com.cxz.wanandroid.mvp.model.bean.HttpResult
+import io.reactivex.Observable
 
 /**
  * Created by chenxz on 2018/8/11.
@@ -30,5 +33,14 @@ interface AddTodoContract {
         fun updateTodo(id: Int)
 
     }
+
+    interface Model : IModel {
+
+        fun addTodo(map: MutableMap<String, Any>): Observable<HttpResult<Any>>
+
+        fun updateTodo(id: Int, map: MutableMap<String, Any>): Observable<HttpResult<Any>>
+
+    }
+
 
 }

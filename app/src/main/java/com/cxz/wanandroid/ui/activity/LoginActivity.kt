@@ -3,7 +3,7 @@ package com.cxz.wanandroid.ui.activity
 import android.content.Intent
 import android.view.View
 import com.cxz.wanandroid.R
-import com.cxz.wanandroid.base.BaseActivity
+import com.cxz.wanandroid.base.BaseMvpActivity
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.LoginEvent
 import com.cxz.wanandroid.ext.showToast
@@ -15,7 +15,7 @@ import com.cxz.wanandroid.utils.Preference
 import kotlinx.android.synthetic.main.activity_login.*
 import org.greenrobot.eventbus.EventBus
 
-class LoginActivity : BaseActivity(), LoginContract.View {
+class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presenter>(), LoginContract.View {
 
     /**
      * local username
@@ -32,9 +32,8 @@ class LoginActivity : BaseActivity(), LoginContract.View {
      */
     private var token: String by Preference(Constant.TOKEN_KEY, "")
 
-    private val mPresenter: LoginPresenter by lazy {
-        LoginPresenter()
-    }
+
+    override fun createPresenter(): LoginContract.Presenter = LoginPresenter()
 
     private val mDialog by lazy {
         DialogUtil.getWaitDialog(this, getString(R.string.login_ing))
@@ -48,10 +47,6 @@ class LoginActivity : BaseActivity(), LoginContract.View {
         mDialog.dismiss()
     }
 
-    override fun showError(errorMsg: String) {
-        showToast(errorMsg)
-    }
-
     override fun attachLayoutRes(): Int = R.layout.activity_login
 
     override fun useEventBus(): Boolean = false
@@ -62,7 +57,7 @@ class LoginActivity : BaseActivity(), LoginContract.View {
     }
 
     override fun initView() {
-        mPresenter.attachView(this)
+        super.initView()
         et_username.setText(user)
         btn_login.setOnClickListener(onClickListener)
         tv_sign_up.setOnClickListener(onClickListener)
@@ -106,11 +101,9 @@ class LoginActivity : BaseActivity(), LoginContract.View {
      * Login
      */
     private fun login() {
-
         if (validate()) {
-            mPresenter.loginWanAndroid(et_username.text.toString(), et_password.text.toString())
+            mPresenter?.loginWanAndroid(et_username.text.toString(), et_password.text.toString())
         }
-
     }
 
     /**

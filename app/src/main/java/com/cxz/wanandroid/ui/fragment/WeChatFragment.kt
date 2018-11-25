@@ -1,9 +1,10 @@
 package com.cxz.wanandroid.ui.fragment
 
 import android.support.design.widget.TabLayout
+import android.view.View
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.WeChatPagerAdapter
-import com.cxz.wanandroid.base.BaseFragment
+import com.cxz.wanandroid.base.BaseMvpFragment
 import com.cxz.wanandroid.event.ColorEvent
 import com.cxz.wanandroid.mvp.contract.WeChatContract
 import com.cxz.wanandroid.mvp.model.bean.WXChapterBean
@@ -18,18 +19,13 @@ import org.greenrobot.eventbus.ThreadMode
  * @date 2018/10/28
  * @desc
  */
-class WeChatFragment : BaseFragment(), WeChatContract.View {
+class WeChatFragment : BaseMvpFragment<WeChatContract.View, WeChatContract.Presenter>(), WeChatContract.View {
 
     companion object {
         fun getInstance(): WeChatFragment = WeChatFragment()
     }
 
-    /**
-     * Presenter
-     */
-    private val mPresenter: WeChatPresenter by lazy {
-        WeChatPresenter()
-    }
+    override fun createPresenter(): WeChatContract.Presenter = WeChatPresenter()
 
     /**
      * datas
@@ -43,20 +39,10 @@ class WeChatFragment : BaseFragment(), WeChatContract.View {
         WeChatPagerAdapter(datas, childFragmentManager)
     }
 
-    override fun showLoading() {
-    }
-
-    override fun hideLoading() {
-    }
-
-    override fun showError(errorMsg: String) {
-    }
-
     override fun attachLayoutRes(): Int = R.layout.fragment_wechat
 
-    override fun initView() {
-        mPresenter.attachView(this)
-
+    override fun initView(view: View) {
+        super.initView(view)
         viewPager.run {
             addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
         }
@@ -73,7 +59,7 @@ class WeChatFragment : BaseFragment(), WeChatContract.View {
     }
 
     override fun lazyLoad() {
-        mPresenter.getWXChapters()
+        mPresenter?.getWXChapters()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -1,9 +1,12 @@
 package com.cxz.wanandroid.mvp.contract
 
+import com.cxz.wanandroid.base.IModel
 import com.cxz.wanandroid.base.IPresenter
 import com.cxz.wanandroid.base.IView
 import com.cxz.wanandroid.mvp.model.bean.HotSearchBean
+import com.cxz.wanandroid.mvp.model.bean.HttpResult
 import com.cxz.wanandroid.mvp.model.bean.SearchHistoryBean
+import io.reactivex.Observable
 
 interface SearchContract {
 
@@ -26,6 +29,12 @@ interface SearchContract {
         fun clearAllHistory()
 
         fun getHotSearchData()
+
+    }
+
+    interface Model : IModel {
+
+        fun getHotSearchData(): Observable<HttpResult<MutableList<HotSearchBean>>>
 
     }
 

@@ -11,6 +11,12 @@ object ErrorStatus {
     val SUCCESS = 0
 
     /**
+     * Token 过期
+     */
+    @JvmField
+    val TOKEN_INVAILD = 401
+
+    /**
      * 未知错误
      */
     @JvmField

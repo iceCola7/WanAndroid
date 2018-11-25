@@ -11,7 +11,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.HomeAdapter
 import com.cxz.wanandroid.app.App
-import com.cxz.wanandroid.base.BaseFragment
+import com.cxz.wanandroid.base.BaseMvpFragment
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.ext.showSnackMsg
 import com.cxz.wanandroid.ext.showToast
@@ -32,18 +32,13 @@ import kotlinx.android.synthetic.main.item_home_banner.view.*
 /**
  * Created by chenxz on 2018/4/22.
  */
-class HomeFragment : BaseFragment(), HomeContract.View {
+class HomeFragment : BaseMvpFragment<HomeContract.View, HomeContract.Presenter>(), HomeContract.View {
 
     companion object {
         fun getInstance(): HomeFragment = HomeFragment()
     }
 
-    /**
-     * Presenter
-     */
-    private val mPresenter: HomePresenter by lazy {
-        HomePresenter()
-    }
+    override fun createPresenter(): HomeContract.Presenter = HomePresenter()
 
     /**
      * datas
@@ -109,9 +104,8 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         }
     }
 
-    override fun initView() {
-        mPresenter.attachView(this)
-
+    override fun initView(view: View) {
+        super.initView(view)
         swipeRefreshLayout.run {
             isRefreshing = true
             setOnRefreshListener(onRefreshListener)
@@ -139,7 +133,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
     }
 
     override fun lazyLoad() {
-        mPresenter.requestHomeData()
+        mPresenter?.requestHomeData()
     }
 
     override fun showLoading() {
@@ -170,10 +164,10 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         val bannerFeedList = ArrayList<String>()
         val bannerTitleList = ArrayList<String>()
         Observable.fromIterable(banners)
-                .subscribe({ list ->
+                .subscribe { list ->
                     bannerFeedList.add(list.imagePath)
                     bannerTitleList.add(list.title)
-                })
+                }
         bannerView?.banner?.run {
             setAutoPlayAble(bannerFeedList.size > 1)
             setData(bannerFeedList, bannerTitleList)
@@ -217,7 +211,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
         isRefresh = true
         homeAdapter.setEnableLoadMore(false)
-        mPresenter.requestHomeData()
+        mPresenter?.requestHomeData()
     }
 
     /**
@@ -227,7 +221,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         isRefresh = false
         swipeRefreshLayout.isRefreshing = false
         val page = homeAdapter.data.size / 20
-        mPresenter.requestArticles(page)
+        mPresenter?.requestArticles(page)
     }
 
     /**
@@ -278,9 +272,9 @@ class HomeFragment : BaseFragment(), HomeContract.View {
                                 data.collect = !collect
                                 homeAdapter.setData(position, data)
                                 if (collect) {
-                                    mPresenter.cancelCollectArticle(data.id)
+                                    mPresenter?.cancelCollectArticle(data.id)
                                 } else {
-                                    mPresenter.addCollectArticle(data.id)
+                                    mPresenter?.addCollectArticle(data.id)
                                 }
                             } else {
                                 Intent(activity, LoginActivity::class.java).run {

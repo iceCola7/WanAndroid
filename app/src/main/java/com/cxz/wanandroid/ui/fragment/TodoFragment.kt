@@ -6,11 +6,12 @@ import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.TodoAdapter
 import com.cxz.wanandroid.app.App
-import com.cxz.wanandroid.base.BaseFragment
+import com.cxz.wanandroid.base.BaseMvpFragment
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.RefreshTodoEvent
 import com.cxz.wanandroid.event.TodoEvent
@@ -33,7 +34,7 @@ import org.greenrobot.eventbus.ThreadMode
  * Created by chenxz on 2018/8/6.
  */
 
-class TodoFragment : BaseFragment(), TodoContract.View {
+class TodoFragment : BaseMvpFragment<TodoContract.View, TodoContract.Presenter>(), TodoContract.View {
 
     companion object {
         fun getInstance(type: Int): TodoFragment {
@@ -45,12 +46,8 @@ class TodoFragment : BaseFragment(), TodoContract.View {
         }
     }
 
-    /**
-     * Presenter
-     */
-    private val mPresenter by lazy {
-        TodoPresenter()
-    }
+    override fun createPresenter(): TodoContract.Presenter = TodoPresenter()
+
     /**
      * is Refresh
      */
@@ -115,8 +112,8 @@ class TodoFragment : BaseFragment(), TodoContract.View {
 
     override fun attachLayoutRes(): Int = R.layout.fragment_todo
 
-    override fun initView() {
-        mPresenter.attachView(this)
+    override fun initView(view: View) {
+        super.initView(view)
         mType = arguments?.getInt(Constant.TODO_TYPE) ?: 0
 
         swipeRefreshLayout.run {
@@ -142,9 +139,9 @@ class TodoFragment : BaseFragment(), TodoContract.View {
 
     override fun lazyLoad() {
         if (bDone) {
-            mPresenter.getDoneList(1, mType)
+            mPresenter?.getDoneList(1, mType)
         } else {
-            mPresenter.getNoTodoList(1, mType)
+            mPresenter?.getNoTodoList(1, mType)
         }
     }
 
@@ -242,9 +239,9 @@ class TodoFragment : BaseFragment(), TodoContract.View {
         swipeRefreshLayout.isRefreshing = false
         val page = mAdapter.data.size / 20 + 1
         if (bDone) {
-            mPresenter.getDoneList(page, mType)
+            mPresenter?.getDoneList(page, mType)
         } else {
-            mPresenter.getNoTodoList(page, mType)
+            mPresenter?.getNoTodoList(page, mType)
         }
     }
 
@@ -273,7 +270,7 @@ class TodoFragment : BaseFragment(), TodoContract.View {
                             activity?.let {
                                 DialogUtil.getConfirmDialog(it, resources.getString(R.string.confirm_delete),
                                         DialogInterface.OnClickListener { _, _ ->
-                                            mPresenter.deleteTodoById(data.id)
+                                            mPresenter?.deleteTodoById(data.id)
                                             mAdapter.remove(position)
                                         }).show()
                             }
@@ -284,9 +281,9 @@ class TodoFragment : BaseFragment(), TodoContract.View {
                                 return@OnItemChildClickListener
                             }
                             if (bDone) {
-                                mPresenter.updateTodoById(data.id, 0)
+                                mPresenter?.updateTodoById(data.id, 0)
                             } else {
-                                mPresenter.updateTodoById(data.id, 1)
+                                mPresenter?.updateTodoById(data.id, 1)
                             }
                             mAdapter.remove(position)
                         }

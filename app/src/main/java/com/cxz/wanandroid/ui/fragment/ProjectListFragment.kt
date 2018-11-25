@@ -5,11 +5,12 @@ import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.ProjectAdapter
 import com.cxz.wanandroid.app.App
-import com.cxz.wanandroid.base.BaseFragment
+import com.cxz.wanandroid.base.BaseMvpFragment
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.ext.showSnackMsg
 import com.cxz.wanandroid.ext.showToast
@@ -26,7 +27,7 @@ import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 /**
  * Created by chenxz on 2018/5/20.
  */
-class ProjectListFragment : BaseFragment(), ProjectListContract.View {
+class ProjectListFragment : BaseMvpFragment<ProjectListContract.View, ProjectListContract.Presenter>(), ProjectListContract.View {
 
     companion object {
         fun getInstance(cid: Int): ProjectListFragment {
@@ -37,6 +38,8 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
             return fragment
         }
     }
+
+    override fun createPresenter(): ProjectListContract.Presenter = ProjectListPresenter()
 
     override fun showLoading() {
         swipeRefreshLayout.isRefreshing = isRefresh
@@ -59,13 +62,6 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
                 loadMoreFail()
         }
         showToast(errorMsg)
-    }
-
-    /**
-     * Presenter
-     */
-    private val mPresenter: ProjectListPresenter by lazy {
-        ProjectListPresenter()
     }
 
     /**
@@ -106,8 +102,8 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
 
     override fun attachLayoutRes(): Int = R.layout.fragment_refresh_layout
 
-    override fun initView() {
-        mPresenter.attachView(this)
+    override fun initView(view: View) {
+        super.initView(view)
         cid = arguments!!.getInt(Constant.CONTENT_CID_KEY) ?: -1
 
         swipeRefreshLayout.run {
@@ -132,7 +128,7 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
     }
 
     override fun lazyLoad() {
-        mPresenter.requestProjectList(1, cid)
+        mPresenter?.requestProjectList(1, cid)
     }
 
     override fun setProjectList(articles: ArticleResponseBody) {
@@ -181,7 +177,7 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
         isRefresh = true
         projectAdapter.setEnableLoadMore(false)
-        mPresenter.requestProjectList(1, cid)
+        mPresenter?.requestProjectList(1, cid)
     }
 
     /**
@@ -191,7 +187,7 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
         isRefresh = false
         swipeRefreshLayout.isRefreshing = false
         val page = projectAdapter.data.size / 15 + 1
-        mPresenter.requestProjectList(page, cid)
+        mPresenter?.requestProjectList(page, cid)
     }
 
     /**
@@ -227,9 +223,9 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
                                 data.collect = !collect
                                 projectAdapter.setData(position, data)
                                 if (collect) {
-                                    mPresenter.cancelCollectArticle(data.id)
+                                    mPresenter?.cancelCollectArticle(data.id)
                                 } else {
-                                    mPresenter.addCollectArticle(data.id)
+                                    mPresenter?.addCollectArticle(data.id)
                                 }
                             } else {
                                 Intent(activity, LoginActivity::class.java).run {

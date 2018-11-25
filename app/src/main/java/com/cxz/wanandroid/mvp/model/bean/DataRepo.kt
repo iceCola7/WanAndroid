@@ -7,9 +7,13 @@ import java.io.Serializable
 /**
  * Created by chenxz on 2018/4/21.
  */
-data class HttpResult<T>(@Json(name = "data") val data: T,
-                         @Json(name = "errorCode") val errorCode: Int,
-                         @Json(name = "errorMsg") val errorMsg: String)
+//data class HttpResult<T>(@Json(name = "data") val data: T,
+//                         @Json(name = "errorCode") val errorCode: Int,
+//                         @Json(name = "errorMsg") val errorMsg: String)
+
+data class HttpResult<T>(
+        @Json(name = "data") val data: T
+) : BaseBean()
 
 //文章
 data class ArticleResponseBody(

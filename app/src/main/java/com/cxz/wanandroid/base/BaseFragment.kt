@@ -52,7 +52,7 @@ abstract class BaseFragment : Fragment() {
     /**
      * 初始化 View
      */
-    abstract fun initView()
+    abstract fun initView(view: View)
 
     /**
      * 懒加载
@@ -88,7 +88,7 @@ abstract class BaseFragment : Fragment() {
             EventBus.getDefault().register(this)
         }
         isViewPrepare = true
-        initView()
+        initView(view)
         lazyLoadDataIfPrepared()
         //多种状态切换的view 重试点击事件
         mLayoutStatusView?.setOnClickListener(mRetryClickListener)

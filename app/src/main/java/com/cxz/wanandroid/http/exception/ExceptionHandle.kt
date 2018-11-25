@@ -3,6 +3,7 @@ package com.cxz.wanandroid.http.exception
 import com.google.gson.JsonParseException
 import com.orhanobut.logger.Logger
 import org.json.JSONException
+import retrofit2.HttpException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -19,17 +20,17 @@ class ExceptionHandle {
 
         fun handleException(e: Throwable): String {
             e.printStackTrace()
-            if (e is SocketTimeoutException) {//网络超时
-                Logger.e(TAG, "网络连接异常: " + e.message)
-                errorMsg = "网络连接异常"
-                errorCode = ErrorStatus.NETWORK_ERROR
-            } else if (e is ConnectException) { //均视为网络错误
+            if (e is SocketTimeoutException
+                    || e is ConnectException
+                    || e is HttpException
+            ) { //均视为网络错误
                 Logger.e(TAG, "网络连接异常: " + e.message)
                 errorMsg = "网络连接异常"
                 errorCode = ErrorStatus.NETWORK_ERROR
             } else if (e is JsonParseException
                     || e is JSONException
-                    || e is ParseException) {   //均视为解析错误
+                    || e is ParseException
+            ) {   //均视为解析错误
                 Logger.e(TAG, "数据解析异常: " + e.message)
                 errorMsg = "数据解析异常"
                 errorCode = ErrorStatus.SERVER_ERROR

@@ -1,6 +1,7 @@
 package com.cxz.wanandroid.ui.fragment
 
 import android.os.Bundle
+import android.view.View
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.base.BaseFragment
 
@@ -19,7 +20,7 @@ class SettingFragment : BaseFragment() {
 
     override fun attachLayoutRes(): Int = R.layout.fragment_setting
 
-    override fun initView() {
+    override fun initView(view: View) {
     }
 
     override fun lazyLoad() {

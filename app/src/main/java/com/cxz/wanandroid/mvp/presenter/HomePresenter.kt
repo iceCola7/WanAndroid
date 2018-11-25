@@ -1,7 +1,6 @@
 package com.cxz.wanandroid.mvp.presenter
 
-import com.cxz.wanandroid.http.exception.ExceptionHandle
-import com.cxz.wanandroid.http.function.RetryWithDelay
+import com.cxz.wanandroid.ext.ss
 import com.cxz.wanandroid.mvp.contract.HomeContract
 import com.cxz.wanandroid.mvp.model.HomeModel
 import com.cxz.wanandroid.mvp.model.bean.Article
@@ -14,65 +13,30 @@ import io.reactivex.functions.BiFunction
 /**
  * Created by chenxz on 2018/4/21.
  */
-class HomePresenter : CommonPresenter<HomeContract.View>(), HomeContract.Presenter {
+class HomePresenter : CommonPresenter<HomeContract.Model, HomeContract.View>(), HomeContract.Presenter {
 
-    private val homeModel: HomeModel by lazy {
-        HomeModel()
-    }
+    override fun createModel(): HomeContract.Model? = HomeModel()
 
     override fun requestBanner() {
-        val disposable = homeModel.requestBanner()
-                .retryWhen(RetryWithDelay())
-                .subscribe({ results ->
-                    mView?.apply {
-                        if (results.errorCode != 0) {
-                            showError(results.errorMsg)
-                        } else {
-                            setBanner(results.data)
-                        }
-                        hideLoading()
-                    }
-                }, { t ->
-                    mView?.apply {
-                        hideLoading()
-                        showError(ExceptionHandle.handleException(t))
-                    }
-                })
-        addSubscription(disposable)
+        mModel?.requestBanner()?.ss(mModel, mView, false) {
+            mView?.setBanner(it.data)
+        }
     }
 
     override fun requestArticles(num: Int) {
-        if (num == 0)
-            mView?.showLoading()
-        val disposable = homeModel.requestArticles(num)
-                .retryWhen(RetryWithDelay())
-                .subscribe({ results ->
-                    mView?.apply {
-                        if (results.errorCode != 0) {
-                            showError(results.errorMsg)
-                        } else {
-                            setArticles(results.data)
-                        }
-                        hideLoading()
-                    }
-                }, { t ->
-                    mView?.apply {
-                        hideLoading()
-                        showError(ExceptionHandle.handleException(t))
-                    }
-                })
-        addSubscription(disposable)
+        mModel?.requestArticles(num)?.ss(mModel, mView, num == 0) {
+            mView?.setArticles(it.data)
+        }
     }
 
     override fun requestHomeData() {
-        mView?.showLoading()
 
         requestBanner()
 
         val observable = if (SettingUtil.getIsShowTopArticle()) {
-            homeModel.requestArticles(0)
+            mModel?.requestArticles(0)
         } else {
-            Observable.zip(homeModel.requestTopArticles(), homeModel.requestArticles(0),
+            Observable.zip(mModel?.requestTopArticles(), mModel?.requestArticles(0),
                     BiFunction<HttpResult<MutableList<Article>>, HttpResult<ArticleResponseBody>,
                             HttpResult<ArticleResponseBody>> { t1, t2 ->
                         t1.data.forEach {
@@ -83,24 +47,9 @@ class HomePresenter : CommonPresenter<HomeContract.View>(), HomeContract.Present
                         t2
                     })
         }
-        val disposable = observable
-                .retryWhen(RetryWithDelay())
-                .subscribe({ results ->
-                    mView?.apply {
-                        if (results.errorCode != 0) {
-                            showError(results.errorMsg)
-                        } else {
-                            setArticles(results.data)
-                        }
-                        hideLoading()
-                    }
-                }, { t ->
-                    mView?.apply {
-                        hideLoading()
-                        showError(ExceptionHandle.handleException(t))
-                    }
-                })
-        addSubscription(disposable)
+        observable?.ss(mModel, mView, false) {
+            mView?.setArticles(it.data)
+        }
     }
 
 }
