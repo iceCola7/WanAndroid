@@ -9,6 +9,7 @@ import android.support.design.widget.CoordinatorLayout
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.webkit.*
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.base.BaseMvpSwipeBackActivity
@@ -54,11 +55,18 @@ class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentCo
 
     override fun initView() {
         super.initView()
-        toolbar.run {
-            title = getString(R.string.loading)
+        toolbar.apply {
+            title = ""//getString(R.string.loading)
             setSupportActionBar(this)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             //StatusBarUtil2.setPaddingSmart(this@ContentActivity, toolbar)
+        }
+        tv_title.apply {
+            text = getString(R.string.loading)
+            visibility = View.VISIBLE
+            postDelayed({
+                tv_title.isSelected = true
+            }, 2000)
         }
         intent.extras.let {
             shareId = it.getInt(Constant.CONTENT_ID_KEY, -1)
@@ -204,7 +212,8 @@ class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentCo
         override fun onReceivedTitle(view: WebView, title: String) {
             super.onReceivedTitle(view, title)
             title.let {
-                toolbar.title = it
+                // toolbar.title = it
+                tv_title.text = it
             }
         }
     }
