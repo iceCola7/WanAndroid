@@ -15,7 +15,6 @@ import java.util.ArrayList;
  * <p>
  * 一个方便在多种状态切换的view
  */
-
 public class MultipleStatusView extends RelativeLayout {
     private static final String TAG = "MultipleStatusView";
 
@@ -43,7 +42,7 @@ public class MultipleStatusView extends RelativeLayout {
     private int mContentViewResId;
 
     private int mViewStatus;
-    private LayoutInflater mInflater;
+    private final LayoutInflater mInflater;
     private OnClickListener mOnRetryClickListener;
 
     private final ArrayList<Integer> mOtherIds = new ArrayList<>();
@@ -84,7 +83,6 @@ public class MultipleStatusView extends RelativeLayout {
         if (null != mOnRetryClickListener) {
             mOnRetryClickListener = null;
         }
-        mInflater = null;
     }
 
     /**
@@ -117,7 +115,7 @@ public class MultipleStatusView extends RelativeLayout {
      * @param layoutParams 布局参数
      */
     public final void showEmpty(int layoutId, ViewGroup.LayoutParams layoutParams) {
-        showEmpty(inflateView(layoutId), layoutParams);
+        showEmpty(null == mEmptyView ? inflateView(layoutId) : mEmptyView, layoutParams);
     }
 
     /**
@@ -127,7 +125,8 @@ public class MultipleStatusView extends RelativeLayout {
      * @param layoutParams 布局参数
      */
     public final void showEmpty(View view, ViewGroup.LayoutParams layoutParams) {
-        checkNull(view, "Empty view is null!");
+        checkNull(view, "Empty view is null.");
+        checkNull(layoutParams, "Layout params is null.");
         mViewStatus = STATUS_EMPTY;
         if (null == mEmptyView) {
             mEmptyView = view;
@@ -155,7 +154,7 @@ public class MultipleStatusView extends RelativeLayout {
      * @param layoutParams 布局参数
      */
     public final void showError(int layoutId, ViewGroup.LayoutParams layoutParams) {
-        showError(inflateView(layoutId), layoutParams);
+        showError(null == mErrorView ? inflateView(layoutId) : mErrorView, layoutParams);
     }
 
     /**
@@ -165,7 +164,8 @@ public class MultipleStatusView extends RelativeLayout {
      * @param layoutParams 布局参数
      */
     public final void showError(View view, ViewGroup.LayoutParams layoutParams) {
-        checkNull(view, "Error view is null!");
+        checkNull(view, "Error view is null.");
+        checkNull(layoutParams, "Layout params is null.");
         mViewStatus = STATUS_ERROR;
         if (null == mErrorView) {
             mErrorView = view;
@@ -193,7 +193,7 @@ public class MultipleStatusView extends RelativeLayout {
      * @param layoutParams 布局参数
      */
     public final void showLoading(int layoutId, ViewGroup.LayoutParams layoutParams) {
-        showLoading(inflateView(layoutId), layoutParams);
+        showLoading(null == mLoadingView ? inflateView(layoutId) : mLoadingView, layoutParams);
     }
 
     /**
@@ -203,7 +203,8 @@ public class MultipleStatusView extends RelativeLayout {
      * @param layoutParams 布局参数
      */
     public final void showLoading(View view, ViewGroup.LayoutParams layoutParams) {
-        checkNull(view, "Loading view is null!");
+        checkNull(view, "Loading view is null.");
+        checkNull(layoutParams, "Layout params is null.");
         mViewStatus = STATUS_LOADING;
         if (null == mLoadingView) {
             mLoadingView = view;
@@ -227,7 +228,7 @@ public class MultipleStatusView extends RelativeLayout {
      * @param layoutParams 布局参数
      */
     public final void showNoNetwork(int layoutId, ViewGroup.LayoutParams layoutParams) {
-        showNoNetwork(inflateView(layoutId), layoutParams);
+        showNoNetwork(null == mNoNetworkView ? inflateView(layoutId) : mNoNetworkView, layoutParams);
     }
 
     /**
@@ -237,7 +238,8 @@ public class MultipleStatusView extends RelativeLayout {
      * @param layoutParams 布局参数
      */
     public final void showNoNetwork(View view, ViewGroup.LayoutParams layoutParams) {
-        checkNull(view, "No network view is null!");
+        checkNull(view, "No network view is null.");
+        checkNull(layoutParams, "Layout params is null.");
         mViewStatus = STATUS_NO_NETWORK;
         if (null == mNoNetworkView) {
             mNoNetworkView = view;
@@ -263,12 +265,30 @@ public class MultipleStatusView extends RelativeLayout {
         showContentView();
     }
 
-    private void showContentView() {
-        final int childCount = getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            View view = getChildAt(i);
-            view.setVisibility(mOtherIds.contains(view.getId()) ? View.GONE : View.VISIBLE);
-        }
+    /**
+     * 显示内容视图
+     *
+     * @param layoutId     自定义布局文件
+     * @param layoutParams 布局参数
+     */
+    public final void showContent(int layoutId, ViewGroup.LayoutParams layoutParams) {
+        showContent(inflateView(layoutId), layoutParams);
+    }
+
+    /**
+     * 显示内容视图
+     *
+     * @param view         自定义视图
+     * @param layoutParams 布局参数
+     */
+    public final void showContent(View view, ViewGroup.LayoutParams layoutParams) {
+        checkNull(view, "Content view is null.");
+        checkNull(layoutParams, "Layout params is null.");
+        mViewStatus = STATUS_CONTENT;
+        clear(mContentView);
+        mContentView = view;
+        addView(mContentView, 0, layoutParams);
+        showViewById(mContentView.getId());
     }
 
     private View inflateView(int layoutId) {
@@ -280,6 +300,14 @@ public class MultipleStatusView extends RelativeLayout {
         for (int i = 0; i < childCount; i++) {
             View view = getChildAt(i);
             view.setVisibility(view.getId() == viewId ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    private void showContentView() {
+        final int childCount = getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View view = getChildAt(i);
+            view.setVisibility(mOtherIds.contains(view.getId()) ? View.GONE : View.VISIBLE);
         }
     }
 
