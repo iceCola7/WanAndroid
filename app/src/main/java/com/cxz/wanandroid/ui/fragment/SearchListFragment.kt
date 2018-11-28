@@ -23,6 +23,7 @@ import com.cxz.wanandroid.ui.activity.LoginActivity
 import com.cxz.wanandroid.utils.NetWorkUtil
 import com.cxz.wanandroid.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
+import kotlinx.android.synthetic.main.fragment_search_list.*
 
 class SearchListFragment : BaseMvpFragment<SearchListContract.View, SearchListContract.Presenter>(), SearchListContract.View {
 
@@ -120,6 +121,10 @@ class SearchListFragment : BaseMvpFragment<SearchListContract.View, SearchListCo
             // setEmptyView(R.layout.fragment_empty_layout)
         }
 
+        floating_action_btn.setOnClickListener {
+            scrollToTop()
+        }
+
     }
 
     override fun lazyLoad() {
@@ -158,6 +163,16 @@ class SearchListFragment : BaseMvpFragment<SearchListContract.View, SearchListCo
                         loadMoreComplete()
                     }
                 }
+            }
+        }
+    }
+
+    override fun scrollToTop() {
+        recyclerView.run {
+            if (linearLayoutManager.findFirstVisibleItemPosition() > 20) {
+                scrollToPosition(0)
+            } else {
+                smoothScrollToPosition(0)
             }
         }
     }

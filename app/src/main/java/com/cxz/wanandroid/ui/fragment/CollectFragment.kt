@@ -19,6 +19,7 @@ import com.cxz.wanandroid.mvp.model.bean.CollectionResponseBody
 import com.cxz.wanandroid.mvp.presenter.CollectPresenter
 import com.cxz.wanandroid.ui.activity.ContentActivity
 import com.cxz.wanandroid.widget.SpaceItemDecoration
+import kotlinx.android.synthetic.main.fragment_collect.*
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import org.greenrobot.eventbus.EventBus
 
@@ -93,7 +94,7 @@ class CollectFragment : BaseMvpFragment<CollectContract.View, CollectContract.Pr
         }
     }
 
-    override fun attachLayoutRes(): Int = R.layout.fragment_refresh_layout
+    override fun attachLayoutRes(): Int = R.layout.fragment_collect
 
     override fun initView(view: View) {
         super.initView(view)
@@ -117,6 +118,9 @@ class CollectFragment : BaseMvpFragment<CollectContract.View, CollectContract.Pr
             // setEmptyView(R.layout.fragment_empty_layout)
         }
 
+        floating_action_btn.setOnClickListener {
+            scrollToTop()
+        }
     }
 
     override fun lazyLoad() {
@@ -146,6 +150,16 @@ class CollectFragment : BaseMvpFragment<CollectContract.View, CollectContract.Pr
                 } else {
                     loadMoreComplete()
                 }
+            }
+        }
+    }
+
+    override fun scrollToTop() {
+        recyclerView.run {
+            if (linearLayoutManager.findFirstVisibleItemPosition() > 20) {
+                scrollToPosition(0)
+            } else {
+                smoothScrollToPosition(0)
             }
         }
     }

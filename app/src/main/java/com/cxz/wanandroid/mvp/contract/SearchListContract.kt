@@ -10,6 +10,8 @@ interface SearchListContract {
 
         fun showArticles(articles: ArticleResponseBody)
 
+        fun scrollToTop()
+
     }
 
     interface Presenter : CommonContract.Presenter<View> {
