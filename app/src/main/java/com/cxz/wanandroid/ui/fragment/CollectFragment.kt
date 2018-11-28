@@ -136,19 +136,23 @@ class CollectFragment : BaseMvpFragment<CollectContract.View, CollectContract.Pr
     }
 
     override fun setCollectList(articles: CollectionResponseBody<CollectionArticle>) {
-        mLayoutStatusView?.showContent()
-        articles.datas.let {
-            collectAdapter.run {
-                if (isRefresh) {
-                    replaceData(it)
-                } else {
-                    addData(it)
-                }
-                val size = it.size
-                if (size < articles.size) {
-                    loadMoreEnd(isRefresh)
-                } else {
-                    loadMoreComplete()
+        if (articles.datas.isEmpty()) {
+            mLayoutStatusView?.showEmpty()
+        } else {
+            mLayoutStatusView?.showContent()
+            articles.datas.let {
+                collectAdapter.run {
+                    if (isRefresh) {
+                        replaceData(it)
+                    } else {
+                        addData(it)
+                    }
+                    val size = it.size
+                    if (size < articles.size) {
+                        loadMoreEnd(isRefresh)
+                    } else {
+                        loadMoreComplete()
+                    }
                 }
             }
         }
