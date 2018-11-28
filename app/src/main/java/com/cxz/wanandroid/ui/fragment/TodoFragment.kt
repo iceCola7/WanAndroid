@@ -83,7 +83,7 @@ class TodoFragment : BaseMvpFragment<TodoContract.View, TodoContract.Presenter>(
     }
 
     override fun showLoading() {
-        swipeRefreshLayout?.isRefreshing = false
+        // swipeRefreshLayout?.isRefreshing = false
         if (isRefresh) {
             mAdapter.run {
                 setEnableLoadMore(true)
@@ -101,23 +101,24 @@ class TodoFragment : BaseMvpFragment<TodoContract.View, TodoContract.Presenter>(
     }
 
     override fun showError(errorMsg: String) {
+        super.showError(errorMsg)
+        mLayoutStatusView?.showError()
         mAdapter.run {
             if (isRefresh)
                 setEnableLoadMore(true)
             else
                 loadMoreFail()
         }
-        showToast(errorMsg)
     }
 
     override fun attachLayoutRes(): Int = R.layout.fragment_todo
 
     override fun initView(view: View) {
         super.initView(view)
+        mLayoutStatusView = multiple_status_view
         mType = arguments?.getInt(Constant.TODO_TYPE) ?: 0
 
         swipeRefreshLayout.run {
-            isRefreshing = true
             setOnRefreshListener(onRefreshListener)
         }
         recyclerView.run {
@@ -132,12 +133,13 @@ class TodoFragment : BaseMvpFragment<TodoContract.View, TodoContract.Presenter>(
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@TodoFragment.onItemClickListener
             onItemChildClickListener = this@TodoFragment.onItemChildClickListener
-            setEmptyView(R.layout.fragment_empty_layout)
+            // setEmptyView(R.layout.fragment_empty_layout)
         }
 
     }
 
     override fun lazyLoad() {
+        mLayoutStatusView?.showLoading()
         if (bDone) {
             mPresenter?.getDoneList(1, mType)
         } else {
@@ -178,6 +180,12 @@ class TodoFragment : BaseMvpFragment<TodoContract.View, TodoContract.Presenter>(
     }
 
     override fun showNoTodoList(todoResponseBody: TodoResponseBody) {
+        if (todoResponseBody.datas.isEmpty()) {
+            mLayoutStatusView?.showEmpty()
+            return
+        } else {
+            mLayoutStatusView?.showContent()
+        }
         // TODO 待优化
         val list = mutableListOf<TodoDataBean>()
         var bHeader = true

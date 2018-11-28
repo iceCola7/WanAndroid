@@ -43,6 +43,7 @@ class ProjectFragment : BaseMvpFragment<ProjectContract.View, ProjectContract.Pr
 
     override fun initView(view: View) {
         super.initView(view)
+        mLayoutStatusView = multiple_status_view
         viewPager.run {
             addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
         }
@@ -67,6 +68,15 @@ class ProjectFragment : BaseMvpFragment<ProjectContract.View, ProjectContract.Pr
         }
     }
 
+    override fun showLoading() {
+        mLayoutStatusView?.showLoading()
+    }
+
+    override fun showError(errorMsg: String) {
+        super.showError(errorMsg)
+        mLayoutStatusView?.showError()
+    }
+
     override fun lazyLoad() {
         mPresenter?.requestProjectTree()
     }
@@ -78,11 +88,16 @@ class ProjectFragment : BaseMvpFragment<ProjectContract.View, ProjectContract.Pr
     }
 
     override fun setProjectTree(list: List<ProjectTreeBean>) {
-        list.let {
-            projectTree.addAll(it)
-            viewPager.run {
-                adapter = viewPagerAdapter
-                offscreenPageLimit = projectTree.size
+        if (list.isEmpty()) {
+            mLayoutStatusView?.showEmpty()
+        } else {
+            mLayoutStatusView?.showContent()
+            list.let {
+                projectTree.addAll(it)
+                viewPager.run {
+                    adapter = viewPagerAdapter
+                    offscreenPageLimit = projectTree.size
+                }
             }
         }
     }

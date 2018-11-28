@@ -13,7 +13,7 @@ class CollectPresenter : BasePresenter<CollectContract.Model, CollectContract.Vi
     override fun createModel(): CollectContract.Model? = CollectModel()
 
     override fun getCollectList(page: Int) {
-        mModel?.getCollectList(page)?.ss(mModel, mView) {
+        mModel?.getCollectList(page)?.ss(mModel, mView, page == 0) {
             mView?.setCollectList(it.data)
         }
     }

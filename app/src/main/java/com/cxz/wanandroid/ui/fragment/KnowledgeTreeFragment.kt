@@ -61,8 +61,8 @@ class KnowledgeTreeFragment : BaseMvpFragment<KnowledgeTreeContract.View, Knowle
 
     override fun initView(view: View) {
         super.initView(view)
+        mLayoutStatusView = multiple_status_view
         swipeRefreshLayout.run {
-            isRefreshing = true
             setOnRefreshListener(onRefreshListener)
         }
         recyclerView.run {
@@ -76,16 +76,17 @@ class KnowledgeTreeFragment : BaseMvpFragment<KnowledgeTreeContract.View, Knowle
             bindToRecyclerView(recyclerView)
             setEnableLoadMore(false)
             onItemClickListener = this@KnowledgeTreeFragment.onItemClickListener
-            setEmptyView(R.layout.fragment_empty_layout)
+            // setEmptyView(R.layout.fragment_empty_layout)
         }
     }
 
     override fun lazyLoad() {
+        mLayoutStatusView?.showLoading()
         mPresenter?.requestKnowledgeTree()
     }
 
     override fun showLoading() {
-        swipeRefreshLayout.isRefreshing = true
+        // swipeRefreshLayout.isRefreshing = true
     }
 
     override fun hideLoading() {
@@ -96,10 +97,11 @@ class KnowledgeTreeFragment : BaseMvpFragment<KnowledgeTreeContract.View, Knowle
     }
 
     override fun showError(errorMsg: String) {
+        super.showError(errorMsg)
+        mLayoutStatusView?.showError()
         knowledgeTreeAdapter.run {
             loadMoreFail()
         }
-        showToast(errorMsg)
     }
 
     override fun scrollToTop() {
@@ -113,9 +115,14 @@ class KnowledgeTreeFragment : BaseMvpFragment<KnowledgeTreeContract.View, Knowle
     }
 
     override fun setKnowledgeTree(lists: List<KnowledgeTreeBody>) {
-        lists.let {
-            knowledgeTreeAdapter.run {
-                replaceData(lists)
+        if (lists.isEmpty()) {
+            mLayoutStatusView?.showEmpty()
+        } else {
+            mLayoutStatusView?.showContent()
+            lists.let {
+                knowledgeTreeAdapter.run {
+                    replaceData(lists)
+                }
             }
         }
     }

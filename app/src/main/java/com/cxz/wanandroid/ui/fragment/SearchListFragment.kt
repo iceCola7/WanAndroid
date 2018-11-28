@@ -14,12 +14,10 @@ import com.cxz.wanandroid.base.BaseMvpFragment
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.ext.showSnackMsg
 import com.cxz.wanandroid.ext.showToast
-import com.cxz.wanandroid.mvp.contract.SearchContract
 import com.cxz.wanandroid.mvp.contract.SearchListContract
 import com.cxz.wanandroid.mvp.model.bean.Article
 import com.cxz.wanandroid.mvp.model.bean.ArticleResponseBody
 import com.cxz.wanandroid.mvp.presenter.SearchListPresenter
-import com.cxz.wanandroid.mvp.presenter.SearchPresenter
 import com.cxz.wanandroid.ui.activity.ContentActivity
 import com.cxz.wanandroid.ui.activity.LoginActivity
 import com.cxz.wanandroid.utils.NetWorkUtil
@@ -74,7 +72,7 @@ class SearchListFragment : BaseMvpFragment<SearchListContract.View, SearchListCo
     private var isRefresh = true
 
     override fun showLoading() {
-        swipeRefreshLayout.isRefreshing = isRefresh
+        // swipeRefreshLayout.isRefreshing = isRefresh
     }
 
     override fun hideLoading() {
@@ -87,23 +85,24 @@ class SearchListFragment : BaseMvpFragment<SearchListContract.View, SearchListCo
     }
 
     override fun showError(errorMsg: String) {
+        super.showError(errorMsg)
+        mLayoutStatusView?.showError()
         searchListAdapter.run {
             if (isRefresh)
                 setEnableLoadMore(true)
             else
                 loadMoreFail()
         }
-        showToast(errorMsg)
     }
 
     override fun attachLayoutRes(): Int = R.layout.fragment_search_list
 
     override fun initView(view: View) {
         super.initView(view)
+        mLayoutStatusView = multiple_status_view
         mKey = arguments?.getString(Constant.SEARCH_KEY, "") ?: ""
 
         swipeRefreshLayout.run {
-            isRefreshing = true
             setOnRefreshListener(onRefreshListener)
         }
 
@@ -118,12 +117,13 @@ class SearchListFragment : BaseMvpFragment<SearchListContract.View, SearchListCo
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@SearchListFragment.onItemClickListener
             onItemChildClickListener = this@SearchListFragment.onItemChildClickListener
-            setEmptyView(R.layout.fragment_empty_layout)
+            // setEmptyView(R.layout.fragment_empty_layout)
         }
 
     }
 
     override fun lazyLoad() {
+        mLayoutStatusView?.showLoading()
         mPresenter?.queryBySearchKey(0, mKey)
     }
 
@@ -140,18 +140,23 @@ class SearchListFragment : BaseMvpFragment<SearchListContract.View, SearchListCo
     }
 
     override fun showArticles(articles: ArticleResponseBody) {
-        articles.datas.let {
-            searchListAdapter.run {
-                if (isRefresh) {
-                    replaceData(it)
-                } else {
-                    addData(it)
-                }
-                val size = it.size
-                if (size < articles.size) {
-                    loadMoreEnd(isRefresh)
-                } else {
-                    loadMoreComplete()
+        if (articles.datas.isEmpty()) {
+            mLayoutStatusView?.showEmpty()
+        } else {
+            mLayoutStatusView?.showContent()
+            articles.datas.let {
+                searchListAdapter.run {
+                    if (isRefresh) {
+                        replaceData(it)
+                    } else {
+                        addData(it)
+                    }
+                    val size = it.size
+                    if (size < articles.size) {
+                        loadMoreEnd(isRefresh)
+                    } else {
+                        loadMoreComplete()
+                    }
                 }
             }
         }

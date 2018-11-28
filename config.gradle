@@ -74,7 +74,8 @@ ext {
             "litepal"               : 'org.litepal.android:core:2.0.0',
             "fab"                   : 'com.github.clans:fab:1.6.4',
             "materialdatetimepicker": 'com.wdullaer:materialdatetimepicker:3.6.4',
-            "android-autosize"      : 'me.jessyan:autosize:1.1.0'
+            "android-autosize"      : 'me.jessyan:autosize:1.1.0',
+            "spinkit"               : 'com.github.ybq:Android-SpinKit:1.2.0'
     ]
 
     otherDeps = [

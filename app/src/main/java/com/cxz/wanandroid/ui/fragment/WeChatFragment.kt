@@ -43,6 +43,7 @@ class WeChatFragment : BaseMvpFragment<WeChatContract.View, WeChatContract.Prese
 
     override fun initView(view: View) {
         super.initView(view)
+        mLayoutStatusView = multiple_status_view
         viewPager.run {
             addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
         }
@@ -56,6 +57,15 @@ class WeChatFragment : BaseMvpFragment<WeChatContract.View, WeChatContract.Prese
 
         refreshColor(ColorEvent(true))
 
+    }
+
+    override fun showLoading() {
+        mLayoutStatusView?.showLoading()
+    }
+
+    override fun showError(errorMsg: String) {
+        super.showError(errorMsg)
+        mLayoutStatusView?.showError()
     }
 
     override fun lazyLoad() {
@@ -78,15 +88,18 @@ class WeChatFragment : BaseMvpFragment<WeChatContract.View, WeChatContract.Prese
     }
 
     override fun showWXChapters(chapters: MutableList<WXChapterBean>) {
-
-        chapters.let {
-            datas.addAll(it)
-            viewPager.run {
-                adapter = viewPagerAdapter
-                offscreenPageLimit = datas.size
+        if (chapters.isEmpty()) {
+            mLayoutStatusView?.showEmpty()
+        } else {
+            mLayoutStatusView?.showContent()
+            chapters.let {
+                datas.addAll(it)
+                viewPager.run {
+                    adapter = viewPagerAdapter
+                    offscreenPageLimit = datas.size
+                }
             }
         }
-
     }
 
     /**

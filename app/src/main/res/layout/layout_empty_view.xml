@@ -6,6 +6,11 @@
     android:gravity="center"
     android:orientation="vertical">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_empty" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

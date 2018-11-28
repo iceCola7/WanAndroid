@@ -53,6 +53,7 @@ class NavigationFragment : BaseMvpFragment<NavigationContract.View, NavigationCo
 
     override fun initView(view: View) {
         super.initView(view)
+        mLayoutStatusView = multiple_status_view
         recyclerView.run {
             layoutManager = linearLayoutManager
             adapter = navigationAdapter
@@ -169,21 +170,35 @@ class NavigationFragment : BaseMvpFragment<NavigationContract.View, NavigationCo
         }
     }
 
+    override fun showLoading() {
+        mLayoutStatusView?.showLoading()
+    }
+
+    override fun showError(errorMsg: String) {
+        super.showError(errorMsg)
+        mLayoutStatusView?.showError()
+    }
+
     override fun lazyLoad() {
         mPresenter?.requestNavigationList()
     }
 
     override fun setNavigationData(list: List<NavigationBean>) {
-        list.let {
-            navigation_tab_layout.run {
-                setTabAdapter(NavigationTabAdapter(activity!!.applicationContext, list))
-            }
-            navigationAdapter.run {
-                replaceData(it)
+        if (list.isEmpty()) {
+            mLayoutStatusView?.showEmpty()
+        } else {
+            mLayoutStatusView?.showContent()
+            list.let {
+                navigation_tab_layout.run {
+                    setTabAdapter(NavigationTabAdapter(activity!!.applicationContext, list))
+                }
+                navigationAdapter.run {
+                    replaceData(it)
 
-                loadMoreComplete()
-                loadMoreEnd()
-                setEnableLoadMore(false)
+                    loadMoreComplete()
+                    loadMoreEnd()
+                    setEnableLoadMore(false)
+                }
             }
         }
     }

@@ -70,7 +70,7 @@ class CollectFragment : BaseMvpFragment<CollectContract.View, CollectContract.Pr
     private var isRefresh = true
 
     override fun showLoading() {
-        swipeRefreshLayout.isRefreshing = isRefresh
+        // swipeRefreshLayout.isRefreshing = isRefresh
     }
 
     override fun hideLoading() {
@@ -83,21 +83,22 @@ class CollectFragment : BaseMvpFragment<CollectContract.View, CollectContract.Pr
     }
 
     override fun showError(errorMsg: String) {
+        super.showError(errorMsg)
+        mLayoutStatusView?.showError()
         collectAdapter.run {
             if (isRefresh)
                 setEnableLoadMore(true)
             else
                 loadMoreFail()
         }
-        showToast(errorMsg)
     }
 
     override fun attachLayoutRes(): Int = R.layout.fragment_refresh_layout
 
     override fun initView(view: View) {
         super.initView(view)
+        mLayoutStatusView = multiple_status_view
         swipeRefreshLayout.run {
-            isRefreshing = true
             setOnRefreshListener(onRefreshListener)
         }
 
@@ -113,12 +114,13 @@ class CollectFragment : BaseMvpFragment<CollectContract.View, CollectContract.Pr
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@CollectFragment.onItemClickListener
             onItemChildClickListener = this@CollectFragment.onItemChildClickListener
-            setEmptyView(R.layout.fragment_empty_layout)
+            // setEmptyView(R.layout.fragment_empty_layout)
         }
 
     }
 
     override fun lazyLoad() {
+        mLayoutStatusView?.showLoading()
         mPresenter?.getCollectList(0)
     }
 
@@ -130,6 +132,7 @@ class CollectFragment : BaseMvpFragment<CollectContract.View, CollectContract.Pr
     }
 
     override fun setCollectList(articles: CollectionResponseBody<CollectionArticle>) {
+        mLayoutStatusView?.showContent()
         articles.datas.let {
             collectAdapter.run {
                 if (isRefresh) {
