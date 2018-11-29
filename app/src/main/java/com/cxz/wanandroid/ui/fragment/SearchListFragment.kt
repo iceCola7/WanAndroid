@@ -1,6 +1,7 @@
 package com.cxz.wanandroid.ui.fragment
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
@@ -12,6 +13,7 @@ import com.cxz.wanandroid.adapter.HomeAdapter
 import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.base.BaseMvpFragment
 import com.cxz.wanandroid.constant.Constant
+import com.cxz.wanandroid.event.ColorEvent
 import com.cxz.wanandroid.ext.showSnackMsg
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.SearchListContract
@@ -24,6 +26,8 @@ import com.cxz.wanandroid.utils.NetWorkUtil
 import com.cxz.wanandroid.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import kotlinx.android.synthetic.main.fragment_search_list.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class SearchListFragment : BaseMvpFragment<SearchListContract.View, SearchListContract.Presenter>(), SearchListContract.View {
 
@@ -38,6 +42,8 @@ class SearchListFragment : BaseMvpFragment<SearchListContract.View, SearchListCo
     }
 
     override fun createPresenter(): SearchListContract.Presenter = SearchListPresenter()
+
+    override fun useEventBus(): Boolean = true
 
     /**
      * datas
@@ -174,6 +180,13 @@ class SearchListFragment : BaseMvpFragment<SearchListContract.View, SearchListCo
             } else {
                 smoothScrollToPosition(0)
             }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun refreshColor(event: ColorEvent) {
+        if (event.isRefresh) {
+            floating_action_btn.backgroundTintList = ColorStateList.valueOf(event.color)
         }
     }
 

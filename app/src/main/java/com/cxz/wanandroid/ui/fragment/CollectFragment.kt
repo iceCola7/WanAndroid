@@ -1,6 +1,7 @@
 package com.cxz.wanandroid.ui.fragment
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
@@ -11,6 +12,7 @@ import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.CollectAdapter
 import com.cxz.wanandroid.base.BaseMvpFragment
 import com.cxz.wanandroid.constant.Constant
+import com.cxz.wanandroid.event.ColorEvent
 import com.cxz.wanandroid.event.RefreshHomeEvent
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.CollectContract
@@ -19,9 +21,11 @@ import com.cxz.wanandroid.mvp.model.bean.CollectionResponseBody
 import com.cxz.wanandroid.mvp.presenter.CollectPresenter
 import com.cxz.wanandroid.ui.activity.ContentActivity
 import com.cxz.wanandroid.widget.SpaceItemDecoration
-import kotlinx.android.synthetic.main.fragment_collect.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 /**
  * Created by chenxz on 2018/6/9.
@@ -37,6 +41,8 @@ class CollectFragment : BaseMvpFragment<CollectContract.View, CollectContract.Pr
     }
 
     override fun createPresenter(): CollectContract.Presenter = CollectPresenter()
+
+    override fun useEventBus(): Boolean = true
 
     /**
      * datas
@@ -165,6 +171,13 @@ class CollectFragment : BaseMvpFragment<CollectContract.View, CollectContract.Pr
             } else {
                 smoothScrollToPosition(0)
             }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun refreshColor(event: ColorEvent) {
+        if (event.isRefresh) {
+            floating_action_btn.backgroundTintList = ColorStateList.valueOf(event.color)
         }
     }
 

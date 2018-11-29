@@ -3,8 +3,10 @@ package com.cxz.wanandroid.ui.activity
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.base.BaseSwipeBackActivity
 import com.cxz.wanandroid.constant.Constant
+import com.cxz.wanandroid.event.ColorEvent
 import com.cxz.wanandroid.ui.fragment.*
 import kotlinx.android.synthetic.main.toolbar.*
+import org.greenrobot.eventbus.EventBus
 
 class CommonActivity : BaseSwipeBackActivity() {
 
@@ -61,6 +63,11 @@ class CommonActivity : BaseSwipeBackActivity() {
     }
 
     override fun start() {
+    }
+
+    override fun initColor() {
+        super.initColor()
+        EventBus.getDefault().post(ColorEvent(true, mThemeColor))
     }
 
 }
