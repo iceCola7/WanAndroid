@@ -17,10 +17,7 @@ import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.NetworkChangeEvent
 import com.cxz.wanandroid.receiver.NetworkChangeReceiver
-import com.cxz.wanandroid.utils.CommonUtil
-import com.cxz.wanandroid.utils.Preference
-import com.cxz.wanandroid.utils.SettingUtil
-import com.cxz.wanandroid.utils.StatusBarUtil
+import com.cxz.wanandroid.utils.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -215,6 +212,17 @@ abstract class BaseActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        if (ev?.action == MotionEvent.ACTION_UP) {
+            val v = currentFocus
+            // 如果不是落在EditText区域，则需要关闭输入法
+            if (KeyBoardUtil.isHideKeyboard(v, ev)) {
+                KeyBoardUtil.hideKeyBoard(this, v)
+            }
+        }
+        return super.dispatchTouchEvent(ev)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
