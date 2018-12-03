@@ -16,7 +16,8 @@ class CommonActivity : BaseSwipeBackActivity() {
     }
 
     override fun initView() {
-        val type = intent.extras.getString(Constant.TYPE_KEY, "")
+        val extras = intent.extras
+        val type = extras.getString(Constant.TYPE_KEY, "")
         toolbar.run {
             title = getString(R.string.app_name)
             setSupportActionBar(this)
@@ -25,31 +26,31 @@ class CommonActivity : BaseSwipeBackActivity() {
         val fragment = when (type) {
             Constant.Type.COLLECT_TYPE_KEY -> {
                 toolbar.title = getString(R.string.collect)
-                CollectFragment.getInstance(intent.extras)
+                CollectFragment.getInstance(extras)
             }
             Constant.Type.ABOUT_US_TYPE_KEY -> {
                 toolbar.title = getString(R.string.about_us)
-                AboutFragment.getInstance(intent.extras)
+                AboutFragment.getInstance(extras)
             }
             Constant.Type.SETTING_TYPE_KEY -> {
                 toolbar.title = getString(R.string.setting)
-                SettingFragment.getInstance(intent.extras)
+                SettingFragment.getInstance(extras)
             }
             Constant.Type.SEARCH_TYPE_KEY -> {
-                toolbar.title = intent.extras.getString(Constant.SEARCH_KEY, "")
-                SearchListFragment.getInstance(intent.extras)
+                toolbar.title = extras.getString(Constant.SEARCH_KEY, "")
+                SearchListFragment.getInstance(extras)
             }
             Constant.Type.ADD_TODO_TYPE_KEY -> {
                 toolbar.title = getString(R.string.add)
-                AddTodoFragment.getInstance(intent.extras)
+                AddTodoFragment.getInstance(extras)
             }
             Constant.Type.EDIT_TODO_TYPE_KEY -> {
                 toolbar.title = getString(R.string.edit)
-                AddTodoFragment.getInstance(intent.extras)
+                AddTodoFragment.getInstance(extras)
             }
             Constant.Type.SEE_TODO_TYPE_KEY -> {
                 toolbar.title = getString(R.string.see)
-                AddTodoFragment.getInstance(intent.extras)
+                AddTodoFragment.getInstance(extras)
             }
             else -> {
                 null

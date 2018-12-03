@@ -155,25 +155,25 @@ class KnowledgeFragment : BaseMvpFragment<KnowledgeContract.View, KnowledgeContr
     }
 
     override fun setKnowledgeList(articles: ArticleResponseBody) {
-        if (articles.datas.isEmpty()) {
+        articles.datas.let {
+            knowledgeAdapter.run {
+                if (isRefresh) {
+                    replaceData(it)
+                } else {
+                    addData(it)
+                }
+                val size = it.size
+                if (size < articles.size) {
+                    loadMoreEnd(isRefresh)
+                } else {
+                    loadMoreComplete()
+                }
+            }
+        }
+        if (knowledgeAdapter.data.isEmpty()) {
             mLayoutStatusView?.showEmpty()
         } else {
             mLayoutStatusView?.showContent()
-            articles.datas.let {
-                knowledgeAdapter.run {
-                    if (isRefresh) {
-                        replaceData(it)
-                    } else {
-                        addData(it)
-                    }
-                    val size = it.size
-                    if (size < articles.size) {
-                        loadMoreEnd(isRefresh)
-                    } else {
-                        loadMoreComplete()
-                    }
-                }
-            }
         }
     }
 

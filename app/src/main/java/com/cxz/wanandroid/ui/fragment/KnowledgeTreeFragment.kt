@@ -10,7 +10,6 @@ import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.KnowledgeTreeAdapter
 import com.cxz.wanandroid.base.BaseMvpFragment
 import com.cxz.wanandroid.constant.Constant
-import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.KnowledgeTreeContract
 import com.cxz.wanandroid.mvp.model.bean.KnowledgeTreeBody
 import com.cxz.wanandroid.mvp.presenter.KnowledgeTreePresenter
@@ -115,15 +114,15 @@ class KnowledgeTreeFragment : BaseMvpFragment<KnowledgeTreeContract.View, Knowle
     }
 
     override fun setKnowledgeTree(lists: List<KnowledgeTreeBody>) {
-        if (lists.isEmpty()) {
+        lists.let {
+            knowledgeTreeAdapter.run {
+                replaceData(lists)
+            }
+        }
+        if (knowledgeTreeAdapter.data.isEmpty()) {
             mLayoutStatusView?.showEmpty()
         } else {
             mLayoutStatusView?.showContent()
-            lists.let {
-                knowledgeTreeAdapter.run {
-                    replaceData(lists)
-                }
-            }
         }
     }
 

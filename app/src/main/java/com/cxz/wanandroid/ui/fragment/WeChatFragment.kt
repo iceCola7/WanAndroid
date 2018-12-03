@@ -88,17 +88,17 @@ class WeChatFragment : BaseMvpFragment<WeChatContract.View, WeChatContract.Prese
     }
 
     override fun showWXChapters(chapters: MutableList<WXChapterBean>) {
+        chapters.let {
+            datas.addAll(it)
+            viewPager.run {
+                adapter = viewPagerAdapter
+                offscreenPageLimit = datas.size
+            }
+        }
         if (chapters.isEmpty()) {
             mLayoutStatusView?.showEmpty()
         } else {
             mLayoutStatusView?.showContent()
-            chapters.let {
-                datas.addAll(it)
-                viewPager.run {
-                    adapter = viewPagerAdapter
-                    offscreenPageLimit = datas.size
-                }
-            }
         }
     }
 

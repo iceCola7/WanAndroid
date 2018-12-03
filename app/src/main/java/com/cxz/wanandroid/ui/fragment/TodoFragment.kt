@@ -180,12 +180,6 @@ class TodoFragment : BaseMvpFragment<TodoContract.View, TodoContract.Presenter>(
     }
 
     override fun showNoTodoList(todoResponseBody: TodoResponseBody) {
-        if (todoResponseBody.datas.isEmpty()) {
-            mLayoutStatusView?.showEmpty()
-            return
-        } else {
-            mLayoutStatusView?.showContent()
-        }
         // TODO 待优化
         val list = mutableListOf<TodoDataBean>()
         var bHeader = true
@@ -216,6 +210,12 @@ class TodoFragment : BaseMvpFragment<TodoContract.View, TodoContract.Presenter>(
                     loadMoreComplete()
                 }
             }
+        }
+        if (mAdapter.data.isEmpty()) {
+            mLayoutStatusView?.showEmpty()
+            return
+        } else {
+            mLayoutStatusView?.showContent()
         }
     }
 

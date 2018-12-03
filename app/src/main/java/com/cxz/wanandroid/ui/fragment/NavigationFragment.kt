@@ -184,22 +184,21 @@ class NavigationFragment : BaseMvpFragment<NavigationContract.View, NavigationCo
     }
 
     override fun setNavigationData(list: List<NavigationBean>) {
-        if (list.isEmpty()) {
+        list.let {
+            navigation_tab_layout.run {
+                setTabAdapter(NavigationTabAdapter(activity!!.applicationContext, list))
+            }
+            navigationAdapter.run {
+                replaceData(it)
+                loadMoreComplete()
+                loadMoreEnd()
+                setEnableLoadMore(false)
+            }
+        }
+        if (navigationAdapter.data.isEmpty()) {
             mLayoutStatusView?.showEmpty()
         } else {
             mLayoutStatusView?.showContent()
-            list.let {
-                navigation_tab_layout.run {
-                    setTabAdapter(NavigationTabAdapter(activity!!.applicationContext, list))
-                }
-                navigationAdapter.run {
-                    replaceData(it)
-
-                    loadMoreComplete()
-                    loadMoreEnd()
-                    setEnableLoadMore(false)
-                }
-            }
         }
     }
 

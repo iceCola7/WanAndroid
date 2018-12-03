@@ -88,17 +88,17 @@ class ProjectFragment : BaseMvpFragment<ProjectContract.View, ProjectContract.Pr
     }
 
     override fun setProjectTree(list: List<ProjectTreeBean>) {
+        list.let {
+            projectTree.addAll(it)
+            viewPager.run {
+                adapter = viewPagerAdapter
+                offscreenPageLimit = projectTree.size
+            }
+        }
         if (list.isEmpty()) {
             mLayoutStatusView?.showEmpty()
         } else {
             mLayoutStatusView?.showContent()
-            list.let {
-                projectTree.addAll(it)
-                viewPager.run {
-                    adapter = viewPagerAdapter
-                    offscreenPageLimit = projectTree.size
-                }
-            }
         }
     }
 

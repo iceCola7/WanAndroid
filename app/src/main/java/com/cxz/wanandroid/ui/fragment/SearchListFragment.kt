@@ -151,25 +151,25 @@ class SearchListFragment : BaseMvpFragment<SearchListContract.View, SearchListCo
     }
 
     override fun showArticles(articles: ArticleResponseBody) {
-        if (articles.datas.isEmpty()) {
+        articles.datas.let {
+            searchListAdapter.run {
+                if (isRefresh) {
+                    replaceData(it)
+                } else {
+                    addData(it)
+                }
+                val size = it.size
+                if (size < articles.size) {
+                    loadMoreEnd(isRefresh)
+                } else {
+                    loadMoreComplete()
+                }
+            }
+        }
+        if (searchListAdapter.data.isEmpty()) {
             mLayoutStatusView?.showEmpty()
         } else {
             mLayoutStatusView?.showContent()
-            articles.datas.let {
-                searchListAdapter.run {
-                    if (isRefresh) {
-                        replaceData(it)
-                    } else {
-                        addData(it)
-                    }
-                    val size = it.size
-                    if (size < articles.size) {
-                        loadMoreEnd(isRefresh)
-                    } else {
-                        loadMoreComplete()
-                    }
-                }
-            }
         }
     }
 

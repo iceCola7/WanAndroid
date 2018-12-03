@@ -134,25 +134,26 @@ class ProjectListFragment : BaseMvpFragment<ProjectListContract.View, ProjectLis
     }
 
     override fun setProjectList(articles: ArticleResponseBody) {
-        if (articles.datas.isEmpty()) {
+        articles.datas.let {
+            projectAdapter.run {
+                if (isRefresh) {
+                    replaceData(it)
+                } else {
+                    addData(it)
+                }
+                val size = it.size
+                if (size < articles.size) {
+                    loadMoreEnd(isRefresh)
+                } else {
+                    loadMoreComplete()
+                }
+
+            }
+        }
+        if (projectAdapter.data.isEmpty()) {
             mLayoutStatusView?.showEmpty()
         } else {
             mLayoutStatusView?.showContent()
-            articles.datas.let {
-                projectAdapter.run {
-                    if (isRefresh) {
-                        replaceData(it)
-                    } else {
-                        addData(it)
-                    }
-                    val size = it.size
-                    if (size < articles.size) {
-                        loadMoreEnd(isRefresh)
-                    } else {
-                        loadMoreComplete()
-                    }
-                }
-            }
         }
     }
 
