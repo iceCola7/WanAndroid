@@ -31,6 +31,9 @@ class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentCo
     private lateinit var shareTitle: String
     private lateinit var shareUrl: String
     private var shareId: Int = 0
+    private val mWebView: NestedScrollAgentWebView by lazy {
+        NestedScrollAgentWebView(this)
+    }
 
     override fun createPresenter(): ContentContract.Presenter = ContentPresenter()
 
@@ -68,23 +71,27 @@ class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentCo
                 tv_title.isSelected = true
             }, 2000)
         }
-        intent.extras.let {
+        intent.extras?.let {
             shareId = it.getInt(Constant.CONTENT_ID_KEY, -1)
             shareTitle = it.getString(Constant.CONTENT_TITLE_KEY, "")
             shareUrl = it.getString(Constant.CONTENT_URL_KEY, "")
         }
+
+        initWebView()
+
     }
 
-    override fun start() {
-
-        val webView = NestedScrollAgentWebView(this)
+    /**
+     * 初始化 WebView
+     */
+    private fun initWebView() {
         val layoutParams = CoordinatorLayout.LayoutParams(-1, -1)
         layoutParams.behavior = AppBarLayout.ScrollingViewBehavior()
 
         agentWeb = shareUrl.getAgentWeb(this,
                 cl_main,
                 layoutParams,
-                webView,
+                mWebView,
                 webChromeClient,
                 webViewClient)
 
@@ -94,6 +101,10 @@ class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentCo
                 it.settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
             }
         }
+    }
+
+    override fun start() {
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
