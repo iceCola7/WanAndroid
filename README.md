@@ -18,7 +18,7 @@
 [10]:https://github.com/iceCola7/WanAndroid/blob/master/LICENSE
 
 [11]:https://img.shields.io/badge/QQ-563859095-orange.svg
-[12]:https://github.com/iceCola7/WanAndroid
+[12]:http://wpa.qq.com/msgrd?v=3&uin=563859095&site=qq&menu=yes
 
 - **Kotlin 版 MVP 基础框架：[https://github.com/iceCola7/KotlinMVPSamples](https://github.com/iceCola7/KotlinMVPSamples)**
 - **Java 版 MVP 基础框架：[https://github.com/iceCola7/MVPSamples](https://github.com/iceCola7/MVPSamples)**
@@ -38,7 +38,7 @@
 [WanAndroid](https://github.com/iceCola7/WanAndroid) 采用 `Kotlin` 语言编写，结合 `MVP` + `RxJava` + `Retrofit` + `Glide` + `EventBus` 等架构设计的项目，项目代码结构清晰并且有详细注释，如有任何疑问和建议请提 [Issues](https://github.com/iceCola7/WanAndroid/issues) 或联系 **`QQ：563859095`** ，**项目会持续迭代维护，努力打造一款优秀的 [WanAndroid](http://www.wanandroid.com/) 客户端**。
 
 ## API
-[https://github.com/hongyangAndroid/wanandroid](https://github.com/hongyangAndroid/wanandroid)
+[玩 Android 开放 API](http://www.wanandroid.com/blog/show/2)
 
 ## 主要功能
 - **首页**：轮播图、文章列表
