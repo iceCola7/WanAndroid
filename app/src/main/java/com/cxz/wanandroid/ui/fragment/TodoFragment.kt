@@ -15,6 +15,7 @@ import com.cxz.wanandroid.base.BaseMvpFragment
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.RefreshTodoEvent
 import com.cxz.wanandroid.event.TodoEvent
+import com.cxz.wanandroid.event.TodoTypeEvent
 import com.cxz.wanandroid.ext.showSnackMsg
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.TodoContract
@@ -145,6 +146,13 @@ class TodoFragment : BaseMvpFragment<TodoContract.View, TodoContract.Presenter>(
         } else {
             mPresenter?.getNoTodoList(1, mType)
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doTodoTypeEvent(event: TodoTypeEvent) {
+        mType = event.type
+        bDone = false
+        lazyLoad()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
