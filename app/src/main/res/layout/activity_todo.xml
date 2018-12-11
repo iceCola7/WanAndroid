@@ -1,80 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/viewBackground">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="false"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        app:elevation="0dp">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </android.support.design.widget.AppBarLayout>
+    <include layout="@layout/toolbar" />
 
     <include layout="@layout/container" />
 
-    <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/fab_menu"
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        style="@style/Widget.Design.BottomNavigationView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="@dimen/dp_10"
-        android:layout_marginTop="@dimen/dp_10"
+        android:layout_gravity="bottom"
+        android:background="@color/viewBackground"
+        app:elevation="@dimen/dp_16"
+        app:itemIconTint="@drawable/nav_item_color_state"
+        app:itemTextColor="@drawable/nav_item_color_state"
+        app:layout_behavior="com.cxz.wanandroid.widget.behavior.BottomNavigationBehavior"
+        app:menu="@menu/bottom_navigation_todo" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floating_action_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="@dimen/dp_20"
         android:layout_marginRight="@dimen/dp_20"
-        android:layout_marginBottom="@dimen/dp_20"
-        app:layout_behavior="com.cxz.wanandroid.widget.behavior.ScrollAwareFAB2Behavior"
-        app:menu_animationDelayPerItem="0"
-        app:menu_colorNormal="@color/colorPrimary"
-        app:menu_colorPressed="@color/colorPrimary"
-        app:menu_colorRipple="@color/colorPrimary"
-        app:menu_labels_hideAnimation="@anim/jump_to_down"
-        app:menu_labels_showAnimation="@anim/jump_from_down"
-        app:menu_labels_style="@style/MenuLabelsStyle"
-        app:menu_shadowColor="#444">
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_add"
-            style="@style/MenuButtonsStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_24dp"
-            app:fab_label="@string/add"
-            app:srcCompat="@drawable/ic_add_24dp"
-            tools:ignore="VectorDrawableCompat" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_todo"
-            style="@style/MenuButtonsStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_todo_24dp"
-            app:fab_label="@string/notodo"
-            app:srcCompat="@drawable/ic_todo_24dp"
-            tools:ignore="VectorDrawableCompat" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_done"
-            style="@style/MenuButtonsStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_done_24dp"
-            app:fab_label="@string/completed"
-            app:srcCompat="@drawable/ic_done_24dp"
-            tools:ignore="VectorDrawableCompat" />
-
-    </com.github.clans.fab.FloatingActionMenu>
+        android:layout_marginBottom="@dimen/dp_60"
+        app:layout_behavior="com.cxz.wanandroid.widget.behavior.ScaleDownShowBehavior"
+        app:srcCompat="@drawable/ic_add_24dp" />
 
 </android.support.design.widget.CoordinatorLayout>

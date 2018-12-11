@@ -1,9 +1,14 @@
 package com.cxz.wanandroid.ui.activity
 
+import android.content.res.ColorStateList
 import android.os.Build
+import android.support.design.widget.BottomNavigationView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.*
+import android.view.Gravity
+import android.view.Menu
+import android.view.MenuItem
+import android.view.ViewGroup
 import android.widget.PopupWindow
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.TodoPopupAdapter
@@ -16,9 +21,11 @@ import com.cxz.wanandroid.event.TodoTypeEvent
 import com.cxz.wanandroid.mvp.model.bean.TodoTypeBean
 import com.cxz.wanandroid.ui.fragment.TodoFragment
 import com.cxz.wanandroid.utils.DisplayManager
-import com.cxz.wanandroid.utils.SettingUtil
 import kotlinx.android.synthetic.main.activity_todo.*
+import kotlinx.android.synthetic.main.toolbar.*
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class TodoActivity : BaseSwipeBackActivity() {
 
@@ -35,7 +42,7 @@ class TodoActivity : BaseSwipeBackActivity() {
     override fun attachLayoutRes(): Int = R.layout.activity_todo
 
     override fun initData() {
-        datas = getData()
+        datas = getTypeData()
     }
 
     override fun initView() {
@@ -43,6 +50,19 @@ class TodoActivity : BaseSwipeBackActivity() {
             title = datas[0].name // getString(R.string.nav_todo)
             setSupportActionBar(this)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        }
+        bottom_navigation.run {
+            // 以前使用 BottomNavigationViewHelper.disableShiftMode(this) 方法来设置底部图标和字体都显示并去掉点击动画
+            // 升级到 28.0.0 之后，官方重构了 BottomNavigationView ，目前可以使用 labelVisibilityMode = 1 来替代
+            // BottomNavigationViewHelper.disableShiftMode(this)
+            labelVisibilityMode = 1
+            setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+        }
+
+        floating_action_btn.run {
+            setOnClickListener {
+                EventBus.getDefault().post(TodoEvent(Constant.TODO_ADD, mType))
+            }
         }
 
         val transaction = supportFragmentManager.beginTransaction()
@@ -53,33 +73,12 @@ class TodoActivity : BaseSwipeBackActivity() {
             transaction.show(mTodoFragment!!)
         }
         transaction.commit()
-
-        fab_menu.setClosedOnTouchOutside(true)
-        fab_add.setOnClickListener(clickListener)
-        fab_todo.setOnClickListener(clickListener)
-        fab_done.setOnClickListener(clickListener)
-
-    }
-
-    private val clickListener = View.OnClickListener {
-        fab_menu.close(true)
-        when (it.id) {
-            R.id.fab_add -> {
-                EventBus.getDefault().post(TodoEvent(Constant.TODO_ADD, mType))
-            }
-            R.id.fab_todo -> {
-                EventBus.getDefault().post(TodoEvent(Constant.TODO_NO, mType))
-            }
-            R.id.fab_done -> {
-                EventBus.getDefault().post(TodoEvent(Constant.TODO_DONE, mType))
-            }
-        }
     }
 
     override fun start() {
     }
 
-    private fun getData(): MutableList<TodoTypeBean> {
+    private fun getTypeData(): MutableList<TodoTypeBean> {
         val list = mutableListOf<TodoTypeBean>()
         list.add(TodoTypeBean(0, "只用这一个", true))
         list.add(TodoTypeBean(1, "工作", false))
@@ -88,6 +87,9 @@ class TodoActivity : BaseSwipeBackActivity() {
         return list
     }
 
+    /**
+     * 初始化 PopupWindow
+     */
     private fun initPopupWindow(dataList: List<TodoTypeBean>) {
         val recyclerView = layoutInflater.inflate(R.layout.layout_popup_todo, null) as RecyclerView
         val adapter = TodoPopupAdapter()
@@ -120,6 +122,9 @@ class TodoActivity : BaseSwipeBackActivity() {
         }
     }
 
+    /**
+     * 展示 PopupWindow
+     */
     private fun showPopupWindow(dataList: MutableList<TodoTypeBean>) {
         if (mSwitchPopupWindow == null) initPopupWindow(dataList)
         if (mSwitchPopupWindow?.isShowing == true) mSwitchPopupWindow?.dismiss()
@@ -151,30 +156,31 @@ class TodoActivity : BaseSwipeBackActivity() {
         refreshColor(ColorEvent(true))
     }
 
-    private fun refreshColor(event: ColorEvent) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun refreshColor(event: ColorEvent) {
         if (event.isRefresh) {
-            if (!SettingUtil.getIsNightMode()) {
-                val color = SettingUtil.getColor()
-                // tabLayout.setBackgroundColor(color)
-
-                fab_menu.menuButtonColorNormal = color
-                fab_menu.menuButtonColorPressed = color
-                fab_menu.menuButtonColorRipple = color
-
-                fab_add.colorNormal = color
-                fab_add.colorPressed = color
-                fab_add.colorRipple = color
-
-                fab_todo.colorNormal = color
-                fab_todo.colorPressed = color
-                fab_todo.colorRipple = color
-
-                fab_done.colorNormal = color
-                fab_done.colorPressed = color
-                fab_done.colorRipple = color
-
-            }
+            floating_action_btn.backgroundTintList = ColorStateList.valueOf(mThemeColor)
         }
     }
+
+    /**
+     * NavigationItemSelect监听
+     */
+    private val onNavigationItemSelectedListener =
+            BottomNavigationView.OnNavigationItemSelectedListener { item ->
+                return@OnNavigationItemSelectedListener when (item.itemId) {
+                    R.id.action_notodo -> {
+                        EventBus.getDefault().post(TodoEvent(Constant.TODO_NO, mType))
+                        true
+                    }
+                    R.id.action_completed -> {
+                        EventBus.getDefault().post(TodoEvent(Constant.TODO_DONE, mType))
+                        true
+                    }
+                    else -> {
+                        false
+                    }
+                }
+            }
 
 }
