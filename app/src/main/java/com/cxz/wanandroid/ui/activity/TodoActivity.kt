@@ -5,10 +5,7 @@ import android.os.Build
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.Gravity
-import android.view.Menu
-import android.view.MenuItem
-import android.view.ViewGroup
+import android.view.*
 import android.widget.PopupWindow
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.TodoPopupAdapter
@@ -119,6 +116,16 @@ class TodoActivity : BaseSwipeBackActivity() {
                 elevation = DisplayManager.dip2px(10F).toFloat()
             }
             // setBackgroundDrawable(ColorDrawable(mThemeColor))
+            setOnDismissListener {
+                dismiss()
+            }
+            setTouchInterceptor { v, event ->
+                if (event.action == MotionEvent.ACTION_OUTSIDE) {
+                    dismiss()
+                    true
+                }
+                false
+            }
         }
     }
 

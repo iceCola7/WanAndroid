@@ -215,7 +215,8 @@ data class TodoBean(
         @Json(name = "status") val status: Int,
         @Json(name = "title") val title: String,
         @Json(name = "type") val type: Int,
-        @Json(name = "userId") val userId: Int
+        @Json(name = "userId") val userId: Int,
+        @Json(name = "priority") val priority: Int
 ) : Serializable
 
 data class TodoListBean(
