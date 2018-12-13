@@ -139,5 +139,6 @@
     <string name="edit">Edit</string>
     <string name="see">See</string>
     <string name="save_ing"> Save...</string>
+    <string name="switch_label">Switch</string>
 
 </resources>

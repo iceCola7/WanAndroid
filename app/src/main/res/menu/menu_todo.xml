@@ -5,6 +5,6 @@
         android:id="@+id/action_todo_type"
         android:enabled="true"
         android:icon="@drawable/ic_switch_white_24dp"
-        android:title="@string/add"
+        android:title="@string/switch_label"
         app:showAsAction="always" />
 </menu>

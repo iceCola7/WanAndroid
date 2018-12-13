@@ -139,5 +139,6 @@
     <string name="edit">编辑</string>
     <string name="see">查看</string>
     <string name="save_ing">正在保存...</string>
+    <string name="switch_label">切换</string>
 
 </resources>
