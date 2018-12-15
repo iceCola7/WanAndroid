@@ -1,5 +1,6 @@
 package com.cxz.wanandroid.ui.fragment
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
 import com.cxz.wanandroid.R
@@ -8,11 +9,11 @@ import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.RefreshTodoEvent
 import com.cxz.wanandroid.ext.formatCurrentDate
 import com.cxz.wanandroid.ext.showToast
+import com.cxz.wanandroid.ext.stringToCalendar
 import com.cxz.wanandroid.mvp.contract.AddTodoContract
 import com.cxz.wanandroid.mvp.model.bean.TodoBean
 import com.cxz.wanandroid.mvp.presenter.AddTodoPresenter
 import com.cxz.wanandroid.utils.DialogUtil
-import com.cxz.wanandroid.utils.KeyBoardUtil
 import kotlinx.android.synthetic.main.fragment_add_todo.*
 import org.greenrobot.eventbus.EventBus
 import java.util.*
@@ -111,26 +112,33 @@ class AddTodoFragment : BaseMvpFragment<AddTodoContract.View, AddTodoContract.Pr
                 et_content.isEnabled = false
                 ll_date.isEnabled = false
                 btn_save.visibility = View.GONE
+                iv_arrow_right.visibility = View.GONE
 
                 ll_priority.isEnabled = false
                 if (mTodoBean?.priority == 0) {
                     rb0.isChecked = true
                     rb1.isChecked = false
+                    rb1.visibility = View.GONE
                 } else if (mTodoBean?.priority == 1) {
                     rb0.isChecked = false
                     rb1.isChecked = true
+                    rb0.visibility = View.GONE
+                } else {
+                    ll_priority.visibility = View.GONE
                 }
             }
         }
 
         ll_date.setOnClickListener {
-            KeyBoardUtil.closeKeyBoard(et_content, activity!!)
-            val now = Calendar.getInstance()
-            val dpd = android.app.DatePickerDialog(
-                    activity,
-                    android.app.DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
-                        val currentMonth = month + 1
-                        mCurrentDate = "$year-$currentMonth-$dayOfMonth"
+            var now = Calendar.getInstance()
+            if (mTypeKey == Constant.Type.EDIT_TODO_TYPE_KEY) {
+                mTodoBean?.dateStr?.let {
+                    now = it.stringToCalendar()
+                }
+            }
+            val dpd = android.app.DatePickerDialog(activity,
+                    DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+                        mCurrentDate = "$year-${month + 1}-$dayOfMonth"
                         tv_date.text = mCurrentDate
                     },
                     now.get(Calendar.YEAR),

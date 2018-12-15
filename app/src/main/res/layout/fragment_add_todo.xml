@@ -102,15 +102,15 @@
                     android:id="@+id/rb0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dp_10"
                     android:checked="true"
-                    android:text="一般" />
+                    android:text="@string/priority_0" />
 
                 <RadioButton
                     android:id="@+id/rb1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_10"
-                    android:text="重要" />
+                    android:text="@string/priority_1" />
 
             </RadioGroup>
 
@@ -149,6 +149,7 @@
                 tools:text="2018-01-01" />
 
             <ImageView
+                android:id="@+id/iv_arrow_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_arrow_right_24dp" />
