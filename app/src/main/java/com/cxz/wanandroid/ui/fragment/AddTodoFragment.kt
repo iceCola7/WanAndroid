@@ -72,7 +72,7 @@ class AddTodoFragment : BaseMvpFragment<AddTodoContract.View, AddTodoContract.Pr
     override fun attachLayoutRes(): Int = R.layout.fragment_add_todo
 
     override fun getType(): Int = mType
-    override fun getCurrentDate(): String = mCurrentDate
+    override fun getCurrentDate(): String = tv_date.text.toString()
     override fun getTitle(): String = et_title.text.toString()
     override fun getContent(): String = et_content.text.toString()
     override fun getStatus(): Int = mTodoBean?.status ?: 0
@@ -81,14 +81,13 @@ class AddTodoFragment : BaseMvpFragment<AddTodoContract.View, AddTodoContract.Pr
 
     override fun initView(view: View) {
         super.initView(view)
-        tv_date.text = mCurrentDate
 
         mType = arguments?.getInt(Constant.TODO_TYPE) ?: 0
         mTypeKey = arguments?.getString(Constant.TYPE_KEY) ?: Constant.Type.ADD_TODO_TYPE_KEY
 
         when (mTypeKey) {
             Constant.Type.ADD_TODO_TYPE_KEY -> {
-
+                tv_date.text = formatCurrentDate()
             }
             Constant.Type.EDIT_TODO_TYPE_KEY -> {
                 mTodoBean = arguments?.getSerializable(Constant.TODO_BEAN) as TodoBean ?: null
