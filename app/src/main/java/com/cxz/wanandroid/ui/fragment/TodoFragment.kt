@@ -85,11 +85,6 @@ class TodoFragment : BaseMvpFragment<TodoContract.View, TodoContract.Presenter>(
 
     override fun showLoading() {
         // swipeRefreshLayout?.isRefreshing = false
-        if (isRefresh) {
-            mAdapter.run {
-                setEnableLoadMore(true)
-            }
-        }
     }
 
     override fun hideLoading() {
@@ -221,7 +216,6 @@ class TodoFragment : BaseMvpFragment<TodoContract.View, TodoContract.Presenter>(
         }
         if (mAdapter.data.isEmpty()) {
             mLayoutStatusView?.showEmpty()
-            return
         } else {
             mLayoutStatusView?.showContent()
         }

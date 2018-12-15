@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.mvp.model.bean.TodoBean
 import com.cxz.wanandroid.mvp.model.bean.TodoDataBean
+import com.cxz.wanandroid.widget.TiltTextView
 
 /**
  * Created by chenxz on 2018/8/8.
@@ -42,6 +43,13 @@ class TodoAdapter : BaseSectionQuickAdapter<TodoDataBean, BaseViewHolder> {
             btn_done.text = mContext.resources.getString(R.string.mark_done)
         } else if (itemData.status == 1) {
             btn_done.text = mContext.resources.getString(R.string.restore)
+        }
+        val tv_tilt = helper.getView<TiltTextView>(R.id.tv_tilt)
+        if (itemData.priority == 1) {
+            tv_tilt.setText(mContext.resources.getString(R.string.priority_1))
+            tv_tilt.visibility = View.VISIBLE
+        } else {
+            tv_tilt.visibility = View.GONE
         }
     }
 

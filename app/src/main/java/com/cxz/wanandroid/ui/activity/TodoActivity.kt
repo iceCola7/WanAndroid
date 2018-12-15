@@ -104,7 +104,7 @@ class TodoActivity : BaseSwipeBackActivity() {
             EventBus.getDefault().post(TodoTypeEvent(mType))
         }
         recyclerView.apply {
-            layoutManager = LinearLayoutManager(App.context)
+            layoutManager = LinearLayoutManager(this@TodoActivity)
             this.adapter = adapter
         }
         mSwitchPopupWindow = PopupWindow(recyclerView)

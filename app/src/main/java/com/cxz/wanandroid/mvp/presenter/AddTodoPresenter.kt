@@ -17,11 +17,14 @@ class AddTodoPresenter : BasePresenter<AddTodoContract.Model, AddTodoContract.Vi
         val title = mView?.getTitle().toString()
         val content = mView?.getContent().toString()
         val date = mView?.getCurrentDate().toString()
+        val priority = mView?.getPriority().toString()
+
         val map = mutableMapOf<String, Any>()
         map["type"] = type
         map["title"] = title
         map["content"] = content
         map["date"] = date
+        map["priority"] = priority
 
         mModel?.addTodo(map)?.ss(mModel, mView) {
             mView?.showAddTodo(true)
@@ -34,12 +37,15 @@ class AddTodoPresenter : BasePresenter<AddTodoContract.Model, AddTodoContract.Vi
         val content = mView?.getContent().toString()
         val date = mView?.getCurrentDate().toString()
         val status = mView?.getStatus() ?: 0
+        val priority = mView?.getPriority().toString()
+
         val map = mutableMapOf<String, Any>()
         map["type"] = type
         map["title"] = title
         map["content"] = content
         map["date"] = date
         map["status"] = status
+        map["priority"] = priority
 
         mModel?.updateTodo(id, map)?.ss(mModel, mView) {
             mView?.showUpdateTodo(true)

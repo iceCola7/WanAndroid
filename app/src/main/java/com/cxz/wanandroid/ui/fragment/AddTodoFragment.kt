@@ -51,6 +51,11 @@ class AddTodoFragment : BaseMvpFragment<AddTodoContract.View, AddTodoContract.Pr
      */
     private var mId: Int? = 0
 
+    /**
+     * 优先级  重要（1），一般（0）
+     */
+    private var mPriority = 0
+
     private val mDialog by lazy {
         DialogUtil.getWaitDialog(activity!!, getString(R.string.save_ing))
     }
@@ -71,6 +76,7 @@ class AddTodoFragment : BaseMvpFragment<AddTodoContract.View, AddTodoContract.Pr
     override fun getContent(): String = et_content.text.toString()
     override fun getStatus(): Int = mTodoBean?.status ?: 0
     override fun getItemId(): Int = mTodoBean?.id ?: 0
+    override fun getPriority(): String = mPriority.toString()
 
     override fun initView(view: View) {
         super.initView(view)
@@ -88,6 +94,13 @@ class AddTodoFragment : BaseMvpFragment<AddTodoContract.View, AddTodoContract.Pr
                 et_title.setText(mTodoBean?.title)
                 et_content.setText(mTodoBean?.content)
                 tv_date.text = mTodoBean?.dateStr
+                if (mTodoBean?.priority == 0) {
+                    rb0.isChecked = true
+                    rb1.isChecked = false
+                } else if (mTodoBean?.priority == 1) {
+                    rb0.isChecked = false
+                    rb1.isChecked = true
+                }
             }
             Constant.Type.SEE_TODO_TYPE_KEY -> {
                 mTodoBean = arguments?.getSerializable(Constant.TODO_BEAN) as TodoBean ?: null
@@ -98,6 +111,15 @@ class AddTodoFragment : BaseMvpFragment<AddTodoContract.View, AddTodoContract.Pr
                 et_content.isEnabled = false
                 ll_date.isEnabled = false
                 btn_save.visibility = View.GONE
+
+                ll_priority.isEnabled = false
+                if (mTodoBean?.priority == 0) {
+                    rb0.isChecked = true
+                    rb1.isChecked = false
+                } else if (mTodoBean?.priority == 1) {
+                    rb0.isChecked = false
+                    rb1.isChecked = true
+                }
             }
         }
 
@@ -126,6 +148,18 @@ class AddTodoFragment : BaseMvpFragment<AddTodoContract.View, AddTodoContract.Pr
                 Constant.Type.EDIT_TODO_TYPE_KEY -> {
                     mPresenter?.updateTodo(getItemId())
                 }
+            }
+        }
+
+        rg_priority.setOnCheckedChangeListener { group, checkedId ->
+            if (checkedId == R.id.rb0) {
+                mPriority = 0
+                rb0.isChecked = true
+                rb1.isChecked = false
+            } else if (checkedId == R.id.rb1) {
+                mPriority = 1
+                rb0.isChecked = false
+                rb1.isChecked = true
             }
         }
 

@@ -12,9 +12,11 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp_16"
-            android:orientation="horizontal">
+            android:layout_height="@dimen/dp_50"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/dp_16"
+            android:paddingRight="@dimen/dp_16">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -38,7 +40,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_1"
+            android:layout_height="@dimen/dp_05"
             android:background="@color/line_divider" />
 
         <LinearLayout
@@ -71,15 +73,62 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_1"
+            android:layout_height="@dimen/dp_05"
+            android:background="@color/line_divider" />
+
+        <LinearLayout
+            android:id="@+id/ll_priority"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/dp_16"
+            android:paddingRight="@dimen/dp_16">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="优先级："
+                android:textColor="@color/common_color"
+                android:textSize="@dimen/sp_16" />
+
+            <RadioGroup
+                android:id="@+id/rg_priority"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="一般" />
+
+                <RadioButton
+                    android:id="@+id/rb1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:text="重要" />
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_05"
             android:background="@color/line_divider" />
 
         <LinearLayout
             android:id="@+id/ll_date"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp_16"
-            android:orientation="horizontal">
+            android:layout_height="@dimen/dp_50"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/dp_16"
+            android:paddingRight="@dimen/dp_16">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -90,18 +139,25 @@
 
             <TextView
                 android:id="@+id/tv_date"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_10"
+                android:layout_weight="1"
                 android:background="@null"
                 android:textColor="@color/common_color"
                 android:textSize="@dimen/sp_16"
                 tools:text="2018-01-01" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_arrow_right_24dp" />
+
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_1"
+            android:layout_height="@dimen/dp_05"
             android:background="@color/line_divider" />
 
     </LinearLayout>
@@ -110,9 +166,9 @@
         android:id="@+id/btn_save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/dp_24"
         android:layout_marginLeft="@dimen/dp_24"
         android:layout_marginRight="@dimen/dp_24"
+        android:layout_marginBottom="@dimen/dp_24"
         android:background="@drawable/btn_login_bg"
         android:gravity="center"
         android:padding="@dimen/dp_12"
