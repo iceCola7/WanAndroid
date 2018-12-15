@@ -18,7 +18,7 @@
         <attr name="iconsDrawables" format="reference" />
     </declare-styleable>
 
-    <!-- loadingView-->
+    <!-- loadingView -->
     <declare-styleable name="LoadingView">
         <!--  设置外面进度条的半径 -->
         <attr name="outerCircleRadius" format="dimension|reference" />
@@ -33,6 +33,25 @@
         <!--  设置是否需要背景 -->
         <attr name="isNeedBackground" format="boolean" />
         <attr name="strokeWidth" format="dimension|reference" />
+    </declare-styleable>
+
+    <!-- TiltTextView -->
+    <declare-styleable name="TiltTextView">
+        <attr name="tiltBgColor" format="color" />
+        <attr name="tiltTextSize" format="dimension" />
+        <attr name="tiltText" format="string" />
+        <attr name="tiltTextColor" format="color" />
+        <attr name="tiltLength" format="dimension" />
+        <attr name="tiltMode" format="enum">
+            <enum name="left_top" value="0" />
+            <enum name="left_top_triangle" value="1" />
+            <enum name="left_bottom" value="2" />
+            <enum name="left_bottom_triangle" value="3" />
+            <enum name="right_top" value="4" />
+            <enum name="right_top_triangle" value="5" />
+            <enum name="right_bottom" value="6" />
+            <enum name="right_bottom_triangle" value="7" />
+        </attr>
     </declare-styleable>
 
 </resources>
