@@ -6,7 +6,7 @@ android:
   - tools
   - platform-tools
   - build-tools-28.0.3
-  - android-27
+  - android-28
   - extra-android-m2repository
   - extra-google-m2repository
   - extra-android-support
@@ -38,7 +38,7 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_5c3ae9008f8a_key -iv $encrypted_5c3ae9008f8a_iv
   -in cxz.jks.enc -out cxz.jks -d
 script:
-- "./gradlew assembleRelease"
+- ./gradlew :app:assembleRelease
 
 deploy:
   provider: releases
