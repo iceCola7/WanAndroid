@@ -12,14 +12,14 @@
 
         <com.cxz.wanandroid.widget.TiltTextView
             android:id="@+id/tv_tilt"
-            android:layout_width="@dimen/dp_30"
-            android:layout_height="@dimen/dp_30"
+            android:layout_width="@dimen/dp_24"
+            android:layout_height="@dimen/dp_24"
             android:visibility="gone"
             app:tiltBgColor="@color/Red"
             app:tiltLength="@dimen/dp_16"
             app:tiltMode="left_top_triangle"
             app:tiltText="@string/priority_1"
-            app:tiltTextSize="@dimen/sp_9"
+            app:tiltTextSize="@dimen/sp_8"
             tools:visibility="visible" />
 
         <TextView

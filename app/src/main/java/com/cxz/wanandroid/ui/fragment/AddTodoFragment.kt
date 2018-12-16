@@ -94,6 +94,7 @@ class AddTodoFragment : BaseMvpFragment<AddTodoContract.View, AddTodoContract.Pr
                 et_title.setText(mTodoBean?.title)
                 et_content.setText(mTodoBean?.content)
                 tv_date.text = mTodoBean?.dateStr
+                mPriority = mTodoBean?.priority ?: 0
                 if (mTodoBean?.priority == 0) {
                     rb0.isChecked = true
                     rb1.isChecked = false

@@ -194,6 +194,19 @@ interface ApiService {
     fun getDoneList(@Path("page") page: Int, @Path("type") type: Int): Observable<HttpResult<TodoResponseBody>>
 
     /**
+     * V2版本 ： 获取TODO列表数据
+     * http://www.wanandroid.com/lg/todo/v2/list/页码/json
+     * @param page 页码从1开始，拼接在 url 上
+     * @param map
+     *          status 状态， 1-完成；0未完成; 默认全部展示；
+     *          type 创建时传入的类型, 默认全部展示
+     *          priority 创建时传入的优先级；默认全部展示
+     *          orderby 1:完成日期顺序；2.完成日期逆序；3.创建日期顺序；4.创建日期逆序(默认)；
+     */
+    @GET("/lg/todo/v2/list/{page}/json")
+    fun getTodoList(@Path("page") page: Int, @QueryMap map: MutableMap<String, Any>): Observable<HttpResult<AllTodoResponseBody>>
+
+    /**
      * 仅更新完成状态Todo
      * http://www.wanandroid.com/lg/todo/done/80/json
      * @param id 拼接在链接上，为唯一标识

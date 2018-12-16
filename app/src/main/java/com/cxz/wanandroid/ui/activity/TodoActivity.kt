@@ -101,6 +101,7 @@ class TodoActivity : BaseSwipeBackActivity() {
                 item.isSelected = index == position
             }
             adapter.notifyDataSetChanged()
+            bottom_navigation.selectedItemId = R.id.action_notodo
             EventBus.getDefault().post(TodoTypeEvent(mType))
         }
         recyclerView.apply {
