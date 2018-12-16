@@ -30,7 +30,7 @@
     <string name="nav_about_us">关于我们</string>
     <string name="nav_logout">退出登录</string>
     <string name="nav_night_mode">夜间模式</string>
-    <string name="nav_todo">TODO工具</string>
+    <string name="nav_todo">TODO</string>
 
     <!-- Login -->
     <string name="username">用户名</string>
@@ -139,5 +139,8 @@
     <string name="edit">编辑</string>
     <string name="see">查看</string>
     <string name="save_ing">正在保存...</string>
+    <string name="switch_label">切换</string>
+    <string name="priority_0">一般</string>
+    <string name="priority_1">重要</string>
 
 </resources>

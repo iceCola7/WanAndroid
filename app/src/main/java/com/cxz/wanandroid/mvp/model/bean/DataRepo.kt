@@ -200,7 +200,8 @@ data class SearchHistoryBean(val key: String) : LitePalSupport() {
 // TODO工具 类型
 data class TodoTypeBean(
         val type: Int,
-        val name: String
+        val name: String,
+        var isSelected: Boolean
 )
 
 // TODO实体类
@@ -214,7 +215,8 @@ data class TodoBean(
         @Json(name = "status") val status: Int,
         @Json(name = "title") val title: String,
         @Json(name = "type") val type: Int,
-        @Json(name = "userId") val userId: Int
+        @Json(name = "userId") val userId: Int,
+        @Json(name = "priority") val priority: Int
 ) : Serializable
 
 data class TodoListBean(

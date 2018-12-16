@@ -53,6 +53,7 @@ class NavigationFragment : BaseMvpFragment<NavigationContract.View, NavigationCo
 
     override fun initView(view: View) {
         super.initView(view)
+        mLayoutStatusView = multiple_status_view
         recyclerView.run {
             layoutManager = linearLayoutManager
             adapter = navigationAdapter
@@ -169,6 +170,15 @@ class NavigationFragment : BaseMvpFragment<NavigationContract.View, NavigationCo
         }
     }
 
+    override fun showLoading() {
+        mLayoutStatusView?.showLoading()
+    }
+
+    override fun showError(errorMsg: String) {
+        super.showError(errorMsg)
+        mLayoutStatusView?.showError()
+    }
+
     override fun lazyLoad() {
         mPresenter?.requestNavigationList()
     }
@@ -180,11 +190,15 @@ class NavigationFragment : BaseMvpFragment<NavigationContract.View, NavigationCo
             }
             navigationAdapter.run {
                 replaceData(it)
-
                 loadMoreComplete()
                 loadMoreEnd()
                 setEnableLoadMore(false)
             }
+        }
+        if (navigationAdapter.data.isEmpty()) {
+            mLayoutStatusView?.showEmpty()
+        } else {
+            mLayoutStatusView?.showContent()
         }
     }
 

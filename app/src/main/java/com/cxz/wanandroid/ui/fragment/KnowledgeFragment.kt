@@ -80,7 +80,7 @@ class KnowledgeFragment : BaseMvpFragment<KnowledgeContract.View, KnowledgeContr
     private var isRefresh = true
 
     override fun showLoading() {
-        swipeRefreshLayout.isRefreshing = isRefresh
+        // swipeRefreshLayout.isRefreshing = isRefresh
     }
 
     override fun hideLoading() {
@@ -93,13 +93,14 @@ class KnowledgeFragment : BaseMvpFragment<KnowledgeContract.View, KnowledgeContr
     }
 
     override fun showError(errorMsg: String) {
+        super.showError(errorMsg)
+        mLayoutStatusView?.showError()
         knowledgeAdapter.run {
             if (isRefresh)
                 setEnableLoadMore(true)
             else
                 loadMoreFail()
         }
-        showToast(errorMsg)
     }
 
     override fun scrollToTop() {
@@ -116,9 +117,9 @@ class KnowledgeFragment : BaseMvpFragment<KnowledgeContract.View, KnowledgeContr
 
     override fun initView(view: View) {
         super.initView(view)
+        mLayoutStatusView = multiple_status_view
         cid = arguments?.getInt(Constant.CONTENT_CID_KEY) ?: 0
         swipeRefreshLayout.run {
-            isRefreshing = true
             setOnRefreshListener(onRefreshListener)
         }
         recyclerView.run {
@@ -132,11 +133,12 @@ class KnowledgeFragment : BaseMvpFragment<KnowledgeContract.View, KnowledgeContr
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@KnowledgeFragment.onItemClickListener
             onItemChildClickListener = this@KnowledgeFragment.onItemChildClickListener
-            setEmptyView(R.layout.fragment_empty_layout)
+            // setEmptyView(R.layout.fragment_empty_layout)
         }
     }
 
     override fun lazyLoad() {
+        mLayoutStatusView?.showLoading()
         mPresenter?.requestKnowledgeList(0, cid)
     }
 
@@ -167,6 +169,11 @@ class KnowledgeFragment : BaseMvpFragment<KnowledgeContract.View, KnowledgeContr
                     loadMoreComplete()
                 }
             }
+        }
+        if (knowledgeAdapter.data.isEmpty()) {
+            mLayoutStatusView?.showEmpty()
+        } else {
+            mLayoutStatusView?.showContent()
         }
     }
 

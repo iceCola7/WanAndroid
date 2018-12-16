@@ -1,22 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.cxz.wanandroid.widget.SwipeItemLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <RelativeLayout
         android:id="@+id/item_todo_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/dp_10"
-        android:layout_marginLeft="@dimen/dp_10"
-        android:layout_marginTop="@dimen/dp_10">
+        android:layout_height="match_parent">
+
+        <com.cxz.wanandroid.widget.TiltTextView
+            android:id="@+id/tv_tilt"
+            android:layout_width="@dimen/dp_24"
+            android:layout_height="@dimen/dp_24"
+            android:visibility="gone"
+            app:tiltBgColor="@color/Red"
+            app:tiltLength="@dimen/dp_16"
+            app:tiltMode="left_top_triangle"
+            app:tiltText="@string/priority_1"
+            app:tiltTextSize="@dimen/sp_8"
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/tv_todo_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
             android:ellipsize="end"
             android:maxLines="1"
+            android:paddingLeft="@dimen/dp_16"
+            android:paddingRight="@dimen/dp_16"
             android:text="@string/app_name"
             android:textColor="@color/item_title"
             android:textSize="@dimen/item_tv_title" />
@@ -25,11 +39,15 @@
             android:id="@+id/tv_todo_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/tv_todo_title"
             android:layout_below="@id/tv_todo_title"
+            android:layout_alignStart="@+id/tv_todo_title"
+            android:layout_alignLeft="@+id/tv_todo_title"
             android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_10"
             android:ellipsize="end"
             android:maxLines="3"
+            android:paddingLeft="@dimen/dp_16"
+            android:paddingRight="@dimen/dp_16"
             android:text="@string/app_name"
             android:textColor="@color/item_desc"
             android:textSize="@dimen/item_tv_content" />

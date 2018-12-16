@@ -39,7 +39,7 @@ abstract class BaseMvpSwipeBackActivity<in V : IView, P : IPresenter<V>> : BaseM
     }
 
     override fun getSwipeBackLayout(): SwipeBackLayout {
-        return mHelper.getSwipeBackLayout()
+        return mHelper.swipeBackLayout
     }
 
     override fun setSwipeBackEnable(enable: Boolean) {

@@ -42,7 +42,7 @@ class ProjectListFragment : BaseMvpFragment<ProjectListContract.View, ProjectLis
     override fun createPresenter(): ProjectListContract.Presenter = ProjectListPresenter()
 
     override fun showLoading() {
-        swipeRefreshLayout.isRefreshing = isRefresh
+        // swipeRefreshLayout.isRefreshing = isRefresh
     }
 
     override fun hideLoading() {
@@ -55,13 +55,14 @@ class ProjectListFragment : BaseMvpFragment<ProjectListContract.View, ProjectLis
     }
 
     override fun showError(errorMsg: String) {
+        super.showError(errorMsg)
+        mLayoutStatusView?.showError()
         projectAdapter.run {
             if (isRefresh)
                 setEnableLoadMore(true)
             else
                 loadMoreFail()
         }
-        showToast(errorMsg)
     }
 
     /**
@@ -104,10 +105,10 @@ class ProjectListFragment : BaseMvpFragment<ProjectListContract.View, ProjectLis
 
     override fun initView(view: View) {
         super.initView(view)
-        cid = arguments!!.getInt(Constant.CONTENT_CID_KEY) ?: -1
+        mLayoutStatusView = multiple_status_view
+        cid = arguments!!.getInt(Constant.CONTENT_CID_KEY)
 
         swipeRefreshLayout.run {
-            isRefreshing = true
             setOnRefreshListener(onRefreshListener)
         }
 
@@ -122,12 +123,13 @@ class ProjectListFragment : BaseMvpFragment<ProjectListContract.View, ProjectLis
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@ProjectListFragment.onItemClickListener
             onItemChildClickListener = this@ProjectListFragment.onItemChildClickListener
-            setEmptyView(R.layout.fragment_empty_layout)
+            // setEmptyView(R.layout.fragment_empty_layout)
         }
 
     }
 
     override fun lazyLoad() {
+        mLayoutStatusView?.showLoading()
         mPresenter?.requestProjectList(1, cid)
     }
 
@@ -145,7 +147,13 @@ class ProjectListFragment : BaseMvpFragment<ProjectListContract.View, ProjectLis
                 } else {
                     loadMoreComplete()
                 }
+
             }
+        }
+        if (projectAdapter.data.isEmpty()) {
+            mLayoutStatusView?.showEmpty()
+        } else {
+            mLayoutStatusView?.showContent()
         }
     }
 

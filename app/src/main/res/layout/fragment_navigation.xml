@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.cxz.multiplestatusview.MultipleStatusView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/multiple_status_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/viewBackground">
+    android:background="@color/viewBackground"
+    app:emptyView="@layout/layout_empty_view"
+    app:errorView="@layout/layout_error_view"
+    app:loadingView="@layout/layout_loading_view"
+    app:noNetworkView="@layout/layout_network_view">
 
     <LinearLayout
         android:id="@+id/normal_view"
@@ -37,4 +42,5 @@
             android:scrollbarSize="@dimen/dp_10"
             android:scrollbars="vertical" />
     </LinearLayout>
-</FrameLayout>
+
+</com.cxz.multiplestatusview.MultipleStatusView>

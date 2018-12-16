@@ -23,6 +23,7 @@ interface AddTodoContract {
         fun getContent(): String
         fun getStatus(): Int
         fun getItemId(): Int
+        fun getPriority(): String
 
     }
 

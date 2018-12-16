@@ -26,7 +26,7 @@
     <color name="vertical_tab_layout_indicator_color">@color/White</color>
     <color name="item_flow_layout_bg">@color/Grey200</color>
     <color name="arrow_color">@color/Grey700</color>
-    <color name="sticky_header_bg">@color/Grey300</color>
+    <color name="sticky_header_bg">@color/Grey100</color>
 
     <color name="light_red">#e26d2e</color>
     <color name="deep_red">#dc3b1f</color>

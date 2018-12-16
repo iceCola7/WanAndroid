@@ -68,6 +68,9 @@ class App : MultiDexApplication() {
      * 初始化 Bugly
      */
     private fun initBugly() {
+        if (BuildConfig.DEBUG) {
+            return
+        }
         // 获取当前包名
         val packageName = applicationContext.packageName
         // 获取当前进程名

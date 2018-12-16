@@ -81,6 +81,17 @@ fun String.getAgentWeb(
  * 格式化当前日期
  */
 fun formatCurrentDate(): String {
-    val formatter = SimpleDateFormat("yyyy-MM-dd")
-    return formatter.format(Date())
+    val sdf = SimpleDateFormat("yyyy-MM-dd")
+    return sdf.format(Date())
+}
+
+/**
+ * String 转 Calendar
+ */
+fun String.stringToCalendar(): Calendar {
+    val sdf = SimpleDateFormat("yyyy-MM-dd")
+    val date = sdf.parse(this)
+    val calendar = Calendar.getInstance()
+    calendar.time = date
+    return calendar
 }

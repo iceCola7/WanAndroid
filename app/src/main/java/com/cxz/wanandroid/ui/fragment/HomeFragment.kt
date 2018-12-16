@@ -106,8 +106,8 @@ class HomeFragment : BaseMvpFragment<HomeContract.View, HomeContract.Presenter>(
 
     override fun initView(view: View) {
         super.initView(view)
+        mLayoutStatusView = multiple_status_view
         swipeRefreshLayout.run {
-            isRefreshing = true
             setOnRefreshListener(onRefreshListener)
         }
         recyclerView.run {
@@ -127,17 +127,18 @@ class HomeFragment : BaseMvpFragment<HomeContract.View, HomeContract.Presenter>(
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@HomeFragment.onItemClickListener
             onItemChildClickListener = this@HomeFragment.onItemChildClickListener
-            setEmptyView(R.layout.fragment_empty_layout)
+            // setEmptyView(R.layout.fragment_empty_layout)
             addHeaderView(bannerView)
         }
     }
 
     override fun lazyLoad() {
+        mLayoutStatusView?.showLoading()
         mPresenter?.requestHomeData()
     }
 
     override fun showLoading() {
-        swipeRefreshLayout.isRefreshing = isRefresh
+        // swipeRefreshLayout.isRefreshing = isRefresh
     }
 
     override fun hideLoading() {
@@ -150,13 +151,14 @@ class HomeFragment : BaseMvpFragment<HomeContract.View, HomeContract.Presenter>(
     }
 
     override fun showError(errorMsg: String) {
+        super.showError(errorMsg)
+        mLayoutStatusView?.showError()
         homeAdapter.run {
             if (isRefresh)
                 setEnableLoadMore(true)
             else
                 loadMoreFail()
         }
-        showToast(errorMsg)
     }
 
     override fun setBanner(banners: List<Banner>) {
@@ -190,6 +192,11 @@ class HomeFragment : BaseMvpFragment<HomeContract.View, HomeContract.Presenter>(
                     loadMoreComplete()
                 }
             }
+        }
+        if (homeAdapter.data.isEmpty()) {
+            mLayoutStatusView?.showEmpty()
+        } else {
+            mLayoutStatusView?.showContent()
         }
     }
 

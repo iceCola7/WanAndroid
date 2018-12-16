@@ -1,6 +1,7 @@
 package com.cxz.wanandroid.ui.fragment
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
@@ -12,19 +13,21 @@ import com.cxz.wanandroid.adapter.HomeAdapter
 import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.base.BaseMvpFragment
 import com.cxz.wanandroid.constant.Constant
+import com.cxz.wanandroid.event.ColorEvent
 import com.cxz.wanandroid.ext.showSnackMsg
 import com.cxz.wanandroid.ext.showToast
-import com.cxz.wanandroid.mvp.contract.SearchContract
 import com.cxz.wanandroid.mvp.contract.SearchListContract
 import com.cxz.wanandroid.mvp.model.bean.Article
 import com.cxz.wanandroid.mvp.model.bean.ArticleResponseBody
 import com.cxz.wanandroid.mvp.presenter.SearchListPresenter
-import com.cxz.wanandroid.mvp.presenter.SearchPresenter
 import com.cxz.wanandroid.ui.activity.ContentActivity
 import com.cxz.wanandroid.ui.activity.LoginActivity
 import com.cxz.wanandroid.utils.NetWorkUtil
 import com.cxz.wanandroid.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
+import kotlinx.android.synthetic.main.fragment_search_list.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class SearchListFragment : BaseMvpFragment<SearchListContract.View, SearchListContract.Presenter>(), SearchListContract.View {
 
@@ -39,6 +42,8 @@ class SearchListFragment : BaseMvpFragment<SearchListContract.View, SearchListCo
     }
 
     override fun createPresenter(): SearchListContract.Presenter = SearchListPresenter()
+
+    override fun useEventBus(): Boolean = true
 
     /**
      * datas
@@ -74,7 +79,7 @@ class SearchListFragment : BaseMvpFragment<SearchListContract.View, SearchListCo
     private var isRefresh = true
 
     override fun showLoading() {
-        swipeRefreshLayout.isRefreshing = isRefresh
+        // swipeRefreshLayout.isRefreshing = isRefresh
     }
 
     override fun hideLoading() {
@@ -87,23 +92,24 @@ class SearchListFragment : BaseMvpFragment<SearchListContract.View, SearchListCo
     }
 
     override fun showError(errorMsg: String) {
+        super.showError(errorMsg)
+        mLayoutStatusView?.showError()
         searchListAdapter.run {
             if (isRefresh)
                 setEnableLoadMore(true)
             else
                 loadMoreFail()
         }
-        showToast(errorMsg)
     }
 
     override fun attachLayoutRes(): Int = R.layout.fragment_search_list
 
     override fun initView(view: View) {
         super.initView(view)
+        mLayoutStatusView = multiple_status_view
         mKey = arguments?.getString(Constant.SEARCH_KEY, "") ?: ""
 
         swipeRefreshLayout.run {
-            isRefreshing = true
             setOnRefreshListener(onRefreshListener)
         }
 
@@ -118,12 +124,17 @@ class SearchListFragment : BaseMvpFragment<SearchListContract.View, SearchListCo
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@SearchListFragment.onItemClickListener
             onItemChildClickListener = this@SearchListFragment.onItemChildClickListener
-            setEmptyView(R.layout.fragment_empty_layout)
+            // setEmptyView(R.layout.fragment_empty_layout)
+        }
+
+        floating_action_btn.setOnClickListener {
+            scrollToTop()
         }
 
     }
 
     override fun lazyLoad() {
+        mLayoutStatusView?.showLoading()
         mPresenter?.queryBySearchKey(0, mKey)
     }
 
@@ -154,6 +165,28 @@ class SearchListFragment : BaseMvpFragment<SearchListContract.View, SearchListCo
                     loadMoreComplete()
                 }
             }
+        }
+        if (searchListAdapter.data.isEmpty()) {
+            mLayoutStatusView?.showEmpty()
+        } else {
+            mLayoutStatusView?.showContent()
+        }
+    }
+
+    override fun scrollToTop() {
+        recyclerView.run {
+            if (linearLayoutManager.findFirstVisibleItemPosition() > 20) {
+                scrollToPosition(0)
+            } else {
+                smoothScrollToPosition(0)
+            }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun refreshColor(event: ColorEvent) {
+        if (event.isRefresh) {
+            floating_action_btn.backgroundTintList = ColorStateList.valueOf(event.color)
         }
     }
 

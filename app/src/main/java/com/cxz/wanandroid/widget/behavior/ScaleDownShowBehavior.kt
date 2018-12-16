@@ -1,5 +1,6 @@
 package com.cxz.wanandroid.widget.behavior
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.FloatingActionButton
@@ -26,6 +27,7 @@ class ScaleDownShowBehavior : FloatingActionButton.Behavior {
                 super.onStartNestedScroll(coordinatorLayout, child, directTargetChild, target, axes, type)
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onNestedScroll(coordinatorLayout: CoordinatorLayout, child: FloatingActionButton, target: View, dxConsumed: Int, dyConsumed: Int, dxUnconsumed: Int, dyUnconsumed: Int, type: Int) {
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type)
         if (dyConsumed > 0 && child.visibility == View.VISIBLE) {

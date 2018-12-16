@@ -19,6 +19,8 @@ interface CollectContract {
 
         fun showRemoveCollectSuccess(success: Boolean)
 
+        fun scrollToTop()
+
     }
 
     interface Presenter : IPresenter<View> {

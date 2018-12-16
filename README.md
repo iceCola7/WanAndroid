@@ -1,7 +1,5 @@
 # WanAndroid
 
-### 特讯：新版公众号模块已经上线了，欢迎大家下载体验！！！
-
 [![Platform][1]][2]  [![Build Status][3]][4]  [![Release][5]][6]  [![Release][7]][8]  [![GitHub license][9]][10]  [![][11]][12]  
 
 [1]:https://img.shields.io/badge/platform-Android-blue.svg  
@@ -20,10 +18,13 @@
 [10]:https://github.com/iceCola7/WanAndroid/blob/master/LICENSE
 
 [11]:https://img.shields.io/badge/QQ-563859095-orange.svg
-[12]:https://github.com/iceCola7/WanAndroid
+[12]:http://wpa.qq.com/msgrd?v=3&uin=563859095&site=qq&menu=yes
 
-##### `Github` 地址：[https://github.com/iceCola7/WanAndroid](https://github.com/iceCola7/WanAndroid)
-(开源不易，如果喜欢的话希望给个 `Star` 或 `Fork` ^_^ ，谢谢)
+- **Kotlin 版 MVP 基础框架：[https://github.com/iceCola7/KotlinMVPSamples](https://github.com/iceCola7/KotlinMVPSamples)**
+- **Java 版 MVP 基础框架：[https://github.com/iceCola7/MVPSamples](https://github.com/iceCola7/MVPSamples)**
+- **Github 项目地址：[https://github.com/iceCola7/WanAndroid](https://github.com/iceCola7/WanAndroid)**
+
+**开源不易，如果喜欢的话希望给个 `Star` 或 `Fork` ^_^ ，谢谢**
 
 ## 前言
 前段时间学习了 `Kotlin` 的语法知识，然后就写了这个项目熟悉一下 `Kotlin` 语言，总体下来，感觉很爽，相比 `Java` 而言代码行数较少，方法数减少，再加上 `lambda` 语法让代码更加清晰。
@@ -34,11 +35,10 @@
 - [Anko](http://github.com/kotlin/anko) 是 `JetBrains` 开发的一个强大的库，它主要的目的是用来替代以前 `XML` 的方式来使用代码生成 `UI` 布局的，它包含了很多的非常有帮助的函数和属性来避免让你写很多的模版代码。
 
 ## 简介
-[WanAndroid](https://github.com/iceCola7/WanAndroid) 采用 `Kotlin` 语言编写，结合 `MVP` + `RxJava` + `Retrofit` + `Glide` + `EventBus` 等架构设计的项目，项目代码结构清晰并且有详细注释，如有任何疑问和建议请提 [Issues](https://github.com/iceCola7/WanAndroid/issues) 或联系 
-[![](https://img.shields.io/badge/QQ-563859095-orange.svg)]()，**项目会持续迭代维护，努力打造一款优秀的 [WanAndroid](http://www.wanandroid.com/) 客户端**。
+[WanAndroid](https://github.com/iceCola7/WanAndroid) 采用 `Kotlin` 语言编写，结合 `MVP` + `RxJava` + `Retrofit` + `Glide` + `EventBus` 等架构设计的项目，项目代码结构清晰并且有详细注释，如有任何疑问和建议请提 [Issues](https://github.com/iceCola7/WanAndroid/issues) 或联系 **`QQ：563859095`** ，**项目会持续迭代维护，努力打造一款优秀的 [WanAndroid](http://www.wanandroid.com/) 客户端**。
 
 ## API
-[https://github.com/hongyangAndroid/wanandroid](https://github.com/hongyangAndroid/wanandroid)
+[玩 Android 开放 API](http://www.wanandroid.com/blog/show/2)
 
 ## 主要功能
 - **首页**：轮播图、文章列表
