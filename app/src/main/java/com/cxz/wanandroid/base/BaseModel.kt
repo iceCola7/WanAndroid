@@ -26,9 +26,7 @@ abstract class BaseModel : IModel, LifecycleObserver {
     }
 
     private fun unDispose() {
-        if (mCompositeDisposable != null) {
-            mCompositeDisposable?.clear()  // 保证Activity结束时取消
-        }
+        mCompositeDisposable?.clear()  // 保证Activity结束时取消
         mCompositeDisposable = null
     }
 

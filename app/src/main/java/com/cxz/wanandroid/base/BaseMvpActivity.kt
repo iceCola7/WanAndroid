@@ -19,16 +19,12 @@ abstract class BaseMvpActivity<in V : IView, P : IPresenter<V>> : BaseActivity()
 
     override fun initView() {
         mPresenter = createPresenter()
-        if (mPresenter != null) {
-            mPresenter?.attachView(this as V)
-        }
+        mPresenter?.attachView(this as V)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (mPresenter != null) {
-            mPresenter?.detachView()
-        }
+        mPresenter?.detachView()
         this.mPresenter = null
     }
 
