@@ -20,16 +20,12 @@ abstract class BaseMvpFragment<in V : IView, P : IPresenter<V>> : BaseFragment()
 
     override fun initView(view: View) {
         mPresenter = createPresenter()
-        if (mPresenter != null) {
-            mPresenter?.attachView(this as V)
-        }
+        mPresenter?.attachView(this as V)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        if (mPresenter != null) {
-            mPresenter?.detachView()
-        }
+        mPresenter?.detachView()
         this.mPresenter = null
     }
 

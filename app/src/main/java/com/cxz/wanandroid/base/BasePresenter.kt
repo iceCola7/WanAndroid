@@ -77,9 +77,7 @@ abstract class BasePresenter<M : IModel, V : IView> : IPresenter<V>, LifecycleOb
     }
 
     private fun unDispose() {
-        if (mCompositeDisposable != null) {
-            mCompositeDisposable?.clear()  // 保证Activity结束时取消
-        }
+        mCompositeDisposable?.clear()  // 保证Activity结束时取消
         mCompositeDisposable = null
     }
 
