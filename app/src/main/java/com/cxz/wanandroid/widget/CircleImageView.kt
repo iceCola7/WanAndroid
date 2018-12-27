@@ -88,20 +88,21 @@ class CircleImageView(context: Context, attrs: AttributeSet) : android.support.v
         return (dipVal * scale + 0.5f).toInt()
     }
 
-    private fun getBitmap(drawable: Drawable): Bitmap? {
-        if (drawable is BitmapDrawable) {
-            return drawable.bitmap
-        } else if (drawable is ColorDrawable) {
-            val rect = drawable.getBounds()
-            val width = rect.right - rect.left
-            val height = rect.bottom - rect.top
-            val color = drawable.color
-            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-            val canvas = Canvas(bitmap)
-            canvas.drawARGB(Color.alpha(color), Color.red(color), Color.green(color), Color.blue(color))
-            return bitmap
-        } else {
-            return null
+    private fun getBitmap(drawable: Drawable?): Bitmap? {
+        if (drawable == null) return null
+        return when (drawable) {
+            is BitmapDrawable -> drawable.bitmap
+            is ColorDrawable -> {
+                val rect = drawable.getBounds()
+                val width = rect.right - rect.left
+                val height = rect.bottom - rect.top
+                val color = drawable.color
+                val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+                val canvas = Canvas(bitmap)
+                canvas.drawARGB(Color.alpha(color), Color.red(color), Color.green(color), Color.blue(color))
+                bitmap
+            }
+            else -> null
         }
     }
 
