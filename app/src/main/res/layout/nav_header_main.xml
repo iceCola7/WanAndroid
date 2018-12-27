@@ -9,20 +9,20 @@
     android:foreground="?attr/selectableItemBackground"
     android:gravity="bottom"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <com.cxz.wanandroid.widget.CircleImageView
         android:layout_width="@dimen/avatar_width"
         android:layout_height="@dimen/avatar_height"
         android:layout_gravity="center_horizontal"
-        app:srcCompat="@mipmap/ic_default_avatar"
         app:borderColor="@color/white"
         app:borderWidth="2dp"
-        app:type="1" />
+        app:srcCompat="@mipmap/ic_default_avatar"
+        app:type="circle" />
 
     <TextView
         android:id="@+id/tv_username"

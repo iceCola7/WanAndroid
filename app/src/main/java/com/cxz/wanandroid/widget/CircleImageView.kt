@@ -73,10 +73,10 @@ class CircleImageView(context: Context, attrs: AttributeSet) : android.support.v
                 mRectBorder.set(halfBorderWidth, halfBorderWidth, dstWidth - halfBorderWidth, dstHeight - halfBorderWidth)
                 mRectBitmap.set(0.0f, 0.0f, dstWidth - doubleBorderWidth, dstHeight - doubleBorderWidth)
                 val borderRadius = if (mRectRoundRadius - halfBorderWidth > 0.0f) mRectRoundRadius - halfBorderWidth else 0.0f
-                val bitmapRadius = if (mRectRoundRadius - mBorderWidth > 0.0f) mRectRoundRadius - mBorderWidth else 0.0f
+                val bitmapRadius = if (mRectRoundRadius - mBorderWidth > 0.0f) (mRectRoundRadius - mBorderWidth).toFloat() else 0.0f
                 canvas.drawRoundRect(mRectBorder, borderRadius, borderRadius, mPaintBorder)
                 canvas.translate(mBorderWidth.toFloat(), mBorderWidth.toFloat())
-                canvas.drawRoundRect(mRectBitmap, bitmapRadius as Float, bitmapRadius, mPaintBitmap)
+                canvas.drawRoundRect(mRectBitmap, bitmapRadius, bitmapRadius, mPaintBitmap)
             }
         } else {
             super.onDraw(canvas)
