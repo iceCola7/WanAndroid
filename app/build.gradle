@@ -47,14 +47,18 @@ android {
             shrinkResources true // 自动清理无用资源
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.releaseConfig
-            applicationVariants.all { variant ->
-                variant.outputs.all { output ->
-                    def outputFile = output.outputFile
-                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                        def fileName = "WanAndroid-release.apk"
-                        outputFileName = fileName
-                    }
+            android.applicationVariants.all { variant ->
+                // 更新至Android Studio 3.3 gradle 4.10.1
+                variant.outputs.all {
+                    outputFileName = "WanAndroid-release.apk"
                 }
+//                variant.outputs.all { output ->
+//                    def outputFile = output.outputFile
+//                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+//                        def fileName = "WanAndroid-release.apk"
+//                        outputFileName = fileName
+//                    }
+//                }
             }
         }
         debug {
