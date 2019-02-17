@@ -1,6 +1,6 @@
 # WanAndroid
 
-[![Platform][1]][2]  [![Build Status][3]][4]  [![Release][5]][6]  [![Release][7]][8]  [![GitHub license][9]][10]  [![][11]][12]  
+[![Platform][1]][2]  [![Build Status][3]][4]  [![Release][5]][6]  [![Release][7]][8]  [![GitHub license][9]][10]  [![][11]][12] 
 
 [1]:https://img.shields.io/badge/platform-Android-blue.svg  
 [2]:https://github.com/iceCola7/WanAndroid
@@ -29,16 +29,11 @@
 ## 前言
 前段时间学习了 `Kotlin` 的语法知识，然后就写了这个项目熟悉一下 `Kotlin` 语言，总体下来，感觉很爽，相比 `Java` 而言代码行数较少，方法数减少，再加上 `lambda` 语法让代码更加清晰。
 
-`Kotlin` 团队为 `Android` 开发提供了一套超标准语言功能的工具：
-
-- [Kotlin Android 扩展](https://www.kotlincn.net/docs/tutorials/android-plugin.html) 是一个编译器的扩展，可以让你摆脱代码中的 `findViewById` 的调用；
-- [Anko](http://github.com/kotlin/anko) 是 `JetBrains` 开发的一个强大的库，它主要的目的是用来替代以前 `XML` 的方式来使用代码生成 `UI` 布局的，它包含了很多的非常有帮助的函数和属性来避免让你写很多的模版代码。
-
 ## 简介
-[WanAndroid](https://github.com/iceCola7/WanAndroid) 采用 `Kotlin` 语言编写，结合 `MVP` + `RxJava` + `Retrofit` + `Glide` + `EventBus` 等架构设计的项目，项目代码结构清晰并且有详细注释，如有任何疑问和建议请提 [Issues](https://github.com/iceCola7/WanAndroid/issues) 或联系 **`QQ：563859095`** ，**项目会持续迭代维护，努力打造一款优秀的 [WanAndroid](http://www.wanandroid.com/) 客户端**。
+[WanAndroid](https://github.com/iceCola7/WanAndroid) 采用 `Kotlin` 语言编写，结合 `MVP` + `RxJava` + `Retrofit` + `Glide` + `EventBus` 等架构设计的项目，项目代码结构清晰并且有详细注释，如有任何疑问和建议请提 [Issues](https://github.com/iceCola7/WanAndroid/issues) 或联系 qq： **563859095** ，**项目会持续迭代维护，努力打造一款优秀的 [WanAndroid](http://www.wanandroid.com/) 客户端**。
 
 ## API
-[玩 Android 开放 API](http://www.wanandroid.com/blog/show/2)
+[**玩 Android 开放 API**](http://www.wanandroid.com/blog/show/2)
 
 ## 主要功能
 - **首页**：轮播图、文章列表
