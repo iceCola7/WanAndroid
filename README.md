@@ -98,6 +98,10 @@
 
 **[最新更新日志请点击查看](https://github.com/iceCola7/WanAndroid/releases)**
 
+**V1.1.1**
+
+- 玩 `Android` 接口升级为 `https` 。
+
 **V1.1.0**
 
 - 重构项目架构，优化代码；
