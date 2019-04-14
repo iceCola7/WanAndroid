@@ -1,4 +1,4 @@
-package com.cxz.kotlin.baselibs.rx
+package com.cxz.wanandroid.rx
 
 import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.base.IView
@@ -11,38 +11,68 @@ import io.reactivex.subscribers.ResourceSubscriber
 /**
  * Created by chenxz on 2018/6/11.
  */
-abstract class BaseSubscriber<T : BaseBean>(view: IView? = null) : ResourceSubscriber<T>() {
+abstract class BaseSubscriber<T : BaseBean> : ResourceSubscriber<T> {
 
-    private var mView = view
+    private var mView: IView? = null
+    private var mErrorMsg = ""
+    private var bShowLoading = true
 
-    abstract fun onSuccess(t: T)
-
-    override fun onComplete() {
-        mView?.hideLoading()
+    constructor(view: IView) {
+        this.mView = view
     }
+
+    constructor(view: IView, bShowLoading: Boolean) {
+        this.mView = view
+        this.bShowLoading = bShowLoading
+    }
+
+    /**
+     * 成功的回调
+     */
+    protected abstract fun onSuccess(t: T)
+
+    /**
+     * 错误的回调
+     */
+    protected fun onError(t: T) {}
 
     override fun onStart() {
         super.onStart()
-        mView?.showLoading()
+        if (bShowLoading) mView?.showLoading()
         if (!NetWorkUtil.isNetworkConnected(App.instance)) {
-            mView?.showDefaultMsg("网络连接不可用,请检查网络设置!")
+            mView?.showDefaultMsg("当前网络不可用，请检查网络设置")
             onComplete()
         }
     }
 
     override fun onNext(t: T) {
+        mView?.hideLoading()
         when {
             t.errorCode == ErrorStatus.SUCCESS -> onSuccess(t)
-            t.errorCode == ErrorStatus.TOKEN_INVAILD -> {
-                // Token 过期，重新登录
+            t.errorCode == ErrorStatus.TOKEN_INVALID -> {
+                // TODO Token 过期，重新登录
             }
-            else -> mView?.showDefaultMsg(t.errorMsg)
+            else -> {
+                onError(t)
+                if (t.errorMsg.isNotEmpty())
+                    mView?.showDefaultMsg(t.errorMsg)
+            }
         }
     }
 
-    override fun onError(t: Throwable) {
+    override fun onError(e: Throwable) {
         mView?.hideLoading()
-        ExceptionHandle.handleException(t)
+        if (mView == null) {
+            throw RuntimeException("mView can not be null")
+        }
+        if (mErrorMsg.isEmpty()) {
+            mErrorMsg = ExceptionHandle.handleException(e)
+        }
+        mView?.showDefaultMsg(mErrorMsg)
+    }
+
+    override fun onComplete() {
+        mView?.hideLoading()
     }
 
 }

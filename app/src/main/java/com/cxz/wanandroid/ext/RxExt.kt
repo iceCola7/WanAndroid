@@ -34,9 +34,7 @@ fun <T : BaseBean> Observable<T>.ss(
                 }
 
                 override fun onSubscribe(d: Disposable) {
-                    if (isShowLoading) {
-                        view?.showLoading()
-                    }
+                    if (isShowLoading) view?.showLoading()
                     model?.addDisposable(d)
                     if (!NetWorkUtil.isNetworkConnected(App.instance)) {
                         view?.showDefaultMsg(App.instance.resources.getString(R.string.network_unavailable_tip))
@@ -47,7 +45,7 @@ fun <T : BaseBean> Observable<T>.ss(
                 override fun onNext(t: T) {
                     when {
                         t.errorCode == ErrorStatus.SUCCESS -> onSuccess.invoke(t)
-                        t.errorCode == ErrorStatus.TOKEN_INVAILD -> {
+                        t.errorCode == ErrorStatus.TOKEN_INVALID -> {
                             // Token 过期，重新登录
                         }
                         else -> view?.showDefaultMsg(t.errorMsg)
@@ -66,15 +64,13 @@ fun <T : BaseBean> Observable<T>.sss(
         isShowLoading: Boolean = true,
         onSuccess: (T) -> Unit
 ): Disposable {
-    if (isShowLoading) {
-        view?.showLoading()
-    }
+    if (isShowLoading) view?.showLoading()
     return this.compose(SchedulerUtils.ioToMain())
             .retryWhen(RetryWithDelay())
             .subscribe({
                 when {
                     it.errorCode == ErrorStatus.SUCCESS -> onSuccess.invoke(it)
-                    it.errorCode == ErrorStatus.TOKEN_INVAILD -> {
+                    it.errorCode == ErrorStatus.TOKEN_INVALID -> {
                         // Token 过期，重新登录
                     }
                     else -> view?.showDefaultMsg(it.errorMsg)
