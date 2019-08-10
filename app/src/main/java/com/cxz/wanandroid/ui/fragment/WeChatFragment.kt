@@ -13,6 +13,8 @@ import com.cxz.wanandroid.utils.SettingUtil
 import kotlinx.android.synthetic.main.fragment_wechat.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 /**
  * @author chenxz
@@ -90,9 +92,14 @@ class WeChatFragment : BaseMvpFragment<WeChatContract.View, WeChatContract.Prese
     override fun showWXChapters(chapters: MutableList<WXChapterBean>) {
         chapters.let {
             datas.addAll(it)
-            viewPager.run {
-                adapter = viewPagerAdapter
-                offscreenPageLimit = datas.size
+            doAsync {
+                Thread.sleep(10)
+                uiThread {
+                    viewPager.run {
+                        adapter = viewPagerAdapter
+                        offscreenPageLimit = datas.size
+                    }
+                }
             }
         }
         if (chapters.isEmpty()) {

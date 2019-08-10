@@ -13,6 +13,8 @@ import com.cxz.wanandroid.utils.SettingUtil
 import kotlinx.android.synthetic.main.fragment_project.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 /**
  * Created by chenxz on 2018/5/15.
@@ -90,9 +92,14 @@ class ProjectFragment : BaseMvpFragment<ProjectContract.View, ProjectContract.Pr
     override fun setProjectTree(list: List<ProjectTreeBean>) {
         list.let {
             projectTree.addAll(it)
-            viewPager.run {
-                adapter = viewPagerAdapter
-                offscreenPageLimit = projectTree.size
+            doAsync {
+                Thread.sleep(10)
+                uiThread {
+                    viewPager.run {
+                        adapter = viewPagerAdapter
+                        offscreenPageLimit = projectTree.size
+                    }
+                }
             }
         }
         if (list.isEmpty()) {
