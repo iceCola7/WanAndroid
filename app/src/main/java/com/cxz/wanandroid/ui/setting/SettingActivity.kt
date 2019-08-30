@@ -26,7 +26,8 @@ class SettingActivity : BaseSwipeBackActivity(), ColorChooserDialog.ColorCallbac
     override fun initView() {
         val initFragment: String = intent.getStringExtra(EXTRA_SHOW_FRAGMENT) ?: ""
         val initArguments: Bundle = intent.getBundleExtra(EXTRA_SHOW_FRAGMENT_ARGUMENTS) ?: Bundle()
-        val initTitle: String = intent.getStringExtra(EXTRA_SHOW_FRAGMENT_TITLE) ?: "设置"
+        val initTitle: String = intent.getStringExtra(EXTRA_SHOW_FRAGMENT_TITLE)
+                ?: resources.getString(R.string.setting)
 
         if (initFragment.isEmpty()) {
             setupFragment(SettingFragment::class.java.name, initArguments)

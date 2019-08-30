@@ -84,6 +84,7 @@
     <string name="copyright">Copyright declaration</string>
     <string name="copyright_summary">Only for personal and non commercial purposes</string>
     <string name="version">Version</string>
+    <string name="current_version">Current Version&#160;</string>
 
     <!-- Setting -->
     <string name="setting">Setting</string>

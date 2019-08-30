@@ -81,7 +81,8 @@ class SettingFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferen
         }
 
         try {
-            val version = "当前版本 " + context?.packageManager?.getPackageInfo(context?.packageName, 0)?.versionName
+            val version = context?.resources?.getString(R.string.current_version).toString()
+                    .plus(context?.packageManager?.getPackageInfo(context?.packageName, 0)?.versionName)
             findPreference("version").summary = version
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
