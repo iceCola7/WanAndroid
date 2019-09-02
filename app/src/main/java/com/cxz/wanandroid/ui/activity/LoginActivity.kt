@@ -13,6 +13,7 @@ import com.cxz.wanandroid.mvp.presenter.LoginPresenter
 import com.cxz.wanandroid.utils.DialogUtil
 import com.cxz.wanandroid.utils.Preference
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.toolbar.*
 import org.greenrobot.eventbus.EventBus
 
 class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presenter>(), LoginContract.View {
@@ -58,7 +59,13 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
 
     override fun initView() {
         super.initView()
+
         et_username.setText(user)
+        toolbar.run {
+            title = resources.getString(R.string.login)
+            setSupportActionBar(this)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        }
         btn_login.setOnClickListener(onClickListener)
         tv_sign_up.setOnClickListener(onClickListener)
     }

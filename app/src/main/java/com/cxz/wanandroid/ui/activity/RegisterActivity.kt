@@ -13,6 +13,7 @@ import com.cxz.wanandroid.mvp.presenter.RegisterPresenter
 import com.cxz.wanandroid.utils.DialogUtil
 import com.cxz.wanandroid.utils.Preference
 import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.android.synthetic.main.toolbar.*
 import org.greenrobot.eventbus.EventBus
 
 class RegisterActivity : BaseMvpActivity<RegisterContract.View, RegisterContract.Presenter>(), RegisterContract.View {
@@ -66,6 +67,12 @@ class RegisterActivity : BaseMvpActivity<RegisterContract.View, RegisterContract
 
     override fun initView() {
         super.initView()
+
+        toolbar.run {
+            title = resources.getString(R.string.register)
+            setSupportActionBar(this)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        }
         btn_register.setOnClickListener(onClickListener)
         tv_sign_in.setOnClickListener(onClickListener)
     }

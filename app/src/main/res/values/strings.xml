@@ -54,6 +54,10 @@
     <string name="login_tint">请先登录</string>
     <string name="login_ing">登录中...</string>
     <string name="register_ing">注册中...</string>
+    <string name="user_login">用户登录</string>
+    <string name="login_tip">请使用WanAndroid账号登录！</string>
+    <string name="user_register">注册用户</string>
+    <string name="register_tip">用户注册后才可以登录！</string>
 
     <!-- Home -->
     <string name="collect_success">收藏成功</string>

@@ -2,77 +2,93 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/viewBackground"
     android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/dp_24"
-        android:paddingRight="@dimen/dp_24"
-        android:paddingTop="@dimen/dp_60">
+        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="@dimen/dp_80"
-            android:layout_height="@dimen/dp_80"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/dp_24"
-            app:srcCompat="@mipmap/ic_launcher" />
+        <include layout="@layout/toolbar" />
 
-        <android.support.design.widget.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_8"
-            android:layout_marginTop="@dimen/dp_8"
-            android:focusable="true"
-            android:focusableInTouchMode="true">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/dp_24"
+            android:paddingTop="@dimen/dp_40"
+            android:paddingRight="@dimen/dp_24">
 
-            <EditText
-                android:id="@+id/et_username"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/username"
-                android:inputType="textEmailAddress" />
-        </android.support.design.widget.TextInputLayout>
+                android:text="@string/user_login"
+                android:textColor="@color/common_color"
+                android:textSize="@dimen/sp_18" />
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_8"
-            android:layout_marginTop="@dimen/dp_8"
-            android:focusable="true"
-            android:focusableInTouchMode="true">
-
-            <EditText
-                android:id="@+id/et_password"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/password"
-                android:inputType="textPassword" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_marginTop="@dimen/dp_6"
+                android:text="@string/login_tip"
+                android:textSize="@dimen/sp_14" />
 
-        <TextView
-            android:id="@+id/btn_login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_24"
-            android:layout_marginTop="@dimen/dp_24"
-            android:background="@drawable/btn_login_bg"
-            android:gravity="center"
-            android:padding="@dimen/dp_12"
-            android:text="@string/login"
-            android:textColor="@color/White" />
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_30"
+                android:layout_marginBottom="@dimen/dp_8"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
 
-        <TextView
-            android:id="@+id/tv_sign_up"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_24"
-            android:gravity="center"
-            android:text="@string/no_account"
-            android:textSize="@dimen/sp_16" />
+                <EditText
+                    android:id="@+id/et_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/username"
+                    android:inputType="textEmailAddress" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:layout_marginBottom="@dimen/dp_8"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+
+                <EditText
+                    android:id="@+id/et_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/password"
+                    android:inputType="textPassword" />
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_24"
+                android:layout_marginBottom="@dimen/dp_24"
+                android:background="@drawable/btn_login_bg"
+                android:gravity="center"
+                android:padding="@dimen/dp_12"
+                android:text="@string/login"
+                android:textColor="@color/White" />
+
+            <TextView
+                android:id="@+id/tv_sign_up"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_24"
+                android:gravity="right"
+                android:text="@string/no_account"
+                android:textSize="@dimen/sp_16" />
+
+        </LinearLayout>
 
     </LinearLayout>
+
 </ScrollView>

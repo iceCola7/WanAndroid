@@ -54,6 +54,10 @@
     <string name="login_tint">Please Login</string>
     <string name="login_ing">Login...</string>
     <string name="register_ing">Register...</string>
+    <string name="user_login">User Login</string>
+    <string name="login_tip">Please login using WanAndroid account!</string>
+    <string name="user_register">Register User</string>
+    <string name="register_tip">Users can log in after they register!</string>
 
     <!-- Home -->
     <string name="collect_success">Collect Success</string>
