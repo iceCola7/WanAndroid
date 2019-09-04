@@ -24,7 +24,7 @@
 - **Java 版 MVP 基础框架：[https://github.com/iceCola7/MVPSamples](https://github.com/iceCola7/MVPSamples)**
 - **Github 项目地址：[https://github.com/iceCola7/WanAndroid](https://github.com/iceCola7/WanAndroid)**
 
-**开源不易，如果喜欢的话希望给个 `Star` 或 `Fork` ^_^ ，谢谢**
+**开源不易，如果喜欢的话希望给个 `Star` 或 `Fork` ^_^ ，谢谢~~**
 
 ## 前言
 前段时间学习了 `Kotlin` 的语法知识，然后就写了这个项目熟悉一下 `Kotlin` 语言，总体下来，感觉很爽，相比 `Java` 而言代码行数较少，方法数减少，再加上 `lambda` 语法让代码更加清晰。
@@ -35,7 +35,26 @@
 ## API
 [**玩 Android 开放 API**](http://www.wanandroid.com/blog/show/2)
 
+## 项目截图
+
+| ![](art/05.jpg) | ![](art/06.jpg) | ![](art/07.jpg) | ![](art/08.jpg) |
+| --- | --- | --- | --- |
+| ![](art/09.jpg) | ![](art/10.jpg) | ![](art/11.jpg) | ![](art/12.jpg) |
+| --- | --- | --- | --- |
+| ![](art/13.jpg) | ![](art/14.jpg) | ![](art/15.jpg) | ![](art/16.jpg) |
+| --- | --- | --- | --- |
+| ![](art/17.jpg) | ![](art/18.jpg) | ![](art/19.jpg) | ![](art/20.jpg) |
+
+## 下载体验
+
+- 点击[![](https://img.shields.io/badge/Download-apk-green.svg)](https://github.com/iceCola7/WanAndroid/raw/master/app/release/WanAndroid-release.apk) 下载
+
+- 扫描下方二维码下载（**二维码，每日上限100次，如果达到上限，还是clone源码吧！**）
+
+	![](./art/qr-code.png)
+
 ## 主要功能
+
 - **首页**：轮播图、文章列表
 - **知识体系**：开发环境、基础知识、用户交互等
 - **知识体系专题**
@@ -56,13 +75,8 @@
 - **清除缓存**
 - **关于我们**
 
-## 项目截图
-![](art/01.png)
-![](art/02.png)
-![](art/03.png)
-![](art/04.png)
-
 ## 主要开源框架
+
  - [RxJava](https://github.com/ReactiveX/RxJava)
  - [RxAndroid](https://github.com/ReactiveX/RxAndroid)
  - [RxKotlin](https://github.com/ReactiveX/RxKotlin)
@@ -85,14 +99,6 @@
  - [FloatingActionButton](https://github.com/Clans/FloatingActionButton)
  - [MaterialDateTimePicker](https://github.com/wdullaer/MaterialDateTimePicker)
  - [AndroidAutoSize](https://github.com/JessYanCoding/AndroidAutoSize)
-
-## 下载体验
-
-- 点击[![](https://img.shields.io/badge/Download-apk-green.svg)](https://github.com/iceCola7/WanAndroid/raw/master/app/release/WanAndroid-release.apk) 下载
-
-- 扫描下方二维码下载（**二维码，每日上限100次，如果达到上限，还是clone源码吧！**）
-
-	![](./art/qr-code.png)
 
 ## 更新日志
 
