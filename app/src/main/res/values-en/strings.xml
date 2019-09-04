@@ -31,10 +31,14 @@
     <string name="nav_logout">Logout</string>
     <string name="nav_night_mode">Night Mode</string>
     <string name="nav_todo">TODO</string>
+    <string name="nav_id">ID:</string>
+    <string name="nav_grade">Grade:</string>
+    <string name="nav_rank">Rank:</string>
 
     <!-- Login -->
     <string name="username">Username</string>
     <string name="password">Password</string>
+    <string name="go_login">Go Login</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="no_account">No account yet? Create one</string>

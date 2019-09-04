@@ -280,4 +280,11 @@ interface ApiService {
                         @Query("k") key: String,
                         @Path("page") page: Int): Observable<HttpResult<ArticleResponseBody>>
 
+    /**
+     * 获取个人积分，需要登录后访问
+     * https://www.wanandroid.com/lg/coin/userinfo/json
+     */
+    @GET("/lg/coin/userinfo/json")
+    fun getUserInfo(): Observable<HttpResult<UserInfoBody>>
+
 }

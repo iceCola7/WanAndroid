@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-        <string name="about_content"><![CDATA[
+        <string name="about_content" translatable="false"><![CDATA[
         <h2>网站内容</h2>
         <p>\t\t本网站每天新增20~30篇优质文章，并加入到现有分类中，力求整理出一份优质而又详尽的知识体系，闲暇时间不妨上来学习下知识；除此以外，并为大家提供平时开发过程中常用的工具以及常用的网址导航。</p>
         <p>\t\t当然这只是我们目前的功能，未来我们将提供更多更加便捷的功能…</p>
@@ -15,6 +15,9 @@
     ]]></string>
 
 
-        <string name="copyright_content">本APP所使用的所有API均由 玩Android 网站提供，仅供学习交流，不可用于任何商业用途。</string>
+    <string name="copyright_content" translatable="false">本APP所使用的所有API均由 玩Android 网站提供，仅供学习交流，不可用于任何商业用途。</string>
+
+    <string name="nav_line_4" translatable="false">----</string>
+    <string name="nav_line_2" translatable="false">--</string>
 
 </resources>

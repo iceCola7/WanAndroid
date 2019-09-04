@@ -32,7 +32,8 @@ class HeaderInterceptor : Interceptor {
         if (domain.isNotEmpty() && (url.contains(HttpConstant.COLLECTIONS_WEBSITE)
                         || url.contains(HttpConstant.UNCOLLECTIONS_WEBSITE)
                         || url.contains(HttpConstant.ARTICLE_WEBSITE)
-                        || url.contains(HttpConstant.TODO_WEBSITE))) {
+                        || url.contains(HttpConstant.TODO_WEBSITE)
+                        || url.contains(HttpConstant.USER_INFO))) {
             val spDomain: String by Preference(domain, "")
             val cookie: String = if (spDomain.isNotEmpty()) spDomain else ""
             if (cookie.isNotEmpty()) {

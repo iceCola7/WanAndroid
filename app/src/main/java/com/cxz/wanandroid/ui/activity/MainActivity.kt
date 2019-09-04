@@ -22,6 +22,7 @@ import com.cxz.wanandroid.event.LoginEvent
 import com.cxz.wanandroid.event.RefreshHomeEvent
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.MainContract
+import com.cxz.wanandroid.mvp.model.bean.UserInfoBody
 import com.cxz.wanandroid.mvp.presenter.MainPresenter
 import com.cxz.wanandroid.ui.fragment.*
 import com.cxz.wanandroid.ui.setting.SettingActivity
@@ -66,6 +67,18 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
      * username TextView
      */
     private var nav_username: TextView? = null
+    /**
+     * user_id TextView
+     */
+    private var nav_user_id: TextView? = null
+    /**
+     * user_grade TextView
+     */
+    private var nav_user_grade: TextView? = null
+    /**
+     * user_rank TextView
+     */
+    private var nav_user_rank: TextView? = null
 
     override fun attachLayoutRes(): Int = R.layout.activity_main
 
@@ -102,21 +115,18 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
         nav_view.run {
             setNavigationItemSelectedListener(onDrawerNavigationItemSelectedListener)
             nav_username = getHeaderView(0).findViewById(R.id.tv_username)
+            nav_user_id = getHeaderView(0).findViewById(R.id.tv_user_id)
+            nav_user_grade = getHeaderView(0).findViewById(R.id.tv_user_grade)
+            nav_user_rank = getHeaderView(0).findViewById(R.id.tv_user_rank)
             menu.findItem(R.id.nav_logout).isVisible = isLogin
         }
         nav_username?.run {
-            text = if (!isLogin) {
-                getString(R.string.login)
-            } else {
-                username
-            }
+            text = if (!isLogin) getString(R.string.go_login) else username
             setOnClickListener {
                 if (!isLogin) {
                     Intent(this@MainActivity, LoginActivity::class.java).run {
                         startActivity(this)
                     }
-                } else {
-
                 }
             }
         }
@@ -128,12 +138,23 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
         }
     }
 
+    override fun start() {
+        // 获取用户个人信息
+        mPresenter?.getUserInfo()
+    }
+
     override fun initColor() {
         super.initColor()
         refreshColor(ColorEvent(true))
     }
 
-    override fun start() {
+    /**
+     * 显示用户信息，包括积分、等级、排名
+     */
+    override fun showUserInfo(bean: UserInfoBody) {
+        nav_user_id?.text = bean.userId.toString()
+        nav_user_grade?.text = (bean.coinCount / 100 + 1).toString()
+        nav_user_rank?.text = bean.rank.toString()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -142,10 +163,15 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
             nav_username?.text = username
             nav_view.menu.findItem(R.id.nav_logout).isVisible = true
             mHomeFragment?.lazyLoad()
+            mPresenter?.getUserInfo()
         } else {
-            nav_username?.text = resources.getString(R.string.login)
+            nav_username?.text = resources.getString(R.string.go_login)
             nav_view.menu.findItem(R.id.nav_logout).isVisible = false
             mHomeFragment?.lazyLoad()
+            // 重置用户信息
+            nav_user_id?.text = getString(R.string.nav_line_4)
+            nav_user_grade?.text = getString(R.string.nav_line_2)
+            nav_user_rank?.text = getString(R.string.nav_line_2)
         }
     }
 
@@ -418,9 +444,6 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
                     showToast(resources.getString(R.string.logout_success))
                     isLogin = false
                     EventBus.getDefault().post(LoginEvent(false))
-                    Intent(this@MainActivity, LoginActivity::class.java).run {
-                        startActivity(this)
-                    }
                 }
             }
         }

@@ -31,10 +31,14 @@
     <string name="nav_logout">退出登录</string>
     <string name="nav_night_mode">夜间模式</string>
     <string name="nav_todo">TODO</string>
+    <string name="nav_id">ID:</string>
+    <string name="nav_grade">等级:</string>
+    <string name="nav_rank">排名:</string>
 
     <!-- Login -->
     <string name="username">用户名</string>
     <string name="password">密码</string>
+    <string name="go_login">去登陆</string>
     <string name="login">登录</string>
     <string name="register">注册</string>
     <string name="no_account">没有账号？去注册</string>

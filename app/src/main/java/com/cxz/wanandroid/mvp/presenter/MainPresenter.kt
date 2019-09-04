@@ -19,4 +19,11 @@ class MainPresenter : BasePresenter<MainContract.Model, MainContract.View>(), Ma
             mView?.showLogoutSuccess(success = true)
         }
     }
+
+    override fun getUserInfo() {
+        mModel?.getUserInfo()?.ss(mModel, mView) {
+            mView?.showUserInfo(it.data)
+        }
+    }
+
 }
