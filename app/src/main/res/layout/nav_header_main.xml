@@ -17,6 +17,7 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
+        android:id="@+id/iv_rank"
         android:layout_width="@dimen/dp_20"
         android:layout_height="@dimen/dp_20"
         android:layout_gravity="end"
@@ -38,6 +39,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/dp_12"
         android:text="@string/go_login"
+        android:textColor="@color/white"
         android:textSize="@dimen/sp_16"
         android:textStyle="bold" />
 
@@ -46,12 +48,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/dp_8"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/nav_id"
+            android:textColor="@color/Grey100"
             android:textSize="@dimen/sp_12" />
 
         <TextView
@@ -59,6 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/nav_line_4"
+            android:textColor="@color/Grey100"
             android:textSize="@dimen/sp_12" />
 
     </LinearLayout>
@@ -67,7 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/dp_6"
+        android:layout_marginTop="@dimen/dp_8"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -76,6 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="@string/nav_grade"
+            android:textColor="@color/Grey100"
             android:textSize="@dimen/sp_12" />
 
         <TextView
@@ -84,6 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="@string/nav_line_2"
+            android:textColor="@color/Grey100"
             android:textSize="@dimen/sp_12" />
 
         <TextView
@@ -93,6 +100,7 @@
             android:layout_marginStart="@dimen/dp_8"
             android:layout_marginLeft="@dimen/dp_8"
             android:text="@string/nav_rank"
+            android:textColor="@color/Grey100"
             android:textSize="@dimen/sp_12" />
 
         <TextView
@@ -101,6 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="@string/nav_line_2"
+            android:textColor="@color/Grey100"
             android:textSize="@dimen/sp_12" />
 
     </LinearLayout>

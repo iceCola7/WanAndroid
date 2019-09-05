@@ -289,3 +289,11 @@ data class UserScoreBean(
         @Json(name = "userId") val userId: Int,
         @Json(name = "userName") val userName: String
 )
+
+// 排行榜实体
+data class RankBean(
+        @Json(name = "coinCount") val coinCount: Int,
+        @Json(name = "rank") val rank: Int,
+        @Json(name = "userId") val userId: Int,
+        @Json(name = "username") val username: String
+)

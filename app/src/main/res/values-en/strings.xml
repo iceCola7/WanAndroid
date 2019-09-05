@@ -39,6 +39,7 @@
     <string name="score">Score</string>
     <string name="score_detail">Score Detail</string>
     <string name="help_label">Help</string>
+    <string name="score_list">Score List</string>
 
     <!-- Login -->
     <string name="username">Username</string>

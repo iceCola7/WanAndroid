@@ -1,34 +1,29 @@
 package com.cxz.wanandroid.ui.activity
 
-import android.content.Intent
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
-import android.view.Menu
-import android.view.MenuItem
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
-import com.cxz.wanandroid.adapter.ScoreAdapter
-import com.cxz.wanandroid.app.App
+import com.cxz.wanandroid.adapter.RankAdapter
 import com.cxz.wanandroid.base.BaseMvpSwipeBackActivity
-import com.cxz.wanandroid.constant.Constant
-import com.cxz.wanandroid.mvp.contract.ScoreContract
+import com.cxz.wanandroid.mvp.contract.RankContract
 import com.cxz.wanandroid.mvp.model.bean.BaseListResponseBody
-import com.cxz.wanandroid.mvp.model.bean.UserScoreBean
-import com.cxz.wanandroid.mvp.presenter.ScorePresenter
+import com.cxz.wanandroid.mvp.model.bean.RankBean
+import com.cxz.wanandroid.mvp.presenter.RankPresenter
 import com.cxz.wanandroid.widget.SpaceItemDecoration
-import kotlinx.android.synthetic.main.activity_score.*
+import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 /**
- * 我的积分页面
+ * 排行榜页面
  */
-class ScoreActivity : BaseMvpSwipeBackActivity<ScoreContract.View, ScoreContract.Presenter>(), ScoreContract.View {
+class RankActivity : BaseMvpSwipeBackActivity<RankContract.View, RankContract.Presenter>(), RankContract.View {
 
     /**
-     * 每页展示的个数
+     * 每页数据的个数
      */
-    private var pageSize = 20
+    private var pageSize = 20;
 
     /**
      * RecyclerView Divider
@@ -37,8 +32,8 @@ class ScoreActivity : BaseMvpSwipeBackActivity<ScoreContract.View, ScoreContract
         SpaceItemDecoration(this)
     }
 
-    private val scoreAdapter: ScoreAdapter by lazy {
-        ScoreAdapter()
+    private val rankAdapter: RankAdapter by lazy {
+        RankAdapter()
     }
 
     /**
@@ -46,9 +41,9 @@ class ScoreActivity : BaseMvpSwipeBackActivity<ScoreContract.View, ScoreContract
      */
     private var isRefresh = true
 
-    override fun createPresenter(): ScoreContract.Presenter = ScorePresenter()
+    override fun createPresenter(): RankContract.Presenter = RankPresenter()
 
-    override fun attachLayoutRes(): Int = R.layout.activity_score
+    override fun attachLayoutRes(): Int = R.layout.activity_rank
 
     override fun showLoading() {
         // swipeRefreshLayout.isRefreshing = isRefresh
@@ -57,15 +52,14 @@ class ScoreActivity : BaseMvpSwipeBackActivity<ScoreContract.View, ScoreContract
     override fun hideLoading() {
         swipeRefreshLayout?.isRefreshing = false
         if (isRefresh) {
-            scoreAdapter.setEnableLoadMore(true)
-
+            rankAdapter.setEnableLoadMore(true)
         }
     }
 
     override fun showError(errorMsg: String) {
         super.showError(errorMsg)
         mLayoutStatusView?.showError()
-        scoreAdapter.run {
+        rankAdapter.run {
             if (isRefresh)
                 setEnableLoadMore(true)
             else
@@ -80,45 +74,32 @@ class ScoreActivity : BaseMvpSwipeBackActivity<ScoreContract.View, ScoreContract
         super.initView()
         mLayoutStatusView = multiple_status_view
         toolbar.run {
-            title = getString(R.string.score_detail)
+            title = getString(R.string.score_list)
             setSupportActionBar(this)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
-
-        App.userInfo?.let {
-            tv_score.text = it.coinCount.toString()
-        }
-
         swipeRefreshLayout.run {
             setOnRefreshListener(onRefreshListener)
         }
         recyclerView.run {
-            layoutManager = LinearLayoutManager(this@ScoreActivity)
-            adapter = scoreAdapter
+            layoutManager = LinearLayoutManager(this@RankActivity)
+            adapter = rankAdapter
             itemAnimator = DefaultItemAnimator()
             addItemDecoration(recyclerViewItemDecoration)
         }
-        scoreAdapter.run {
+        rankAdapter.run {
             bindToRecyclerView(recyclerView)
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
-            onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, _ ->
-            }
         }
-
-    }
-
-    override fun initColor() {
-        super.initColor()
-        tv_score.setBackgroundColor(mThemeColor)
     }
 
     override fun start() {
-        mPresenter?.getUserScoreList(1)
+        mPresenter?.getRankList(1)
     }
 
-    override fun showUserScoreList(body: BaseListResponseBody<UserScoreBean>) {
+    override fun showRankList(body: BaseListResponseBody<RankBean>) {
         body.datas.let {
-            scoreAdapter.run {
+            rankAdapter.run {
                 if (isRefresh) {
                     replaceData(it)
                 } else {
@@ -132,7 +113,7 @@ class ScoreActivity : BaseMvpSwipeBackActivity<ScoreContract.View, ScoreContract
                 }
             }
         }
-        if (scoreAdapter.data.isEmpty()) {
+        if (rankAdapter.data.isEmpty()) {
             mLayoutStatusView?.showEmpty()
         } else {
             mLayoutStatusView?.showContent()
@@ -144,8 +125,8 @@ class ScoreActivity : BaseMvpSwipeBackActivity<ScoreContract.View, ScoreContract
      */
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
         isRefresh = true
-        scoreAdapter.setEnableLoadMore(false)
-        mPresenter?.getUserScoreList(1)
+        rankAdapter.setEnableLoadMore(false)
+        mPresenter?.getRankList(1)
     }
     /**
      * LoadMoreListener
@@ -153,30 +134,8 @@ class ScoreActivity : BaseMvpSwipeBackActivity<ScoreContract.View, ScoreContract
     private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
         isRefresh = false
         swipeRefreshLayout.isRefreshing = false
-        val page = scoreAdapter.data.size / pageSize
-        mPresenter?.getUserScoreList(page)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menu?.clear()
-        menuInflater.inflate(R.menu.menu_score, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            R.id.action_help -> {
-                val url = "https://www.wanandroid.com/blog/show/2653"
-                Intent(this@ScoreActivity, ContentActivity::class.java).run {
-                    putExtra(Constant.CONTENT_URL_KEY, url)
-                    putExtra(Constant.CONTENT_TITLE_KEY, "")
-                    putExtra(Constant.CONTENT_ID_KEY, "2653")
-                    startActivity(this)
-                }
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
+        val page = rankAdapter.data.size / pageSize
+        mPresenter?.getRankList(page)
     }
 
 }

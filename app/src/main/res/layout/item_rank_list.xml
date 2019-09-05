@@ -3,26 +3,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/dp_16">
+    android:paddingTop="@dimen/sp_16"
+    android:paddingEnd="@dimen/sp_16"
+    android:paddingBottom="@dimen/sp_16">
 
     <TextView
-        android:id="@+id/tv_reason"
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_ranking"
+        android:layout_width="@dimen/dp_60"
         android:layout_height="wrap_content"
-        android:textColor="@color/item_title"
-        android:textSize="@dimen/sp_16"
-        tools:text="签到" />
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:textColor="@color/item_author"
+        tools:text="1" />
 
     <TextView
-        android:id="@+id/tv_desc"
+        android:id="@+id/tv_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_reason"
-        android:layout_marginTop="@dimen/dp_4"
+        android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/dp_4"
         android:layout_toStartOf="@+id/tv_score"
-        android:textColor="@color/item_date"
-        tools:text="2019-09-05 00:01:16 签到,积分：10 + 23" />
+        android:layout_toEndOf="@+id/tv_ranking"
+        android:textColor="@color/item_title"
+        android:textSize="@dimen/sp_16"
+        tools:text="iceCola" />
 
     <TextView
         android:id="@+id/tv_score"
@@ -31,6 +35,7 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:textColor="@color/colorAccent"
-        tools:text="+33" />
+        android:textSize="@dimen/sp_14"
+        tools:text="360" />
 
 </RelativeLayout>

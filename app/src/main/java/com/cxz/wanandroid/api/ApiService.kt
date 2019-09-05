@@ -295,4 +295,12 @@ interface ApiService {
     @GET("/lg/coin/list/{page}/json")
     fun getUserScoreList(@Path("page") page: Int): Observable<HttpResult<BaseListResponseBody<UserScoreBean>>>
 
+    /**
+     * 获取积分排行榜
+     * https://www.wanandroid.com/coin/rank/1/json
+     * @param page 页码 从1开始
+     */
+    @GET("/coin/rank/{page}/json")
+    fun getRankList(@Path("page") page: Int): Observable<HttpResult<BaseListResponseBody<RankBean>>>
+
 }

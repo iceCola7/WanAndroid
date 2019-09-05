@@ -11,6 +11,7 @@ import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatDelegate
 import android.view.*
+import android.widget.ImageView
 import android.widget.TextView
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.app.App
@@ -82,6 +83,10 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
      * score TextView
      */
     private var nav_score: TextView? = null
+    /**
+     * rank ImageView
+     */
+    private var nav_rank: ImageView? = null
 
     override fun attachLayoutRes(): Int = R.layout.activity_main
 
@@ -144,6 +149,7 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
             nav_user_id = getHeaderView(0).findViewById(R.id.tv_user_id)
             nav_user_grade = getHeaderView(0).findViewById(R.id.tv_user_grade)
             nav_user_rank = getHeaderView(0).findViewById(R.id.tv_user_rank)
+            nav_rank = getHeaderView(0).findViewById(R.id.iv_rank)
             nav_score = MenuItemCompat.getActionView(nav_view.menu.findItem(R.id.nav_score)) as TextView
             nav_score?.gravity = Gravity.CENTER_VERTICAL
             menu.findItem(R.id.nav_logout).isVisible = isLogin
@@ -157,6 +163,9 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
                     }
                 }
             }
+        }
+        nav_rank?.setOnClickListener {
+            startActivity(Intent(this@MainActivity, RankActivity::class.java))
         }
     }
 
