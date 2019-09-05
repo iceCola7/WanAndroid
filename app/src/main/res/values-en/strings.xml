@@ -25,15 +25,20 @@
     <string name="action_browser">Browser</string>
 
     <!-- Nav Action -->
-    <string name="nav_my_collect">Collect</string>
+    <string name="nav_my_collect">My Collect</string>
     <string name="nav_setting">Setting</string>
     <string name="nav_about_us">About Us</string>
     <string name="nav_logout">Logout</string>
     <string name="nav_night_mode">Night Mode</string>
     <string name="nav_todo">TODO</string>
+    <string name="nav_my_score">My Score</string>
     <string name="nav_id">ID:</string>
     <string name="nav_grade">Grade:</string>
     <string name="nav_rank">Rank:</string>
+
+    <string name="score">Score</string>
+    <string name="score_detail">Score Detail</string>
+    <string name="help_label">Help</string>
 
     <!-- Login -->
     <string name="username">Username</string>

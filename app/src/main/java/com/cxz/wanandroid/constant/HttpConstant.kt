@@ -15,7 +15,7 @@ object HttpConstant {
     const val UNCOLLECTIONS_WEBSITE = "lg/uncollect"
     const val ARTICLE_WEBSITE = "article"
     const val TODO_WEBSITE = "lg/todo"
-    const val USER_INFO = "userinfo"
+    const val COIN_WEBSITE = "lg/coin"
 
     const val SET_COOKIE_KEY = "set-cookie"
     const val COOKIE_NAME = "Cookie"

@@ -72,6 +72,7 @@
         <receiver android:name=".receiver.NetworkChangeReceiver" />
 
         <activity android:name=".ui.activity.TodoActivity" />
+        <activity android:name=".ui.activity.ScoreActivity" />
     </application>
 
 </manifest>

@@ -2,6 +2,7 @@ package com.cxz.wanandroid.mvp.presenter
 
 import com.cxz.wanandroid.base.BasePresenter
 import com.cxz.wanandroid.ext.ss
+import com.cxz.wanandroid.ext.sss
 import com.cxz.wanandroid.mvp.contract.MainContract
 import com.cxz.wanandroid.mvp.model.MainModel
 
@@ -21,9 +22,9 @@ class MainPresenter : BasePresenter<MainContract.Model, MainContract.View>(), Ma
     }
 
     override fun getUserInfo() {
-        mModel?.getUserInfo()?.ss(mModel, mView) {
+        mModel?.getUserInfo()?.sss(mView, false, {
             mView?.showUserInfo(it.data)
-        }
+        }, {})
     }
 
 }

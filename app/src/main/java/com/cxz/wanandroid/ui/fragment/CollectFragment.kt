@@ -17,7 +17,7 @@ import com.cxz.wanandroid.event.RefreshHomeEvent
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.CollectContract
 import com.cxz.wanandroid.mvp.model.bean.CollectionArticle
-import com.cxz.wanandroid.mvp.model.bean.CollectionResponseBody
+import com.cxz.wanandroid.mvp.model.bean.BaseListResponseBody
 import com.cxz.wanandroid.mvp.presenter.CollectPresenter
 import com.cxz.wanandroid.ui.activity.ContentActivity
 import com.cxz.wanandroid.widget.SpaceItemDecoration
@@ -141,7 +141,7 @@ class CollectFragment : BaseMvpFragment<CollectContract.View, CollectContract.Pr
         }
     }
 
-    override fun setCollectList(articles: CollectionResponseBody<CollectionArticle>) {
+    override fun setCollectList(articles: BaseListResponseBody<CollectionArticle>) {
         articles.datas.let {
             collectAdapter.run {
                 if (isRefresh) {

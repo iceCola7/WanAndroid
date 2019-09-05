@@ -66,6 +66,8 @@
     <dimen name="sp_20">20sp</dimen>
     <dimen name="sp_22">22sp</dimen>
     <dimen name="sp_24">24sp</dimen>
+    <dimen name="sp_40">40sp</dimen>
+    <dimen name="sp_50">50sp</dimen>
 
     <!--BottomNavigationView 的选中没有选中的字体大小-->
     <dimen name="design_bottom_navigation_active_text_size">12sp</dimen>

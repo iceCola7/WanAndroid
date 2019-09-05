@@ -12,6 +12,7 @@ import com.cxz.wanandroid.BuildConfig
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.ext.showToast
+import com.cxz.wanandroid.mvp.model.bean.UserInfoBody
 import com.cxz.wanandroid.utils.CommonUtil
 import com.cxz.wanandroid.utils.DisplayManager
 import com.cxz.wanandroid.utils.SettingUtil
@@ -47,6 +48,9 @@ class App : MultiDexApplication() {
             val app = context.applicationContext as App
             return app.refWatcher
         }
+
+        // 用户信息
+        var userInfo: UserInfoBody? = null
 
     }
 

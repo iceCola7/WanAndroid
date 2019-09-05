@@ -33,7 +33,7 @@ class HeaderInterceptor : Interceptor {
                         || url.contains(HttpConstant.UNCOLLECTIONS_WEBSITE)
                         || url.contains(HttpConstant.ARTICLE_WEBSITE)
                         || url.contains(HttpConstant.TODO_WEBSITE)
-                        || url.contains(HttpConstant.USER_INFO))) {
+                        || url.contains(HttpConstant.COIN_WEBSITE))) {
             val spDomain: String by Preference(domain, "")
             val cookie: String = if (spDomain.isNotEmpty()) spDomain else ""
             if (cookie.isNotEmpty()) {

@@ -7,14 +7,13 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.NavigationView
 import android.support.v4.app.FragmentTransaction
+import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatDelegate
-import android.view.KeyEvent
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.TextView
 import com.cxz.wanandroid.R
+import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.base.BaseMvpActivity
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.ColorEvent
@@ -79,6 +78,10 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
      * user_rank TextView
      */
     private var nav_user_rank: TextView? = null
+    /**
+     * score TextView
+     */
+    private var nav_score: TextView? = null
 
     override fun attachLayoutRes(): Int = R.layout.activity_main
 
@@ -112,24 +115,7 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
 
         initDrawerLayout()
 
-        nav_view.run {
-            setNavigationItemSelectedListener(onDrawerNavigationItemSelectedListener)
-            nav_username = getHeaderView(0).findViewById(R.id.tv_username)
-            nav_user_id = getHeaderView(0).findViewById(R.id.tv_user_id)
-            nav_user_grade = getHeaderView(0).findViewById(R.id.tv_user_grade)
-            nav_user_rank = getHeaderView(0).findViewById(R.id.tv_user_rank)
-            menu.findItem(R.id.nav_logout).isVisible = isLogin
-        }
-        nav_username?.run {
-            text = if (!isLogin) getString(R.string.go_login) else username
-            setOnClickListener {
-                if (!isLogin) {
-                    Intent(this@MainActivity, LoginActivity::class.java).run {
-                        startActivity(this)
-                    }
-                }
-            }
-        }
+        initNavView()
 
         showFragment(mIndex)
 
@@ -149,12 +135,63 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
     }
 
     /**
+     * init NavigationView
+     */
+    private fun initNavView() {
+        nav_view.run {
+            setNavigationItemSelectedListener(onDrawerNavigationItemSelectedListener)
+            nav_username = getHeaderView(0).findViewById(R.id.tv_username)
+            nav_user_id = getHeaderView(0).findViewById(R.id.tv_user_id)
+            nav_user_grade = getHeaderView(0).findViewById(R.id.tv_user_grade)
+            nav_user_rank = getHeaderView(0).findViewById(R.id.tv_user_rank)
+            nav_score = MenuItemCompat.getActionView(nav_view.menu.findItem(R.id.nav_score)) as TextView
+            nav_score?.gravity = Gravity.CENTER_VERTICAL
+            menu.findItem(R.id.nav_logout).isVisible = isLogin
+        }
+        nav_username?.run {
+            text = if (!isLogin) getString(R.string.go_login) else username
+            setOnClickListener {
+                if (!isLogin) {
+                    Intent(this@MainActivity, LoginActivity::class.java).run {
+                        startActivity(this)
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * init DrawerLayout
+     */
+    private fun initDrawerLayout() {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            var params = window.attributes
+//            params.flags = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+//            drawer_layout.fitsSystemWindows = true
+//            drawer_layout.clipToPadding = false
+//        }
+        drawer_layout.run {
+            val toggle = ActionBarDrawerToggle(
+                    this@MainActivity,
+                    this,
+                    toolbar
+                    , R.string.navigation_drawer_open,
+                    R.string.navigation_drawer_close)
+            addDrawerListener(toggle)
+            toggle.syncState()
+        }
+    }
+
+    /**
      * 显示用户信息，包括积分、等级、排名
      */
     override fun showUserInfo(bean: UserInfoBody) {
+        App.userInfo = bean
+
         nav_user_id?.text = bean.userId.toString()
         nav_user_grade?.text = (bean.coinCount / 100 + 1).toString()
         nav_user_rank?.text = bean.rank.toString()
+        nav_score?.text = bean.coinCount.toString()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -172,6 +209,7 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
             nav_user_id?.text = getString(R.string.nav_line_4)
             nav_user_grade?.text = getString(R.string.nav_line_2)
             nav_user_rank?.text = getString(R.string.nav_line_2)
+            nav_score?.text = ""
         }
     }
 
@@ -188,29 +226,6 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
             nav_view.getHeaderView(0).setBackgroundColor(mThemeColor)
             floating_action_btn.backgroundTintList = ColorStateList.valueOf(mThemeColor)
         }
-    }
-
-    /**
-     * init DrawerLayout
-     */
-    private fun initDrawerLayout() {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            var params = window.attributes
-//            params.flags = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-//            drawer_layout.fitsSystemWindows = true
-//            drawer_layout.clipToPadding = false
-//        }
-        drawer_layout.run {
-            var toggle = ActionBarDrawerToggle(
-                    this@MainActivity,
-                    this,
-                    toolbar
-                    , R.string.navigation_drawer_open,
-                    R.string.navigation_drawer_close)
-            addDrawerListener(toggle)
-            toggle.syncState()
-        }
-
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -331,37 +346,35 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
     private val onDrawerNavigationItemSelectedListener =
             NavigationView.OnNavigationItemSelectedListener { item ->
                 when (item.itemId) {
-                    R.id.nav_collect -> {
+                    R.id.nav_score -> {
                         if (isLogin) {
-                            Intent(this@MainActivity, CommonActivity::class.java).run {
-                                putExtra(Constant.TYPE_KEY, Constant.Type.COLLECT_TYPE_KEY)
+                            Intent(this@MainActivity, ScoreActivity::class.java).run {
                                 startActivity(this)
                             }
                         } else {
                             showToast(resources.getString(R.string.login_tint))
-                            Intent(this@MainActivity, LoginActivity::class.java).run {
-                                startActivity(this)
-                            }
+                            goLogin()
                         }
-                        // drawer_layout.closeDrawer(GravityCompat.START)
+                    }
+                    R.id.nav_collect -> {
+                        if (isLogin) {
+                            goCommonActivity(Constant.Type.COLLECT_TYPE_KEY)
+                        } else {
+                            showToast(resources.getString(R.string.login_tint))
+                            goLogin()
+                        }
                     }
                     R.id.nav_setting -> {
                         Intent(this@MainActivity, SettingActivity::class.java).run {
                             // putExtra(Constant.TYPE_KEY, Constant.Type.SETTING_TYPE_KEY)
                             startActivity(this)
                         }
-                        // drawer_layout.closeDrawer(GravityCompat.START)
                     }
                     R.id.nav_about_us -> {
-                        Intent(this@MainActivity, CommonActivity::class.java).run {
-                            putExtra(Constant.TYPE_KEY, Constant.Type.ABOUT_US_TYPE_KEY)
-                            startActivity(this)
-                        }
-                        // drawer_layout.closeDrawer(GravityCompat.START)
+                        goCommonActivity(Constant.Type.ABOUT_US_TYPE_KEY)
                     }
                     R.id.nav_logout -> {
                         logout()
-                        // drawer_layout.closeDrawer(GravityCompat.START)
                     }
                     R.id.nav_night_mode -> {
                         if (SettingUtil.getIsNightMode()) {
@@ -381,15 +394,29 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
                             }
                         } else {
                             showToast(resources.getString(R.string.login_tint))
-                            Intent(this@MainActivity, LoginActivity::class.java).run {
-                                startActivity(this)
-                            }
+                            goLogin()
                         }
-                        // drawer_layout.closeDrawer(GravityCompat.START)
                     }
                 }
+                // drawer_layout.closeDrawer(GravityCompat.START)
                 true
             }
+
+    private fun goCommonActivity(type: String) {
+        Intent(this@MainActivity, CommonActivity::class.java).run {
+            putExtra(Constant.TYPE_KEY, type)
+            startActivity(this)
+        }
+    }
+
+    /**
+     * 去登陆页面
+     */
+    private fun goLogin() {
+        Intent(this@MainActivity, LoginActivity::class.java).run {
+            startActivity(this)
+        }
+    }
 
     override fun recreate() {
         try {

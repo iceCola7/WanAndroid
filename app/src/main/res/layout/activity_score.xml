@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activity.ScoreActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <TextView
+        android:id="@+id/tv_score"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_168"
+        android:background="?attr/colorPrimary"
+        android:gravity="center"
+        android:text="@string/nav_line_4"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_50" />
+
+    <com.cxz.multiplestatusview.MultipleStatusView
+        android:id="@+id/multiple_status_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:emptyView="@layout/layout_empty_view"
+        app:errorView="@layout/layout_error_view"
+        app:loadingView="@layout/layout_loading_view"
+        app:noNetworkView="@layout/layout_network_view">
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/viewBackground">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                style="@style/RecyclerViewStyle"
+                tools:listitem="@layout/item_socre_list" />
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+    </com.cxz.multiplestatusview.MultipleStatusView>
+
+</LinearLayout>

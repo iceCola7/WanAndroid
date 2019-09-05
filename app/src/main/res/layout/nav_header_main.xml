@@ -16,6 +16,12 @@
     android:paddingBottom="@dimen/dp_20"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
+    <ImageView
+        android:layout_width="@dimen/dp_20"
+        android:layout_height="@dimen/dp_20"
+        android:layout_gravity="end"
+        app:srcCompat="@drawable/ic_rank_white_24dp" />
+
     <com.cxz.wanandroid.widget.CircleImageView
         android:layout_width="@dimen/avatar_width"
         android:layout_height="@dimen/avatar_height"

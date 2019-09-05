@@ -4,7 +4,7 @@ import com.cxz.wanandroid.base.IModel
 import com.cxz.wanandroid.base.IPresenter
 import com.cxz.wanandroid.base.IView
 import com.cxz.wanandroid.mvp.model.bean.CollectionArticle
-import com.cxz.wanandroid.mvp.model.bean.CollectionResponseBody
+import com.cxz.wanandroid.mvp.model.bean.BaseListResponseBody
 import com.cxz.wanandroid.mvp.model.bean.HttpResult
 import io.reactivex.Observable
 
@@ -15,7 +15,7 @@ interface CollectContract {
 
     interface View : IView {
 
-        fun setCollectList(articles: CollectionResponseBody<CollectionArticle>)
+        fun setCollectList(articles: BaseListResponseBody<CollectionArticle>)
 
         fun showRemoveCollectSuccess(success: Boolean)
 
@@ -33,7 +33,7 @@ interface CollectContract {
 
     interface Model : IModel {
 
-        fun getCollectList(page: Int): Observable<HttpResult<CollectionResponseBody<CollectionArticle>>>
+        fun getCollectList(page: Int): Observable<HttpResult<BaseListResponseBody<CollectionArticle>>>
 
         fun removeCollectArticle(id: Int, originId: Int): Observable<HttpResult<Any>>
 

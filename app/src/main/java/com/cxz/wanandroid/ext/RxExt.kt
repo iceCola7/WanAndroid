@@ -62,7 +62,8 @@ fun <T : BaseBean> Observable<T>.ss(
 fun <T : BaseBean> Observable<T>.sss(
         view: IView?,
         isShowLoading: Boolean = true,
-        onSuccess: (T) -> Unit
+        onSuccess: (T) -> Unit,
+        onError: ((T) -> Unit)? = null
 ): Disposable {
     if (isShowLoading) view?.showLoading()
     return this.compose(SchedulerUtils.ioToMain())
@@ -73,7 +74,14 @@ fun <T : BaseBean> Observable<T>.sss(
                     it.errorCode == ErrorStatus.TOKEN_INVALID -> {
                         // Token 过期，重新登录
                     }
-                    else -> view?.showDefaultMsg(it.errorMsg)
+                    else -> {
+                        if (onError != null) {
+                            onError.invoke(it)
+                        } else {
+                            if (it.errorMsg.isNotEmpty())
+                                view?.showDefaultMsg(it.errorMsg)
+                        }
+                    }
                 }
                 view?.hideLoading()
             }, {

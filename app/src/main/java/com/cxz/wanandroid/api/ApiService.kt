@@ -107,7 +107,7 @@ interface ApiService {
      *  @param page
      */
     @GET("lg/collect/list/{page}/json")
-    fun getCollectList(@Path("page") page: Int): Observable<HttpResult<CollectionResponseBody<CollectionArticle>>>
+    fun getCollectList(@Path("page") page: Int): Observable<HttpResult<BaseListResponseBody<CollectionArticle>>>
 
     /**
      * 收藏站内文章
@@ -286,5 +286,13 @@ interface ApiService {
      */
     @GET("/lg/coin/userinfo/json")
     fun getUserInfo(): Observable<HttpResult<UserInfoBody>>
+
+    /**
+     * 获取个人积分列表，需要登录后访问
+     * https://www.wanandroid.com//lg/coin/list/1/json
+     * @param page 页码 从1开始
+     */
+    @GET("/lg/coin/list/{page}/json")
+    fun getUserScoreList(@Path("page") page: Int): Observable<HttpResult<BaseListResponseBody<UserScoreBean>>>
 
 }

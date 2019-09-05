@@ -15,6 +15,17 @@ data class HttpResult<T>(
         @Json(name = "data") val data: T
 ) : BaseBean()
 
+// 通用的带有列表数据的实体
+data class BaseListResponseBody<T>(
+        @Json(name = "curPage") val curPage: Int,
+        @Json(name = "datas") val datas: List<T>,
+        @Json(name = "offset") val offset: Int,
+        @Json(name = "over") val over: Boolean,
+        @Json(name = "pageCount") val pageCount: Int,
+        @Json(name = "size") val size: Int,
+        @Json(name = "total") val total: Int
+)
+
 //文章
 data class ArticleResponseBody(
         @Json(name = "curPage") val curPage: Int,
@@ -133,17 +144,6 @@ data class CollectionWebsite(
         @Json(name = "order") val order: Int,
         @Json(name = "userId") val userId: Int,
         @Json(name = "visible") val visible: Int
-)
-
-
-data class CollectionResponseBody<T>(
-        @Json(name = "curPage") val curPage: Int,
-        @Json(name = "datas") val datas: List<T>,
-        @Json(name = "offset") val offset: Int,
-        @Json(name = "over") val over: Boolean,
-        @Json(name = "pageCount") val pageCount: Int,
-        @Json(name = "size") val size: Int,
-        @Json(name = "total") val total: Int
 )
 
 data class CollectionArticle(
@@ -276,4 +276,16 @@ data class UserInfoBody(
         @Json(name = "rank") val rank: Int, // 当前排名
         @Json(name = "userId") val userId: Int,
         @Json(name = "username") val username: String
+)
+
+// 个人积分实体
+data class UserScoreBean(
+        @Json(name = "coinCount") val coinCount: Int,
+        @Json(name = "date") val date: Long,
+        @Json(name = "desc") val desc: String,
+        @Json(name = "id") val id: Int,
+        @Json(name = "reason") val reason: String,
+        @Json(name = "type") val type: Int,
+        @Json(name = "userId") val userId: Int,
+        @Json(name = "userName") val userName: String
 )

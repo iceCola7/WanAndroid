@@ -25,15 +25,20 @@
     <string name="action_browser">用浏览器打开</string>
 
     <!-- Nav Action -->
-    <string name="nav_my_collect">收藏</string>
-    <string name="nav_setting">设置</string>
+    <string name="nav_my_collect">我的收藏</string>
+    <string name="nav_setting">系统设置</string>
     <string name="nav_about_us">关于我们</string>
     <string name="nav_logout">退出登录</string>
     <string name="nav_night_mode">夜间模式</string>
     <string name="nav_todo">TODO</string>
+    <string name="nav_my_score">我的积分</string>
     <string name="nav_id">ID:</string>
     <string name="nav_grade">等级:</string>
     <string name="nav_rank">排名:</string>
+
+    <string name="score">积分</string>
+    <string name="score_detail">积分明细</string>
+    <string name="help_label">帮助</string>
 
     <!-- Login -->
     <string name="username">用户名</string>
