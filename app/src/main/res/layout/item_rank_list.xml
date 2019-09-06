@@ -3,18 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="@dimen/sp_16"
-    android:paddingEnd="@dimen/sp_16"
-    android:paddingBottom="@dimen/sp_16">
+    android:paddingStart="0dp"
+    android:paddingTop="@dimen/dp_16"
+    android:paddingEnd="@dimen/dp_16"
+    android:paddingBottom="@dimen/dp_16">
 
-    <TextView
-        android:id="@+id/tv_ranking"
+    <RelativeLayout
+        android:id="@+id/rl_ranking"
         android:layout_width="@dimen/dp_60"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:gravity="center"
-        android:textColor="@color/item_author"
-        tools:text="1" />
+        android:layout_centerVertical="true">
+
+        <TextView
+            android:id="@+id/tv_ranking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:textColor="@color/item_author"
+            tools:text="1" />
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/tv_username"
@@ -23,7 +33,7 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/dp_4"
         android:layout_toStartOf="@+id/tv_score"
-        android:layout_toEndOf="@+id/tv_ranking"
+        android:layout_toEndOf="@+id/rl_ranking"
         android:textColor="@color/item_title"
         android:textSize="@dimen/sp_16"
         tools:text="iceCola" />

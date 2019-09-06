@@ -94,6 +94,7 @@ class RankActivity : BaseMvpSwipeBackActivity<RankContract.View, RankContract.Pr
     }
 
     override fun start() {
+        mLayoutStatusView?.showLoading()
         mPresenter?.getRankList(1)
     }
 
@@ -134,7 +135,7 @@ class RankActivity : BaseMvpSwipeBackActivity<RankContract.View, RankContract.Pr
     private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
         isRefresh = false
         swipeRefreshLayout.isRefreshing = false
-        val page = rankAdapter.data.size / pageSize
+        val page = rankAdapter.data.size / pageSize + 1
         mPresenter?.getRankList(page)
     }
 

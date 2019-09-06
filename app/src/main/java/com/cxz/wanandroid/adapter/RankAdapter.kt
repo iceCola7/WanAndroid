@@ -14,8 +14,11 @@ class RankAdapter : BaseQuickAdapter<RankBean, BaseViewHolder>(R.layout.item_ran
     override fun convert(helper: BaseViewHolder?, item: RankBean?) {
         helper ?: return
         item ?: return
+
+        val index = helper.layoutPosition
+
         helper.setText(R.id.tv_username, item.username)
                 .setText(R.id.tv_score, item.coinCount.toString())
-                .setText(R.id.tv_ranking, (helper.layoutPosition + 1).toString())
+                .setText(R.id.tv_ranking, (index + 1).toString())
     }
 }

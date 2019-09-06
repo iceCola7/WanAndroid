@@ -1,6 +1,7 @@
 package com.cxz.wanandroid.ui.activity
 
 import android.content.Intent
+import android.support.design.widget.AppBarLayout
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
@@ -18,7 +19,7 @@ import com.cxz.wanandroid.mvp.model.bean.UserScoreBean
 import com.cxz.wanandroid.mvp.presenter.ScorePresenter
 import com.cxz.wanandroid.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.activity_score.*
-import kotlinx.android.synthetic.main.toolbar.*
+
 
 /**
  * 我的积分页面
@@ -45,6 +46,8 @@ class ScoreActivity : BaseMvpSwipeBackActivity<ScoreContract.View, ScoreContract
      * is Refresh
      */
     private var isRefresh = true
+
+    private var contentHeight = 0F
 
     override fun createPresenter(): ScoreContract.Presenter = ScorePresenter()
 
@@ -105,14 +108,21 @@ class ScoreActivity : BaseMvpSwipeBackActivity<ScoreContract.View, ScoreContract
             }
         }
 
+        app_bar_layout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+            contentHeight = rl_content.height.toFloat()
+            val alpha = 1 - (-verticalOffset) / (contentHeight)
+            rl_content.alpha = alpha
+        })
+
     }
 
     override fun initColor() {
         super.initColor()
-        tv_score.setBackgroundColor(mThemeColor)
+        rl_content.setBackgroundColor(mThemeColor)
     }
 
     override fun start() {
+        mLayoutStatusView?.showLoading()
         mPresenter?.getUserScoreList(1)
     }
 

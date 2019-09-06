@@ -1,23 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".ui.activity.ScoreActivity">
 
-    <include layout="@layout/toolbar" />
-
-    <TextView
-        android:id="@+id/tv_score"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_168"
-        android:background="?attr/colorPrimary"
-        android:gravity="center"
-        android:text="@string/nav_line_4"
-        android:textColor="@color/white"
-        android:textSize="@dimen/sp_50" />
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        app:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/coll_toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_200"
+            android:background="@android:color/transparent"
+            app:contentScrim="@color/transparent_75"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:statusBarScrim="@android:color/transparent"
+            app:titleEnabled="false">
+
+            <RelativeLayout
+                android:id="@+id/rl_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/colorPrimary">
+
+                <TextView
+                    android:id="@+id/tv_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/nav_line_4"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_50" />
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
 
     <com.cxz.multiplestatusview.MultipleStatusView
         android:id="@+id/multiple_status_view"
@@ -25,6 +63,7 @@
         android:layout_height="match_parent"
         app:emptyView="@layout/layout_empty_view"
         app:errorView="@layout/layout_error_view"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:loadingView="@layout/layout_loading_view"
         app:noNetworkView="@layout/layout_network_view">
 
@@ -43,4 +82,4 @@
 
     </com.cxz.multiplestatusview.MultipleStatusView>
 
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

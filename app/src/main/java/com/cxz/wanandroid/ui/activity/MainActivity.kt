@@ -61,7 +61,7 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
     /**
      * local username
      */
-    private val username: String by Preference(Constant.USERNAME_KEY, "")
+    private var username: String by Preference(Constant.USERNAME_KEY, "")
 
     /**
      * username TextView
@@ -478,6 +478,7 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
                 uiThread {
                     mDialog.dismiss()
                     showToast(resources.getString(R.string.logout_success))
+                    username = nav_username?.text.toString().trim()
                     isLogin = false
                     EventBus.getDefault().post(LoginEvent(false))
                 }
