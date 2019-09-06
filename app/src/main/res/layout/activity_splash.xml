@@ -4,28 +4,19 @@
     android:id="@+id/layout_splash"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/viewBackground">
+    android:background="?attr/colorPrimary">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="@dimen/dp_80"
-        android:layout_height="@dimen/dp_80"
+    <com.cxz.wanandroid.widget.CircleImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="@dimen/dp_110"
+        android:layout_height="@dimen/dp_110"
+        app:borderColor="@color/white"
+        app:borderWidth="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_20"
-        android:text="@string/app_name"
-        android:textColor="@color/common_color"
-        android:textSize="@dimen/sp_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:srcCompat="@mipmap/logo"
+        app:type="circle" />
 
 </android.support.constraint.ConstraintLayout>

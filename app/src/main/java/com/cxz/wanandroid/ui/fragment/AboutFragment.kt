@@ -1,11 +1,13 @@
 package com.cxz.wanandroid.ui.fragment
 
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.view.View
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.base.BaseFragment
+import com.cxz.wanandroid.utils.SettingUtil
 import kotlinx.android.synthetic.main.fragment_about.*
 
 /**
@@ -29,6 +31,15 @@ class AboutFragment : BaseFragment() {
 
         val versionStr = getString(R.string.app_name) + " V" + activity?.packageManager?.getPackageInfo(activity?.packageName, 0)?.versionName
         about_version.text = versionStr
+
+        setLogoBg()
+
+    }
+
+    private fun setLogoBg() {
+        val drawable = iv_logo.background as GradientDrawable
+        drawable.setColor(SettingUtil.getColor())
+        iv_logo.setBackgroundDrawable(drawable)
     }
 
     override fun attachLayoutRes(): Int = R.layout.fragment_about

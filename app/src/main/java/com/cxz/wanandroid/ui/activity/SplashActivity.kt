@@ -39,6 +39,11 @@ class SplashActivity : BaseActivity() {
         layout_splash.startAnimation(alphaAnimation)
     }
 
+    override fun initColor() {
+        super.initColor()
+        layout_splash.setBackgroundColor(mThemeColor)
+    }
+
     override fun start() {
     }
 
