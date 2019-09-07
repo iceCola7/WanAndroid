@@ -163,7 +163,7 @@ class ScoreActivity : BaseMvpSwipeBackActivity<ScoreContract.View, ScoreContract
     private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
         isRefresh = false
         swipeRefreshLayout.isRefreshing = false
-        val page = scoreAdapter.data.size / pageSize
+        val page = scoreAdapter.data.size / pageSize + 1
         mPresenter?.getUserScoreList(page)
     }
 

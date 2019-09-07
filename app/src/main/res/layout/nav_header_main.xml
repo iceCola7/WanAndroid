@@ -11,9 +11,9 @@
     android:gravity="bottom"
     android:orientation="vertical"
     android:paddingLeft="@dimen/dp_16"
-    android:paddingTop="@dimen/dp_60"
+    android:paddingTop="@dimen/dp_36"
     android:paddingRight="@dimen/dp_16"
-    android:paddingBottom="@dimen/dp_20"
+    android:paddingBottom="@dimen/dp_10"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
@@ -98,7 +98,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="@dimen/dp_8"
-            android:layout_marginLeft="@dimen/dp_8"
             android:text="@string/nav_rank"
             android:textColor="@color/Grey100"
             android:textSize="@dimen/sp_12" />
@@ -113,6 +112,5 @@
             android:textSize="@dimen/sp_12" />
 
     </LinearLayout>
-
 
 </LinearLayout>
