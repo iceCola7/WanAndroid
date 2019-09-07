@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent_75"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="@dimen/dp_260"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_upgrade_top" />
+
+        <LinearLayout
+            android:id="@+id/ll_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/dp_10"
+            android:paddingEnd="@dimen/dp_10"
+            android:paddingBottom="@dimen/dp_20">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:tag="beta_title"
+                android:textColor="@color/Black"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/tv_upgrade_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:tag="beta_upgrade_info"
+                android:textColor="@color/Grey500"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/tv_upgrade_feature"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:lineSpacingExtra="@dimen/dp_2"
+                android:tag="beta_upgrade_feature"
+                android:textColor="@color/Grey900"
+                android:textSize="@dimen/sp_15" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_upgrade_bottom"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_upgrade_cancel"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_46"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:tag="beta_cancel_button"
+                android:textColor="@color/Grey200"
+                android:textSize="@dimen/sp_16"
+                tools:text="下次再说" />
+
+            <View
+                android:layout_width="@dimen/dp_05"
+                android:layout_height="@dimen/dp_46"
+                android:background="@color/white" />
+
+            <TextView
+                android:id="@+id/tv_upgrade_confirm"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_46"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:tag="beta_confirm_button"
+                android:textColor="@color/colorAccent"
+                tools:text="立即更新" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

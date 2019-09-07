@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
+import android.os.Environment
 import android.support.multidex.MultiDexApplication
 import android.support.v7.app.AppCompatDelegate
 import android.util.Log
@@ -79,6 +80,12 @@ class App : MultiDexApplication() {
         val packageName = applicationContext.packageName
         // 获取当前进程名
         val processName = CommonUtil.getProcessName(android.os.Process.myPid())
+        // 设置是否为上报进程
+        val strategy = CrashReport.UserStrategy(applicationContext)
+        strategy.isUploadProcess = false || processName == packageName
+        // 设置sd卡的Download为更新资源保存目录;
+        Beta.storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+
         Beta.upgradeStateListener = object : UpgradeStateListener {
             override fun onDownloadCompleted(isManual: Boolean) {
             }
@@ -104,9 +111,13 @@ class App : MultiDexApplication() {
                 }
             }
         }
-        // 设置是否为上报进程
-        val strategy = CrashReport.UserStrategy(applicationContext)
-        strategy.isUploadProcess = false || processName == packageName
+
+        // 自定义更新布局要设置在 init 之前
+        // R.layout.layout_upgrade_dialog 文件要注意两点
+        // 注意1: 半透明背景要自己加上
+        // 注意2: 即使自定义的弹窗不需要title, info等这些信息, 也需要将对应的tag标出出来, 一共有5个
+        Beta.upgradeDialogLayoutId = R.layout.layout_upgrade_dialog
+
         // CrashReport.initCrashReport(applicationContext, Constant.BUGLY_ID, BuildConfig.DEBUG, strategy)
         Bugly.init(applicationContext, Constant.BUGLY_ID, BuildConfig.DEBUG, strategy)
     }
