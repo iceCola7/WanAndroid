@@ -44,7 +44,7 @@ class NavigationAdapter(context: Context?, datas: MutableList<NavigationBean>)
                     tv.text = article.title
                     tv.setTextColor(CommonUtil.randomColor())
 
-                    setOnTagClickListener({ view, position, _ ->
+                    setOnTagClickListener { view, position, _ ->
                         val options: ActivityOptions = ActivityOptions.makeScaleUpAnimation(view,
                                 view.width / 2,
                                 view.height / 2,
@@ -58,7 +58,7 @@ class NavigationAdapter(context: Context?, datas: MutableList<NavigationBean>)
                             context.startActivity(this, options.toBundle())
                         }
                         true
-                    })
+                    }
                     return tv
                 }
             }

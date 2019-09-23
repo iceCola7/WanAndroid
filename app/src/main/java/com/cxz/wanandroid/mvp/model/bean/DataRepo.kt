@@ -40,6 +40,7 @@ data class ArticleResponseBody(
 //文章
 data class Article(
         @Json(name = "apkLink") val apkLink: String,
+        @Json(name = "audit") val audit: Int,
         @Json(name = "author") val author: String,
         @Json(name = "chapterId") val chapterId: Int,
         @Json(name = "chapterName") val chapterName: String,
@@ -51,9 +52,13 @@ data class Article(
         @Json(name = "id") val id: Int,
         @Json(name = "link") val link: String,
         @Json(name = "niceDate") val niceDate: String,
+        @Json(name = "niceShareDate") val niceShareDate: String,
         @Json(name = "origin") val origin: String,
+        @Json(name = "prefix") val prefix: String,
         @Json(name = "projectLink") val projectLink: String,
         @Json(name = "publishTime") val publishTime: Long,
+        @Json(name = "shareDate") val shareDate: Long,
+        @Json(name = "shareUser") val shareUser: String,
         @Json(name = "superChapterId") val superChapterId: Int,
         @Json(name = "superChapterName") val superChapterName: String,
         @Json(name = "tags") val tags: MutableList<Tag>,

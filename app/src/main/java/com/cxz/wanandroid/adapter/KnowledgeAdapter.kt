@@ -20,8 +20,9 @@ class KnowledgeAdapter(private val context: Context?, datas: MutableList<Article
     override fun convert(helper: BaseViewHolder?, item: Article?) {
         item ?: return
         helper ?: return
+        val authorStr = if (item.author.isNotEmpty()) item.author else item.shareUser
         helper.setText(R.id.tv_article_title, Html.fromHtml(item.title))
-                .setText(R.id.tv_article_author, item.author)
+                .setText(R.id.tv_article_author, authorStr)
                 .setText(R.id.tv_article_date, item.niceDate)
                 .setImageResource(R.id.iv_like,
                         if (item.collect) R.drawable.ic_like else R.drawable.ic_like_not
