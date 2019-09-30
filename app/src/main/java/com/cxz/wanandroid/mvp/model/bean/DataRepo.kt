@@ -57,7 +57,7 @@ data class Article(
         @Json(name = "prefix") val prefix: String,
         @Json(name = "projectLink") val projectLink: String,
         @Json(name = "publishTime") val publishTime: Long,
-        @Json(name = "shareDate") val shareDate: Long,
+        @Json(name = "shareDate") val shareDate: String,
         @Json(name = "shareUser") val shareUser: String,
         @Json(name = "superChapterId") val superChapterId: Int,
         @Json(name = "superChapterName") val superChapterName: String,
