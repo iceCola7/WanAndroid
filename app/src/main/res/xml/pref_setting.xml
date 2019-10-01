@@ -77,6 +77,12 @@
             android:title="@string/version" />
 
         <Preference
+            android:key="official_website"
+            android:layout="@layout/custom_preference_layout"
+            android:summary="@string/official_website_url"
+            android:title="@string/official_website" />
+
+        <Preference
             android:key="changelog"
             android:layout="@layout/custom_preference_layout"
             android:summary="@string/changelog_url"

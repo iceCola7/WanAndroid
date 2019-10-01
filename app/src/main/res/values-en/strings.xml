@@ -99,6 +99,8 @@
     <string name="copyright_summary">Only for personal and non commercial purposes</string>
     <string name="version">Version</string>
     <string name="current_version">Current Version&#160;</string>
+    <string name="official_website">Official Website</string>
+    <string name="official_website_url">https://www.wanandroid.com</string>
 
     <!-- Setting -->
     <string name="setting">Setting</string>

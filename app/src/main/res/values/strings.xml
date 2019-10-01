@@ -99,6 +99,8 @@
     <string name="copyright_summary">仅作个人及非商业用途</string>
     <string name="version">版本</string>
     <string name="current_version">当前版本&#160;</string>
+    <string name="official_website">官方网站</string>
+    <string name="official_website_url">https://www.wanandroid.com</string>
 
     <!-- Setting -->
     <string name="setting">设置</string>

@@ -93,6 +93,11 @@ class SettingFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferen
             false
         }
 
+        findPreference("official_website").setOnPreferenceClickListener {
+            context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.official_website_url))))
+            false
+        }
+
         findPreference("changelog").setOnPreferenceClickListener {
             context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.changelog_url))))
             false
