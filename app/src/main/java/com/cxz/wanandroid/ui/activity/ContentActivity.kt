@@ -25,7 +25,8 @@ import kotlinx.android.synthetic.main.activity_content.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.greenrobot.eventbus.EventBus
 
-class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentContract.Presenter>(), ContentContract.View {
+class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentContract.Presenter>(),
+    ContentContract.View {
 
     private var agentWeb: AgentWeb? = null
     private lateinit var shareTitle: String
@@ -88,12 +89,14 @@ class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentCo
         val layoutParams = CoordinatorLayout.LayoutParams(-1, -1)
         layoutParams.behavior = AppBarLayout.ScrollingViewBehavior()
 
-        agentWeb = shareUrl.getAgentWeb(this,
-                cl_main,
-                layoutParams,
-                mWebView,
-                webChromeClient,
-                webViewClient)
+        agentWeb = shareUrl.getAgentWeb(
+            this,
+            cl_main,
+            layoutParams,
+            mWebView,
+            webChromeClient,
+            webViewClient
+        )
 
         agentWeb?.webCreator?.webView?.let {
             it.settings.domStorageEnabled = true
@@ -117,13 +120,15 @@ class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentCo
             R.id.action_share -> {
                 Intent().run {
                     action = Intent.ACTION_SEND
-                    putExtra(Intent.EXTRA_TEXT,
-                            getString(
-                                    R.string.share_article_url,
-                                    getString(R.string.app_name),
-                                    shareTitle,
-                                    shareUrl
-                            ))
+                    putExtra(
+                        Intent.EXTRA_TEXT,
+                        getString(
+                            R.string.share_article_url,
+                            getString(R.string.app_name),
+                            shareTitle,
+                            shareUrl
+                        )
+                    )
                     type = Constant.CONTENT_SHARE_TYPE
                     startActivity(Intent.createChooser(this, getString(R.string.action_share)))
                 }
@@ -162,12 +167,10 @@ class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentCo
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        return if (agentWeb?.handleKeyEvent(keyCode, event)!!) {
-            true
-        } else {
-            finish()
-            super.onKeyDown(keyCode, event)
+        if (agentWeb?.handleKeyEvent(keyCode, event)!!) {
+            return true
         }
+        return super.onKeyDown(keyCode, event)
     }
 
     override fun onResume() {
@@ -207,7 +210,11 @@ class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentCo
             super.onPageFinished(view, url)
         }
 
-        override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
+        override fun onReceivedSslError(
+            view: WebView?,
+            handler: SslErrorHandler?,
+            error: SslError?
+        ) {
             // super.onReceivedSslError(view, handler, error)
             handler?.proceed()
         }
