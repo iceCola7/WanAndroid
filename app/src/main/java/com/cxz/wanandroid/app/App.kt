@@ -1,12 +1,11 @@
 package com.cxz.wanandroid.app
 
-
 import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.os.Environment
-import android.support.multidex.MultiDexApplication
+import android.support.multidex.MultiDex
 import android.support.v7.app.AppCompatDelegate
 import android.util.Log
 import com.cxz.wanandroid.BuildConfig
@@ -33,7 +32,7 @@ import kotlin.properties.Delegates
 /**
  * Created by chenxz on 2018/4/21.
  */
-class App : MultiDexApplication() {
+class App : Application() {
 
     private var refWatcher: RefWatcher? = null
 
@@ -84,7 +83,8 @@ class App : MultiDexApplication() {
         val strategy = CrashReport.UserStrategy(applicationContext)
         strategy.isUploadProcess = false || processName == packageName
         // 设置sd卡的Download为更新资源保存目录;
-        Beta.storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        Beta.storageDir =
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
 
         Beta.upgradeStateListener = object : UpgradeStateListener {
             override fun onDownloadCompleted(isManual: Boolean) {
@@ -120,6 +120,14 @@ class App : MultiDexApplication() {
 
         // CrashReport.initCrashReport(applicationContext, Constant.BUGLY_ID, BuildConfig.DEBUG, strategy)
         Bugly.init(applicationContext, Constant.BUGLY_ID, BuildConfig.DEBUG, strategy)
+    }
+
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        MultiDex.install(base)
+
+        // 安装 Tinker
+        Beta.installTinker()
     }
 
     /**
@@ -176,11 +184,11 @@ class App : MultiDexApplication() {
      */
     private fun initConfig() {
         val formatStrategy = PrettyFormatStrategy.newBuilder()
-                .showThreadInfo(false)  // 隐藏线程信息 默认：显示
-                .methodCount(0)         // 决定打印多少行（每一行代表一个方法）默认：2
-                .methodOffset(7)        // (Optional) Hides internal method calls up to offset. Default 5
-                .tag("hao_zz")   // (Optional) Global tag for every log. Default PRETTY_LOGGER
-                .build()
+            .showThreadInfo(false)  // 隐藏线程信息 默认：显示
+            .methodCount(0)         // 决定打印多少行（每一行代表一个方法）默认：2
+            .methodOffset(7)        // (Optional) Hides internal method calls up to offset. Default 5
+            .tag("hao_zz")   // (Optional) Global tag for every log. Default PRETTY_LOGGER
+            .build()
         Logger.addLogAdapter(object : AndroidLogAdapter(formatStrategy) {
             override fun isLoggable(priority: Int, tag: String?): Boolean {
                 return BuildConfig.DEBUG
