@@ -160,4 +160,13 @@
     <string name="priority_0">common</string>
     <string name="priority_1">important</string>
 
+    <!-- 广场 -->
+    <string name="my_share">My Share</string>
+    <string name="share_article">Share Article</string>
+    <string name="share_article_title">Article Title</string>
+    <string name="share_article_title_tip">Less than 100 words.</string>
+    <string name="share_article_link">Article Link</string>
+    <string name="share_article_link_tip">eg：https://www.wanandroid.com</string>
+    <string name="share_success">Share Success</string>
+
 </resources>

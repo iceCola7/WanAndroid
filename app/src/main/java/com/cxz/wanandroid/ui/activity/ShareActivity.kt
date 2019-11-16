@@ -74,7 +74,7 @@ class ShareActivity : BaseMvpSwipeBackActivity<ShareContract.View, SharePresente
         super.initView()
         mLayoutStatusView = multiple_status_view
         toolbar.run {
-            title = "我的分享"
+            title = getString(R.string.my_share)
             setSupportActionBar(this)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
@@ -204,14 +204,17 @@ class ShareActivity : BaseMvpSwipeBackActivity<ShareContract.View, SharePresente
             }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_share_article, menu)
+        menuInflater.inflate(R.menu.menu_share, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.action_add -> {
-
+                Intent(this@ShareActivity, CommonActivity::class.java).run {
+                    putExtra(Constant.TYPE_KEY, Constant.Type.SHARE_ARTICLE_TYPE_KEY)
+                    startActivity(this)
+                }
             }
         }
         return super.onOptionsItemSelected(item)

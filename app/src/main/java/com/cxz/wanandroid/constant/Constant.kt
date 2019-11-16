@@ -60,6 +60,7 @@ object Constant {
         const val ADD_TODO_TYPE_KEY = "add_todo_type_key"
         const val SEE_TODO_TYPE_KEY = "see_todo_type_key"
         const val EDIT_TODO_TYPE_KEY = "edit_todo_type_key"
+        const val SHARE_ARTICLE_TYPE_KEY = "share_article_type_key"
     }
 
 }

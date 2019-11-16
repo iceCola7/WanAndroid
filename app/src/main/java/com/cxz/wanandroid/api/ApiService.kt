@@ -311,4 +311,8 @@ interface ApiService {
     @GET("user/lg/private_articles/{page}/json")
     fun getShareList(@Path("page") page: Int): Observable<HttpResult<ShareResponseBody>>
 
+    @POST("lg/user_article/add/json")
+    @FormUrlEncoded
+    fun shareArticle(@FieldMap map: MutableMap<String, Any>): Observable<HttpResult<Any>>
+
 }

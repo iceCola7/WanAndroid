@@ -10,6 +10,8 @@ import org.greenrobot.eventbus.EventBus
 
 class CommonActivity : BaseSwipeBackActivity() {
 
+    private var mType = ""
+
     override fun attachLayoutRes(): Int = R.layout.activity_common
 
     override fun initData() {
@@ -17,13 +19,13 @@ class CommonActivity : BaseSwipeBackActivity() {
 
     override fun initView() {
         val extras = intent.extras
-        val type = extras.getString(Constant.TYPE_KEY, "")
+        mType = extras.getString(Constant.TYPE_KEY, "")
         toolbar.run {
             title = getString(R.string.app_name)
             setSupportActionBar(this)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
-        val fragment = when (type) {
+        val fragment = when (mType) {
             Constant.Type.COLLECT_TYPE_KEY -> {
                 toolbar.title = getString(R.string.collect)
                 CollectFragment.getInstance(extras)
@@ -51,6 +53,10 @@ class CommonActivity : BaseSwipeBackActivity() {
             Constant.Type.SEE_TODO_TYPE_KEY -> {
                 toolbar.title = getString(R.string.see)
                 AddTodoFragment.getInstance(extras)
+            }
+            Constant.Type.SHARE_ARTICLE_TYPE_KEY -> {
+                toolbar.title = getString(R.string.share_article)
+                ShareArticleFragment.getInstance()
             }
             else -> {
                 null
