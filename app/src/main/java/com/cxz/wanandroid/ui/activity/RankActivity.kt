@@ -9,7 +9,7 @@ import com.cxz.wanandroid.adapter.RankAdapter
 import com.cxz.wanandroid.base.BaseMvpSwipeBackActivity
 import com.cxz.wanandroid.mvp.contract.RankContract
 import com.cxz.wanandroid.mvp.model.bean.BaseListResponseBody
-import com.cxz.wanandroid.mvp.model.bean.RankBean
+import com.cxz.wanandroid.mvp.model.bean.CoinInfoBean
 import com.cxz.wanandroid.mvp.presenter.RankPresenter
 import com.cxz.wanandroid.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
@@ -98,7 +98,7 @@ class RankActivity : BaseMvpSwipeBackActivity<RankContract.View, RankContract.Pr
         mPresenter?.getRankList(1)
     }
 
-    override fun showRankList(body: BaseListResponseBody<RankBean>) {
+    override fun showRankList(body: BaseListResponseBody<CoinInfoBean>) {
         body.datas.let {
             rankAdapter.run {
                 if (isRefresh) {

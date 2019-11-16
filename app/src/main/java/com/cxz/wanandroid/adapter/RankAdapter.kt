@@ -3,15 +3,15 @@ package com.cxz.wanandroid.adapter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.cxz.wanandroid.R
-import com.cxz.wanandroid.mvp.model.bean.RankBean
+import com.cxz.wanandroid.mvp.model.bean.CoinInfoBean
 
 /**
  * @author chenxz
  * @date 2019/9/5
  * @desc
  */
-class RankAdapter : BaseQuickAdapter<RankBean, BaseViewHolder>(R.layout.item_rank_list) {
-    override fun convert(helper: BaseViewHolder?, item: RankBean?) {
+class RankAdapter : BaseQuickAdapter<CoinInfoBean, BaseViewHolder>(R.layout.item_rank_list) {
+    override fun convert(helper: BaseViewHolder?, item: CoinInfoBean?) {
         helper ?: return
         item ?: return
 
