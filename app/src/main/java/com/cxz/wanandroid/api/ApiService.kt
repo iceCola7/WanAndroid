@@ -301,6 +301,14 @@ interface ApiService {
      * @param page 页码 从1开始
      */
     @GET("/coin/rank/{page}/json")
-    fun getRankList(@Path("page") page: Int): Observable<HttpResult<BaseListResponseBody<RankBean>>>
+    fun getRankList(@Path("page") page: Int): Observable<HttpResult<BaseListResponseBody<CoinInfoBean>>>
+
+    /**
+     * 自己的分享的文章列表
+     * https://wanandroid.com/user/lg/private_articles/1/json
+     * @param page 页码 从1开始
+     */
+    @GET("user/lg/private_articles/{page}/json")
+    fun getShareList(@Path("page") page: Int): Observable<HttpResult<ShareResponseBody>>
 
 }

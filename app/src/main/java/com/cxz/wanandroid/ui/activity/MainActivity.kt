@@ -373,6 +373,14 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
                             goLogin()
                         }
                     }
+                    R.id.nav_share -> {
+                        if (isLogin) {
+                            startActivity(Intent(this, ShareActivity::class.java))
+                        } else {
+                            showToast(resources.getString(R.string.login_tint))
+                            goLogin()
+                        }
+                    }
                     R.id.nav_setting -> {
                         Intent(this@MainActivity, SettingActivity::class.java).run {
                             // putExtra(Constant.TYPE_KEY, Constant.Type.SETTING_TYPE_KEY)

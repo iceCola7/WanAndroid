@@ -74,6 +74,7 @@
         <activity android:name=".ui.activity.TodoActivity" />
         <activity android:name=".ui.activity.ScoreActivity" />
         <activity android:name=".ui.activity.RankActivity" />
+        <activity android:name=".ui.activity.ShareActivity" />
     </application>
 
 </manifest>

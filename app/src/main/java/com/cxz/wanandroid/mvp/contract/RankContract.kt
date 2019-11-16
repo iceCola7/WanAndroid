@@ -5,7 +5,7 @@ import com.cxz.wanandroid.base.IPresenter
 import com.cxz.wanandroid.base.IView
 import com.cxz.wanandroid.mvp.model.bean.BaseListResponseBody
 import com.cxz.wanandroid.mvp.model.bean.HttpResult
-import com.cxz.wanandroid.mvp.model.bean.RankBean
+import com.cxz.wanandroid.mvp.model.bean.CoinInfoBean
 import io.reactivex.Observable
 
 /**
@@ -16,7 +16,7 @@ import io.reactivex.Observable
 interface RankContract {
 
     interface View : IView {
-        fun showRankList(body: BaseListResponseBody<RankBean>)
+        fun showRankList(body: BaseListResponseBody<CoinInfoBean>)
     }
 
     interface Presenter : IPresenter<View> {
@@ -24,7 +24,7 @@ interface RankContract {
     }
 
     interface Model : IModel {
-        fun getRankList(page: Int): Observable<HttpResult<BaseListResponseBody<RankBean>>>
+        fun getRankList(page: Int): Observable<HttpResult<BaseListResponseBody<CoinInfoBean>>>
     }
 
 }
