@@ -43,7 +43,8 @@ fun Context.showToast(content: String) {
 fun Activity.showSnackMsg(msg: String) {
     val snackbar = Snackbar.make(this.window.decorView, msg, Snackbar.LENGTH_SHORT)
     val view = snackbar.view
-    view.findViewById<TextView>(R.id.snackbar_text).setTextColor(ContextCompat.getColor(this, R.color.white))
+    view.findViewById<TextView>(R.id.snackbar_text)
+            .setTextColor(ContextCompat.getColor(this, R.color.white))
     snackbar.show()
 }
 
@@ -51,7 +52,8 @@ fun Fragment.showSnackMsg(msg: String) {
     this.activity ?: return
     val snackbar = Snackbar.make(this.activity!!.window.decorView, msg, Snackbar.LENGTH_SHORT)
     val view = snackbar.view
-    view.findViewById<TextView>(R.id.snackbar_text).setTextColor(ContextCompat.getColor(this.activity!!, R.color.white))
+    view.findViewById<TextView>(R.id.snackbar_text)
+            .setTextColor(ContextCompat.getColor(this.activity!!, R.color.white))
     snackbar.show()
 }
 
@@ -64,10 +66,11 @@ fun String.getAgentWeb(
         layoutParams: ViewGroup.LayoutParams,
         webView: WebView,
         webChromeClient: WebChromeClient?,
-        webViewClient: WebViewClient
+        webViewClient: WebViewClient?,
+        indicatorColor: Int
 ) = AgentWeb.with(activity)//传入Activity or Fragment
         .setAgentWebParent(webContent, 1, layoutParams)//传入AgentWeb 的父控件
-        .useDefaultIndicator()// 使用默认进度条
+        .useDefaultIndicator(indicatorColor, 2)// 使用默认进度条
         .setWebView(webView)
         .setWebChromeClient(webChromeClient)
         .setWebViewClient(webViewClient)

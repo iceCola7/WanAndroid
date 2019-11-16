@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 import org.greenrobot.eventbus.EventBus
 
 class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentContract.Presenter>(),
-    ContentContract.View {
+        ContentContract.View {
 
     private var agentWeb: AgentWeb? = null
     private lateinit var shareTitle: String
@@ -90,12 +90,13 @@ class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentCo
         layoutParams.behavior = AppBarLayout.ScrollingViewBehavior()
 
         agentWeb = shareUrl.getAgentWeb(
-            this,
-            cl_main,
-            layoutParams,
-            mWebView,
-            webChromeClient,
-            webViewClient
+                this,
+                cl_main,
+                layoutParams,
+                mWebView,
+                webChromeClient,
+                webViewClient,
+                mThemeColor
         )
 
         agentWeb?.webCreator?.webView?.let {
@@ -120,15 +121,8 @@ class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentCo
             R.id.action_share -> {
                 Intent().run {
                     action = Intent.ACTION_SEND
-                    putExtra(
-                        Intent.EXTRA_TEXT,
-                        getString(
-                            R.string.share_article_url,
-                            getString(R.string.app_name),
-                            shareTitle,
-                            shareUrl
-                        )
-                    )
+                    putExtra(Intent.EXTRA_TEXT, getString(R.string.share_article_url,
+                            getString(R.string.app_name), shareTitle, shareUrl))
                     type = Constant.CONTENT_SHARE_TYPE
                     startActivity(Intent.createChooser(this, getString(R.string.action_share)))
                 }
@@ -211,9 +205,9 @@ class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentCo
         }
 
         override fun onReceivedSslError(
-            view: WebView?,
-            handler: SslErrorHandler?,
-            error: SslError?
+                view: WebView?,
+                handler: SslErrorHandler?,
+                error: SslError?
         ) {
             // super.onReceivedSslError(view, handler, error)
             handler?.proceed()
