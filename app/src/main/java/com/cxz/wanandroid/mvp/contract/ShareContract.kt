@@ -13,14 +13,17 @@ interface ShareContract {
 
     interface View : CommonContract.View {
         fun showShareList(body: ShareResponseBody)
+        fun showDeleteArticle(success: Boolean)
     }
 
     interface Presenter : CommonContract.Presenter<View> {
         fun getShareList(page: Int)
+        fun deleteShareArticle(id: Int)
     }
 
     interface Model : CommonContract.Model {
         fun getShareList(page: Int): Observable<HttpResult<ShareResponseBody>>
+        fun deleteShareArticle(id: Int): Observable<HttpResult<Any>>
     }
 
 }

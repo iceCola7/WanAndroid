@@ -19,4 +19,10 @@ class SharePresenter : CommonPresenter<ShareModel, ShareContract.View>(), ShareC
         }
     }
 
+    override fun deleteShareArticle(id: Int) {
+        mModel?.deleteShareArticle(id)?.ss(mModel, mView, true) {
+            mView?.showDeleteArticle(true)
+        }
+    }
+
 }

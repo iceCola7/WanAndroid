@@ -1,5 +1,6 @@
 package com.cxz.wanandroid.ui.activity
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
@@ -8,18 +9,19 @@ import android.view.Menu
 import android.view.MenuItem
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
-import com.cxz.wanandroid.adapter.HomeAdapter
+import com.cxz.wanandroid.adapter.ShareAdapter
 import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.base.BaseMvpSwipeBackActivity
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.ext.showSnackMsg
-import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.ShareContract
 import com.cxz.wanandroid.mvp.model.bean.Article
 import com.cxz.wanandroid.mvp.model.bean.ShareResponseBody
 import com.cxz.wanandroid.mvp.presenter.SharePresenter
+import com.cxz.wanandroid.utils.DialogUtil
 import com.cxz.wanandroid.utils.NetWorkUtil
 import com.cxz.wanandroid.widget.SpaceItemDecoration
+import com.cxz.wanandroid.widget.SwipeItemLayout
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -28,13 +30,14 @@ import kotlinx.android.synthetic.main.toolbar.*
  * @date 2019/11/15
  * @desc 我的分享
  */
-class ShareActivity : BaseMvpSwipeBackActivity<ShareContract.View, SharePresenter>(), ShareContract.View {
+class ShareActivity : BaseMvpSwipeBackActivity<ShareContract.View, SharePresenter>()
+        , ShareContract.View {
 
     private var pageSize = 20
     private val datas = mutableListOf<Article>()
 
-    private val shareAdapter: HomeAdapter by lazy {
-        HomeAdapter(this, datas)
+    private val shareAdapter: ShareAdapter by lazy {
+        ShareAdapter(datas)
     }
 
     private var isRefresh = true
@@ -87,6 +90,7 @@ class ShareActivity : BaseMvpSwipeBackActivity<ShareContract.View, SharePresente
             adapter = shareAdapter
             itemAnimator = DefaultItemAnimator()
             addItemDecoration(SpaceItemDecoration(this@ShareActivity))
+            addOnItemTouchListener(SwipeItemLayout.OnSwipeItemTouchListener(this@ShareActivity))
         }
         shareAdapter.run {
             bindToRecyclerView(recyclerView)
@@ -121,6 +125,12 @@ class ShareActivity : BaseMvpSwipeBackActivity<ShareContract.View, SharePresente
             mLayoutStatusView?.showEmpty()
         } else {
             mLayoutStatusView?.showContent()
+        }
+    }
+
+    override fun showDeleteArticle(success: Boolean) {
+        if (success) {
+            showMsg(getString(R.string.share_article_delete))
         }
     }
 
@@ -175,15 +185,15 @@ class ShareActivity : BaseMvpSwipeBackActivity<ShareContract.View, SharePresente
      */
     private val onItemChildClickListener =
             BaseQuickAdapter.OnItemChildClickListener { _, view, position ->
+                if (!NetWorkUtil.isNetworkAvailable(App.context)) {
+                    showSnackMsg(resources.getString(R.string.no_network))
+                    return@OnItemChildClickListener
+                }
                 if (datas.size != 0) {
                     val data = datas[position]
                     when (view.id) {
                         R.id.iv_like -> {
                             if (isLogin) {
-                                if (!NetWorkUtil.isNetworkAvailable(App.context)) {
-                                    showSnackMsg(resources.getString(R.string.no_network))
-                                    return@OnItemChildClickListener
-                                }
                                 val collect = data.collect
                                 data.collect = !collect
                                 shareAdapter.setData(position, data)
@@ -196,8 +206,15 @@ class ShareActivity : BaseMvpSwipeBackActivity<ShareContract.View, SharePresente
                                 Intent(this, LoginActivity::class.java).run {
                                     startActivity(this)
                                 }
-                                showToast(resources.getString(R.string.login_tint))
+                                showMsg(resources.getString(R.string.login_tint))
                             }
+                        }
+                        R.id.btn_delete -> {
+                            DialogUtil.getConfirmDialog(this, resources.getString(R.string.confirm_delete),
+                                    DialogInterface.OnClickListener { _, _ ->
+                                        mPresenter?.deleteShareArticle(data.id)
+                                        shareAdapter.remove(position)
+                                    }).show()
                         }
                     }
                 }

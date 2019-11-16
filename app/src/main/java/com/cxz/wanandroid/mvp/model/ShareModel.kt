@@ -15,4 +15,8 @@ class ShareModel : CommonModel(), ShareContract.Model {
     override fun getShareList(page: Int): Observable<HttpResult<ShareResponseBody>> {
         return RetrofitHelper.service.getShareList(page)
     }
+
+    override fun deleteShareArticle(id: Int): Observable<HttpResult<Any>> {
+        return RetrofitHelper.service.deleteShareArticle(id)
+    }
 }
