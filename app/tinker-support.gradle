@@ -15,7 +15,7 @@ def baseApkDir = "app-1026-22-10-05"
 /**
  * 构建基准包和补丁包都要指定不同的tinkerId，并且必须保证唯一性
  */
-def tinkerIdV = "patch-1.1.3"
+def tinkerIdV = "base-1.1.4"
 
 /**
  * 对于插件各参数的详细解析请参考
