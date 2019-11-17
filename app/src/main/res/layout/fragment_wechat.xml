@@ -9,8 +9,7 @@
     app:loadingView="@layout/layout_loading_view"
     app:noNetworkView="@layout/layout_network_view">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/viewBackground"
@@ -18,15 +17,10 @@
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
+            style="@style/MyTabLayoutStyle"
             android:theme="@style/AppTheme.AppBarOverlay"
             app:tabGravity="center"
-            app:tabIndicatorColor="@color/white"
-            app:tabIndicatorHeight="@dimen/dp_2"
-            app:tabMode="scrollable"
-            app:tabTextAppearance="@style/TabTextStyle" />
+            app:tabMode="scrollable" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewPager"

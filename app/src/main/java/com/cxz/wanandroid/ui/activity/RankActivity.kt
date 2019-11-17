@@ -106,8 +106,8 @@ class RankActivity : BaseMvpSwipeBackActivity<RankContract.View, RankContract.Pr
                 } else {
                     addData(it)
                 }
-                pageSize = it.size
-                if (pageSize < body.size) {
+                pageSize = body.size
+                if (it.size < pageSize) {
                     loadMoreEnd(isRefresh)
                 } else {
                     loadMoreComplete()

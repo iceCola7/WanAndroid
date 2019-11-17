@@ -114,7 +114,7 @@ class ShareActivity : BaseMvpSwipeBackActivity<ShareContract.View, SharePresente
                     addData(it)
                 }
                 pageSize = body.shareArticles.size
-                if (pageSize < body.shareArticles.size) {
+                if (body.shareArticles.over) {
                     loadMoreEnd(isRefresh)
                 } else {
                     loadMoreComplete()
