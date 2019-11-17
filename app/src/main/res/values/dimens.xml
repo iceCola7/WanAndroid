@@ -56,6 +56,7 @@
     <dimen name="dp_180">180dp</dimen>
     <dimen name="dp_200">200dp</dimen>
     <dimen name="dp_230">230dp</dimen>
+    <dimen name="dp_240">240dp</dimen>
     <dimen name="dp_260">260dp</dimen>
 
     <!-- sp -->

@@ -82,6 +82,14 @@ class SettingFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferen
             false
         }
 
+        findPreference("scanQrCode").onPreferenceClickListener = Preference.OnPreferenceClickListener {
+            Intent(activity, CommonActivity::class.java).run {
+                putExtra(Constant.TYPE_KEY, Constant.Type.SCAN_QR_CODE_TYPE_KEY)
+                startActivity(this)
+            }
+            false
+        }
+
         try {
             val version = context?.resources?.getString(R.string.current_version).toString()
                     .plus(context?.packageManager?.getPackageInfo(context?.packageName, 0)?.versionName)

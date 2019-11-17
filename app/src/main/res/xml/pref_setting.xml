@@ -67,6 +67,12 @@
             android:layout="@layout/custom_preference_layout"
             android:title="@string/clear_cache" />
 
+        <Preference
+            android:key="scanQrCode"
+            android:layout="@layout/custom_preference_layout"
+            android:summary="@string/scan_share_tip"
+            android:title="@string/scan_code_download" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/about_settings">

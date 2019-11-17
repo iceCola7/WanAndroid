@@ -135,6 +135,9 @@
     <string name="check_version_fail">Failed to check new version. Please try again later.</string>
     <string name="check_version_ing">Checking, please wait.</string>
     <string name="check_no_version">This is the latest version.</string>
+    <string name="scan_code_download">Scan code download</string>
+    <string name="scan_share_tip">If it is easy to use, please recommend it to your friends</string>
+    <string name="scan_code_tip">If it is easy to use, please recommend it to your friends\n (It is recommended to use the browser to scan the QR code ^_^ )</string>
 
     <!-- TODO工具 -->
     <string name="delete_success">Delete Success</string>

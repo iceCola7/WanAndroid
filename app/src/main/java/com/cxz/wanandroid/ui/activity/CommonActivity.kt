@@ -58,6 +58,10 @@ class CommonActivity : BaseSwipeBackActivity() {
                 toolbar.title = getString(R.string.share_article)
                 ShareArticleFragment.getInstance()
             }
+            Constant.Type.SCAN_QR_CODE_TYPE_KEY->{
+                toolbar.title = getString(R.string.scan_code_download)
+                QrCodeFragment.getInstance()
+            }
             else -> {
                 null
             }

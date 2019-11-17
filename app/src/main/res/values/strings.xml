@@ -135,6 +135,9 @@
     <string name="check_version_fail">检查新版本失败，请稍后重试</string>
     <string name="check_version_ing">正在检查，请稍候...</string>
     <string name="check_no_version">当前已是最新版本了</string>
+    <string name="scan_code_download">扫码下载</string>
+    <string name="scan_share_tip">好用的话推荐给你的小伙伴吧</string>
+    <string name="scan_code_tip">好用的话推荐给你的小伙伴吧\n（ 建议使用浏览器扫描二维码下载 ^_^ ）</string>
 
     <!-- TODO工具 -->
     <string name="delete_success">删除成功</string>
