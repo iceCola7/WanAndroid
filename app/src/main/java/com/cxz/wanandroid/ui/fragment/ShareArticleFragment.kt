@@ -9,6 +9,7 @@ import com.cxz.wanandroid.base.BaseMvpFragment
 import com.cxz.wanandroid.event.RefreshShareEvent
 import com.cxz.wanandroid.mvp.contract.ShareArticleContract
 import com.cxz.wanandroid.mvp.presenter.ShareArticlePresenter
+import com.cxz.wanandroid.utils.DialogUtil
 import kotlinx.android.synthetic.main.fragment_share_article.*
 import org.greenrobot.eventbus.EventBus
 
@@ -23,6 +24,10 @@ class ShareArticleFragment : BaseMvpFragment<ShareArticleContract.View, ShareArt
         fun getInstance(): ShareArticleFragment = ShareArticleFragment()
     }
 
+    private val mDialog by lazy {
+        DialogUtil.getWaitDialog(activity!!, getString(R.string.submit_ing))
+    }
+
     override fun getArticleTitle(): String = et_article_title.text.toString().trim()
 
     override fun getArticleLink(): String = et_article_link.text.toString().trim()
@@ -30,6 +35,16 @@ class ShareArticleFragment : BaseMvpFragment<ShareArticleContract.View, ShareArt
     override fun createPresenter(): ShareArticlePresenter = ShareArticlePresenter()
 
     override fun attachLayoutRes(): Int = R.layout.fragment_share_article
+
+    override fun showLoading() {
+        mDialog.setCancelable(false)
+        mDialog.setCanceledOnTouchOutside(false)
+        mDialog.show()
+    }
+
+    override fun hideLoading() {
+        mDialog.dismiss()
+    }
 
     override fun initView(view: View) {
         // 在fragment中使用 onCreateOptionsMenu 时需要在 onCrateView 中添加此方法，否则不会调用

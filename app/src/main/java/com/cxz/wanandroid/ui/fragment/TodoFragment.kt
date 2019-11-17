@@ -21,6 +21,7 @@ import com.cxz.wanandroid.mvp.presenter.TodoPresenter
 import com.cxz.wanandroid.ui.activity.CommonActivity
 import com.cxz.wanandroid.utils.DialogUtil
 import com.cxz.wanandroid.utils.NetWorkUtil
+import com.cxz.wanandroid.widget.SwipeItemLayout
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -79,7 +80,10 @@ class TodoFragment : BaseMvpListFragment<TodoContract.View, TodoContract.Present
 
         mType = arguments?.getInt(Constant.TODO_TYPE) ?: 0
 
-        recyclerView.adapter = mAdapter
+        recyclerView.run {
+            adapter = mAdapter
+            addOnItemTouchListener(SwipeItemLayout.OnSwipeItemTouchListener(activity))
+        }
 
         mAdapter.run {
             bindToRecyclerView(recyclerView)

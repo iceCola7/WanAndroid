@@ -10,9 +10,11 @@ import android.preference.PreferenceFragment
 import android.support.v7.app.AlertDialog
 import com.afollestad.materialdialogs.color.ColorChooserDialog
 import com.cxz.wanandroid.R
+import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.RefreshHomeEvent
 import com.cxz.wanandroid.ext.showSnackMsg
 import com.cxz.wanandroid.rx.SchedulerUtils
+import com.cxz.wanandroid.ui.activity.CommonActivity
 import com.cxz.wanandroid.utils.CacheDataUtil
 import com.cxz.wanandroid.widget.IconPreference
 import com.tencent.bugly.beta.Beta
@@ -95,6 +97,14 @@ class SettingFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferen
 
         findPreference("official_website").setOnPreferenceClickListener {
             context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.official_website_url))))
+            false
+        }
+
+        findPreference("about_us").setOnPreferenceClickListener {
+            Intent(activity, CommonActivity::class.java).run {
+                putExtra(Constant.TYPE_KEY, Constant.Type.ABOUT_US_TYPE_KEY)
+                startActivity(this)
+            }
             false
         }
 

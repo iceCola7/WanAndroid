@@ -171,5 +171,6 @@
     <string name="share_success">Share Success</string>
     <string name="share_article_delete">Shared articles deleted</string>
     <string name="audited">To be audited</string>
+    <string name="submit_ing">Submit...</string>
 
 </resources>

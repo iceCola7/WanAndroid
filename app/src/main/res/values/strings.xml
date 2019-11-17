@@ -171,5 +171,6 @@
     <string name="share_success">分享成功</string>
     <string name="share_article_delete">已删除分享的文章</string>
     <string name="audited">待审核</string>
+    <string name="submit_ing">正在提交...</string>
 
 </resources>

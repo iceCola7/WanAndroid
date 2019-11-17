@@ -105,6 +105,12 @@
             android:summary="@string/copyright_summary"
             android:title="@string/copyright" />
 
+        <Preference
+            android:key="about_us"
+            android:layout="@layout/custom_preference_layout"
+            android:summary=""
+            android:title="@string/about_us" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

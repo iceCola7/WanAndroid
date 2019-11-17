@@ -389,9 +389,9 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
                             startActivity(this)
                         }
                     }
-                    R.id.nav_about_us -> {
-                        goCommonActivity(Constant.Type.ABOUT_US_TYPE_KEY)
-                    }
+                    //R.id.nav_about_us -> {
+                    //    goCommonActivity(Constant.Type.ABOUT_US_TYPE_KEY)
+                    //}
                     R.id.nav_logout -> {
                         logout()
                     }

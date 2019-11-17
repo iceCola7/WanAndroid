@@ -63,9 +63,11 @@
     <dimen name="sp_9">9sp</dimen>
     <dimen name="sp_10">10sp</dimen>
     <dimen name="sp_12">12sp</dimen>
+    <dimen name="sp_13">13sp</dimen>
     <dimen name="sp_14">14sp</dimen>
     <dimen name="sp_15">15sp</dimen>
     <dimen name="sp_16">16sp</dimen>
+    <dimen name="sp_17">17sp</dimen>
     <dimen name="sp_18">18sp</dimen>
     <dimen name="sp_20">20sp</dimen>
     <dimen name="sp_22">22sp</dimen>
@@ -74,7 +76,7 @@
     <dimen name="sp_50">50sp</dimen>
 
     <!--BottomNavigationView 的选中没有选中的字体大小-->
-    <dimen name="design_bottom_navigation_active_text_size">12sp</dimen>
-    <dimen name="design_bottom_navigation_text_size">12sp</dimen>
+    <dimen name="design_bottom_navigation_active_text_size">@dimen/sp_13</dimen>
+    <dimen name="design_bottom_navigation_text_size">@dimen/sp_12</dimen>
 
 </resources>
