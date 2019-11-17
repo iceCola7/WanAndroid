@@ -29,9 +29,11 @@ class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentCo
         ContentContract.View {
 
     private var agentWeb: AgentWeb? = null
-    private lateinit var shareTitle: String
-    private lateinit var shareUrl: String
-    private var shareId: Int = 0
+
+    private var shareTitle: String = ""
+    private var shareUrl: String = ""
+    private var shareId: Int = -1
+
     private val mWebView: NestedScrollAgentWebView by lazy {
         NestedScrollAgentWebView(this)
     }
@@ -59,6 +61,13 @@ class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentCo
 
     override fun initView() {
         super.initView()
+
+        intent.extras?.let {
+            shareId = it.getInt(Constant.CONTENT_ID_KEY, -1)
+            shareTitle = it.getString(Constant.CONTENT_TITLE_KEY, "")
+            shareUrl = it.getString(Constant.CONTENT_URL_KEY, "")
+        }
+
         toolbar.apply {
             title = ""//getString(R.string.loading)
             setSupportActionBar(this)
@@ -71,11 +80,6 @@ class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentCo
             postDelayed({
                 tv_title.isSelected = true
             }, 2000)
-        }
-        intent.extras?.let {
-            shareId = it.getInt(Constant.CONTENT_ID_KEY, -1)
-            shareTitle = it.getString(Constant.CONTENT_TITLE_KEY, "")
-            shareUrl = it.getString(Constant.CONTENT_URL_KEY, "")
         }
 
         initWebView()
