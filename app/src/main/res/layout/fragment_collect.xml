@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
-        android:layout_marginRight="@dimen/dp_20"
+        android:layout_marginEnd="@dimen/dp_20"
         android:layout_marginBottom="@dimen/dp_20"
         app:layout_behavior="com.cxz.wanandroid.widget.behavior.ScaleDownShowBehavior"
         app:srcCompat="@drawable/ic_arrow_upward_white_24dp" />

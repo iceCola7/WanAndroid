@@ -3,21 +3,17 @@ package com.cxz.wanandroid.ui.fragment
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.TodoAdapter
 import com.cxz.wanandroid.app.App
-import com.cxz.wanandroid.base.BaseMvpFragment
+import com.cxz.wanandroid.base.BaseMvpListFragment
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.RefreshTodoEvent
 import com.cxz.wanandroid.event.TodoEvent
 import com.cxz.wanandroid.event.TodoTypeEvent
 import com.cxz.wanandroid.ext.showSnackMsg
-import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.TodoContract
 import com.cxz.wanandroid.mvp.model.bean.TodoDataBean
 import com.cxz.wanandroid.mvp.model.bean.TodoResponseBody
@@ -25,9 +21,7 @@ import com.cxz.wanandroid.mvp.presenter.TodoPresenter
 import com.cxz.wanandroid.ui.activity.CommonActivity
 import com.cxz.wanandroid.utils.DialogUtil
 import com.cxz.wanandroid.utils.NetWorkUtil
-import com.cxz.wanandroid.widget.SpaceItemDecoration
-import com.cxz.wanandroid.widget.SwipeItemLayout
-import kotlinx.android.synthetic.main.fragment_todo.*
+import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
@@ -35,7 +29,7 @@ import org.greenrobot.eventbus.ThreadMode
  * Created by chenxz on 2018/8/6.
  */
 
-class TodoFragment : BaseMvpFragment<TodoContract.View, TodoContract.Presenter>(), TodoContract.View {
+class TodoFragment : BaseMvpListFragment<TodoContract.View, TodoContract.Presenter>(), TodoContract.View {
 
     companion object {
         fun getInstance(type: Int): TodoFragment {
@@ -46,13 +40,6 @@ class TodoFragment : BaseMvpFragment<TodoContract.View, TodoContract.Presenter>(
             return fragment
         }
     }
-
-    override fun createPresenter(): TodoContract.Presenter = TodoPresenter()
-
-    /**
-     * is Refresh
-     */
-    private var isRefresh = true
 
     private var mType: Int = 0
 
@@ -67,63 +54,33 @@ class TodoFragment : BaseMvpFragment<TodoContract.View, TodoContract.Presenter>(
         TodoAdapter(R.layout.item_todo_list, R.layout.item_sticky_header, datas)
     }
 
-    /**
-     * LinearLayoutManager
-     */
-    private val linearLayoutManager: LinearLayoutManager by lazy {
-        LinearLayoutManager(activity)
-    }
-
-    /**
-     * RecyclerView Divider
-     */
-    private val recyclerViewItemDecoration by lazy {
-        activity?.let {
-            SpaceItemDecoration(it)
-        }
-    }
-
-    override fun showLoading() {
-        // swipeRefreshLayout?.isRefreshing = false
-    }
-
     override fun hideLoading() {
-        swipeRefreshLayout?.isRefreshing = false
+        super.hideLoading()
         if (isRefresh) {
-            mAdapter.run {
-                setEnableLoadMore(true)
-            }
+            mAdapter.setEnableLoadMore(true)
         }
     }
 
     override fun showError(errorMsg: String) {
         super.showError(errorMsg)
-        mLayoutStatusView?.showError()
-        mAdapter.run {
-            if (isRefresh)
-                setEnableLoadMore(true)
-            else
-                loadMoreFail()
+        if (isRefresh) {
+            mAdapter.setEnableLoadMore(true)
+        } else {
+            mAdapter.loadMoreFail()
         }
     }
 
     override fun attachLayoutRes(): Int = R.layout.fragment_todo
 
+    override fun createPresenter(): TodoContract.Presenter = TodoPresenter()
+
     override fun initView(view: View) {
         super.initView(view)
-        mLayoutStatusView = multiple_status_view
+
         mType = arguments?.getInt(Constant.TODO_TYPE) ?: 0
 
-        swipeRefreshLayout.run {
-            setOnRefreshListener(onRefreshListener)
-        }
-        recyclerView.run {
-            layoutManager = linearLayoutManager
-            adapter = mAdapter
-            itemAnimator = DefaultItemAnimator()
-            recyclerViewItemDecoration?.let { addItemDecoration(it) }
-            addOnItemTouchListener(SwipeItemLayout.OnSwipeItemTouchListener(activity))
-        }
+        recyclerView.adapter = mAdapter
+
         mAdapter.run {
             bindToRecyclerView(recyclerView)
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
@@ -140,6 +97,20 @@ class TodoFragment : BaseMvpFragment<TodoContract.View, TodoContract.Presenter>(
             mPresenter?.getDoneList(1, mType)
         } else {
             mPresenter?.getNoTodoList(1, mType)
+        }
+    }
+
+    override fun onRefreshList() {
+        mAdapter.setEnableLoadMore(false)
+        lazyLoad()
+    }
+
+    override fun onLoadMoreList() {
+        val page = mAdapter.data.size / pageSize + 1
+        if (bDone) {
+            mPresenter?.getDoneList(page, mType)
+        } else {
+            mPresenter?.getNoTodoList(page, mType)
         }
     }
 
@@ -206,8 +177,8 @@ class TodoFragment : BaseMvpFragment<TodoContract.View, TodoContract.Presenter>(
                 } else {
                     addData(it)
                 }
-                val size = it.size
-                if (size < todoResponseBody.size) {
+                pageSize = todoResponseBody.size
+                if (todoResponseBody.over) {
                     loadMoreEnd(isRefresh)
                 } else {
                     loadMoreComplete()
@@ -223,35 +194,13 @@ class TodoFragment : BaseMvpFragment<TodoContract.View, TodoContract.Presenter>(
 
     override fun showDeleteSuccess(success: Boolean) {
         if (success) {
-            showToast(resources.getString(R.string.delete_success))
+            showMsg(resources.getString(R.string.delete_success))
         }
     }
 
     override fun showUpdateSuccess(success: Boolean) {
         if (success) {
-            showToast(resources.getString(R.string.completed))
-        }
-    }
-
-    /**
-     * RefreshListener
-     */
-    private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
-        isRefresh = true
-        mAdapter.setEnableLoadMore(false)
-        lazyLoad()
-    }
-    /**
-     * LoadMoreListener
-     */
-    private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
-        isRefresh = false
-        swipeRefreshLayout.isRefreshing = false
-        val page = mAdapter.data.size / 20 + 1
-        if (bDone) {
-            mPresenter?.getDoneList(page, mType)
-        } else {
-            mPresenter?.getNoTodoList(page, mType)
+            showMsg(resources.getString(R.string.completed))
         }
     }
 

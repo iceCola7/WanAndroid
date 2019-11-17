@@ -53,20 +53,17 @@ class ShareActivity : BaseMvpSwipeBackActivity<ShareContract.View, SharePresente
     override fun hideLoading() {
         swipeRefreshLayout?.isRefreshing = false
         if (isRefresh) {
-            shareAdapter.run {
-                setEnableLoadMore(true)
-            }
+            shareAdapter.setEnableLoadMore(true)
         }
     }
 
     override fun showError(errorMsg: String) {
         super.showError(errorMsg)
         mLayoutStatusView?.showError()
-        shareAdapter.run {
-            if (isRefresh)
-                setEnableLoadMore(true)
-            else
-                loadMoreFail()
+        if (isRefresh) {
+            shareAdapter.setEnableLoadMore(true)
+        } else {
+            shareAdapter.loadMoreFail()
         }
     }
 

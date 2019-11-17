@@ -61,18 +61,16 @@ class ScoreActivity : BaseMvpSwipeBackActivity<ScoreContract.View, ScoreContract
         swipeRefreshLayout?.isRefreshing = false
         if (isRefresh) {
             scoreAdapter.setEnableLoadMore(true)
-
         }
     }
 
     override fun showError(errorMsg: String) {
         super.showError(errorMsg)
         mLayoutStatusView?.showError()
-        scoreAdapter.run {
-            if (isRefresh)
-                setEnableLoadMore(true)
-            else
-                loadMoreFail()
+        if (isRefresh) {
+            scoreAdapter.setEnableLoadMore(true)
+        } else {
+            scoreAdapter.loadMoreFail()
         }
     }
 
@@ -134,8 +132,8 @@ class ScoreActivity : BaseMvpSwipeBackActivity<ScoreContract.View, ScoreContract
                 } else {
                     addData(it)
                 }
-                pageSize = it.size
-                if (pageSize < body.size) {
+                pageSize = body.size
+                if (body.over) {
                     loadMoreEnd(isRefresh)
                 } else {
                     loadMoreComplete()

@@ -59,11 +59,10 @@ class RankActivity : BaseMvpSwipeBackActivity<RankContract.View, RankContract.Pr
     override fun showError(errorMsg: String) {
         super.showError(errorMsg)
         mLayoutStatusView?.showError()
-        rankAdapter.run {
-            if (isRefresh)
-                setEnableLoadMore(true)
-            else
-                loadMoreFail()
+        if (isRefresh) {
+            rankAdapter.setEnableLoadMore(true)
+        } else {
+            rankAdapter.loadMoreFail()
         }
     }
 
@@ -107,7 +106,7 @@ class RankActivity : BaseMvpSwipeBackActivity<RankContract.View, RankContract.Pr
                     addData(it)
                 }
                 pageSize = body.size
-                if (it.size < pageSize) {
+                if (body.over) {
                     loadMoreEnd(isRefresh)
                 } else {
                     loadMoreComplete()

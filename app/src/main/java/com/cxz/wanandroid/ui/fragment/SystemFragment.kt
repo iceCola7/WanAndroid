@@ -20,8 +20,7 @@ import org.greenrobot.eventbus.ThreadMode
  * @date 2019/11/17
  * @desc 体系
  */
-class SystemFragment : BaseMvpFragment<SystemContract.View, SystemPresenter>(),
-        SystemContract.View {
+class SystemFragment : BaseMvpFragment<SystemContract.View, SystemPresenter>(), SystemContract.View {
 
     companion object {
         fun getInstance(): SystemFragment = SystemFragment()

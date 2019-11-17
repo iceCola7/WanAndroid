@@ -19,15 +19,13 @@ import org.jetbrains.anko.uiThread
 /**
  * @author chenxz
  * @date 2018/10/28
- * @desc
+ * @desc 公众号
  */
 class WeChatFragment : BaseMvpFragment<WeChatContract.View, WeChatContract.Presenter>(), WeChatContract.View {
 
     companion object {
         fun getInstance(): WeChatFragment = WeChatFragment()
     }
-
-    override fun createPresenter(): WeChatContract.Presenter = WeChatPresenter()
 
     /**
      * datas
@@ -42,6 +40,8 @@ class WeChatFragment : BaseMvpFragment<WeChatContract.View, WeChatContract.Prese
     }
 
     override fun attachLayoutRes(): Int = R.layout.fragment_wechat
+
+    override fun createPresenter(): WeChatContract.Presenter = WeChatPresenter()
 
     override fun initView(view: View) {
         super.initView(view)

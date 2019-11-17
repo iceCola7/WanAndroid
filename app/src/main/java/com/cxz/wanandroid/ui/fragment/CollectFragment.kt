@@ -3,24 +3,20 @@ package com.cxz.wanandroid.ui.fragment
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.CollectAdapter
-import com.cxz.wanandroid.base.BaseMvpFragment
+import com.cxz.wanandroid.base.BaseMvpListFragment
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.ColorEvent
 import com.cxz.wanandroid.event.RefreshHomeEvent
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.CollectContract
-import com.cxz.wanandroid.mvp.model.bean.CollectionArticle
 import com.cxz.wanandroid.mvp.model.bean.BaseListResponseBody
+import com.cxz.wanandroid.mvp.model.bean.CollectionArticle
 import com.cxz.wanandroid.mvp.presenter.CollectPresenter
 import com.cxz.wanandroid.ui.activity.ContentActivity
-import com.cxz.wanandroid.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import org.greenrobot.eventbus.EventBus
@@ -30,7 +26,7 @@ import org.greenrobot.eventbus.ThreadMode
 /**
  * Created by chenxz on 2018/6/9.
  */
-class CollectFragment : BaseMvpFragment<CollectContract.View, CollectContract.Presenter>(), CollectContract.View {
+class CollectFragment : BaseMvpListFragment<CollectContract.View, CollectContract.Presenter>(), CollectContract.View {
 
     companion object {
         fun getInstance(bundle: Bundle): CollectFragment {
@@ -40,83 +36,46 @@ class CollectFragment : BaseMvpFragment<CollectContract.View, CollectContract.Pr
         }
     }
 
-    override fun createPresenter(): CollectContract.Presenter = CollectPresenter()
-
-    override fun useEventBus(): Boolean = true
-
     /**
      * datas
      */
     private val datas = mutableListOf<CollectionArticle>()
-    /**
-     * LinearLayoutManager
-     */
-    private val linearLayoutManager: LinearLayoutManager by lazy {
-        LinearLayoutManager(activity)
-    }
 
     /**
-     * RecyclerView Divider
+     * CollectAdapter
      */
-    private val recyclerViewItemDecoration by lazy {
-        activity?.let {
-            SpaceItemDecoration(it)
-        }
-    }
-
-    /**
-     * Collect Adapter
-     */
-    private val collectAdapter: CollectAdapter by lazy {
+    private val mAdapter: CollectAdapter by lazy {
         CollectAdapter(activity, datas = datas)
     }
 
-    /**
-     * is Refresh
-     */
-    private var isRefresh = true
-
-    override fun showLoading() {
-        // swipeRefreshLayout.isRefreshing = isRefresh
-    }
-
     override fun hideLoading() {
-        swipeRefreshLayout?.isRefreshing = false
+        super.hideLoading()
         if (isRefresh) {
-            collectAdapter.run {
-                setEnableLoadMore(true)
-            }
+            mAdapter.setEnableLoadMore(true)
         }
     }
 
     override fun showError(errorMsg: String) {
         super.showError(errorMsg)
-        mLayoutStatusView?.showError()
-        collectAdapter.run {
-            if (isRefresh)
-                setEnableLoadMore(true)
-            else
-                loadMoreFail()
+        if (isRefresh) {
+            mAdapter.setEnableLoadMore(true)
+        } else {
+            mAdapter.loadMoreFail()
         }
     }
 
+    override fun createPresenter(): CollectContract.Presenter = CollectPresenter()
+
     override fun attachLayoutRes(): Int = R.layout.fragment_collect
+
+    override fun useEventBus(): Boolean = true
 
     override fun initView(view: View) {
         super.initView(view)
-        mLayoutStatusView = multiple_status_view
-        swipeRefreshLayout.run {
-            setOnRefreshListener(onRefreshListener)
-        }
 
-        recyclerView.run {
-            layoutManager = linearLayoutManager
-            adapter = collectAdapter
-            itemAnimator = DefaultItemAnimator()
-            recyclerViewItemDecoration?.let { addItemDecoration(it) }
-        }
+        recyclerView.adapter = mAdapter
 
-        collectAdapter.run {
+        mAdapter.run {
             bindToRecyclerView(recyclerView)
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@CollectFragment.onItemClickListener
@@ -134,6 +93,16 @@ class CollectFragment : BaseMvpFragment<CollectContract.View, CollectContract.Pr
         mPresenter?.getCollectList(0)
     }
 
+    override fun onRefreshList() {
+        mAdapter.setEnableLoadMore(false)
+        mPresenter?.getCollectList(0)
+    }
+
+    override fun onLoadMoreList() {
+        val page = mAdapter.data.size / pageSize
+        mPresenter?.getCollectList(page)
+    }
+
     override fun showRemoveCollectSuccess(success: Boolean) {
         if (success) {
             showToast(getString(R.string.cancel_collect_success))
@@ -143,21 +112,21 @@ class CollectFragment : BaseMvpFragment<CollectContract.View, CollectContract.Pr
 
     override fun setCollectList(articles: BaseListResponseBody<CollectionArticle>) {
         articles.datas.let {
-            collectAdapter.run {
+            mAdapter.run {
                 if (isRefresh) {
                     replaceData(it)
                 } else {
                     addData(it)
                 }
-                val size = it.size
-                if (size < articles.size) {
+                pageSize = articles.size
+                if (articles.over) {
                     loadMoreEnd(isRefresh)
                 } else {
                     loadMoreComplete()
                 }
             }
         }
-        if (collectAdapter.data.isEmpty()) {
+        if (mAdapter.data.isEmpty()) {
             mLayoutStatusView?.showEmpty()
         } else {
             mLayoutStatusView?.showContent()
@@ -179,24 +148,6 @@ class CollectFragment : BaseMvpFragment<CollectContract.View, CollectContract.Pr
         if (event.isRefresh) {
             floating_action_btn.backgroundTintList = ColorStateList.valueOf(event.color)
         }
-    }
-
-    /**
-     * RefreshListener
-     */
-    private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
-        isRefresh = true
-        collectAdapter.setEnableLoadMore(false)
-        mPresenter?.getCollectList(0)
-    }
-    /**
-     * LoadMoreListener
-     */
-    private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
-        isRefresh = false
-        swipeRefreshLayout.isRefreshing = false
-        val page = collectAdapter.data.size / 20
-        mPresenter?.getCollectList(page)
     }
 
     /**
@@ -223,7 +174,7 @@ class CollectFragment : BaseMvpFragment<CollectContract.View, CollectContract.Pr
                     val data = datas[position]
                     when (view.id) {
                         R.id.iv_like -> {
-                            collectAdapter.remove(position)
+                            mAdapter.remove(position)
                             mPresenter?.removeCollectArticle(data.id, data.originId)
                         }
                     }

@@ -20,8 +20,6 @@ import q.rorbin.verticaltablayout.widget.TabView
  */
 class NavigationFragment : BaseMvpFragment<NavigationContract.View, NavigationContract.Presenter>(), NavigationContract.View {
 
-    override fun createPresenter(): NavigationContract.Presenter = NavigationPresenter()
-
     companion object {
         fun getInstance(): NavigationFragment = NavigationFragment()
     }
@@ -50,6 +48,8 @@ class NavigationFragment : BaseMvpFragment<NavigationContract.View, NavigationCo
     private var bClickTab: Boolean = false
 
     override fun attachLayoutRes(): Int = R.layout.fragment_navigation
+
+    override fun createPresenter(): NavigationContract.Presenter = NavigationPresenter()
 
     override fun initView(view: View) {
         super.initView(view)

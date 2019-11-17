@@ -3,15 +3,12 @@ package com.cxz.wanandroid.ui.fragment
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.HomeAdapter
 import com.cxz.wanandroid.app.App
-import com.cxz.wanandroid.base.BaseMvpFragment
+import com.cxz.wanandroid.base.BaseMvpListFragment
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.ColorEvent
 import com.cxz.wanandroid.ext.showSnackMsg
@@ -23,15 +20,12 @@ import com.cxz.wanandroid.mvp.presenter.SearchListPresenter
 import com.cxz.wanandroid.ui.activity.ContentActivity
 import com.cxz.wanandroid.ui.activity.LoginActivity
 import com.cxz.wanandroid.utils.NetWorkUtil
-import com.cxz.wanandroid.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import kotlinx.android.synthetic.main.fragment_search_list.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class SearchListFragment : BaseMvpFragment<SearchListContract.View, SearchListContract.Presenter>(), SearchListContract.View {
-
-    private var mKey = ""
+class SearchListFragment : BaseMvpListFragment<SearchListContract.View, SearchListContract.Presenter>(), SearchListContract.View {
 
     companion object {
         fun getInstance(bundle: Bundle): SearchListFragment {
@@ -41,9 +35,7 @@ class SearchListFragment : BaseMvpFragment<SearchListContract.View, SearchListCo
         }
     }
 
-    override fun createPresenter(): SearchListContract.Presenter = SearchListPresenter()
-
-    override fun useEventBus(): Boolean = true
+    private var mKey = ""
 
     /**
      * datas
@@ -53,74 +45,41 @@ class SearchListFragment : BaseMvpFragment<SearchListContract.View, SearchListCo
     /**
      * Adapter
      */
-    private val searchListAdapter: HomeAdapter by lazy {
+    private val mAdapter: HomeAdapter by lazy {
         HomeAdapter(activity, datas)
     }
 
-    /**
-     * LinearLayoutManager
-     */
-    private val linearLayoutManager: LinearLayoutManager by lazy {
-        LinearLayoutManager(activity)
-    }
-
-    /**
-     * RecyclerView Divider
-     */
-    private val recyclerViewItemDecoration by lazy {
-        activity?.let {
-            SpaceItemDecoration(it)
-        }
-    }
-
-    /**
-     * is Refresh
-     */
-    private var isRefresh = true
-
-    override fun showLoading() {
-        // swipeRefreshLayout.isRefreshing = isRefresh
-    }
 
     override fun hideLoading() {
-        swipeRefreshLayout?.isRefreshing = false
+        super.hideLoading()
         if (isRefresh) {
-            searchListAdapter.run {
-                setEnableLoadMore(true)
-            }
+            mAdapter.setEnableLoadMore(true)
         }
     }
 
     override fun showError(errorMsg: String) {
         super.showError(errorMsg)
-        mLayoutStatusView?.showError()
-        searchListAdapter.run {
-            if (isRefresh)
-                setEnableLoadMore(true)
-            else
-                loadMoreFail()
+        if (isRefresh) {
+            mAdapter.setEnableLoadMore(true)
+        } else {
+            mAdapter.loadMoreFail()
         }
     }
 
     override fun attachLayoutRes(): Int = R.layout.fragment_search_list
 
+    override fun createPresenter(): SearchListContract.Presenter = SearchListPresenter()
+
+    override fun useEventBus(): Boolean = true
+
     override fun initView(view: View) {
         super.initView(view)
-        mLayoutStatusView = multiple_status_view
+
         mKey = arguments?.getString(Constant.SEARCH_KEY, "") ?: ""
 
-        swipeRefreshLayout.run {
-            setOnRefreshListener(onRefreshListener)
-        }
+        recyclerView.adapter = mAdapter
 
-        recyclerView.run {
-            layoutManager = linearLayoutManager
-            adapter = searchListAdapter
-            itemAnimator = DefaultItemAnimator()
-            recyclerViewItemDecoration?.let { addItemDecoration(it) }
-        }
-
-        searchListAdapter.run {
+        mAdapter.run {
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@SearchListFragment.onItemClickListener
             onItemChildClickListener = this@SearchListFragment.onItemChildClickListener
@@ -138,6 +97,16 @@ class SearchListFragment : BaseMvpFragment<SearchListContract.View, SearchListCo
         mPresenter?.queryBySearchKey(0, mKey)
     }
 
+    override fun onRefreshList() {
+        mAdapter.setEnableLoadMore(false)
+        mPresenter?.queryBySearchKey(0, mKey)
+    }
+
+    override fun onLoadMoreList() {
+        val page = mAdapter.data.size / pageSize
+        mPresenter?.queryBySearchKey(page, mKey)
+    }
+
     override fun showCancelCollectSuccess(success: Boolean) {
         if (success) {
             showToast(getString(R.string.cancel_collect_success))
@@ -152,21 +121,21 @@ class SearchListFragment : BaseMvpFragment<SearchListContract.View, SearchListCo
 
     override fun showArticles(articles: ArticleResponseBody) {
         articles.datas.let {
-            searchListAdapter.run {
+            mAdapter.run {
                 if (isRefresh) {
                     replaceData(it)
                 } else {
                     addData(it)
                 }
-                val size = it.size
-                if (size < articles.size) {
+                pageSize = articles.size
+                if (articles.over) {
                     loadMoreEnd(isRefresh)
                 } else {
                     loadMoreComplete()
                 }
             }
         }
-        if (searchListAdapter.data.isEmpty()) {
+        if (mAdapter.data.isEmpty()) {
             mLayoutStatusView?.showEmpty()
         } else {
             mLayoutStatusView?.showContent()
@@ -188,25 +157,6 @@ class SearchListFragment : BaseMvpFragment<SearchListContract.View, SearchListCo
         if (event.isRefresh) {
             floating_action_btn.backgroundTintList = ColorStateList.valueOf(event.color)
         }
-    }
-
-    /**
-     * RefreshListener
-     */
-    private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
-        isRefresh = true
-        searchListAdapter.setEnableLoadMore(false)
-        mPresenter?.queryBySearchKey(0, mKey)
-    }
-
-    /**
-     * LoadMoreListener
-     */
-    private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
-        isRefresh = false
-        swipeRefreshLayout.isRefreshing = false
-        val page = searchListAdapter.data.size / 20
-        mPresenter?.queryBySearchKey(page, mKey)
     }
 
     /**
@@ -240,7 +190,7 @@ class SearchListFragment : BaseMvpFragment<SearchListContract.View, SearchListCo
                                 }
                                 val collect = data.collect
                                 data.collect = !collect
-                                searchListAdapter.setData(position, data)
+                                mAdapter.setData(position, data)
                                 if (collect) {
                                     mPresenter?.cancelCollectArticle(data.id)
                                 } else {

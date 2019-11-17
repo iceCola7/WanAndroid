@@ -2,15 +2,12 @@ package com.cxz.wanandroid.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.ProjectAdapter
 import com.cxz.wanandroid.app.App
-import com.cxz.wanandroid.base.BaseMvpFragment
+import com.cxz.wanandroid.base.BaseMvpListFragment
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.ext.showSnackMsg
 import com.cxz.wanandroid.ext.showToast
@@ -21,13 +18,12 @@ import com.cxz.wanandroid.mvp.presenter.ProjectListPresenter
 import com.cxz.wanandroid.ui.activity.ContentActivity
 import com.cxz.wanandroid.ui.activity.LoginActivity
 import com.cxz.wanandroid.utils.NetWorkUtil
-import com.cxz.wanandroid.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 
 /**
  * Created by chenxz on 2018/5/20.
  */
-class ProjectListFragment : BaseMvpFragment<ProjectListContract.View, ProjectListContract.Presenter>(), ProjectListContract.View {
+class ProjectListFragment : BaseMvpListFragment<ProjectListContract.View, ProjectListContract.Presenter>(), ProjectListContract.View {
 
     companion object {
         fun getInstance(cid: Int): ProjectListFragment {
@@ -36,32 +32,6 @@ class ProjectListFragment : BaseMvpFragment<ProjectListContract.View, ProjectLis
             args.putInt(Constant.CONTENT_CID_KEY, cid)
             fragment.arguments = args
             return fragment
-        }
-    }
-
-    override fun createPresenter(): ProjectListContract.Presenter = ProjectListPresenter()
-
-    override fun showLoading() {
-        // swipeRefreshLayout.isRefreshing = isRefresh
-    }
-
-    override fun hideLoading() {
-        swipeRefreshLayout?.isRefreshing = false
-        if (isRefresh) {
-            projectAdapter.run {
-                setEnableLoadMore(true)
-            }
-        }
-    }
-
-    override fun showError(errorMsg: String) {
-        super.showError(errorMsg)
-        mLayoutStatusView?.showError()
-        projectAdapter.run {
-            if (isRefresh)
-                setEnableLoadMore(true)
-            else
-                loadMoreFail()
         }
     }
 
@@ -76,50 +46,40 @@ class ProjectListFragment : BaseMvpFragment<ProjectListContract.View, ProjectLis
     private val datas = mutableListOf<Article>()
 
     /**
-     * LinearLayoutManager
-     */
-    private val linearLayoutManager: LinearLayoutManager by lazy {
-        LinearLayoutManager(activity)
-    }
-
-    /**
-     * RecyclerView Divider
-     */
-    private val recyclerViewItemDecoration by lazy {
-        activity?.let { SpaceItemDecoration(it) }
-    }
-
-    /**
      * ProjectAdapter
      */
-    private val projectAdapter: ProjectAdapter by lazy {
+    private val mAdapter: ProjectAdapter by lazy {
         ProjectAdapter(activity, datas)
     }
 
-    /**
-     * is Refresh
-     */
-    private var isRefresh = true
+    override fun hideLoading() {
+        super.hideLoading()
+        if (isRefresh) {
+            mAdapter.setEnableLoadMore(true)
+        }
+    }
+
+    override fun showError(errorMsg: String) {
+        super.showError(errorMsg)
+        if (isRefresh) {
+            mAdapter.setEnableLoadMore(true)
+        } else {
+            mAdapter.loadMoreFail()
+        }
+    }
 
     override fun attachLayoutRes(): Int = R.layout.fragment_refresh_layout
 
+    override fun createPresenter(): ProjectListContract.Presenter = ProjectListPresenter()
+
     override fun initView(view: View) {
         super.initView(view)
-        mLayoutStatusView = multiple_status_view
-        cid = arguments!!.getInt(Constant.CONTENT_CID_KEY)
 
-        swipeRefreshLayout.run {
-            setOnRefreshListener(onRefreshListener)
-        }
+        cid = arguments?.getInt(Constant.CONTENT_CID_KEY) ?: -1
 
-        recyclerView.run {
-            layoutManager = linearLayoutManager
-            adapter = projectAdapter
-            itemAnimator = DefaultItemAnimator()
-            recyclerViewItemDecoration?.let { addItemDecoration(it) }
-        }
+        recyclerView.adapter = mAdapter
 
-        projectAdapter.run {
+        mAdapter.run {
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@ProjectListFragment.onItemClickListener
             onItemChildClickListener = this@ProjectListFragment.onItemChildClickListener
@@ -133,24 +93,33 @@ class ProjectListFragment : BaseMvpFragment<ProjectListContract.View, ProjectLis
         mPresenter?.requestProjectList(1, cid)
     }
 
+    override fun onRefreshList() {
+        mAdapter.setEnableLoadMore(false)
+        mPresenter?.requestProjectList(1, cid)
+    }
+
+    override fun onLoadMoreList() {
+        val page = mAdapter.data.size / pageSize + 1
+        mPresenter?.requestProjectList(page, cid)
+    }
+
     override fun setProjectList(articles: ArticleResponseBody) {
         articles.datas.let {
-            projectAdapter.run {
+            mAdapter.run {
                 if (isRefresh) {
                     replaceData(it)
                 } else {
                     addData(it)
                 }
-                val size = it.size
-                if (size < articles.size) {
+                pageSize = articles.size
+                if (articles.over) {
                     loadMoreEnd(isRefresh)
                 } else {
                     loadMoreComplete()
                 }
-
             }
         }
-        if (projectAdapter.data.isEmpty()) {
+        if (mAdapter.data.isEmpty()) {
             mLayoutStatusView?.showEmpty()
         } else {
             mLayoutStatusView?.showContent()
@@ -177,25 +146,6 @@ class ProjectListFragment : BaseMvpFragment<ProjectListContract.View, ProjectLis
         if (success) {
             showToast(getString(R.string.collect_success))
         }
-    }
-
-    /**
-     * RefreshListener
-     */
-    private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
-        isRefresh = true
-        projectAdapter.setEnableLoadMore(false)
-        mPresenter?.requestProjectList(1, cid)
-    }
-
-    /**
-     * LoadMoreListener
-     */
-    private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
-        isRefresh = false
-        swipeRefreshLayout.isRefreshing = false
-        val page = projectAdapter.data.size / 15 + 1
-        mPresenter?.requestProjectList(page, cid)
     }
 
     /**
@@ -229,7 +179,7 @@ class ProjectListFragment : BaseMvpFragment<ProjectListContract.View, ProjectLis
                                 }
                                 val collect = data.collect
                                 data.collect = !collect
-                                projectAdapter.setData(position, data)
+                                mAdapter.setData(position, data)
                                 if (collect) {
                                     mPresenter?.cancelCollectArticle(data.id)
                                 } else {

@@ -1,24 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.cxz.multiplestatusview.MultipleStatusView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/multiple_status_view"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:emptyView="@layout/layout_empty_view"
-    app:errorView="@layout/layout_error_view"
-    app:loadingView="@layout/layout_loading_view"
-    app:noNetworkView="@layout/layout_network_view">
+    android:orientation="vertical">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/viewBackground">
+    <include layout="@layout/fragment_refresh_layout" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            style="@style/RecyclerViewStyle" />
-
-    </android.support.v4.widget.SwipeRefreshLayout>
-
-</com.cxz.multiplestatusview.MultipleStatusView>
+</LinearLayout>

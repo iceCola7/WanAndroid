@@ -1,15 +1,12 @@
 package com.cxz.wanandroid.ui.fragment
 
 import android.content.Intent
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.HomeAdapter
 import com.cxz.wanandroid.app.App
-import com.cxz.wanandroid.base.BaseMvpFragment
+import com.cxz.wanandroid.base.BaseMvpListFragment
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.ext.showSnackMsg
 import com.cxz.wanandroid.ext.showToast
@@ -20,7 +17,6 @@ import com.cxz.wanandroid.mvp.presenter.SquarePresenter
 import com.cxz.wanandroid.ui.activity.ContentActivity
 import com.cxz.wanandroid.ui.activity.LoginActivity
 import com.cxz.wanandroid.utils.NetWorkUtil
-import com.cxz.wanandroid.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 
 /**
@@ -28,9 +24,11 @@ import kotlinx.android.synthetic.main.fragment_refresh_layout.*
  * @date 2019/11/16
  * @desc 广场
  */
-class SquareFragment : BaseMvpFragment<SquareContract.View, SquarePresenter>(), SquareContract.View {
+class SquareFragment : BaseMvpListFragment<SquareContract.View, SquarePresenter>(), SquareContract.View {
 
-    private var pageSize = 20
+    companion object {
+        fun getInstance(): SquareFragment = SquareFragment()
+    }
 
     private val datas = mutableListOf<Article>()
 
@@ -38,70 +36,52 @@ class SquareFragment : BaseMvpFragment<SquareContract.View, SquarePresenter>(), 
         HomeAdapter(activity, datas)
     }
 
-    private var isRefresh = true
-
-    private val linearLayoutManager: LinearLayoutManager by lazy {
-        LinearLayoutManager(activity)
-    }
-
-    companion object {
-        fun getInstance(): SquareFragment = SquareFragment()
-    }
-
     override fun createPresenter(): SquarePresenter = SquarePresenter()
 
     override fun attachLayoutRes(): Int = R.layout.fragment_square
 
-    override fun showLoading() {
-        // swipeRefreshLayout.isRefreshing = isRefresh
-    }
-
     override fun hideLoading() {
-        swipeRefreshLayout?.isRefreshing = false
+        super.hideLoading()
         if (isRefresh) {
-            mAdapter.run {
-                setEnableLoadMore(true)
-            }
+            mAdapter.setEnableLoadMore(true)
         }
     }
 
     override fun showError(errorMsg: String) {
         super.showError(errorMsg)
-        mLayoutStatusView?.showError()
-        mAdapter.run {
-            if (isRefresh)
-                setEnableLoadMore(true)
-            else
-                loadMoreFail()
+        if (isRefresh) {
+            mAdapter.setEnableLoadMore(true)
+        } else {
+            mAdapter.loadMoreFail()
         }
     }
 
     override fun initView(view: View) {
         super.initView(view)
-        mLayoutStatusView = multiple_status_view
 
-        swipeRefreshLayout.run {
-            setOnRefreshListener(onRefreshListener)
-        }
-        recyclerView.run {
-            layoutManager = linearLayoutManager
-            adapter = mAdapter
-            itemAnimator = DefaultItemAnimator()
-            addItemDecoration(SpaceItemDecoration(activity!!))
-        }
+        recyclerView.adapter = mAdapter
+
         mAdapter.run {
             bindToRecyclerView(recyclerView)
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@SquareFragment.onItemClickListener
             onItemChildClickListener = this@SquareFragment.onItemChildClickListener
         }
-
-
     }
 
     override fun lazyLoad() {
         mLayoutStatusView?.showLoading()
         mPresenter?.getSquareList(0)
+    }
+
+    override fun onRefreshList() {
+        mAdapter.setEnableLoadMore(false)
+        mPresenter?.getSquareList(0)
+    }
+
+    override fun onLoadMoreList() {
+        val page = mAdapter.data.size / pageSize
+        mPresenter?.getSquareList(page)
     }
 
     override fun scrollToTop() {
@@ -123,7 +103,7 @@ class SquareFragment : BaseMvpFragment<SquareContract.View, SquarePresenter>(), 
                     addData(it)
                 }
                 pageSize = body.size
-                if (pageSize < body.size) {
+                if (body.over) {
                     loadMoreEnd(isRefresh)
                 } else {
                     loadMoreComplete()
@@ -147,25 +127,6 @@ class SquareFragment : BaseMvpFragment<SquareContract.View, SquarePresenter>(), 
         if (success) {
             showToast(resources.getString(R.string.cancel_collect_success))
         }
-    }
-
-    /**
-     * RefreshListener
-     */
-    private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
-        isRefresh = true
-        mAdapter.setEnableLoadMore(false)
-        mPresenter?.getSquareList(0)
-    }
-
-    /**
-     * LoadMoreListener
-     */
-    private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
-        isRefresh = false
-        swipeRefreshLayout.isRefreshing = false
-        val page = mAdapter.data.size / pageSize
-        mPresenter?.getSquareList(page)
     }
 
     /**

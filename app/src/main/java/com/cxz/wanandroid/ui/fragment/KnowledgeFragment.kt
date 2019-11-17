@@ -2,15 +2,13 @@ package com.cxz.wanandroid.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.KnowledgeAdapter
 import com.cxz.wanandroid.app.App
-import com.cxz.wanandroid.base.BaseMvpFragment
+import com.cxz.wanandroid.base.BaseMvpListFragment
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.ext.showSnackMsg
 import com.cxz.wanandroid.ext.showToast
@@ -27,7 +25,7 @@ import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 /**
  * Created by chenxz on 2018/5/10.
  */
-class KnowledgeFragment : BaseMvpFragment<KnowledgeContract.View, KnowledgeContract.Presenter>(), KnowledgeContract.View {
+class KnowledgeFragment : BaseMvpListFragment<KnowledgeContract.View, KnowledgeContract.Presenter>(), KnowledgeContract.View {
 
     companion object {
         fun getInstance(cid: Int): KnowledgeFragment {
@@ -38,8 +36,6 @@ class KnowledgeFragment : BaseMvpFragment<KnowledgeContract.View, KnowledgeContr
             return fragment
         }
     }
-
-    override fun createPresenter(): KnowledgeContract.Presenter = KnowledgePresenter()
 
     /**
      * cid
@@ -63,57 +59,29 @@ class KnowledgeFragment : BaseMvpFragment<KnowledgeContract.View, KnowledgeContr
     /**
      * Knowledge Adapter
      */
-    private val knowledgeAdapter: KnowledgeAdapter by lazy {
+    private val mAdapter: KnowledgeAdapter by lazy {
         KnowledgeAdapter(activity, datas)
     }
 
-    /**
-     * LinearLayoutManager
-     */
-    private val linearLayoutManager: LinearLayoutManager by lazy {
-        LinearLayoutManager(activity)
-    }
-
-    /**
-     * is Refresh
-     */
-    private var isRefresh = true
-
-    override fun showLoading() {
-        // swipeRefreshLayout.isRefreshing = isRefresh
-    }
-
     override fun hideLoading() {
-        swipeRefreshLayout?.isRefreshing = false
+        super.hideLoading()
         if (isRefresh) {
-            knowledgeAdapter.run {
-                setEnableLoadMore(true)
-            }
+            mAdapter.setEnableLoadMore(true)
         }
     }
 
     override fun showError(errorMsg: String) {
         super.showError(errorMsg)
-        mLayoutStatusView?.showError()
-        knowledgeAdapter.run {
-            if (isRefresh)
-                setEnableLoadMore(true)
-            else
-                loadMoreFail()
-        }
-    }
-
-    override fun scrollToTop() {
-        recyclerView.run {
-            if (linearLayoutManager.findFirstVisibleItemPosition() > 20) {
-                scrollToPosition(0)
-            } else {
-                smoothScrollToPosition(0)
-            }
+        if (isRefresh) {
+            mAdapter.setEnableLoadMore(true)
+        } else {
+            mAdapter.loadMoreFail()
         }
     }
 
     override fun attachLayoutRes(): Int = R.layout.fragment_refresh_layout
+
+    override fun createPresenter(): KnowledgeContract.Presenter = KnowledgePresenter()
 
     override fun initView(view: View) {
         super.initView(view)
@@ -124,12 +92,12 @@ class KnowledgeFragment : BaseMvpFragment<KnowledgeContract.View, KnowledgeContr
         }
         recyclerView.run {
             layoutManager = linearLayoutManager
-            adapter = knowledgeAdapter
+            adapter = mAdapter
             itemAnimator = DefaultItemAnimator()
             recyclerViewItemDecoration?.let { addItemDecoration(it) }
         }
 
-        knowledgeAdapter.run {
+        mAdapter.run {
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@KnowledgeFragment.onItemClickListener
             onItemChildClickListener = this@KnowledgeFragment.onItemChildClickListener
@@ -140,6 +108,16 @@ class KnowledgeFragment : BaseMvpFragment<KnowledgeContract.View, KnowledgeContr
     override fun lazyLoad() {
         mLayoutStatusView?.showLoading()
         mPresenter?.requestKnowledgeList(0, cid)
+    }
+
+    override fun onRefreshList() {
+        mAdapter.setEnableLoadMore(false)
+        mPresenter?.requestKnowledgeList(0, cid)
+    }
+
+    override fun onLoadMoreList() {
+        val page = mAdapter.data.size / pageSize
+        mPresenter?.requestKnowledgeList(page, cid)
     }
 
     override fun showCancelCollectSuccess(success: Boolean) {
@@ -156,44 +134,35 @@ class KnowledgeFragment : BaseMvpFragment<KnowledgeContract.View, KnowledgeContr
 
     override fun setKnowledgeList(articles: ArticleResponseBody) {
         articles.datas.let {
-            knowledgeAdapter.run {
+            mAdapter.run {
                 if (isRefresh) {
                     replaceData(it)
                 } else {
                     addData(it)
                 }
-                val size = it.size
-                if (size < articles.size) {
+                pageSize = articles.size
+                if (articles.over) {
                     loadMoreEnd(isRefresh)
                 } else {
                     loadMoreComplete()
                 }
             }
         }
-        if (knowledgeAdapter.data.isEmpty()) {
+        if (mAdapter.data.isEmpty()) {
             mLayoutStatusView?.showEmpty()
         } else {
             mLayoutStatusView?.showContent()
         }
     }
 
-    /**
-     * RefreshListener
-     */
-    private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
-        isRefresh = true
-        knowledgeAdapter.setEnableLoadMore(false)
-        mPresenter?.requestKnowledgeList(0, cid)
-    }
-
-    /**
-     * LoadMoreListener
-     */
-    private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
-        isRefresh = false
-        swipeRefreshLayout.isRefreshing = false
-        val page = knowledgeAdapter.data.size / 20
-        mPresenter?.requestKnowledgeList(page, cid)
+    override fun scrollToTop() {
+        recyclerView.run {
+            if (linearLayoutManager.findFirstVisibleItemPosition() > 20) {
+                scrollToPosition(0)
+            } else {
+                smoothScrollToPosition(0)
+            }
+        }
     }
 
     /**
@@ -227,7 +196,7 @@ class KnowledgeFragment : BaseMvpFragment<KnowledgeContract.View, KnowledgeContr
                                 }
                                 val collect = data.collect
                                 data.collect = !collect
-                                knowledgeAdapter.setData(position, data)
+                                mAdapter.setData(position, data)
                                 if (collect) {
                                     mPresenter?.cancelCollectArticle(data.id)
                                 } else {
