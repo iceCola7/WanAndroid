@@ -1,6 +1,9 @@
 package com.cxz.wanandroid.ui.fragment
 
 import android.content.Intent
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
@@ -14,6 +17,7 @@ import com.cxz.wanandroid.mvp.contract.SquareContract
 import com.cxz.wanandroid.mvp.model.bean.Article
 import com.cxz.wanandroid.mvp.model.bean.ArticleResponseBody
 import com.cxz.wanandroid.mvp.presenter.SquarePresenter
+import com.cxz.wanandroid.ui.activity.CommonActivity
 import com.cxz.wanandroid.ui.activity.ContentActivity
 import com.cxz.wanandroid.ui.activity.LoginActivity
 import com.cxz.wanandroid.utils.NetWorkUtil
@@ -57,6 +61,7 @@ class SquareFragment : BaseMvpListFragment<SquareContract.View, SquarePresenter>
     }
 
     override fun initView(view: View) {
+        setHasOptionsMenu(true)
         super.initView(view)
 
         recyclerView.adapter = mAdapter
@@ -82,6 +87,23 @@ class SquareFragment : BaseMvpListFragment<SquareContract.View, SquarePresenter>
     override fun onLoadMoreList() {
         val page = mAdapter.data.size / pageSize
         mPresenter?.getSquareList(page)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.menu_square, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.action_add -> {
+                Intent(activity, CommonActivity::class.java).run {
+                    putExtra(Constant.TYPE_KEY, Constant.Type.SHARE_ARTICLE_TYPE_KEY)
+                    startActivity(this)
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun scrollToTop() {
