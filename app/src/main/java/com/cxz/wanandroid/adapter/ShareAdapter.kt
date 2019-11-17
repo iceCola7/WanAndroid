@@ -67,5 +67,13 @@ class ShareAdapter(datas: MutableList<Article>)
         } else {
             tv_article_tag.visibility = View.GONE
         }
+        val tv_article_audit = helper.getView<TextView>(R.id.tv_article_audit)
+        if (item.audit == 0) {
+            tv_article_audit.visibility = View.VISIBLE
+            tv_article_audit.text = mContext.getString(R.string.audited)
+        } else {
+            tv_article_audit.visibility = View.GONE
+        }
+
     }
 }

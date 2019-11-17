@@ -13,6 +13,7 @@ import com.cxz.wanandroid.adapter.ShareAdapter
 import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.base.BaseMvpSwipeBackActivity
 import com.cxz.wanandroid.constant.Constant
+import com.cxz.wanandroid.event.RefreshShareEvent
 import com.cxz.wanandroid.ext.showSnackMsg
 import com.cxz.wanandroid.mvp.contract.ShareContract
 import com.cxz.wanandroid.mvp.model.bean.Article
@@ -24,27 +25,25 @@ import com.cxz.wanandroid.widget.SpaceItemDecoration
 import com.cxz.wanandroid.widget.SwipeItemLayout
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import kotlinx.android.synthetic.main.toolbar.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 /**
  * @author chenxz
  * @date 2019/11/15
  * @desc 我的分享
  */
-class ShareActivity : BaseMvpSwipeBackActivity<ShareContract.View, SharePresenter>()
-        , ShareContract.View {
+class ShareActivity : BaseMvpSwipeBackActivity<ShareContract.View, SharePresenter>(), ShareContract.View {
 
     private var pageSize = 20
+
+    private var isRefresh = true
+
     private val datas = mutableListOf<Article>()
 
     private val shareAdapter: ShareAdapter by lazy {
         ShareAdapter(datas)
     }
-
-    private var isRefresh = true
-
-    override fun createPresenter(): SharePresenter = SharePresenter()
-
-    override fun attachLayoutRes(): Int = R.layout.activity_share
 
     override fun showLoading() {
         // swipeRefreshLayout.isRefreshing = isRefresh
@@ -66,6 +65,12 @@ class ShareActivity : BaseMvpSwipeBackActivity<ShareContract.View, SharePresente
             shareAdapter.loadMoreFail()
         }
     }
+
+    override fun createPresenter(): SharePresenter = SharePresenter()
+
+    override fun attachLayoutRes(): Int = R.layout.activity_share
+
+    override fun useEventBus(): Boolean = true
 
     override fun initData() {
     }
@@ -100,6 +105,13 @@ class ShareActivity : BaseMvpSwipeBackActivity<ShareContract.View, SharePresente
     override fun start() {
         mLayoutStatusView?.showLoading()
         mPresenter?.getShareList(1)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onRefreshShare(event: RefreshShareEvent) {
+        if (event.isRefresh) {
+            start()
+        }
     }
 
     override fun showShareList(body: ShareResponseBody) {

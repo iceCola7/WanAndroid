@@ -6,9 +6,11 @@ import android.view.MenuItem
 import android.view.View
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.base.BaseMvpFragment
+import com.cxz.wanandroid.event.RefreshShareEvent
 import com.cxz.wanandroid.mvp.contract.ShareArticleContract
 import com.cxz.wanandroid.mvp.presenter.ShareArticlePresenter
 import kotlinx.android.synthetic.main.fragment_share_article.*
+import org.greenrobot.eventbus.EventBus
 
 /**
  * @author chenxz
@@ -41,6 +43,8 @@ class ShareArticleFragment : BaseMvpFragment<ShareArticleContract.View, ShareArt
     override fun showShareArticle(success: Boolean) {
         if (success) {
             showDefaultMsg(getString(R.string.share_success))
+            EventBus.getDefault().post(RefreshShareEvent(true))
+            activity?.finish()
         }
     }
 

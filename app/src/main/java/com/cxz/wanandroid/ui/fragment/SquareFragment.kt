@@ -11,6 +11,7 @@ import com.cxz.wanandroid.adapter.HomeAdapter
 import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.base.BaseMvpListFragment
 import com.cxz.wanandroid.constant.Constant
+import com.cxz.wanandroid.event.RefreshShareEvent
 import com.cxz.wanandroid.ext.showSnackMsg
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.SquareContract
@@ -22,6 +23,8 @@ import com.cxz.wanandroid.ui.activity.ContentActivity
 import com.cxz.wanandroid.ui.activity.LoginActivity
 import com.cxz.wanandroid.utils.NetWorkUtil
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 /**
  * @author chenxz
@@ -43,6 +46,8 @@ class SquareFragment : BaseMvpListFragment<SquareContract.View, SquarePresenter>
     override fun createPresenter(): SquarePresenter = SquarePresenter()
 
     override fun attachLayoutRes(): Int = R.layout.fragment_square
+
+    override fun useEventBus(): Boolean = true
 
     override fun hideLoading() {
         super.hideLoading()
@@ -87,6 +92,13 @@ class SquareFragment : BaseMvpListFragment<SquareContract.View, SquarePresenter>
     override fun onLoadMoreList() {
         val page = mAdapter.data.size / pageSize
         mPresenter?.getSquareList(page)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onRefreshShare(event: RefreshShareEvent) {
+        if (event.isRefresh) {
+            lazyLoad()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {

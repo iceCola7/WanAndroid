@@ -170,5 +170,6 @@
     <string name="share_article_link_tip">eg：https://www.wanandroid.com</string>
     <string name="share_success">Share Success</string>
     <string name="share_article_delete">Shared articles deleted</string>
+    <string name="audited">To be audited</string>
 
 </resources>

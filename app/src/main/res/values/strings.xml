@@ -170,5 +170,6 @@
     <string name="share_article_link_tip">例如：https://www.wanandroid.com</string>
     <string name="share_success">分享成功</string>
     <string name="share_article_delete">已删除分享的文章</string>
+    <string name="audited">待审核</string>
 
 </resources>
