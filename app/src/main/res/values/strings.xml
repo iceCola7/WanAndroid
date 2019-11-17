@@ -3,7 +3,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="home">首页</string>
-    <string name="knowledge_system">知识体系</string>
+    <string name="knowledge_system">体系</string>
     <string name="navigation">导航</string>
     <string name="project">项目</string>
     <string name="wechat">公众号</string>
@@ -161,6 +161,7 @@
     <string name="priority_1">重要</string>
 
     <!-- 广场 -->
+    <string name="square">广场</string>
     <string name="my_share">我的分享</string>
     <string name="share_article">分享文章</string>
     <string name="share_article_title">文章标题</string>

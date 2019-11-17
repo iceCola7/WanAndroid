@@ -3,7 +3,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="home">Home</string>
-    <string name="knowledge_system">Knowledge</string>
+    <string name="knowledge_system">System</string>
     <string name="navigation">Navigation</string>
     <string name="project">Project</string>
     <string name="wechat">WeChat</string>
@@ -161,6 +161,7 @@
     <string name="priority_1">important</string>
 
     <!-- 广场 -->
+    <string name="square">Square</string>
     <string name="my_share">My Share</string>
     <string name="share_article">Share Article</string>
     <string name="share_article_title">Article Title</string>

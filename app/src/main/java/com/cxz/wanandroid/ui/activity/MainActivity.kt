@@ -47,14 +47,18 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
     private val FRAGMENT_NAVIGATION = 0x03
     private val FRAGMENT_PROJECT = 0x04
     private val FRAGMENT_WECHAT = 0x05
+    private val FRAGMENT_SQUARE = 0x06
+    private val FRAGMENT_SYSTEM = 0x07
 
     private var mIndex = FRAGMENT_HOME
 
     private var mHomeFragment: HomeFragment? = null
+    private var mSquareFragment: SquareFragment? = null
     private var mKnowledgeTreeFragment: KnowledgeTreeFragment? = null
     private var mNavigationFragment: NavigationFragment? = null
     private var mProjectFragment: ProjectFragment? = null
     private var mWeChatFragment: WeChatFragment? = null
+    private var mSystemFragment: SystemFragment? = null
 
     override fun createPresenter(): MainContract.Presenter = MainPresenter()
 
@@ -261,6 +265,16 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
                     transaction.show(mHomeFragment!!)
                 }
             }
+            FRAGMENT_SQUARE  // 广场
+            -> {
+                toolbar.title = getString(R.string.square)
+                if (mSquareFragment == null) {
+                    mSquareFragment = SquareFragment.getInstance()
+                    transaction.add(R.id.container, mSquareFragment!!, "square")
+                } else {
+                    transaction.show(mSquareFragment!!)
+                }
+            }
             FRAGMENT_KNOWLEDGE // 知识体系
             -> {
                 toolbar.title = getString(R.string.knowledge_system)
@@ -279,6 +293,16 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
                     transaction.add(R.id.container, mNavigationFragment!!, "navigation")
                 } else {
                     transaction.show(mNavigationFragment!!)
+                }
+            }
+            FRAGMENT_SYSTEM // 体系
+            -> {
+                toolbar.title = getString(R.string.knowledge_system)
+                if (mSystemFragment == null) {
+                    mSystemFragment = SystemFragment.getInstance()
+                    transaction.add(R.id.container, mSystemFragment!!, "system")
+                } else {
+                    transaction.show(mSystemFragment!!)
                 }
             }
             FRAGMENT_PROJECT // 项目
@@ -310,6 +334,8 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
      */
     private fun hideFragments(transaction: FragmentTransaction) {
         mHomeFragment?.let { transaction.hide(it) }
+        mSquareFragment?.let { transaction.hide(it) }
+        mSystemFragment?.let { transaction.hide(it) }
         mKnowledgeTreeFragment?.let { transaction.hide(it) }
         mNavigationFragment?.let { transaction.hide(it) }
         mProjectFragment?.let { transaction.hide(it) }
@@ -326,14 +352,18 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
                         showFragment(FRAGMENT_HOME)
                         true
                     }
+                    R.id.action_square -> {
+                        showFragment(FRAGMENT_SQUARE)
+                        true
+                    }
                     R.id.action_knowledge_system -> {
-                        showFragment(FRAGMENT_KNOWLEDGE)
+                        showFragment(FRAGMENT_SYSTEM)
                         true
                     }
-                    R.id.action_navigation -> {
-                        showFragment(FRAGMENT_NAVIGATION)
-                        true
-                    }
+//                    R.id.action_navigation -> {
+//                        showFragment(FRAGMENT_NAVIGATION)
+//                        true
+//                    }
                     R.id.action_project -> {
                         showFragment(FRAGMENT_PROJECT)
                         true
@@ -441,6 +471,12 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
             if (mHomeFragment != null) {
                 fragmentTransaction.remove(mHomeFragment!!)
             }
+            if (mSquareFragment != null) {
+                fragmentTransaction.remove(mSquareFragment!!)
+            }
+            if ( mSystemFragment!= null) {
+                fragmentTransaction.remove(mSystemFragment!!)
+            }
             if (mKnowledgeTreeFragment != null) {
                 fragmentTransaction.remove(mKnowledgeTreeFragment!!)
             }
@@ -502,8 +538,14 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
             FRAGMENT_HOME -> {
                 mHomeFragment?.scrollToTop()
             }
+            FRAGMENT_SQUARE -> {
+                mSquareFragment?.scrollToTop()
+            }
             FRAGMENT_KNOWLEDGE -> {
                 mKnowledgeTreeFragment?.scrollToTop()
+            }
+            FRAGMENT_SYSTEM -> {
+                mSystemFragment?.scrollToTop()
             }
             FRAGMENT_NAVIGATION -> {
                 mNavigationFragment?.scrollToTop()
@@ -552,6 +594,8 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
     override fun onDestroy() {
         super.onDestroy()
         mHomeFragment = null
+        mSquareFragment = null
+        mSystemFragment = null
         mNavigationFragment = null
         mKnowledgeTreeFragment = null
         mProjectFragment = null
