@@ -122,7 +122,7 @@ class SquareFragment : BaseMvpFragment<SquareContract.View, SquarePresenter>(), 
                 } else {
                     addData(it)
                 }
-                pageSize = it.size
+                pageSize = body.size
                 if (pageSize < body.size) {
                     loadMoreEnd(isRefresh)
                 } else {
