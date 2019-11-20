@@ -58,6 +58,8 @@
     <dimen name="dp_230">230dp</dimen>
     <dimen name="dp_240">240dp</dimen>
     <dimen name="dp_260">260dp</dimen>
+    <dimen name="dp_280">280dp</dimen>
+    <dimen name="dp_300">300dp</dimen>
 
     <!-- sp -->
     <dimen name="sp_8">8sp</dimen>

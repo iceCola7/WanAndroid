@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true">
 
     <LinearLayout
-        android:layout_width="@dimen/dp_260"
+        android:layout_width="@dimen/dp_300"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
