@@ -178,14 +178,8 @@ class ShareActivity : BaseMvpSwipeBackActivity<ShareContract.View, SharePresente
      * ItemClickListener
      */
     private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
-        if (datas.size != 0) {
+        if (datas.isNotEmpty()) {
             val data = datas[position]
-            Intent(this, ContentActivity::class.java).run {
-                putExtra(Constant.CONTENT_URL_KEY, data.link)
-                putExtra(Constant.CONTENT_TITLE_KEY, data.title)
-                putExtra(Constant.CONTENT_ID_KEY, data.id)
-                startActivity(this)
-            }
         }
     }
 
@@ -198,9 +192,17 @@ class ShareActivity : BaseMvpSwipeBackActivity<ShareContract.View, SharePresente
                     showSnackMsg(resources.getString(R.string.no_network))
                     return@OnItemChildClickListener
                 }
-                if (datas.size != 0) {
+                if (datas.isNotEmpty()) {
                     val data = datas[position]
                     when (view.id) {
+                        R.id.rl_content -> {
+                            Intent(this, ContentActivity::class.java).run {
+                                putExtra(Constant.CONTENT_URL_KEY, data.link)
+                                putExtra(Constant.CONTENT_TITLE_KEY, data.title)
+                                putExtra(Constant.CONTENT_ID_KEY, data.id)
+                                startActivity(this)
+                            }
+                        }
                         R.id.iv_like -> {
                             if (isLogin) {
                                 val collect = data.collect

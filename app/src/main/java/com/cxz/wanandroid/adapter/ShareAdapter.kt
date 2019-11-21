@@ -25,11 +25,10 @@ class ShareAdapter(datas: MutableList<Article>)
         helper.setText(R.id.tv_article_title, Html.fromHtml(item.title))
                 .setText(R.id.tv_article_author, authorStr)
                 .setText(R.id.tv_article_date, item.niceDate)
-                .setImageResource(R.id.iv_like,
-                        if (item.collect) R.drawable.ic_like else R.drawable.ic_like_not
-                )
+                .setImageResource(R.id.iv_like, if (item.collect) R.drawable.ic_like else R.drawable.ic_like_not)
                 .addOnClickListener(R.id.iv_like)
                 .addOnClickListener(R.id.btn_delete)
+                .addOnClickListener(R.id.rl_content)
         val chapterName = when {
             item.superChapterName.isNotEmpty() and item.chapterName.isNotEmpty() ->
                 "${item.superChapterName} / ${item.chapterName}"
