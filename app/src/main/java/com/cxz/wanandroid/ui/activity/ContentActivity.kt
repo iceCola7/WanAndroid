@@ -22,8 +22,8 @@ import com.cxz.wanandroid.ext.loge
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.ContentContract
 import com.cxz.wanandroid.mvp.presenter.ContentPresenter
+import com.cxz.wanandroid.widget.NestedScrollAgentWebView
 import com.just.agentweb.AgentWeb
-import com.just.agentweb.NestedScrollAgentWebView
 import kotlinx.android.synthetic.main.activity_content.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.greenrobot.eventbus.EventBus

@@ -12,6 +12,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.TextView
 import com.cxz.wanandroid.R
+import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.widget.CustomToast
 import com.just.agentweb.AgentWeb
 import com.just.agentweb.DefaultWebClient
@@ -25,7 +26,7 @@ import java.util.*
  * Log
  */
 fun Any.loge(content: String?) {
-    loge(this.javaClass.simpleName, content ?: "")
+    loge(this.javaClass.simpleName ?: App.TAG, content ?: "")
 }
 
 fun loge(tag: String, content: String?) {

@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import com.just.agentweb.AgentWebView
 
+
 /**
  * @author chenxz
  * @date 2018/11/14
@@ -18,10 +19,10 @@ class NestedScrollAgentWebView : AgentWebView, NestedScrollingChild {
 
     private var mChildHelper: NestedScrollingChildHelper = NestedScrollingChildHelper(this)
 
-    private var mLastMotionY: Int = 0
+    private var mLastMotionY: Float = 0f
     private val mScrollOffset = IntArray(2)
     private val mScrollConsumed = IntArray(2)
-    private var mNestedYOffset: Int = 0
+    private var mNestedYOffset: Float = 0f
 
     constructor(context: Context?) : this(context, null)
 
@@ -39,10 +40,10 @@ class NestedScrollAgentWebView : AgentWebView, NestedScrollingChild {
         val action = MotionEventCompat.getActionMasked(event)
 
         if (action == MotionEvent.ACTION_DOWN) {
-            mNestedYOffset = 0
+            mNestedYOffset = 0f
         }
-        val y = event.y.toInt()
-        event.offsetLocation(0f, mNestedYOffset.toFloat())
+        val y = event.y
+        event.offsetLocation(0f, mNestedYOffset)
         when (action) {
             MotionEvent.ACTION_DOWN -> {
                 mLastMotionY = y
@@ -50,8 +51,7 @@ class NestedScrollAgentWebView : AgentWebView, NestedScrollingChild {
                 result = super.onTouchEvent(event)
             }
             MotionEvent.ACTION_MOVE -> {
-                var deltaY = mLastMotionY - y
-
+                var deltaY = (mLastMotionY - y).toInt()
                 if (dispatchNestedPreScroll(0, deltaY, mScrollConsumed, mScrollOffset)) {
                     deltaY -= mScrollConsumed[1]
                     trackedEvent.offsetLocation(0f, mScrollOffset[1].toFloat())

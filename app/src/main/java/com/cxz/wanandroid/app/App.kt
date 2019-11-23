@@ -37,7 +37,7 @@ class App : Application() {
     private var refWatcher: RefWatcher? = null
 
     companion object {
-        private val TAG = "App"
+        val TAG = "wan_android"
 
         var context: Context by Delegates.notNull()
             private set
@@ -203,7 +203,7 @@ class App : Application() {
             .showThreadInfo(false)  // 隐藏线程信息 默认：显示
             .methodCount(0)         // 决定打印多少行（每一行代表一个方法）默认：2
             .methodOffset(7)        // (Optional) Hides internal method calls up to offset. Default 5
-            .tag("wan_android")   // (Optional) Global tag for every log. Default PRETTY_LOGGER
+            .tag(TAG)   // (Optional) Global tag for every log. Default PRETTY_LOGGER
             .build()
         Logger.addLogAdapter(object : AndroidLogAdapter(formatStrategy) {
             override fun isLoggable(priority: Int, tag: String?): Boolean {
