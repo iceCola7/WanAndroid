@@ -1,27 +1,26 @@
 package com.cxz.wanandroid.ui.activity
 
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
-import android.net.http.SslError
 import android.os.Build
-import android.support.annotation.RequiresApi
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.webkit.*
+import android.webkit.WebChromeClient
+import android.webkit.WebSettings
+import android.webkit.WebView
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.base.BaseMvpSwipeBackActivity
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.RefreshHomeEvent
 import com.cxz.wanandroid.ext.getAgentWeb
-import com.cxz.wanandroid.ext.loge
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.ContentContract
 import com.cxz.wanandroid.mvp.presenter.ContentPresenter
+import com.cxz.wanandroid.webclient.WebClientFactory
 import com.cxz.wanandroid.widget.NestedScrollAgentWebView
 import com.just.agentweb.AgentWeb
 import kotlinx.android.synthetic.main.activity_content.*
@@ -29,8 +28,6 @@ import kotlinx.android.synthetic.main.toolbar.*
 import org.greenrobot.eventbus.EventBus
 
 class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentContract.Presenter>(), ContentContract.View {
-
-    private val TAG = "ContentActivity"
 
     private var mAgentWeb: AgentWeb? = null
 
@@ -85,14 +82,18 @@ class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentCo
                 cl_main,
                 layoutParams,
                 webView,
-                mWebViewClient,
+                WebClientFactory.create(shareUrl),
                 mWebChromeClient,
                 mThemeColor)
+
+        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        //    WebView.setWebContentsDebuggingEnabled(true)
+        //}
 
         mAgentWeb?.webCreator?.webView?.apply {
             overScrollMode = WebView.OVER_SCROLL_NEVER
             settings.domStorageEnabled = true
-            settings.javaScriptEnabled = false
+            settings.javaScriptEnabled = true
             settings.loadsImagesAutomatically = true
             settings.useWideViewPort = true
             settings.loadWithOverviewMode = true
@@ -104,83 +105,6 @@ class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentCo
     }
 
     override fun start() {}
-
-    private val mWebViewClient = object : WebViewClient() {
-
-        // 拦截的网址
-        private val blackHostList = arrayListOf(
-                "www.taobao.com",
-                "www.jd.com",
-                "yun.tuisnake.com",
-                "yun.lvehaisen.com",
-                "yun.tuitiger.com"
-        )
-
-        fun isBlackHost(host: String): Boolean {
-            for (blackHost in blackHostList) {
-                if (blackHost == host) {
-                    return true
-                }
-            }
-            return false
-        }
-
-        private fun shouldInterceptRequest(uri: Uri?): Boolean {
-            if (uri != null) {
-                val host = uri.host ?: ""
-                return isBlackHost(host)
-            }
-            return false
-        }
-
-        private fun shouldOverrideUrlLoading(uri: Uri?): Boolean {
-            if (uri != null) {
-                val host = uri.host ?: ""
-                return isBlackHost(host)
-            }
-            return false
-        }
-
-        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-        override fun shouldInterceptRequest(view: WebView?, request: WebResourceRequest?): WebResourceResponse? {
-            if (shouldInterceptRequest(request?.url)) {
-                return WebResourceResponse(null, null, null)
-            }
-            return super.shouldInterceptRequest(view, request)
-        }
-
-        override fun shouldInterceptRequest(view: WebView?, url: String?): WebResourceResponse? {
-            if (shouldInterceptRequest(Uri.parse(url))) {
-                return WebResourceResponse(null, null, null)
-            }
-            return super.shouldInterceptRequest(view, url)
-        }
-
-        override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-            return shouldOverrideUrlLoading(Uri.parse(url))
-        }
-
-        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-        override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-            return shouldOverrideUrlLoading(request?.url)
-        }
-
-        override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-            super.onPageStarted(view, url, favicon)
-            loge(TAG, "onPageStarted---->>$url")
-        }
-
-        override fun onPageFinished(view: WebView?, url: String?) {
-            super.onPageFinished(view, url)
-            loge(TAG, "onPageFinished---->>$url")
-        }
-
-        override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
-            // super.onReceivedSslError(view, handler, error)
-            handler?.proceed()
-        }
-
-    }
 
     private val mWebChromeClient = object : WebChromeClient() {
         override fun onReceivedTitle(view: WebView, title: String) {
