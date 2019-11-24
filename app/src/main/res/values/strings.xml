@@ -77,6 +77,7 @@
 
     <!-- Collect -->
     <string name="collect">收藏</string>
+    <string name="anonymous">匿名</string>
 
     <!-- Search -->
     <string name="search_tint">发现更多干货</string>

@@ -77,6 +77,7 @@
 
     <!-- Collect -->
     <string name="collect">Collect</string>
+    <string name="anonymous">anonymous</string>
 
     <!-- Search -->
     <string name="search_tint">Find more dry goods</string>

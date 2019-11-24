@@ -15,12 +15,18 @@ import com.cxz.wanandroid.utils.ImageLoader
  */
 class CollectAdapter(private val context: Context?, datas: MutableList<CollectionArticle>)
     : BaseQuickAdapter<CollectionArticle, BaseViewHolder>(R.layout.item_collect_list, datas) {
-    override fun convert(helper: BaseViewHolder?, item: CollectionArticle?) {
 
+    override fun convert(helper: BaseViewHolder?, item: CollectionArticle?) {
         helper ?: return
         item ?: return
+
+        val authorStr = when {
+            item.author.isNotEmpty() -> item.author
+            else -> mContext.getString(R.string.anonymous)
+        }
+
         helper.setText(R.id.tv_article_title, Html.fromHtml(item.title))
-                .setText(R.id.tv_article_author, item.author)
+                .setText(R.id.tv_article_author, authorStr)
                 .setText(R.id.tv_article_date, item.niceDate)
                 .setImageResource(R.id.iv_like, R.drawable.ic_like)
                 .addOnClickListener(R.id.iv_like)
