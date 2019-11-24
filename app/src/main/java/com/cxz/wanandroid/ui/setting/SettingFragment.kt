@@ -15,6 +15,7 @@ import com.cxz.wanandroid.event.RefreshHomeEvent
 import com.cxz.wanandroid.ext.showSnackMsg
 import com.cxz.wanandroid.rx.SchedulerUtils
 import com.cxz.wanandroid.ui.activity.CommonActivity
+import com.cxz.wanandroid.ui.activity.ContentActivity
 import com.cxz.wanandroid.utils.CacheDataUtil
 import com.cxz.wanandroid.widget.IconPreference
 import com.tencent.bugly.beta.Beta
@@ -104,7 +105,8 @@ class SettingFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferen
         }
 
         findPreference("official_website").setOnPreferenceClickListener {
-            context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.official_website_url))))
+            // context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.official_website_url))))
+            ContentActivity.start(activity, getString(R.string.official_website_url))
             false
         }
 
@@ -117,12 +119,14 @@ class SettingFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferen
         }
 
         findPreference("changelog").setOnPreferenceClickListener {
-            context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.changelog_url))))
+            // context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.changelog_url))))
+            ContentActivity.start(activity, getString(R.string.changelog_url))
             false
         }
 
         findPreference("sourceCode").onPreferenceClickListener = Preference.OnPreferenceClickListener {
-            context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.source_code_url))))
+            // context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.source_code_url))))
+            ContentActivity.start(activity, getString(R.string.source_code_url))
             false
         }
 

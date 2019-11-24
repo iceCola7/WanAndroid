@@ -1,8 +1,10 @@
 package com.cxz.wanandroid.ui.activity
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
 import android.view.KeyEvent
@@ -34,6 +36,23 @@ class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentCo
     private var shareTitle: String = ""
     private var shareUrl: String = ""
     private var shareId: Int = -1
+
+    companion object {
+
+        fun start(context: Context?, id: Int, title: String, url: String, bundle: Bundle? = null) {
+            Intent(context, ContentActivity::class.java).run {
+                putExtra(Constant.CONTENT_ID_KEY, id)
+                putExtra(Constant.CONTENT_TITLE_KEY, title)
+                putExtra(Constant.CONTENT_URL_KEY, url)
+                context?.startActivity(this, bundle)
+            }
+        }
+
+        fun start(context: Context?, url: String) {
+            start(context, -1, "", url)
+        }
+
+    }
 
     override fun createPresenter(): ContentContract.Presenter = ContentPresenter()
 
@@ -137,12 +156,10 @@ class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentCo
             R.id.action_share -> {
                 Intent().run {
                     action = Intent.ACTION_SEND
-                    putExtra(
-                            Intent.EXTRA_TEXT, getString(
+                    putExtra(Intent.EXTRA_TEXT, getString(
                             R.string.share_article_url,
                             getString(R.string.app_name), shareTitle, shareUrl
-                    )
-                    )
+                    ))
                     type = Constant.CONTENT_SHARE_TYPE
                     startActivity(Intent.createChooser(this, getString(R.string.action_share)))
                 }
@@ -150,6 +167,7 @@ class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentCo
             }
             R.id.action_like -> {
                 if (isLogin) {
+                    if (shareId == -1) return true
                     mPresenter?.addCollectArticle(shareId)
                 } else {
                     Intent(this, LoginActivity::class.java).run {
@@ -167,7 +185,6 @@ class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentCo
                 }
                 return true
             }
-
         }
         return super.onOptionsItemSelected(item)
     }

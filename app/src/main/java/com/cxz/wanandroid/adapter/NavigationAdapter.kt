@@ -2,14 +2,12 @@ package com.cxz.wanandroid.adapter
 
 import android.app.ActivityOptions
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.cxz.wanandroid.R
-import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.mvp.model.bean.Article
 import com.cxz.wanandroid.mvp.model.bean.NavigationBean
 import com.cxz.wanandroid.ui.activity.ContentActivity
@@ -39,7 +37,7 @@ class NavigationAdapter(context: Context?, datas: MutableList<NavigationBean>)
 
                     article ?: return null
 
-                    val padding: Int = DisplayManager.dip2px(10F)!!
+                    val padding: Int = DisplayManager.dip2px(10F)
                     tv.setPadding(padding, padding, padding, padding)
                     tv.text = article.title
                     tv.setTextColor(CommonUtil.randomColor())
@@ -50,13 +48,8 @@ class NavigationAdapter(context: Context?, datas: MutableList<NavigationBean>)
                                 view.height / 2,
                                 0,
                                 0)
-                        var data: Article = articles[position]
-                        Intent(context, ContentActivity::class.java).run {
-                            putExtra(Constant.CONTENT_URL_KEY, data.link)
-                            putExtra(Constant.CONTENT_TITLE_KEY, data.title)
-                            putExtra(Constant.CONTENT_ID_KEY, data.id)
-                            context.startActivity(this, options.toBundle())
-                        }
+                        val data: Article = articles[position]
+                        ContentActivity.start(context, data.id, data.title, data.link, options.toBundle())
                         true
                     }
                     return tv

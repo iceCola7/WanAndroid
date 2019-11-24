@@ -1,6 +1,5 @@
 package com.cxz.wanandroid.ui.fragment
 
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
@@ -8,7 +7,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.CollectAdapter
 import com.cxz.wanandroid.base.BaseMvpListFragment
-import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.ColorEvent
 import com.cxz.wanandroid.event.RefreshHomeEvent
 import com.cxz.wanandroid.ext.showToast
@@ -156,12 +154,7 @@ class CollectFragment : BaseMvpListFragment<CollectContract.View, CollectContrac
     private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
         if (datas.size != 0) {
             val data = datas[position]
-            Intent(activity, ContentActivity::class.java).run {
-                putExtra(Constant.CONTENT_URL_KEY, data.link)
-                putExtra(Constant.CONTENT_TITLE_KEY, data.title)
-                putExtra(Constant.CONTENT_ID_KEY, data.id)
-                startActivity(this)
-            }
+            ContentActivity.start(activity, data.id, data.title, data.link)
         }
     }
 

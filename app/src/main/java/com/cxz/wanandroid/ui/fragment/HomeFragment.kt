@@ -12,7 +12,6 @@ import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.HomeAdapter
 import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.base.BaseMvpFragment
-import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.ext.showSnackMsg
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.HomeContract
@@ -237,12 +236,7 @@ class HomeFragment : BaseMvpFragment<HomeContract.View, HomeContract.Presenter>(
     private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
         if (datas.size != 0) {
             val data = datas[position]
-            Intent(activity, ContentActivity::class.java).run {
-                putExtra(Constant.CONTENT_URL_KEY, data.link)
-                putExtra(Constant.CONTENT_TITLE_KEY, data.title)
-                putExtra(Constant.CONTENT_ID_KEY, data.id)
-                startActivity(this)
-            }
+            ContentActivity.start(activity, data.id, data.title, data.link)
         }
     }
 
@@ -252,12 +246,7 @@ class HomeFragment : BaseMvpFragment<HomeContract.View, HomeContract.Presenter>(
     private val bannerDelegate = BGABanner.Delegate<ImageView, String> { banner, imageView, model, position ->
         if (bannerDatas.size > 0) {
             val data = bannerDatas[position]
-            Intent(activity, ContentActivity::class.java).run {
-                putExtra(Constant.CONTENT_URL_KEY, data.url)
-                putExtra(Constant.CONTENT_TITLE_KEY, data.title)
-                putExtra(Constant.CONTENT_ID_KEY, data.id)
-                startActivity(this)
-            }
+            ContentActivity.start(activity, data.id, data.title, data.url)
         }
     }
 

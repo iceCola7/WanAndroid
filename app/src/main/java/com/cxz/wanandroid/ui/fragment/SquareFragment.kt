@@ -169,12 +169,7 @@ class SquareFragment : BaseMvpListFragment<SquareContract.View, SquarePresenter>
     private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
         if (datas.size != 0) {
             val data = datas[position]
-            Intent(activity, ContentActivity::class.java).run {
-                putExtra(Constant.CONTENT_URL_KEY, data.link)
-                putExtra(Constant.CONTENT_TITLE_KEY, data.title)
-                putExtra(Constant.CONTENT_ID_KEY, data.id)
-                startActivity(this)
-            }
+            ContentActivity.start(activity, data.id, data.title, data.link)
         }
     }
 

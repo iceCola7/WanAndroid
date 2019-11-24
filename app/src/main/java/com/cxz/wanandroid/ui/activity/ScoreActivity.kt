@@ -1,6 +1,5 @@
 package com.cxz.wanandroid.ui.activity
 
-import android.content.Intent
 import android.support.design.widget.AppBarLayout
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
@@ -12,7 +11,6 @@ import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.ScoreAdapter
 import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.base.BaseMvpSwipeBackActivity
-import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.mvp.contract.ScoreContract
 import com.cxz.wanandroid.mvp.model.bean.BaseListResponseBody
 import com.cxz.wanandroid.mvp.model.bean.UserScoreBean
@@ -175,12 +173,7 @@ class ScoreActivity : BaseMvpSwipeBackActivity<ScoreContract.View, ScoreContract
         when (item?.itemId) {
             R.id.action_help -> {
                 val url = "https://www.wanandroid.com/blog/show/2653"
-                Intent(this@ScoreActivity, ContentActivity::class.java).run {
-                    putExtra(Constant.CONTENT_URL_KEY, url)
-                    putExtra(Constant.CONTENT_TITLE_KEY, "")
-                    putExtra(Constant.CONTENT_ID_KEY, "2653")
-                    startActivity(this)
-                }
+                ContentActivity.start(this@ScoreActivity, 2653, "", url)
                 return true
             }
         }

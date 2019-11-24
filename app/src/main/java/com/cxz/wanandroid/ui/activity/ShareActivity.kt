@@ -196,12 +196,7 @@ class ShareActivity : BaseMvpSwipeBackActivity<ShareContract.View, SharePresente
                     val data = datas[position]
                     when (view.id) {
                         R.id.rl_content -> {
-                            Intent(this, ContentActivity::class.java).run {
-                                putExtra(Constant.CONTENT_URL_KEY, data.link)
-                                putExtra(Constant.CONTENT_TITLE_KEY, data.title)
-                                putExtra(Constant.CONTENT_ID_KEY, data.id)
-                                startActivity(this)
-                            }
+                            ContentActivity.start(this, data.id, data.title, data.link)
                         }
                         R.id.iv_like -> {
                             if (isLogin) {
