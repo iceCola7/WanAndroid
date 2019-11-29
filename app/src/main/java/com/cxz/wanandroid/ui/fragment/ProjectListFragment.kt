@@ -154,7 +154,7 @@ class ProjectListFragment : BaseMvpListFragment<ProjectListContract.View, Projec
     private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
         if (datas.size != 0) {
             val data = datas[position]
-
+            ContentActivity.start(activity, data.id, data.title, data.link)
         }
     }
 
