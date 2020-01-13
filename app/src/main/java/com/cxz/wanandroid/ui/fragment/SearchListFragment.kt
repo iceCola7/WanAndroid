@@ -128,7 +128,7 @@ class SearchListFragment : BaseMvpListFragment<SearchListContract.View, SearchLi
                     addData(it)
                 }
                 pageSize = articles.size
-                if (articles.over) {
+                if (articles.over || articles.curPage == articles.pageCount) {
                     loadMoreEnd(isRefresh)
                 } else {
                     loadMoreComplete()
