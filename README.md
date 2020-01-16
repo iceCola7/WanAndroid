@@ -20,6 +20,7 @@
 [11]:https://img.shields.io/badge/QQ-563859095-orange.svg
 [12]:http://wpa.qq.com/msgrd?v=3&uin=563859095&site=qq&menu=yes
 
+- **Flutter 版 WANAndroid 客户端：[https://github.com/iceCola7/flutter_wanandroid](https://github.com/iceCola7/flutter_wanandroid)**
 - **Kotlin 版 MVP 基础框架：[https://github.com/iceCola7/KotlinMVPSamples](https://github.com/iceCola7/KotlinMVPSamples)**
 - **Java 版 MVP 基础框架：[https://github.com/iceCola7/MVPSamples](https://github.com/iceCola7/MVPSamples)**
 - **Github 项目地址：[https://github.com/iceCola7/WanAndroid](https://github.com/iceCola7/WanAndroid)**
