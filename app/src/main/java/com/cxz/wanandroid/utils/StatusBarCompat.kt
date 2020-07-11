@@ -10,6 +10,7 @@ import android.view.ViewGroup
 /**
  * Created by chenxz on 2018/5/21.
  */
+@Deprecated("")
 class StatusBarCompat {
 
     companion object {
