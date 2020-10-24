@@ -2,7 +2,7 @@
 apply from: "config.gradle"
 
 buildscript {
-    ext.kotlin_version = '1.3.50'
+    ext.kotlin_version = '1.4.10'
     repositories {
         // maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
         google()
@@ -14,7 +14,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // tinkersupport插件, 其中lastest.release指拉取最新版本，也可以指定明确版本号，例如1.0.4
-        classpath "com.tencent.bugly:tinker-support:1.2.0"
+        classpath "com.tencent.bugly:tinker-support:1.2.1"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

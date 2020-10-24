@@ -67,9 +67,9 @@ ext {
             "flow-layout"           : 'com.hyman:flowlayout-lib:1.1.2',
             "eventbus"              : 'org.greenrobot:eventbus:3.1.1',
             //"bugly"           : 'com.tencent.bugly:crashreport:3.1.0',
-            "bugly-crash-up"        : 'com.tencent.bugly:crashreport_upgrade:1.4.2',
+            "bugly-crash-up"        : 'com.tencent.bugly:crashreport_upgrade:1.4.5',
             // 指定tinker依赖版本（注：应用升级1.3.5版本起，不再内置tinker）
-            'tinker'                : 'com.tencent.tinker:tinker-android-lib:1.9.14.3',
+            'tinker'                : 'com.tencent.tinker:tinker-android-lib:1.9.14.9',
             //'nativecrashreport'     : 'com.tencent.bugly:nativecrashreport:3.7.1',//latest.release
             "swipeback"             : 'com.cxz:swipeback:1.0.1',
             "material-dialogs"      : 'com.afollestad.material-dialogs:commons:0.9.4.4',
