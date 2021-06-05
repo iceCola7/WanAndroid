@@ -22,23 +22,6 @@
         <attr name="iconsDrawables" format="reference" />
     </declare-styleable>
 
-    <!-- loadingView -->
-    <declare-styleable name="LoadingView">
-        <!--  设置外面进度条的半径 -->
-        <attr name="outerCircleRadius" format="dimension|reference" />
-        <!--  设置外面进度条的颜色 -->
-        <attr name="outerCircleColor" format="color|reference" />
-        <!--  设置三角形外接圆的半径 -->
-        <attr name="innerTriangleRadius" format="dimension|reference" />
-        <!--  设置三角形颜色 -->
-        <attr name="innerTriangleColor" format="color|reference" />
-        <!--  设置背景的颜色 -->
-        <attr name="backgroundColor" format="color|reference" />
-        <!--  设置是否需要背景 -->
-        <attr name="isNeedBackground" format="boolean" />
-        <attr name="strokeWidth" format="dimension|reference" />
-    </declare-styleable>
-
     <!-- TiltTextView -->
     <declare-styleable name="TiltTextView">
         <attr name="tiltBgColor" format="color" />

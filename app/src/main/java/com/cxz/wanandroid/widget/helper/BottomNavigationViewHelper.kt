@@ -1,15 +1,15 @@
 package com.cxz.wanandroid.widget.helper
 
 import android.annotation.SuppressLint
+import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import android.util.Log
 
 /**
  * Created by chenxz on 2018/6/10.
  */
-object BottomNavigationViewHelper{
+object BottomNavigationViewHelper {
 
     @SuppressLint("RestrictedApi")
     fun disableShiftMode(view: BottomNavigationView) {
