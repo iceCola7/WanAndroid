@@ -9,7 +9,7 @@
         android:id="@+id/tabLayout"
         style="@style/MyTabLayoutStyle"
         android:theme="@style/AppTheme.AppBarOverlay"
-        app:tabGravity="center"
+        app:tabGravity="fill"
         app:tabMode="scrollable" />
 
     <androidx.viewpager.widget.ViewPager

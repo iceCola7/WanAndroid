@@ -68,7 +68,7 @@ ext {
             "banner"                : 'cn.bingoogolapple:bga-banner:2.2.4@aar',
             "agentweb"              : 'com.just.agentweb:agentweb:4.0.2',
             "multidex"              : 'com.android.support:multidex:2.0.1',
-            //"vertical-tablayout": 'q.rorbin:VerticalTabLayout:1.2.5',
+            "vertical-tablayout": 'q.rorbin:VerticalTabLayout:1.2.5',
             "flow-layout"           : 'com.hyman:flowlayout-lib:1.1.2',
             "eventbus"              : 'org.greenrobot:eventbus:3.1.1',
             //"bugly"           : 'com.tencent.bugly:crashreport:3.1.0',

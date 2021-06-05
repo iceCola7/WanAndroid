@@ -1,12 +1,12 @@
 package com.cxz.wanandroid.base
 
 import android.os.Bundle
-import androidx.annotation.LayoutRes
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.cxz.multiplestatusview.MultipleStatusView
+import androidx.annotation.LayoutRes
+import androidx.fragment.app.Fragment
+import com.cxz.multipleview.MultipleStatusView
 import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.NetworkChangeEvent
@@ -18,7 +18,7 @@ import org.greenrobot.eventbus.ThreadMode
 /**
  * Created by chenxz on 2018/4/21.
  */
-abstract class BaseFragment : androidx.fragment.app.Fragment() {
+abstract class BaseFragment : Fragment() {
 
     /**
      * check login
@@ -34,10 +34,12 @@ abstract class BaseFragment : androidx.fragment.app.Fragment() {
      * 视图是否加载完毕
      */
     private var isViewPrepare = false
+
     /**
      * 数据是否加载过了
      */
     private var hasLoadData = false
+
     /**
      * 多种状态的 View 的切换
      */
@@ -72,7 +74,7 @@ abstract class BaseFragment : androidx.fragment.app.Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(attachLayoutRes(), null)
+        return inflater.inflate(attachLayoutRes(), null)
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {

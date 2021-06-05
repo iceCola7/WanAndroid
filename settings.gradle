@@ -1,1 +1,1 @@
-include ':app', ':multiple-status-view', ':verticaltablayout'
+include ':app', ':lib_multiple_view'

@@ -58,7 +58,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.cxz.multiplestatusview.MultipleStatusView
+    <com.cxz.multipleview.MultipleStatusView
         android:id="@+id/multiple_status_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -81,6 +81,6 @@
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    </com.cxz.multiplestatusview.MultipleStatusView>
+    </com.cxz.multipleview.MultipleStatusView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

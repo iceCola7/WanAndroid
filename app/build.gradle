@@ -120,6 +120,5 @@ dependencies {
     // APT dependencies(Kotlin内置的注解处理器)
     kapt rootProject.ext.annotationProcessorLibs
 
-    implementation project(':multiple-status-view')
-    implementation project(':verticaltablayout')
+    implementation project(':lib_multiple_view')
 }
