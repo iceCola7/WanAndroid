@@ -4,12 +4,12 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
-import android.support.design.widget.NavigationView
-import android.support.v4.app.FragmentTransaction
-import android.support.v4.view.MenuItemCompat
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatDelegate
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
+import androidx.fragment.app.FragmentTransaction
+import androidx.core.view.MenuItemCompat
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatDelegate
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
@@ -239,9 +239,9 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState?.putInt(BOTTOM_INDEX, mIndex)
+        outState.putInt(BOTTOM_INDEX, mIndex)
     }
 
     /**
@@ -310,7 +310,7 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
     /**
      * 隐藏所有的Fragment
      */
-    private fun hideFragments(transaction: FragmentTransaction) {
+    private fun hideFragments(transaction: androidx.fragment.app.FragmentTransaction) {
         mHomeFragment?.let { transaction.hide(it) }
         mSquareFragment?.let { transaction.hide(it) }
         mSystemFragment?.let { transaction.hide(it) }

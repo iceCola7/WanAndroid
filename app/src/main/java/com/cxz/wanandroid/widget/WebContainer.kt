@@ -3,8 +3,8 @@ package com.cxz.wanandroid.widget
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
-import android.support.design.widget.CoordinatorLayout
-import android.support.v4.content.ContextCompat
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import android.util.AttributeSet
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.utils.ColorUtil
@@ -16,7 +16,7 @@ import com.cxz.wanandroid.utils.SettingUtil
  * @desc WebContainer
  */
 class WebContainer @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
-    : CoordinatorLayout(context, attrs, defStyleAttr) {
+    : androidx.coordinatorlayout.widget.CoordinatorLayout(context, attrs, defStyleAttr) {
 
     private var mDarkTheme: Boolean = false
 

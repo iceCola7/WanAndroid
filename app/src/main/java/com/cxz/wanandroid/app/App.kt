@@ -5,8 +5,8 @@ import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.os.Environment
-import android.support.multidex.MultiDex
-import android.support.v7.app.AppCompatDelegate
+import androidx.multidex.MultiDex
+import androidx.appcompat.app.AppCompatDelegate
 import android.util.Log
 import com.cxz.wanandroid.BuildConfig
 import com.cxz.wanandroid.R

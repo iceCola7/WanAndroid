@@ -1,6 +1,5 @@
 package com.cxz.wanandroid.ui.fragment
 
-import android.support.design.widget.TabLayout
 import android.view.View
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.WeChatPagerAdapter
@@ -10,6 +9,7 @@ import com.cxz.wanandroid.mvp.contract.WeChatContract
 import com.cxz.wanandroid.mvp.model.bean.WXChapterBean
 import com.cxz.wanandroid.mvp.presenter.WeChatPresenter
 import com.cxz.wanandroid.utils.SettingUtil
+import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.fragment_wechat.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode

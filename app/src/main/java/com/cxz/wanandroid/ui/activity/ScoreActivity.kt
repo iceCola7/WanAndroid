@@ -1,9 +1,9 @@
 package com.cxz.wanandroid.ui.activity
 
-import android.support.design.widget.AppBarLayout
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
+import com.google.android.material.appbar.AppBarLayout
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -92,9 +92,9 @@ class ScoreActivity : BaseMvpSwipeBackActivity<ScoreContract.View, ScoreContract
             setOnRefreshListener(onRefreshListener)
         }
         recyclerView.run {
-            layoutManager = LinearLayoutManager(this@ScoreActivity)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@ScoreActivity)
             adapter = scoreAdapter
-            itemAnimator = DefaultItemAnimator()
+            itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
             addItemDecoration(recyclerViewItemDecoration)
         }
         scoreAdapter.run {
@@ -148,7 +148,7 @@ class ScoreActivity : BaseMvpSwipeBackActivity<ScoreContract.View, ScoreContract
     /**
      * RefreshListener
      */
-    private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
+    private val onRefreshListener = androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener {
         isRefresh = true
         scoreAdapter.setEnableLoadMore(false)
         mPresenter?.getUserScoreList(1)

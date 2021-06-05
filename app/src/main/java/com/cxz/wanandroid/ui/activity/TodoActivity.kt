@@ -2,9 +2,9 @@ package com.cxz.wanandroid.ui.activity
 
 import android.content.res.ColorStateList
 import android.os.Build
-import android.support.design.widget.BottomNavigationView
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.*
 import android.widget.PopupWindow
 import com.cxz.wanandroid.R
@@ -88,7 +88,7 @@ class TodoActivity : BaseSwipeBackActivity() {
      * 初始化 PopupWindow
      */
     private fun initPopupWindow(dataList: List<TodoTypeBean>) {
-        val recyclerView = layoutInflater.inflate(R.layout.layout_popup_todo, null) as RecyclerView
+        val recyclerView = layoutInflater.inflate(R.layout.layout_popup_todo, null) as androidx.recyclerview.widget.RecyclerView
         val adapter = TodoPopupAdapter()
         adapter.setNewData(dataList)
         adapter.setOnItemClickListener { adapter, view, position ->
@@ -105,7 +105,7 @@ class TodoActivity : BaseSwipeBackActivity() {
             EventBus.getDefault().post(TodoTypeEvent(mType))
         }
         recyclerView.apply {
-            layoutManager = LinearLayoutManager(this@TodoActivity)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@TodoActivity)
             this.adapter = adapter
         }
         mSwitchPopupWindow = PopupWindow(recyclerView)

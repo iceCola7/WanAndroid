@@ -11,7 +11,7 @@ import com.cxz.wanandroid.R
 /**
  * Created by chenxz on 2018/4/22.
  */
-class CircleImageView(context: Context, attrs: AttributeSet) : android.support.v7.widget.AppCompatImageView(context, attrs) {
+class CircleImageView(context: Context, attrs: AttributeSet) : androidx.appcompat.widget.AppCompatImageView(context, attrs) {
 
     private val mType: Int
     private val mBorderColor: Int

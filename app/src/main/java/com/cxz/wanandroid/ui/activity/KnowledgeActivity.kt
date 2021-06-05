@@ -2,7 +2,7 @@ package com.cxz.wanandroid.ui.activity
 
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.support.design.widget.TabLayout
+import com.google.android.material.tabs.TabLayout
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View

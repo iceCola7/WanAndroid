@@ -1,10 +1,10 @@
 package com.cxz.wanandroid.widget.behavior
 
 import android.content.Context
-import android.support.design.widget.CoordinatorLayout
-import android.support.design.widget.FloatingActionButton
-import android.support.v4.view.ViewCompat
-import android.support.v4.view.ViewPropertyAnimatorListener
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.core.view.ViewCompat
+import androidx.core.view.ViewPropertyAnimatorListener
 import android.util.AttributeSet
 import android.view.View
 import com.cxz.wanandroid.utils.AnimatorUtil
@@ -28,7 +28,7 @@ class ScrollAwareFABBehavior : FloatingActionButton.Behavior {
 
     constructor(context: Context, attrs: AttributeSet) : super()
 
-    override fun onStartNestedScroll(coordinatorLayout: CoordinatorLayout,
+    override fun onStartNestedScroll(coordinatorLayout: androidx.coordinatorlayout.widget.CoordinatorLayout,
                                      child: FloatingActionButton,
                                      directTargetChild: View,
                                      target: View,
@@ -38,7 +38,7 @@ class ScrollAwareFABBehavior : FloatingActionButton.Behavior {
                 super.onStartNestedScroll(coordinatorLayout, child, directTargetChild, target, axes, type)
     }
 
-    override fun onNestedScroll(coordinatorLayout: CoordinatorLayout, child: FloatingActionButton, target: View, dxConsumed: Int, dyConsumed: Int, dxUnconsumed: Int, dyUnconsumed: Int, type: Int) {
+    override fun onNestedScroll(coordinatorLayout: androidx.coordinatorlayout.widget.CoordinatorLayout, child: FloatingActionButton, target: View, dxConsumed: Int, dyConsumed: Int, dxUnconsumed: Int, dyUnconsumed: Int, type: Int) {
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type)
         // 手指上滑，隐藏FAB
         if ((dyConsumed > 0 || dyUnconsumed > 0) && !isAnimateIng && isShow) {

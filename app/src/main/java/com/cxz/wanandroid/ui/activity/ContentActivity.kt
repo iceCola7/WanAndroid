@@ -5,8 +5,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.support.design.widget.AppBarLayout
-import android.support.design.widget.CoordinatorLayout
+import com.google.android.material.appbar.AppBarLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -93,7 +93,7 @@ class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentCo
 
         val webView = NestedScrollAgentWebView(this)
 
-        val layoutParams = CoordinatorLayout.LayoutParams(-1, -1)
+        val layoutParams = androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams(-1, -1)
         layoutParams.behavior = AppBarLayout.ScrollingViewBehavior()
 
         mAgentWeb = shareUrl.getAgentWeb(

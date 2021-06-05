@@ -4,11 +4,11 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
-import android.support.v4.view.ViewCompat
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.OrientationHelper
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.StaggeredGridLayoutManager
+import androidx.core.view.ViewCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.OrientationHelper
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import android.view.View
 
 
@@ -17,7 +17,7 @@ import android.view.View
  *
  * 简单的 RecyclerView 分割线
  */
-class SpaceItemDecoration(context: Context) : RecyclerView.ItemDecoration() {
+class SpaceItemDecoration(context: Context) : androidx.recyclerview.widget.RecyclerView.ItemDecoration() {
 
     private var mDivider: Drawable? = null
     private val mSectionOffsetV: Int = 0
@@ -31,31 +31,31 @@ class SpaceItemDecoration(context: Context) : RecyclerView.ItemDecoration() {
         a.recycle()
     }
 
-    override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+    override fun onDrawOver(c: Canvas, parent: androidx.recyclerview.widget.RecyclerView, state: androidx.recyclerview.widget.RecyclerView.State) {
         super.onDrawOver(c, parent, state)
         if (mDivider != null && mDrawOver) {
             draw(c, parent)
         }
     }
 
-    override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+    override fun onDraw(c: Canvas, parent: androidx.recyclerview.widget.RecyclerView, state: androidx.recyclerview.widget.RecyclerView.State) {
         super.onDraw(c, parent, state)
         if (mDivider != null && mDrawOver) {
             draw(c, parent)
         }
     }
 
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+    override fun getItemOffsets(outRect: Rect, view: View, parent: androidx.recyclerview.widget.RecyclerView, state: androidx.recyclerview.widget.RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
 
-        if (getOrientation(parent.layoutManager!!) == RecyclerView.VERTICAL) {
+        if (getOrientation(parent.layoutManager!!) == androidx.recyclerview.widget.RecyclerView.VERTICAL) {
             outRect.set(mSectionOffsetH, 0, mSectionOffsetH, mSectionOffsetV)
         } else {
             outRect.set(0, 0, mSectionOffsetV, 0)
         }
     }
 
-    private fun draw(c: Canvas, parent: RecyclerView) {
+    private fun draw(c: Canvas, parent: androidx.recyclerview.widget.RecyclerView) {
         val left = parent.paddingLeft
         val right = parent.width - parent.paddingRight
 
@@ -63,7 +63,7 @@ class SpaceItemDecoration(context: Context) : RecyclerView.ItemDecoration() {
         for (i in 0 until childCount) {
             val child = parent.getChildAt(i)
 
-            val params = child.layoutParams as RecyclerView.LayoutParams
+            val params = child.layoutParams as androidx.recyclerview.widget.RecyclerView.LayoutParams
 
             val top = child.bottom + params.bottomMargin + Math.round(ViewCompat.getTranslationY(child))
             val bottom = top + if (mDivider!!.intrinsicHeight <= 0) 1 else mDivider!!.intrinsicHeight
@@ -75,12 +75,12 @@ class SpaceItemDecoration(context: Context) : RecyclerView.ItemDecoration() {
         }
     }
 
-    private fun getOrientation(layoutManager: RecyclerView.LayoutManager): Int {
-        if (layoutManager is LinearLayoutManager) {
+    private fun getOrientation(layoutManager: androidx.recyclerview.widget.RecyclerView.LayoutManager): Int {
+        if (layoutManager is androidx.recyclerview.widget.LinearLayoutManager) {
             return layoutManager.orientation
-        } else if (layoutManager is StaggeredGridLayoutManager) {
+        } else if (layoutManager is androidx.recyclerview.widget.StaggeredGridLayoutManager) {
             return layoutManager.orientation
         }
-        return OrientationHelper.HORIZONTAL
+        return androidx.recyclerview.widget.OrientationHelper.HORIZONTAL
     }
 }

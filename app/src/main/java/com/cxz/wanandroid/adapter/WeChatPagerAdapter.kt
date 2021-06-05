@@ -1,10 +1,9 @@
 package com.cxz.wanandroid.adapter
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
-import android.support.v4.view.PagerAdapter
 import android.text.Html
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
 import com.cxz.wanandroid.mvp.model.bean.WXChapterBean
 import com.cxz.wanandroid.ui.fragment.KnowledgeFragment
 
@@ -13,8 +12,8 @@ import com.cxz.wanandroid.ui.fragment.KnowledgeFragment
  * @date 2018/10/28
  * @desc
  */
-class WeChatPagerAdapter(private val list: MutableList<WXChapterBean>, fm: FragmentManager?)
-    : FragmentStatePagerAdapter(fm) {
+class WeChatPagerAdapter(private val list: MutableList<WXChapterBean>, fm: FragmentManager) :
+    FragmentStatePagerAdapter(fm) {
 
     private val fragments = mutableListOf<Fragment>()
 
@@ -31,7 +30,7 @@ class WeChatPagerAdapter(private val list: MutableList<WXChapterBean>, fm: Fragm
 
     override fun getPageTitle(position: Int): CharSequence? = Html.fromHtml(list[position].name)
 
-    override fun getItemPosition(`object`: Any): Int = PagerAdapter.POSITION_NONE
+    override fun getItemPosition(`object`: Any): Int = POSITION_NONE
 
 
 }

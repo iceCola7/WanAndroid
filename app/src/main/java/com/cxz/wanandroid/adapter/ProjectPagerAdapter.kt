@@ -1,17 +1,16 @@
 package com.cxz.wanandroid.adapter
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
-import android.support.v4.view.PagerAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import android.text.Html
+import androidx.fragment.app.FragmentStatePagerAdapter
 import com.cxz.wanandroid.mvp.model.bean.ProjectTreeBean
 import com.cxz.wanandroid.ui.fragment.ProjectListFragment
 
 /**
  * Created by chenxz on 2018/5/20.
  */
-class ProjectPagerAdapter(private val list: MutableList<ProjectTreeBean>, fm: FragmentManager?) : FragmentStatePagerAdapter(fm) {
+class ProjectPagerAdapter(private val list: MutableList<ProjectTreeBean>, fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
 
     private val fragments = mutableListOf<Fragment>()
 
@@ -28,5 +27,5 @@ class ProjectPagerAdapter(private val list: MutableList<ProjectTreeBean>, fm: Fr
 
     override fun getPageTitle(position: Int): CharSequence? = Html.fromHtml(list[position].name)
 
-    override fun getItemPosition(`object`: Any): Int = PagerAdapter.POSITION_NONE
+    override fun getItemPosition(`object`: Any): Int = POSITION_NONE
 }

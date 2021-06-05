@@ -1,8 +1,8 @@
 package com.cxz.wanandroid.ui.activity
 
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.RankAdapter
@@ -81,9 +81,9 @@ class RankActivity : BaseMvpSwipeBackActivity<RankContract.View, RankContract.Pr
             setOnRefreshListener(onRefreshListener)
         }
         recyclerView.run {
-            layoutManager = LinearLayoutManager(this@RankActivity)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@RankActivity)
             adapter = rankAdapter
-            itemAnimator = DefaultItemAnimator()
+            itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
             addItemDecoration(recyclerViewItemDecoration)
         }
         rankAdapter.run {
@@ -123,7 +123,7 @@ class RankActivity : BaseMvpSwipeBackActivity<RankContract.View, RankContract.Pr
     /**
      * RefreshListener
      */
-    private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
+    private val onRefreshListener = androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener {
         isRefresh = true
         rankAdapter.setEnableLoadMore(false)
         mPresenter?.getRankList(1)

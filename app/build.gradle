@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-// apply plugin: 'kotlin-kapt'
+ apply plugin: 'kotlin-kapt'
 
 // 依赖 tinker 插件脚本
 apply from: 'tinker-support.gradle'
@@ -15,7 +15,7 @@ android {
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables.useSupportLibrary = true
 
         multiDexEnabled true
@@ -96,31 +96,29 @@ static def releaseTime() {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    configurations {
-        all*.exclude group: 'com.android.support', module: 'support-v13'
-    }
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
     testImplementation rootProject.ext.testDeps["junit"]
     androidTestImplementation rootProject.ext.testDeps["runner"]
     androidTestImplementation rootProject.ext.testDeps["espresso-core"]
     //leakCanary
     debugImplementation rootProject.ext.testDeps["leakcanary-debug"]
     releaseImplementation rootProject.ext.testDeps["leakcanary-release"]
+
+    implementation rootProject.ext.androisxLibs
     // Support库
-    api rootProject.ext.supportLibs
+    // implementation rootProject.ext.supportLibs
     // 网络请求库
     implementation rootProject.ext.networkLibs
     // RxJava2
     implementation rootProject.ext.rxJavaLibs
     implementation rootProject.ext.commonLibs
     // APT dependencies(Kotlin内置的注解处理器)
-    annotationProcessor rootProject.ext.annotationProcessorLibs
-    //GlideOkHttp
-    implementation(rootProject.ext.otherDeps["glideOkhttp"]) {
-        exclude group: 'glide-parent'
-    }
+    kapt rootProject.ext.annotationProcessorLibs
+
     debugImplementation rootProject.ext.testDeps["debug-db"]
+
     implementation project(':multiple-status-view')
     implementation project(':verticaltablayout')
 }

@@ -1,6 +1,6 @@
 package com.cxz.wanandroid.ui.fragment
 
-import android.support.design.widget.TabLayout
+import com.google.android.material.tabs.TabLayout
 import android.view.View
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.ProjectPagerAdapter

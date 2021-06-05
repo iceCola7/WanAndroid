@@ -1,9 +1,8 @@
 package com.cxz.wanandroid.adapter
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.view.PagerAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import com.cxz.wanandroid.mvp.model.bean.TodoTypeBean
 import com.cxz.wanandroid.ui.fragment.TodoFragment
 
@@ -26,6 +25,6 @@ class TodoPagerAdapter(val list: List<TodoTypeBean>, fm: FragmentManager) : Frag
 
     override fun getPageTitle(position: Int): CharSequence? = list[position].name
 
-    override fun getItemPosition(`object`: Any): Int = PagerAdapter.POSITION_NONE
+    override fun getItemPosition(`object`: Any): Int = POSITION_NONE
 
 }

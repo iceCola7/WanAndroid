@@ -2,9 +2,9 @@ package com.cxz.wanandroid.ui.activity
 
 import android.content.DialogInterface
 import android.content.Intent
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -88,9 +88,9 @@ class ShareActivity : BaseMvpSwipeBackActivity<ShareContract.View, SharePresente
             setOnRefreshListener(onRefreshListener)
         }
         recyclerView.run {
-            layoutManager = LinearLayoutManager(this@ShareActivity)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@ShareActivity)
             adapter = shareAdapter
-            itemAnimator = DefaultItemAnimator()
+            itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
             addItemDecoration(SpaceItemDecoration(this@ShareActivity))
             addOnItemTouchListener(SwipeItemLayout.OnSwipeItemTouchListener(this@ShareActivity))
         }
@@ -158,7 +158,7 @@ class ShareActivity : BaseMvpSwipeBackActivity<ShareContract.View, SharePresente
     /**
      * RefreshListener
      */
-    private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
+    private val onRefreshListener = androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener {
         isRefresh = true
         shareAdapter.setEnableLoadMore(false)
         mPresenter?.getShareList(1)

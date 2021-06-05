@@ -1,7 +1,7 @@
 package com.cxz.wanandroid.widget.helper
 
 import android.os.Build
-import android.support.design.widget.TabLayout
+import com.google.android.material.tabs.TabLayout
 import android.widget.LinearLayout
 import com.cxz.wanandroid.utils.DisplayManager
 import java.lang.reflect.Field

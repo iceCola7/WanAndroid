@@ -1,7 +1,7 @@
 package com.cxz.wanandroid.adapter
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.mvp.model.bean.NavigationBean
 import q.rorbin.verticaltablayout.adapter.TabAdapter

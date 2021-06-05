@@ -1,10 +1,10 @@
 package com.cxz.wanandroid.ui.activity
 
 import android.content.Intent
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SearchView
-import android.support.v7.widget.SearchView.OnQueryTextListener
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
@@ -52,8 +52,8 @@ class SearchActivity : BaseMvpSwipeBackActivity<SearchContract.View, SearchContr
     /**
      * LinearLayoutManager
      */
-    private val linearLayoutManager: LinearLayoutManager by lazy {
-        LinearLayoutManager(this)
+    private val linearLayoutManager: androidx.recyclerview.widget.LinearLayoutManager by lazy {
+        androidx.recyclerview.widget.LinearLayoutManager(this)
     }
 
     /**
@@ -89,7 +89,7 @@ class SearchActivity : BaseMvpSwipeBackActivity<SearchContract.View, SearchContr
         rv_history_search.run {
             layoutManager = linearLayoutManager
             adapter = searchHistoryAdapter
-            itemAnimator = DefaultItemAnimator()
+            itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
             // addItemDecoration(recyclerViewItemDecoration)
         }
 
