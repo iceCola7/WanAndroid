@@ -102,9 +102,12 @@ dependencies {
     testImplementation rootProject.ext.testDeps["junit"]
     androidTestImplementation rootProject.ext.testDeps["runner"]
     androidTestImplementation rootProject.ext.testDeps["espresso-core"]
-    //leakCanary
+
+    // leakCanary
     debugImplementation rootProject.ext.testDeps["leakcanary-debug"]
     releaseImplementation rootProject.ext.testDeps["leakcanary-release"]
+
+    debugImplementation rootProject.ext.testDeps["debug-db"]
 
     implementation rootProject.ext.androisxLibs
     // Support库
@@ -116,8 +119,6 @@ dependencies {
     implementation rootProject.ext.commonLibs
     // APT dependencies(Kotlin内置的注解处理器)
     kapt rootProject.ext.annotationProcessorLibs
-
-    debugImplementation rootProject.ext.testDeps["debug-db"]
 
     implementation project(':multiple-status-view')
     implementation project(':verticaltablayout')
