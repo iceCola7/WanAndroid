@@ -8,6 +8,7 @@ apply from: 'tinker-support.gradle'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
 
     defaultConfig {
         applicationId "com.cxz.wanandroid"
@@ -55,13 +56,6 @@ android {
                 variant.outputs.all {
                     outputFileName = "WanAndroid-release.apk"
                 }
-//                variant.outputs.all { output ->
-//                    def outputFile = output.outputFile
-//                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
-//                        def fileName = "WanAndroid-release.apk"
-//                        outputFileName = fileName
-//                    }
-//                }
             }
         }
         debug {
