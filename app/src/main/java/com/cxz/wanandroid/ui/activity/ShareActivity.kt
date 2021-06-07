@@ -231,8 +231,8 @@ class ShareActivity : BaseMvpSwipeBackActivity<ShareContract.View, SharePresente
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.action_add -> {
                 Intent(this@ShareActivity, CommonActivity::class.java).run {
                     putExtra(Constant.TYPE_KEY, Constant.Type.SHARE_ARTICLE_TYPE_KEY)

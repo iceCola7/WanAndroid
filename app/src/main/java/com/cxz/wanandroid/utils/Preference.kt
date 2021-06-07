@@ -79,11 +79,11 @@ class Preference<T>(val name: String, private val default: T) {
     private fun getSharedPreferences(name: String, default: T): T = with(prefs) {
         val res: Any = when (default) {
             is Long -> getLong(name, default)
-            is String -> getString(name, default)
+            is String -> getString(name, default) ?: ""
             is Int -> getInt(name, default)
             is Boolean -> getBoolean(name, default)
             is Float -> getFloat(name, default)
-            else -> deSerialization(getString(name, serialize(default)))
+            else -> deSerialization(getString(name, serialize(default)) ?: "")
         }
         return res as T
     }
@@ -101,7 +101,8 @@ class Preference<T>(val name: String, private val default: T) {
     private fun <A> serialize(obj: A): String {
         val byteArrayOutputStream = ByteArrayOutputStream()
         val objectOutputStream = ObjectOutputStream(
-                byteArrayOutputStream)
+            byteArrayOutputStream
+        )
         objectOutputStream.writeObject(obj)
         var serStr = byteArrayOutputStream.toString("ISO-8859-1")
         serStr = java.net.URLEncoder.encode(serStr, "UTF-8")
@@ -126,9 +127,11 @@ class Preference<T>(val name: String, private val default: T) {
     private fun <A> deSerialization(str: String): A {
         val redStr = java.net.URLDecoder.decode(str, "UTF-8")
         val byteArrayInputStream = ByteArrayInputStream(
-                redStr.toByteArray(charset("ISO-8859-1")))
+            redStr.toByteArray(charset("ISO-8859-1"))
+        )
         val objectInputStream = ObjectInputStream(
-                byteArrayInputStream)
+            byteArrayInputStream
+        )
         val obj = objectInputStream.readObject() as A
         objectInputStream.close()
         byteArrayInputStream.close()

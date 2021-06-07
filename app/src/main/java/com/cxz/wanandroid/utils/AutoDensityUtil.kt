@@ -59,8 +59,8 @@ object AutoDensityUtil {
             sNonCompatDensity = appDisplayMetrics.density
             sNonCompatScaledDensity = appDisplayMetrics.scaledDensity
             application.registerComponentCallbacks(object : ComponentCallbacks {
-                override fun onConfigurationChanged(newConfig: Configuration?) {
-                    if (newConfig != null && newConfig.fontScale > 0) {
+                override fun onConfigurationChanged(newConfig: Configuration) {
+                    if (newConfig.fontScale > 0) {
                         sNonCompatScaledDensity = application.resources.displayMetrics.scaledDensity
                     }
                 }

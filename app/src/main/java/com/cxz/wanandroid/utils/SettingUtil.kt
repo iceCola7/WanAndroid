@@ -72,7 +72,7 @@ object SettingUtil {
     }
 
     fun getNightStartHour(): String {
-        return setting.getString("night_startHour", "22")
+        return setting.getString("night_startHour", "22") ?: "22"
     }
 
     fun setNightStartHour(nightStartHour: String) {
@@ -80,7 +80,7 @@ object SettingUtil {
     }
 
     fun getNightStartMinute(): String {
-        return setting.getString("night_startMinute", "00")
+        return setting.getString("night_startMinute", "00") ?: "00"
     }
 
     fun setNightStartMinute(nightStartMinute: String) {
@@ -88,7 +88,7 @@ object SettingUtil {
     }
 
     fun getDayStartHour(): String {
-        return setting.getString("day_startHour", "06")
+        return setting.getString("day_startHour", "06") ?: "06"
     }
 
     fun setDayStartHour(dayStartHour: String) {
@@ -96,7 +96,7 @@ object SettingUtil {
     }
 
     fun getDayStartMinute(): String {
-        return setting.getString("day_startMinute", "00")
+        return setting.getString("day_startMinute", "00") ?: "00"
     }
 
     fun setDayStartMinute(dayStartMinute: String) {

@@ -130,8 +130,8 @@ class KnowledgeActivity : BaseSwipeBackActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.action_share -> {
                 Intent().run {
                     action = Intent.ACTION_SEND

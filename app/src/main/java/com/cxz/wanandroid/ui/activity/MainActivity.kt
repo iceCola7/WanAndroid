@@ -526,8 +526,8 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainContract.Presenter>(
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.action_search -> {
                 Intent(this, SearchActivity::class.java).run {
                     startActivity(this)

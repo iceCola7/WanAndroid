@@ -18,7 +18,7 @@ class CommonActivity : BaseSwipeBackActivity() {
     }
 
     override fun initView() {
-        val extras = intent.extras
+        val extras = intent.extras ?: return
         mType = extras.getString(Constant.TYPE_KEY, "")
         toolbar.run {
             title = getString(R.string.app_name)
@@ -58,7 +58,7 @@ class CommonActivity : BaseSwipeBackActivity() {
                 toolbar.title = getString(R.string.share_article)
                 ShareArticleFragment.getInstance()
             }
-            Constant.Type.SCAN_QR_CODE_TYPE_KEY->{
+            Constant.Type.SCAN_QR_CODE_TYPE_KEY -> {
                 toolbar.title = getString(R.string.scan_code_download)
                 QrCodeFragment.getInstance()
             }
@@ -68,8 +68,8 @@ class CommonActivity : BaseSwipeBackActivity() {
         }
         fragment ?: return
         supportFragmentManager.beginTransaction()
-                .replace(R.id.common_frame_layout, fragment, Constant.Type.COLLECT_TYPE_KEY)
-                .commit()
+            .replace(R.id.common_frame_layout, fragment, Constant.Type.COLLECT_TYPE_KEY)
+            .commit()
 
     }
 

@@ -169,8 +169,8 @@ class ScoreActivity : BaseMvpSwipeBackActivity<ScoreContract.View, ScoreContract
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.action_help -> {
                 val url = "https://www.wanandroid.com/blog/show/2653"
                 ContentActivity.start(this@ScoreActivity, 2653, "", url)

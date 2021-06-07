@@ -5,10 +5,9 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import android.view.View
 
 
 /**
@@ -19,7 +18,8 @@ import android.view.View
 class RecyclerViewItemDecoration : androidx.recyclerview.widget.RecyclerView.ItemDecoration {
 
     private var context: Context
-    private var orientation: Int = androidx.recyclerview.widget.LinearLayoutManager.VERTICAL // 列表的方向：LinearLayoutManager.VERTICAL或LinearLayoutManager.HORIZONTAL
+    private var orientation: Int =
+        androidx.recyclerview.widget.LinearLayoutManager.VERTICAL // 列表的方向：LinearLayoutManager.VERTICAL或LinearLayoutManager.HORIZONTAL
     private var dividerHeight: Int = 2//分割线高度
     private var dividerColor: Int = 0
     private var mDivider: Drawable? = null
@@ -41,7 +41,10 @@ class RecyclerViewItemDecoration : androidx.recyclerview.widget.RecyclerView.Ite
         a.recycle()
     }
 
-    constructor(context: Context, orientation: Int, dividerHeight: Int, dividerColor: Int) : this(context, orientation) {
+    constructor(context: Context, orientation: Int, dividerHeight: Int, dividerColor: Int) : this(
+        context,
+        orientation
+    ) {
         this.dividerHeight = dividerHeight
         this.dividerColor = dividerColor
 
@@ -57,12 +60,21 @@ class RecyclerViewItemDecoration : androidx.recyclerview.widget.RecyclerView.Ite
         dividerHeight = mDivider!!.intrinsicHeight
     }
 
-    override fun getItemOffsets(outRect: Rect, view: View, parent: androidx.recyclerview.widget.RecyclerView, state: androidx.recyclerview.widget.RecyclerView.State) {
+    override fun getItemOffsets(
+        outRect: Rect,
+        view: View,
+        parent: androidx.recyclerview.widget.RecyclerView,
+        state: androidx.recyclerview.widget.RecyclerView.State
+    ) {
         super.getItemOffsets(outRect, view, parent, state)
         outRect.set(0, 0, 0, dividerHeight)
     }
 
-    override fun onDraw(c: Canvas, parent: androidx.recyclerview.widget.RecyclerView, state: androidx.recyclerview.widget.RecyclerView.State) {
+    override fun onDraw(
+        c: Canvas,
+        parent: androidx.recyclerview.widget.RecyclerView,
+        state: androidx.recyclerview.widget.RecyclerView.State
+    ) {
         super.onDraw(c, parent, state)
         if (orientation == androidx.recyclerview.widget.LinearLayoutManager.VERTICAL) {
             drawVertical(c, parent)
@@ -88,7 +100,7 @@ class RecyclerViewItemDecoration : androidx.recyclerview.widget.RecyclerView.Ite
                 it.draw(canvas)
             }
             mPaint?.let {
-                canvas.drawRect(left.toFloat(), top.toFloat(), right.toFloat(), bottom.toFloat(), mPaint)
+                canvas.drawRect(left.toFloat(), top.toFloat(), right.toFloat(), bottom.toFloat(), it)
             }
         }
     }
@@ -110,7 +122,7 @@ class RecyclerViewItemDecoration : androidx.recyclerview.widget.RecyclerView.Ite
                 it.draw(canvas)
             }
             mPaint?.let {
-                canvas.drawRect(left.toFloat(), top.toFloat(), right.toFloat(), bottom.toFloat(), mPaint)
+                canvas.drawRect(left.toFloat(), top.toFloat(), right.toFloat(), bottom.toFloat(), it)
             }
         }
     }

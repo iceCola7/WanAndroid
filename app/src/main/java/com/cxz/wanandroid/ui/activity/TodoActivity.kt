@@ -149,8 +149,8 @@ class TodoActivity : BaseSwipeBackActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.action_todo_type -> {
                 showPopupWindow(datas)
                 return true
