@@ -43,8 +43,10 @@ class IconListPreference(context: Context, attrs: AttributeSet) : ListPreference
     private fun createListAdapter(): ListAdapter {
         val selectedValue = value
         val selectedIndex = findIndexOfValue(selectedValue)
-        return IconArrayAdapter(context, R.layout.item_icon_listpreference,
-                entries, drawableList, selectedIndex)
+        return IconArrayAdapter(
+            context, R.layout.item_icon_listpreference,
+            entries, drawableList, selectedIndex
+        )
     }
 
 
@@ -66,9 +68,11 @@ class IconListPreference(context: Context, attrs: AttributeSet) : ListPreference
         super.onPrepareDialogBuilder(builder)
     }
 
-    private inner class IconArrayAdapter internal constructor(context: Context, textViewResourceId: Int,
-                                                              objects: Array<CharSequence>, imageDrawables: List<Drawable>,
-                                                              selectedIndex: Int) : ArrayAdapter<CharSequence>(context, textViewResourceId, objects) {
+    private inner class IconArrayAdapter(
+        context: Context, textViewResourceId: Int,
+        objects: Array<CharSequence>, imageDrawables: List<Drawable>,
+        selectedIndex: Int
+    ) : ArrayAdapter<CharSequence>(context, textViewResourceId, objects) {
 
         private var list: List<Drawable>? = null
         private var selectedIndex = 0

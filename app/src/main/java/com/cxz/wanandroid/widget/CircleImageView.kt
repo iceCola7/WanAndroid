@@ -6,12 +6,13 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import androidx.appcompat.widget.AppCompatImageView
 import com.cxz.wanandroid.R
 
 /**
  * Created by chenxz on 2018/4/22.
  */
-class CircleImageView(context: Context, attrs: AttributeSet) : androidx.appcompat.widget.AppCompatImageView(context, attrs) {
+class CircleImageView(context: Context, attrs: AttributeSet) : AppCompatImageView(context, attrs) {
 
     private val mType: Int
     private val mBorderColor: Int
@@ -34,7 +35,8 @@ class CircleImageView(context: Context, attrs: AttributeSet) : androidx.appcompa
         mType = ta.getInt(R.styleable.CircleImageView_type, DEFAULT_TYPE)
         mBorderColor = ta.getColor(R.styleable.CircleImageView_borderColor, DEFAULT_BORDER_COLOR)
         mBorderWidth = ta.getDimensionPixelSize(R.styleable.CircleImageView_borderWidth, dip2px(DEFAULT_BORDER_WIDTH))
-        mRectRoundRadius = ta.getDimensionPixelSize(R.styleable.CircleImageView_rectRoundRadius, dip2px(DEFAULT_RECT_ROUND_RADIUS))
+        mRectRoundRadius =
+            ta.getDimensionPixelSize(R.styleable.CircleImageView_rectRoundRadius, dip2px(DEFAULT_RECT_ROUND_RADIUS))
         ta.recycle()
     }
 
@@ -55,7 +57,10 @@ class CircleImageView(context: Context, attrs: AttributeSet) : androidx.appcompa
                 mShader = BitmapShader(mRawBitmap!!, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
             }
             if (mShader != null) {
-                mMatrix.setScale((dstWidth - doubleBorderWidth) / rawBitmap.width, (dstHeight - doubleBorderWidth) / rawBitmap.height)
+                mMatrix.setScale(
+                    (dstWidth - doubleBorderWidth) / rawBitmap.width,
+                    (dstHeight - doubleBorderWidth) / rawBitmap.height
+                )
                 mShader!!.setLocalMatrix(mMatrix)
             }
 
@@ -70,10 +75,17 @@ class CircleImageView(context: Context, attrs: AttributeSet) : androidx.appcompa
                 canvas.translate(mBorderWidth.toFloat(), mBorderWidth.toFloat())
                 canvas.drawCircle(radius - mBorderWidth, radius - mBorderWidth, radius - mBorderWidth, mPaintBitmap)
             } else if (mType == TYPE_ROUNDED_RECT) {
-                mRectBorder.set(halfBorderWidth, halfBorderWidth, dstWidth - halfBorderWidth, dstHeight - halfBorderWidth)
+                mRectBorder.set(
+                    halfBorderWidth,
+                    halfBorderWidth,
+                    dstWidth - halfBorderWidth,
+                    dstHeight - halfBorderWidth
+                )
                 mRectBitmap.set(0.0f, 0.0f, dstWidth - doubleBorderWidth, dstHeight - doubleBorderWidth)
-                val borderRadius = if (mRectRoundRadius - halfBorderWidth > 0.0f) mRectRoundRadius - halfBorderWidth else 0.0f
-                val bitmapRadius = if (mRectRoundRadius - mBorderWidth > 0.0f) (mRectRoundRadius - mBorderWidth).toFloat() else 0.0f
+                val borderRadius =
+                    if (mRectRoundRadius - halfBorderWidth > 0.0f) mRectRoundRadius - halfBorderWidth else 0.0f
+                val bitmapRadius =
+                    if (mRectRoundRadius - mBorderWidth > 0.0f) (mRectRoundRadius - mBorderWidth).toFloat() else 0.0f
                 canvas.drawRoundRect(mRectBorder, borderRadius, borderRadius, mPaintBorder)
                 canvas.translate(mBorderWidth.toFloat(), mBorderWidth.toFloat())
                 canvas.drawRoundRect(mRectBitmap, bitmapRadius, bitmapRadius, mPaintBitmap)
@@ -111,10 +123,12 @@ class CircleImageView(context: Context, attrs: AttributeSet) : androidx.appcompa
          * android.widget.ImageView
          */
         val TYPE_NONE = 0
+
         /**
          * 圆形
          */
         val TYPE_CIRCLE = 1
+
         /**
          * 圆角矩形
          */

@@ -13,23 +13,22 @@ import com.cxz.wanandroid.R
  */
 class CustomToast {
 
-    private var toast: Toast
-    private var textView: TextView
+    private var toast: Toast? = null
+    private var textView: TextView? = null
 
     constructor(context: Context?, message: String) : this(context, message, Toast.LENGTH_SHORT)
 
     constructor(context: Context?, message: String, duration: Int) {
         toast = Toast(context)
-        toast.duration = duration
+        toast?.duration = duration
         val view = View.inflate(context, R.layout.toast_custom, null)
         textView = view.findViewById(R.id.tv_prompt)
-        textView.text = message
-        toast.view = view
-        toast.setGravity(Gravity.CENTER, 0, 0)
+        textView?.text = message
+        toast?.view = view
+        toast?.setGravity(Gravity.CENTER, 0, 0)
     }
 
     fun show() {
-        toast.show()
+        toast?.show()
     }
-
 }

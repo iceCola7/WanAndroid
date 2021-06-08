@@ -8,18 +8,19 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * Created by chenxz on 2018/5/9.
  *
  * RecyclerView 分割线
  */
-class RecyclerViewItemDecoration : androidx.recyclerview.widget.RecyclerView.ItemDecoration {
+class RecyclerViewItemDecoration : RecyclerView.ItemDecoration {
 
     private var context: Context
-    private var orientation: Int =
-        androidx.recyclerview.widget.LinearLayoutManager.VERTICAL // 列表的方向：LinearLayoutManager.VERTICAL或LinearLayoutManager.HORIZONTAL
+
+    // 列表的方向：LinearLayoutManager.VERTICAL或LinearLayoutManager.HORIZONTAL
+    private var orientation: Int = LinearLayoutManager.VERTICAL
     private var dividerHeight: Int = 2//分割线高度
     private var dividerColor: Int = 0
     private var mDivider: Drawable? = null
@@ -27,16 +28,16 @@ class RecyclerViewItemDecoration : androidx.recyclerview.widget.RecyclerView.Ite
     private var mPaint: Paint? = null
     private var attrs: IntArray = intArrayOf(android.R.attr.listDivider)
 
-    constructor(context: Context) : this(context, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL)
+    constructor(context: Context) : this(context, LinearLayoutManager.VERTICAL)
 
     constructor(context: Context, orientation: Int) {
         this.context = context
         this.orientation = orientation
 
-        if (orientation != androidx.recyclerview.widget.LinearLayoutManager.VERTICAL && orientation != androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL) {
+        if (orientation != LinearLayoutManager.VERTICAL && orientation != LinearLayoutManager.HORIZONTAL) {
             throw IllegalArgumentException("请输入正确的参数！")
         }
-        var a = context.obtainStyledAttributes(attrs)
+        val a = context.obtainStyledAttributes(attrs)
         mDivider = a.getDrawable(0)
         a.recycle()
     }
@@ -63,8 +64,8 @@ class RecyclerViewItemDecoration : androidx.recyclerview.widget.RecyclerView.Ite
     override fun getItemOffsets(
         outRect: Rect,
         view: View,
-        parent: androidx.recyclerview.widget.RecyclerView,
-        state: androidx.recyclerview.widget.RecyclerView.State
+        parent: RecyclerView,
+        state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
         outRect.set(0, 0, 0, dividerHeight)
@@ -72,11 +73,11 @@ class RecyclerViewItemDecoration : androidx.recyclerview.widget.RecyclerView.Ite
 
     override fun onDraw(
         c: Canvas,
-        parent: androidx.recyclerview.widget.RecyclerView,
-        state: androidx.recyclerview.widget.RecyclerView.State
+        parent: RecyclerView,
+        state: RecyclerView.State
     ) {
         super.onDraw(c, parent, state)
-        if (orientation == androidx.recyclerview.widget.LinearLayoutManager.VERTICAL) {
+        if (orientation == LinearLayoutManager.VERTICAL) {
             drawVertical(c, parent)
         } else {
             drawHorizontal(c, parent)
@@ -86,13 +87,13 @@ class RecyclerViewItemDecoration : androidx.recyclerview.widget.RecyclerView.Ite
     /**
      * 绘制纵向 item 分割线
      */
-    private fun drawVertical(canvas: Canvas, parent: androidx.recyclerview.widget.RecyclerView) {
+    private fun drawVertical(canvas: Canvas, parent: RecyclerView) {
         val left = parent.paddingLeft
         val right = parent.measuredWidth - parent.paddingRight
         val childSize = parent.childCount
         for (i in 0 until childSize) {
             val child = parent.getChildAt(i)
-            val layoutParams = child.layoutParams as androidx.recyclerview.widget.RecyclerView.LayoutParams
+            val layoutParams = child.layoutParams as RecyclerView.LayoutParams
             val top = child.bottom + layoutParams.bottomMargin
             val bottom = top + dividerHeight
             mDivider?.let {
@@ -108,13 +109,13 @@ class RecyclerViewItemDecoration : androidx.recyclerview.widget.RecyclerView.Ite
     /**
      * 绘制横向 item 分割线
      */
-    private fun drawHorizontal(canvas: Canvas, parent: androidx.recyclerview.widget.RecyclerView) {
+    private fun drawHorizontal(canvas: Canvas, parent: RecyclerView) {
         val left = parent.paddingLeft
         val right = parent.measuredWidth - parent.paddingRight
         val childSize = parent.childCount
         for (i in 0 until childSize) {
             val child = parent.getChildAt(i)
-            val layoutParams = child.layoutParams as androidx.recyclerview.widget.RecyclerView.LayoutParams
+            val layoutParams = child.layoutParams as RecyclerView.LayoutParams
             val top = child.bottom + layoutParams.bottomMargin
             val bottom = top + dividerHeight
             mDivider?.let {

@@ -1,12 +1,12 @@
 package com.cxz.wanandroid.widget
 
 import android.content.Context
+import android.util.AttributeSet
+import android.view.MotionEvent
 import androidx.core.view.MotionEventCompat
 import androidx.core.view.NestedScrollingChild
 import androidx.core.view.NestedScrollingChildHelper
 import androidx.core.view.ViewCompat
-import android.util.AttributeSet
-import android.view.MotionEvent
 import com.just.agentweb.AgentWebView
 
 
@@ -102,7 +102,13 @@ class NestedScrollAgentWebView : AgentWebView, NestedScrollingChild {
         return mChildHelper.hasNestedScrollingParent()
     }
 
-    override fun dispatchNestedScroll(dxConsumed: Int, dyConsumed: Int, dxUnconsumed: Int, dyUnconsumed: Int, offsetInWindow: IntArray?): Boolean {
+    override fun dispatchNestedScroll(
+        dxConsumed: Int,
+        dyConsumed: Int,
+        dxUnconsumed: Int,
+        dyUnconsumed: Int,
+        offsetInWindow: IntArray?
+    ): Boolean {
         return mChildHelper.dispatchNestedScroll(dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, offsetInWindow)
     }
 
