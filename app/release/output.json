@@ -1,1 +1,19 @@
-[{"outputType":{"type":"APK"},"apkData":{"type":"MAIN","splits":[],"versionCode":16,"versionName":"1.1.5","enabled":true,"outputFile":"WanAndroid-release.apk","fullName":"release","baseName":"release"},"path":"WanAndroid-release.apk","properties":{}}]
+[
+  {
+    "outputType": {
+      "type": "APK"
+    },
+    "apkData": {
+      "type": "MAIN",
+      "splits": [],
+      "versionCode": 17,
+      "versionName": "1.1.6",
+      "enabled": true,
+      "outputFile": "WanAndroid-release.apk",
+      "fullName": "release",
+      "baseName": "release"
+    },
+    "path": "WanAndroid-release.apk",
+    "properties": {}
+  }
+]
