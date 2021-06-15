@@ -22,32 +22,36 @@ stages:
     if: branch = master
 
 before_cache:
-- rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-  - "$HOME/.gradle/caches/"
-  - "$HOME/.gradle/wrapper/"
-  - "$HOME/.android/build-cache"
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.android/build-cache
+
 before_install:
-- gem install fir-cli
-- yes | sdkmanager --update
-- yes | sdkmanager --licenses
-- yes | sdkmanager "platforms;android-30"
-- rm -f gradle.properties
-- chmod +x gradlew
-- openssl aes-256-cbc -K $encrypted_5c3ae9008f8a_key -iv $encrypted_5c3ae9008f8a_iv
-  -in cxz.jks.enc -out cxz.jks -d
+  #- gem install fir-cli
+  - chmod +x gradlew
+  #- mkdir "$ANDROID_HOME/licenses" || true
+  - yes | sdkmanager --update
+  #- yes | sdkmanager --licenses
+  - yes | sdkmanager "platforms;android-30"
+  #- rm -f gradle.properties
+  - openssl aes-256-cbc -K $encrypted_5c3ae9008f8a_key -iv $encrypted_5c3ae9008f8a_iv
+    -in cxz.jks.enc -out cxz.jks -d
 script:
-- ./gradlew :app:assembleRelease
+  - ./gradlew :app:assembleRelease
 
 deploy:
   provider: releases
-  api_key:
-    secure: d9UwYWAdTUXRT1scIQQfSONC8QoygXWZwxoYspR/HGt+ZFbbPVseqztcgz0I2pcCShgIAVAHbxMWCD5zVVAm1Zvu7M2kPW1vaIx7E7fGHNaovIwWA2FTqD+CPZX5gt0L8odhNO+XF9r2T+Ott8kqt7XjO4+OGHTGvi0rbDmYn0FeB2wAXcGzaZ7s4DhkHJjEBUXt9PTnZIk3C6XzkHKPKVsCu91gzhX+l7gBATB0ECOZgPTPLtUZu4jwbOFLf/70PebBcO0LAROmCTbYVulEAUEfQSFfpw3bgDcZIr3TMlFBGPDhLQxmxVRNk7Mdj9td42xCZg+zkqaaZK5LUAU5jChhgWG7b0oSDUj7pMjPjnOvvdR9qF2dMyZ+QDn7MkE7W+MunS5jETjIOAIUpNMazTcOxXcVexmkVSl/dDxivLXQT2t0Z6eZtCuGXYGQw4McjtIZP6itEkvr9pqdQZwG/UE84L1VT8RANneTDsEz80N7fQZ0VERkduDB+/CK0gAZ2C1qwtpD2d8Yd0BnStPuRs7al4KffY91/MHy/Q184al2bBWaB8a689myFbKvqm/ojS8h8x6vzMoJyeevI+DEl5BaloswJtailcrAKFOU+ZeX92YUaxGsRtf54sPImQfKCPRhORHl6dToFOwDXTKUYCji37d60bq4+NQW75t26nM=
+  api_key: ${GITHUB_TOKEN}
+#    secure: d9UwYWAdTUXRT1scIQQfSONC8QoygXWZwxoYspR/HGt+ZFbbPVseqztcgz0I2pcCShgIAVAHbxMWCD5zVVAm1Zvu7M2kPW1vaIx7E7fGHNaovIwWA2FTqD+CPZX5gt0L8odhNO+XF9r2T+Ott8kqt7XjO4+OGHTGvi0rbDmYn0FeB2wAXcGzaZ7s4DhkHJjEBUXt9PTnZIk3C6XzkHKPKVsCu91gzhX+l7gBATB0ECOZgPTPLtUZu4jwbOFLf/70PebBcO0LAROmCTbYVulEAUEfQSFfpw3bgDcZIr3TMlFBGPDhLQxmxVRNk7Mdj9td42xCZg+zkqaaZK5LUAU5jChhgWG7b0oSDUj7pMjPjnOvvdR9qF2dMyZ+QDn7MkE7W+MunS5jETjIOAIUpNMazTcOxXcVexmkVSl/dDxivLXQT2t0Z6eZtCuGXYGQw4McjtIZP6itEkvr9pqdQZwG/UE84L1VT8RANneTDsEz80N7fQZ0VERkduDB+/CK0gAZ2C1qwtpD2d8Yd0BnStPuRs7al4KffY91/MHy/Q184al2bBWaB8a689myFbKvqm/ojS8h8x6vzMoJyeevI+DEl5BaloswJtailcrAKFOU+ZeX92YUaxGsRtf54sPImQfKCPRhORHl6dToFOwDXTKUYCji37d60bq4+NQW75t26nM=
   file: app/build/outputs/release/WanAndroid-release.apk
   on:
     repo: iceCola7/WanAndroid
     tags: true
     all_branches: true
-after_deploy:
-  - fir p app/build/outputs/apk/release/WanAndroid-release.apk -T $FIR_TOKEN -c "`git cat-file tag $TRAVIS_TAG`"
+
+#after_deploy:
+#  - fir p app/build/outputs/apk/release/WanAndroid-release.apk -T $FIR_TOKEN -c "`git cat-file tag $TRAVIS_TAG`"
