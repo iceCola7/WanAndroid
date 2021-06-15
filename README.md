@@ -5,8 +5,8 @@
 [1]:https://img.shields.io/badge/platform-Android-blue.svg  
 [2]:https://github.com/iceCola7/WanAndroid
 
-[3]:https://travis-ci.org/iceCola7/WanAndroid.svg?branch=master
-[4]:https://travis-ci.org/iceCola7/WanAndroid
+[3]:https://travis-ci.com/iceCola7/WanAndroid.svg?branch=master
+[4]:https://travis-ci.com/iceCola7/WanAndroid
 
 [5]:https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat
 [6]:https://android-arsenal.com/api?level=16
@@ -100,6 +100,10 @@
 ## 更新日志
 
 **[最新更新日志请点击查看](https://github.com/iceCola7/WanAndroid/releases)**
+
+**v1.1.6**
+
+- 迁移至androidx。
 
 **v1.1.5**
 
