@@ -60,7 +60,7 @@ open class BaseWebClient : WebViewClient() {
     }
 
     override fun shouldInterceptRequest(view: WebView?, url: String?): WebResourceResponse? {
-        loge(TAG, "------------>>$url")
+        loge(TAG, "shouldInterceptRequest: $url")
         if (shouldInterceptRequest(Uri.parse(url))) {
             return WebResourceResponse(null, null, null)
         }
@@ -78,12 +78,12 @@ open class BaseWebClient : WebViewClient() {
 
     override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
         super.onPageStarted(view, url, favicon)
-        loge(TAG, "onPageStarted---->>$url")
+        loge(TAG, "onPageStarted: $url")
     }
 
     override fun onPageFinished(view: WebView?, url: String?) {
         super.onPageFinished(view, url)
-        loge(TAG, "onPageFinished---->>$url")
+        loge(TAG, "onPageFinished: $url")
     }
 
     override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {

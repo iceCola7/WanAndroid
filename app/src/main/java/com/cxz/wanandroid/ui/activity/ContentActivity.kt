@@ -93,7 +93,7 @@ class ContentActivity : BaseMvpSwipeBackActivity<ContentContract.View, ContentCo
 
         val webView = NestedScrollAgentWebView(this)
 
-        val layoutParams = androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams(-1, -1)
+        val layoutParams = CoordinatorLayout.LayoutParams(-1, -1)
         layoutParams.behavior = AppBarLayout.ScrollingViewBehavior()
 
         mAgentWeb = shareUrl.getAgentWeb(

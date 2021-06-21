@@ -3,8 +3,7 @@
     android:id="@+id/cl_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/viewBackground"
-    android:orientation="vertical">
+    android:background="@color/viewBackground">
 
     <include layout="@layout/toolbar" />
 

@@ -15,8 +15,7 @@ import com.cxz.wanandroid.utils.SettingUtil
  * @date 2019/11/24
  * @desc WebContainer
  */
-class WebContainer constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-    CoordinatorLayout(context, attrs, defStyleAttr) {
+class WebContainer : CoordinatorLayout {
 
     private var mDarkTheme: Boolean = false
 
@@ -28,6 +27,12 @@ class WebContainer constructor(context: Context, attrs: AttributeSet? = null, de
             mMaskColor = ColorUtil.alphaColor(ContextCompat.getColor(getContext(), R.color.mask_color), 0.6f)
         }
     }
+
+    constructor(context: Context) : super(context)
+
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
+
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     override fun dispatchDraw(canvas: Canvas) {
         super.dispatchDraw(canvas)
