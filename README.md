@@ -101,7 +101,7 @@
 
 **[最新更新日志请点击查看](https://github.com/iceCola7/WanAndroid/releases)**
 
-**v1.1.6**
+**v1.1.7**
 
 - 修复已知问题。
 
