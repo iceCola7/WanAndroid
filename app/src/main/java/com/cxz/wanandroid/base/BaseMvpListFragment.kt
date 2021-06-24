@@ -1,10 +1,10 @@
 package com.cxz.wanandroid.base
 
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import android.view.View
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import android.view.View
-import com.chad.library.adapter.base.BaseQuickAdapter
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.chad.library.adapter.base.listener.OnLoadMoreListener
 import com.cxz.wanandroid.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 
@@ -21,9 +21,9 @@ abstract class BaseMvpListFragment<in V : IView, P : IPresenter<V>> : BaseMvpFra
     protected var pageSize = 20
 
     /**
-     * 是否是下拉刷新
+     * PageNum
      */
-    protected var isRefresh = true
+    protected var pageNum = 0
 
     /**
      * LinearLayoutManager
@@ -45,14 +45,15 @@ abstract class BaseMvpListFragment<in V : IView, P : IPresenter<V>> : BaseMvpFra
      * RefreshListener
      */
     protected val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
-        isRefresh = true
+        pageNum = 0
         onRefreshList()
     }
+
     /**
      * LoadMoreListener
      */
-    protected val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
-        isRefresh = false
+    protected val onRequestLoadMoreListener = OnLoadMoreListener {
+        pageNum++
         swipeRefreshLayout.isRefreshing = false
         onLoadMoreList()
     }
@@ -80,9 +81,7 @@ abstract class BaseMvpListFragment<in V : IView, P : IPresenter<V>> : BaseMvpFra
             itemAnimator = DefaultItemAnimator()
             recyclerViewItemDecoration?.let { addItemDecoration(it) }
         }
-
     }
-
 
     override fun showLoading() {
         // swipeRefreshLayout.isRefreshing = isRefresh
@@ -96,5 +95,4 @@ abstract class BaseMvpListFragment<in V : IView, P : IPresenter<V>> : BaseMvpFra
         super.showError(errorMsg)
         mLayoutStatusView?.showError()
     }
-
 }

@@ -1,21 +1,22 @@
 package com.cxz.wanandroid.ui.activity
 
-import com.google.android.material.appbar.AppBarLayout
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
-import com.chad.library.adapter.base.BaseQuickAdapter
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.chad.library.adapter.base.listener.OnLoadMoreListener
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.ScoreAdapter
 import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.base.BaseMvpSwipeBackActivity
+import com.cxz.wanandroid.ext.setNewOrAddData
 import com.cxz.wanandroid.mvp.contract.ScoreContract
 import com.cxz.wanandroid.mvp.model.bean.BaseListResponseBody
 import com.cxz.wanandroid.mvp.model.bean.UserScoreBean
 import com.cxz.wanandroid.mvp.presenter.ScorePresenter
 import com.cxz.wanandroid.widget.SpaceItemDecoration
+import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.activity_score.*
 
 
@@ -30,6 +31,11 @@ class ScoreActivity : BaseMvpSwipeBackActivity<ScoreContract.View, ScoreContract
     private var pageSize = 20
 
     /**
+     * PageNum
+     */
+    private var pageNum = 1
+
+    /**
      * RecyclerView Divider
      */
     private val recyclerViewItemDecoration by lazy {
@@ -39,11 +45,6 @@ class ScoreActivity : BaseMvpSwipeBackActivity<ScoreContract.View, ScoreContract
     private val scoreAdapter: ScoreAdapter by lazy {
         ScoreAdapter()
     }
-
-    /**
-     * is Refresh
-     */
-    private var isRefresh = true
 
     private var contentHeight = 0F
 
@@ -57,19 +58,11 @@ class ScoreActivity : BaseMvpSwipeBackActivity<ScoreContract.View, ScoreContract
 
     override fun hideLoading() {
         swipeRefreshLayout?.isRefreshing = false
-        if (isRefresh) {
-            scoreAdapter.setEnableLoadMore(true)
-        }
     }
 
     override fun showError(errorMsg: String) {
         super.showError(errorMsg)
         mLayoutStatusView?.showError()
-        if (isRefresh) {
-            scoreAdapter.setEnableLoadMore(true)
-        } else {
-            scoreAdapter.loadMoreFail()
-        }
     }
 
     override fun initData() {
@@ -92,16 +85,13 @@ class ScoreActivity : BaseMvpSwipeBackActivity<ScoreContract.View, ScoreContract
             setOnRefreshListener(onRefreshListener)
         }
         recyclerView.run {
-            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@ScoreActivity)
+            layoutManager = LinearLayoutManager(this@ScoreActivity)
             adapter = scoreAdapter
-            itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
+            itemAnimator = DefaultItemAnimator()
             addItemDecoration(recyclerViewItemDecoration)
         }
         scoreAdapter.run {
-            bindToRecyclerView(recyclerView)
-            setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
-            onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, _ ->
-            }
+            loadMoreModule.setOnLoadMoreListener(onRequestLoadMoreListener)
         }
 
         app_bar_layout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
@@ -123,21 +113,7 @@ class ScoreActivity : BaseMvpSwipeBackActivity<ScoreContract.View, ScoreContract
     }
 
     override fun showUserScoreList(body: BaseListResponseBody<UserScoreBean>) {
-        body.datas.let {
-            scoreAdapter.run {
-                if (isRefresh) {
-                    replaceData(it)
-                } else {
-                    addData(it)
-                }
-                pageSize = body.size
-                if (body.over) {
-                    loadMoreEnd(isRefresh)
-                } else {
-                    loadMoreComplete()
-                }
-            }
-        }
+        scoreAdapter.setNewOrAddData(pageNum == 1, body.datas)
         if (scoreAdapter.data.isEmpty()) {
             mLayoutStatusView?.showEmpty()
         } else {
@@ -148,19 +124,18 @@ class ScoreActivity : BaseMvpSwipeBackActivity<ScoreContract.View, ScoreContract
     /**
      * RefreshListener
      */
-    private val onRefreshListener = androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener {
-        isRefresh = true
-        scoreAdapter.setEnableLoadMore(false)
-        mPresenter?.getUserScoreList(1)
+    private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
+        pageNum = 1
+        mPresenter?.getUserScoreList(pageNum)
     }
+
     /**
      * LoadMoreListener
      */
-    private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
-        isRefresh = false
+    private val onRequestLoadMoreListener = OnLoadMoreListener {
+        pageNum++
         swipeRefreshLayout.isRefreshing = false
-        val page = scoreAdapter.data.size / pageSize + 1
-        mPresenter?.getUserScoreList(page)
+        mPresenter?.getUserScoreList(pageNum)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

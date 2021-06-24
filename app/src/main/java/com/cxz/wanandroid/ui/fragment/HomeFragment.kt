@@ -1,17 +1,16 @@
 package com.cxz.wanandroid.ui.fragment
 
 import android.content.Intent
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
 import android.widget.ImageView
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
 import cn.bingoogolapple.bgabanner.BGABanner
-import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.HomeAdapter
 import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.base.BaseMvpFragment
+import com.cxz.wanandroid.ext.setNewOrAddData
 import com.cxz.wanandroid.ext.showSnackMsg
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.HomeContract
@@ -37,12 +36,7 @@ class HomeFragment : BaseMvpFragment<HomeContract.View, HomeContract.Presenter>(
         fun getInstance(): HomeFragment = HomeFragment()
     }
 
-    override fun createPresenter(): HomeContract.Presenter = HomePresenter()
-
-    /**
-     * datas
-     */
-    private val datas = mutableListOf<Article>()
+    override fun createPresenter(): HomePresenter = HomePresenter()
 
     /**
      * banner datas
@@ -67,7 +61,7 @@ class HomeFragment : BaseMvpFragment<HomeContract.View, HomeContract.Presenter>(
      * Home Adapter
      */
     private val homeAdapter: HomeAdapter by lazy {
-        HomeAdapter(activity, datas)
+        HomeAdapter()
     }
 
     /**
@@ -87,9 +81,9 @@ class HomeFragment : BaseMvpFragment<HomeContract.View, HomeContract.Presenter>(
     }
 
     /**
-     * is Refresh
+     * pageNum
      */
-    private var isRefresh = true
+    private var pageNum = 0
 
     override fun attachLayoutRes(): Int = R.layout.fragment_refresh_layout
 
@@ -106,8 +100,9 @@ class HomeFragment : BaseMvpFragment<HomeContract.View, HomeContract.Presenter>(
     override fun initView(view: View) {
         super.initView(view)
         mLayoutStatusView = multiple_status_view
-        swipeRefreshLayout.run {
-            setOnRefreshListener(onRefreshListener)
+        swipeRefreshLayout.setOnRefreshListener {
+            pageNum = 0
+            mPresenter?.requestHomeData()
         }
         recyclerView.run {
             layoutManager = linearLayoutManager
@@ -122,12 +117,20 @@ class HomeFragment : BaseMvpFragment<HomeContract.View, HomeContract.Presenter>(
         }
 
         homeAdapter.run {
-            bindToRecyclerView(recyclerView)
-            setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
-            onItemClickListener = this@HomeFragment.onItemClickListener
-            onItemChildClickListener = this@HomeFragment.onItemChildClickListener
-            // setEmptyView(R.layout.fragment_empty_layout)
-            addHeaderView(bannerView)
+            addHeaderView(bannerView!!)
+            setOnItemClickListener { adapter, view, position ->
+                val item = adapter.data[position] as Article
+                itemClick(item)
+            }
+            setOnItemChildClickListener { adapter, view, position ->
+                val item = adapter.data[position] as Article
+                itemChildClick(item, view, position)
+            }
+            loadMoreModule.setOnLoadMoreListener {
+                swipeRefreshLayout.isRefreshing = false
+                pageNum++
+                mPresenter?.requestArticles(pageNum)
+            }
         }
     }
 
@@ -137,27 +140,15 @@ class HomeFragment : BaseMvpFragment<HomeContract.View, HomeContract.Presenter>(
     }
 
     override fun showLoading() {
-        // swipeRefreshLayout.isRefreshing = isRefresh
     }
 
     override fun hideLoading() {
         swipeRefreshLayout?.isRefreshing = false
-        if (isRefresh) {
-            homeAdapter.run {
-                setEnableLoadMore(true)
-            }
-        }
     }
 
     override fun showError(errorMsg: String) {
         super.showError(errorMsg)
         mLayoutStatusView?.showError()
-        homeAdapter.run {
-            if (isRefresh)
-                setEnableLoadMore(true)
-            else
-                loadMoreFail()
-        }
     }
 
     override fun setBanner(banners: List<Banner>) {
@@ -165,10 +156,10 @@ class HomeFragment : BaseMvpFragment<HomeContract.View, HomeContract.Presenter>(
         val bannerFeedList = ArrayList<String>()
         val bannerTitleList = ArrayList<String>()
         Observable.fromIterable(banners)
-                .subscribe { list ->
-                    bannerFeedList.add(list.imagePath)
-                    bannerTitleList.add(list.title)
-                }
+            .subscribe { list ->
+                bannerFeedList.add(list.imagePath)
+                bannerTitleList.add(list.title)
+            }
         bannerView?.banner?.run {
             setAutoPlayAble(bannerFeedList.size > 1)
             setData(bannerFeedList, bannerTitleList)
@@ -177,21 +168,7 @@ class HomeFragment : BaseMvpFragment<HomeContract.View, HomeContract.Presenter>(
     }
 
     override fun setArticles(articles: ArticleResponseBody) {
-        articles.datas.let {
-            homeAdapter.run {
-                if (isRefresh) {
-                    replaceData(it)
-                } else {
-                    addData(it)
-                }
-                val size = it.size
-                if (size < articles.size) {
-                    loadMoreEnd(isRefresh)
-                } else {
-                    loadMoreComplete()
-                }
-            }
-        }
+        homeAdapter.setNewOrAddData(pageNum == 0, articles.datas)
         if (homeAdapter.data.isEmpty()) {
             mLayoutStatusView?.showEmpty()
         } else {
@@ -212,31 +189,41 @@ class HomeFragment : BaseMvpFragment<HomeContract.View, HomeContract.Presenter>(
     }
 
     /**
-     * RefreshListener
+     * Item Click
      */
-    private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
-        isRefresh = true
-        homeAdapter.setEnableLoadMore(false)
-        mPresenter?.requestHomeData()
+    private fun itemClick(item: Article) {
+        ContentActivity.start(activity, item.id, item.title, item.link)
     }
 
     /**
-     * LoadMoreListener
+     * Item Child Click
+     * @param item Article
+     * @param view View
+     * @param position Int
      */
-    private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
-        isRefresh = false
-        swipeRefreshLayout.isRefreshing = false
-        val page = homeAdapter.data.size / 20
-        mPresenter?.requestArticles(page)
-    }
-
-    /**
-     * ItemClickListener
-     */
-    private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
-        if (datas.size != 0) {
-            val data = datas[position]
-            ContentActivity.start(activity, data.id, data.title, data.link)
+    private fun itemChildClick(item: Article, view: View, position: Int) {
+        when (view.id) {
+            R.id.iv_like -> {
+                if (isLogin) {
+                    if (!NetWorkUtil.isNetworkAvailable(App.context)) {
+                        showSnackMsg(resources.getString(R.string.no_network))
+                        return
+                    }
+                    val collect = item.collect
+                    item.collect = !collect
+                    homeAdapter.setData(position, item)
+                    if (collect) {
+                        mPresenter?.cancelCollectArticle(item.id)
+                    } else {
+                        mPresenter?.addCollectArticle(item.id)
+                    }
+                } else {
+                    Intent(activity, LoginActivity::class.java).run {
+                        startActivity(this)
+                    }
+                    showToast(resources.getString(R.string.login_tint))
+                }
+            }
         }
     }
 
@@ -249,38 +236,4 @@ class HomeFragment : BaseMvpFragment<HomeContract.View, HomeContract.Presenter>(
             ContentActivity.start(activity, data.id, data.title, data.url)
         }
     }
-
-    /**
-     * ItemChildClickListener
-     */
-    private val onItemChildClickListener =
-            BaseQuickAdapter.OnItemChildClickListener { _, view, position ->
-                if (datas.size != 0) {
-                    val data = datas[position]
-                    when (view.id) {
-                        R.id.iv_like -> {
-                            if (isLogin) {
-                                if (!NetWorkUtil.isNetworkAvailable(App.context)) {
-                                    showSnackMsg(resources.getString(R.string.no_network))
-                                    return@OnItemChildClickListener
-                                }
-                                val collect = data.collect
-                                data.collect = !collect
-                                homeAdapter.setData(position, data)
-                                if (collect) {
-                                    mPresenter?.cancelCollectArticle(data.id)
-                                } else {
-                                    mPresenter?.addCollectArticle(data.id)
-                                }
-                            } else {
-                                Intent(activity, LoginActivity::class.java).run {
-                                    startActivity(this)
-                                }
-                                showToast(resources.getString(R.string.login_tint))
-                            }
-                        }
-                    }
-                }
-            }
-
 }

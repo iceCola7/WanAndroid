@@ -1,12 +1,12 @@
 package com.cxz.wanandroid.adapter
 
 import android.app.ActivityOptions
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
+import com.chad.library.adapter.base.module.LoadMoreModule
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.mvp.model.bean.Article
 import com.cxz.wanandroid.mvp.model.bean.NavigationBean
@@ -20,20 +20,21 @@ import com.zhy.view.flowlayout.TagFlowLayout
 /**
  * Created by chenxz on 2018/5/13.
  */
-class NavigationAdapter(context: Context?, datas: MutableList<NavigationBean>)
-    : BaseQuickAdapter<NavigationBean, BaseViewHolder>(R.layout.item_navigation_list, datas) {
+class NavigationAdapter : BaseQuickAdapter<NavigationBean, BaseViewHolder>(R.layout.item_navigation_list),
+    LoadMoreModule {
 
-    override fun convert(helper: BaseViewHolder?, item: NavigationBean?) {
-        item ?: return
-        helper?.setText(R.id.item_navigation_tv, item.name)
-        val flowLayout: TagFlowLayout? = helper?.getView(R.id.item_navigation_flow_layout)
+    override fun convert(holder: BaseViewHolder, item: NavigationBean) {
+        holder.setText(R.id.item_navigation_tv, item.name)
+        val flowLayout: TagFlowLayout = holder.getView(R.id.item_navigation_flow_layout)
         val articles: List<Article> = item.articles
-        flowLayout?.run {
+        flowLayout.run {
             adapter = object : TagAdapter<Article>(articles) {
                 override fun getView(parent: FlowLayout?, position: Int, article: Article?): View? {
 
-                    val tv: TextView = LayoutInflater.from(parent?.context).inflate(R.layout.flow_layout_tv,
-                            flowLayout, false) as TextView
+                    val tv: TextView = LayoutInflater.from(parent?.context).inflate(
+                        R.layout.flow_layout_tv,
+                        flowLayout, false
+                    ) as TextView
 
                     article ?: return null
 
@@ -43,11 +44,13 @@ class NavigationAdapter(context: Context?, datas: MutableList<NavigationBean>)
                     tv.setTextColor(CommonUtil.randomColor())
 
                     setOnTagClickListener { view, position, _ ->
-                        val options: ActivityOptions = ActivityOptions.makeScaleUpAnimation(view,
-                                view.width / 2,
-                                view.height / 2,
-                                0,
-                                0)
+                        val options: ActivityOptions = ActivityOptions.makeScaleUpAnimation(
+                            view,
+                            view.width / 2,
+                            view.height / 2,
+                            0,
+                            0
+                        )
                         val data: Article = articles[position]
                         ContentActivity.start(context, data.id, data.title, data.link, options.toBundle())
                         true
@@ -57,6 +60,4 @@ class NavigationAdapter(context: Context?, datas: MutableList<NavigationBean>)
             }
         }
     }
-
-
 }

@@ -1,21 +1,18 @@
 package com.cxz.wanandroid.ui.activity
 
 import android.content.Intent
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.chad.library.adapter.base.BaseQuickAdapter
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.SearchHistoryAdapter
 import com.cxz.wanandroid.base.BaseMvpSwipeBackActivity
 import com.cxz.wanandroid.constant.Constant
-import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.SearchContract
 import com.cxz.wanandroid.mvp.model.bean.HotSearchBean
 import com.cxz.wanandroid.mvp.model.bean.SearchHistoryBean
@@ -38,22 +35,17 @@ class SearchActivity : BaseMvpSwipeBackActivity<SearchContract.View, SearchContr
     private var mHotSearchDatas = mutableListOf<HotSearchBean>()
 
     /**
-     * datas
-     */
-    private val datas = mutableListOf<SearchHistoryBean>()
-
-    /**
      * SearchHistoryAdapter
      */
     private val searchHistoryAdapter by lazy {
-        SearchHistoryAdapter(this, datas)
+        SearchHistoryAdapter()
     }
 
     /**
      * LinearLayoutManager
      */
-    private val linearLayoutManager: androidx.recyclerview.widget.LinearLayoutManager by lazy {
-        androidx.recyclerview.widget.LinearLayoutManager(this)
+    private val linearLayoutManager: LinearLayoutManager by lazy {
+        LinearLayoutManager(this)
     }
 
     /**
@@ -94,15 +86,19 @@ class SearchActivity : BaseMvpSwipeBackActivity<SearchContract.View, SearchContr
         }
 
         searchHistoryAdapter.run {
-            bindToRecyclerView(rv_history_search)
-            onItemClickListener = this@SearchActivity.onItemClickListener
-            onItemChildClickListener = this@SearchActivity.onItemChildClickListener
             setEmptyView(R.layout.search_empty_view)
+            setOnItemClickListener { adapter, view, position ->
+                val item = adapter.data[position] as SearchHistoryBean
+                itemClick(item)
+            }
+            setOnItemChildClickListener { adapter, view, position ->
+                val item = adapter.data[position] as SearchHistoryBean
+                itemChildClick(item, view, position)
+            }
         }
 
         search_history_clear_all_tv.setOnClickListener {
-            datas.clear()
-            searchHistoryAdapter.replaceData(datas)
+            searchHistoryAdapter.setList(mutableListOf())
             mPresenter?.clearAllHistory()
         }
 
@@ -134,9 +130,11 @@ class SearchActivity : BaseMvpSwipeBackActivity<SearchContract.View, SearchContr
         this.mHotSearchDatas.addAll(hotSearchDatas)
         hot_search_flow_layout.adapter = object : TagAdapter<HotSearchBean>(hotSearchDatas) {
             override fun getView(parent: FlowLayout?, position: Int, hotSearchBean: HotSearchBean?): View {
-                val tv: TextView = LayoutInflater.from(parent?.context).inflate(R.layout.flow_layout_tv,
-                        hot_search_flow_layout, false) as TextView
-                val padding: Int = DisplayManager.dip2px(10F)!!
+                val tv: TextView = LayoutInflater.from(parent?.context).inflate(
+                    R.layout.flow_layout_tv,
+                    hot_search_flow_layout, false
+                ) as TextView
+                val padding: Int = DisplayManager.dip2px(10F)
                 tv.setPadding(padding, padding, padding, padding)
                 tv.text = hotSearchBean?.name
                 tv.setTextColor(CommonUtil.randomColor())
@@ -180,29 +178,24 @@ class SearchActivity : BaseMvpSwipeBackActivity<SearchContract.View, SearchContr
     }
 
     /**
-     * ItemClickListener
+     * Item Click
      */
-    private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
-        if (searchHistoryAdapter.data.size != 0) {
-            val item = searchHistoryAdapter.data[position]
-            goToSearchList(item.key)
-        }
+    private fun itemClick(item: SearchHistoryBean) {
+        goToSearchList(item.key)
     }
 
     /**
-     * ItemChildClickListener
+     * Item Child Click
+     * @param item Article
+     * @param view View
+     * @param position Int
      */
-    private val onItemChildClickListener =
-            BaseQuickAdapter.OnItemChildClickListener { _, view, position ->
-                if (searchHistoryAdapter.data.size != 0) {
-                    val item = searchHistoryAdapter.data[position]
-                    when (view.id) {
-                        R.id.iv_clear -> {
-                            mPresenter?.deleteById(item.id)
-                            searchHistoryAdapter.remove(position)
-                        }
-                    }
-                }
+    private fun itemChildClick(item: SearchHistoryBean, view: View, position: Int) {
+        when (view.id) {
+            R.id.iv_clear -> {
+                mPresenter?.deleteById(item.id)
+                searchHistoryAdapter.removeAt(position)
             }
-
+        }
+    }
 }

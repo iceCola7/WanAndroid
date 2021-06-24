@@ -2,14 +2,14 @@ package com.cxz.wanandroid.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.recyclerview.widget.DefaultItemAnimator
 import android.view.View
-import com.chad.library.adapter.base.BaseQuickAdapter
+import androidx.recyclerview.widget.DefaultItemAnimator
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.KnowledgeAdapter
 import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.base.BaseMvpListFragment
 import com.cxz.wanandroid.constant.Constant
+import com.cxz.wanandroid.ext.setNewOrAddData
 import com.cxz.wanandroid.ext.showSnackMsg
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.KnowledgeContract
@@ -25,7 +25,8 @@ import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 /**
  * Created by chenxz on 2018/5/10.
  */
-class KnowledgeFragment : BaseMvpListFragment<KnowledgeContract.View, KnowledgeContract.Presenter>(), KnowledgeContract.View {
+class KnowledgeFragment : BaseMvpListFragment<KnowledgeContract.View, KnowledgeContract.Presenter>(),
+    KnowledgeContract.View {
 
     companion object {
         fun getInstance(cid: Int): KnowledgeFragment {
@@ -43,11 +44,6 @@ class KnowledgeFragment : BaseMvpListFragment<KnowledgeContract.View, KnowledgeC
     private var cid: Int = 0
 
     /**
-     * datas
-     */
-    private val datas = mutableListOf<Article>()
-
-    /**
      * RecyclerView Divider
      */
     private val recyclerViewItemDecoration by lazy {
@@ -60,23 +56,15 @@ class KnowledgeFragment : BaseMvpListFragment<KnowledgeContract.View, KnowledgeC
      * Knowledge Adapter
      */
     private val mAdapter: KnowledgeAdapter by lazy {
-        KnowledgeAdapter(activity, datas)
+        KnowledgeAdapter()
     }
 
     override fun hideLoading() {
         super.hideLoading()
-        if (isRefresh) {
-            mAdapter.setEnableLoadMore(true)
-        }
     }
 
     override fun showError(errorMsg: String) {
         super.showError(errorMsg)
-        if (isRefresh) {
-            mAdapter.setEnableLoadMore(true)
-        } else {
-            mAdapter.loadMoreFail()
-        }
     }
 
     override fun attachLayoutRes(): Int = R.layout.fragment_refresh_layout
@@ -98,10 +86,15 @@ class KnowledgeFragment : BaseMvpListFragment<KnowledgeContract.View, KnowledgeC
         }
 
         mAdapter.run {
-            setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
-            onItemClickListener = this@KnowledgeFragment.onItemClickListener
-            onItemChildClickListener = this@KnowledgeFragment.onItemChildClickListener
-            // setEmptyView(R.layout.fragment_empty_layout)
+            setOnItemClickListener { adapter, view, position ->
+                val item = adapter.data[position] as Article
+                itemClick(item)
+            }
+            setOnItemChildClickListener { adapter, view, position ->
+                val item = adapter.data[position] as Article
+                itemChildClick(item, view, position)
+            }
+            loadMoreModule.setOnLoadMoreListener(onRequestLoadMoreListener)
         }
     }
 
@@ -111,13 +104,11 @@ class KnowledgeFragment : BaseMvpListFragment<KnowledgeContract.View, KnowledgeC
     }
 
     override fun onRefreshList() {
-        mAdapter.setEnableLoadMore(false)
         mPresenter?.requestKnowledgeList(0, cid)
     }
 
     override fun onLoadMoreList() {
-        val page = mAdapter.data.size / pageSize
-        mPresenter?.requestKnowledgeList(page, cid)
+        mPresenter?.requestKnowledgeList(pageNum, cid)
     }
 
     override fun showCancelCollectSuccess(success: Boolean) {
@@ -133,21 +124,7 @@ class KnowledgeFragment : BaseMvpListFragment<KnowledgeContract.View, KnowledgeC
     }
 
     override fun setKnowledgeList(articles: ArticleResponseBody) {
-        articles.datas.let {
-            mAdapter.run {
-                if (isRefresh) {
-                    replaceData(it)
-                } else {
-                    addData(it)
-                }
-                pageSize = articles.size
-                if (articles.over) {
-                    loadMoreEnd(isRefresh)
-                } else {
-                    loadMoreComplete()
-                }
-            }
-        }
+        mAdapter.setNewOrAddData(pageNum == 0, articles.datas)
         if (mAdapter.data.isEmpty()) {
             mLayoutStatusView?.showEmpty()
         } else {
@@ -166,46 +143,41 @@ class KnowledgeFragment : BaseMvpListFragment<KnowledgeContract.View, KnowledgeC
     }
 
     /**
-     * ItemClickListener
+     * Item Click
      */
-    private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
-        if (datas.size != 0) {
-            val data = datas[position]
-            ContentActivity.start(activity, data.id, data.title, data.link)
-        }
+    private fun itemClick(item: Article) {
+        ContentActivity.start(activity, item.id, item.title, item.link)
     }
 
     /**
-     * ItemChildClickListener
+     * Item Child Click
+     * @param item Article
+     * @param view View
+     * @param position Int
      */
-    private val onItemChildClickListener =
-            BaseQuickAdapter.OnItemChildClickListener { _, view, position ->
-                if (datas.size != 0) {
-                    val data = datas[position]
-                    when (view.id) {
-                        R.id.iv_like -> {
-                            if (isLogin) {
-                                if (!NetWorkUtil.isNetworkAvailable(App.context)) {
-                                    showSnackMsg(resources.getString(R.string.no_network))
-                                    return@OnItemChildClickListener
-                                }
-                                val collect = data.collect
-                                data.collect = !collect
-                                mAdapter.setData(position, data)
-                                if (collect) {
-                                    mPresenter?.cancelCollectArticle(data.id)
-                                } else {
-                                    mPresenter?.addCollectArticle(data.id)
-                                }
-                            } else {
-                                Intent(activity, LoginActivity::class.java).run {
-                                    startActivity(this)
-                                }
-                                showToast(resources.getString(R.string.login_tint))
-                            }
-                        }
+    private fun itemChildClick(item: Article, view: View, position: Int) {
+        when (view.id) {
+            R.id.iv_like -> {
+                if (isLogin) {
+                    if (!NetWorkUtil.isNetworkAvailable(App.context)) {
+                        showSnackMsg(resources.getString(R.string.no_network))
+                        return
                     }
+                    val collect = item.collect
+                    item.collect = !collect
+                    mAdapter.setData(position, item)
+                    if (collect) {
+                        mPresenter?.cancelCollectArticle(item.id)
+                    } else {
+                        mPresenter?.addCollectArticle(item.id)
+                    }
+                } else {
+                    Intent(activity, LoginActivity::class.java).run {
+                        startActivity(this)
+                    }
+                    showToast(resources.getString(R.string.login_tint))
                 }
             }
-
+        }
+    }
 }

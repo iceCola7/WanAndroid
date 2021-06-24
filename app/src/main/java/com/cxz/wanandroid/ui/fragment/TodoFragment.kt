@@ -1,10 +1,8 @@
 package com.cxz.wanandroid.ui.fragment
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.TodoAdapter
 import com.cxz.wanandroid.app.App
@@ -13,6 +11,7 @@ import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.RefreshTodoEvent
 import com.cxz.wanandroid.event.TodoEvent
 import com.cxz.wanandroid.event.TodoTypeEvent
+import com.cxz.wanandroid.ext.setNewOrAddData
 import com.cxz.wanandroid.ext.showSnackMsg
 import com.cxz.wanandroid.mvp.contract.TodoContract
 import com.cxz.wanandroid.mvp.model.bean.TodoDataBean
@@ -29,7 +28,6 @@ import org.greenrobot.eventbus.ThreadMode
 /**
  * Created by chenxz on 2018/8/6.
  */
-
 class TodoFragment : BaseMvpListFragment<TodoContract.View, TodoContract.Presenter>(), TodoContract.View {
 
     companion object {
@@ -49,26 +47,16 @@ class TodoFragment : BaseMvpListFragment<TodoContract.View, TodoContract.Present
      */
     private var bDone: Boolean = false
 
-    private val datas = mutableListOf<TodoDataBean>()
-
     private val mAdapter: TodoAdapter by lazy {
-        TodoAdapter(R.layout.item_todo_list, R.layout.item_sticky_header, datas)
+        TodoAdapter()
     }
 
     override fun hideLoading() {
         super.hideLoading()
-        if (isRefresh) {
-            mAdapter.setEnableLoadMore(true)
-        }
     }
 
     override fun showError(errorMsg: String) {
         super.showError(errorMsg)
-        if (isRefresh) {
-            mAdapter.setEnableLoadMore(true)
-        } else {
-            mAdapter.loadMoreFail()
-        }
     }
 
     override fun attachLayoutRes(): Int = R.layout.fragment_todo
@@ -86,13 +74,12 @@ class TodoFragment : BaseMvpListFragment<TodoContract.View, TodoContract.Present
         }
 
         mAdapter.run {
-            bindToRecyclerView(recyclerView)
-            setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
-            onItemClickListener = this@TodoFragment.onItemClickListener
-            onItemChildClickListener = this@TodoFragment.onItemChildClickListener
-            // setEmptyView(R.layout.fragment_empty_layout)
+            setOnItemChildClickListener { adapter, view, position ->
+                val item = adapter.data[position] as TodoDataBean
+                itemChildClick(item, view, position)
+            }
+            loadMoreModule.setOnLoadMoreListener(onRequestLoadMoreListener)
         }
-
     }
 
     override fun lazyLoad() {
@@ -105,16 +92,14 @@ class TodoFragment : BaseMvpListFragment<TodoContract.View, TodoContract.Present
     }
 
     override fun onRefreshList() {
-        mAdapter.setEnableLoadMore(false)
         lazyLoad()
     }
 
     override fun onLoadMoreList() {
-        val page = mAdapter.data.size / pageSize + 1
         if (bDone) {
-            mPresenter?.getDoneList(page, mType)
+            mPresenter?.getDoneList(pageNum + 1, mType)
         } else {
-            mPresenter?.getNoTodoList(page, mType)
+            mPresenter?.getNoTodoList(pageNum + 1, mType)
         }
     }
 
@@ -158,37 +143,22 @@ class TodoFragment : BaseMvpListFragment<TodoContract.View, TodoContract.Present
     }
 
     override fun showNoTodoList(todoResponseBody: TodoResponseBody) {
-        // TODO 待优化
         val list = mutableListOf<TodoDataBean>()
         var bHeader = true
         todoResponseBody.datas.forEach { todoBean ->
             bHeader = true
             for (i in list.indices) {
-                if (todoBean.dateStr == list[i].header) {
+                if (todoBean.dateStr == list[i].headerName) {
                     bHeader = false
                     break
                 }
             }
-            if (bHeader)
-                list.add(TodoDataBean(true, todoBean.dateStr))
-            list.add(TodoDataBean(todoBean))
-        }
-
-        list.let {
-            mAdapter.run {
-                if (isRefresh) {
-                    replaceData(it)
-                } else {
-                    addData(it)
-                }
-                pageSize = todoResponseBody.size
-                if (todoResponseBody.over) {
-                    loadMoreEnd(isRefresh)
-                } else {
-                    loadMoreComplete()
-                }
+            if (bHeader) {
+                list.add(TodoDataBean(headerName = todoBean.dateStr))
             }
+            list.add(TodoDataBean(todoBean = todoBean))
         }
+        mAdapter.setNewOrAddData(pageNum == 0, list)
         if (mAdapter.data.isEmpty()) {
             mLayoutStatusView?.showEmpty()
         } else {
@@ -209,66 +179,55 @@ class TodoFragment : BaseMvpListFragment<TodoContract.View, TodoContract.Present
     }
 
     /**
-     * ItemClickListener
+     * Item Child Click
+     * @param item TodoDataBean
+     * @param view View
+     * @param position Int
      */
-    private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
-        if (datas.size != 0) {
-            val data = datas[position]
-        }
-    }
-
-    /**
-     * ItemChildClickListener
-     */
-    private val onItemChildClickListener =
-            BaseQuickAdapter.OnItemChildClickListener { _, view, position ->
-                if (datas.size != 0) {
-                    val data = datas[position].t
-                    when (view.id) {
-                        R.id.btn_delete -> {
-                            if (!NetWorkUtil.isNetworkAvailable(App.context)) {
-                                showSnackMsg(resources.getString(R.string.no_network))
-                                return@OnItemChildClickListener
-                            }
-                            activity?.let {
-                                DialogUtil.getConfirmDialog(it, resources.getString(R.string.confirm_delete),
-                                        DialogInterface.OnClickListener { _, _ ->
-                                            mPresenter?.deleteTodoById(data.id)
-                                            mAdapter.remove(position)
-                                        }).show()
-                            }
-                        }
-                        R.id.btn_done -> {
-                            if (!NetWorkUtil.isNetworkAvailable(App.context)) {
-                                showSnackMsg(resources.getString(R.string.no_network))
-                                return@OnItemChildClickListener
-                            }
-                            if (bDone) {
-                                mPresenter?.updateTodoById(data.id, 0)
-                            } else {
-                                mPresenter?.updateTodoById(data.id, 1)
-                            }
-                            mAdapter.remove(position)
-                        }
-                        R.id.item_todo_content -> {
-                            if (bDone) {
-                                Intent(activity, CommonActivity::class.java).run {
-                                    putExtra(Constant.TYPE_KEY, Constant.Type.SEE_TODO_TYPE_KEY)
-                                    putExtra(Constant.TODO_BEAN, data)
-                                    putExtra(Constant.TODO_TYPE, mType)
-                                    startActivity(this)
-                                }
-                            } else {
-                                Intent(activity, CommonActivity::class.java).run {
-                                    putExtra(Constant.TYPE_KEY, Constant.Type.EDIT_TODO_TYPE_KEY)
-                                    putExtra(Constant.TODO_BEAN, data)
-                                    putExtra(Constant.TODO_TYPE, mType)
-                                    startActivity(this)
-                                }
-                            }
-                        }
+    private fun itemChildClick(item: TodoDataBean, view: View, position: Int) {
+        val data = item.todoBean ?: return
+        when (view.id) {
+            R.id.btn_delete -> {
+                if (!NetWorkUtil.isNetworkAvailable(App.context)) {
+                    showSnackMsg(resources.getString(R.string.no_network))
+                    return
+                }
+                activity?.let {
+                    DialogUtil.getConfirmDialog(it, resources.getString(R.string.confirm_delete)) { _, _ ->
+                        mPresenter?.deleteTodoById(data.id)
+                        mAdapter.removeAt(position)
+                    }.show()
+                }
+            }
+            R.id.btn_done -> {
+                if (!NetWorkUtil.isNetworkAvailable(App.context)) {
+                    showSnackMsg(resources.getString(R.string.no_network))
+                    return
+                }
+                if (bDone) {
+                    mPresenter?.updateTodoById(data.id, 0)
+                } else {
+                    mPresenter?.updateTodoById(data.id, 1)
+                }
+                mAdapter.removeAt(position)
+            }
+            R.id.item_todo_content -> {
+                if (bDone) {
+                    Intent(activity, CommonActivity::class.java).run {
+                        putExtra(Constant.TYPE_KEY, Constant.Type.SEE_TODO_TYPE_KEY)
+                        putExtra(Constant.TODO_BEAN, data)
+                        putExtra(Constant.TODO_TYPE, mType)
+                        startActivity(this)
+                    }
+                } else {
+                    Intent(activity, CommonActivity::class.java).run {
+                        putExtra(Constant.TYPE_KEY, Constant.Type.EDIT_TODO_TYPE_KEY)
+                        putExtra(Constant.TODO_BEAN, data)
+                        putExtra(Constant.TODO_TYPE, mType)
+                        startActivity(this)
                     }
                 }
             }
-
+        }
+    }
 }

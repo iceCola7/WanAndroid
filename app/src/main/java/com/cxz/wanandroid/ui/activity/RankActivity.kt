@@ -1,12 +1,10 @@
 package com.cxz.wanandroid.ui.activity
 
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.RankAdapter
 import com.cxz.wanandroid.base.BaseMvpSwipeBackActivity
+import com.cxz.wanandroid.ext.setNewOrAddData
 import com.cxz.wanandroid.mvp.contract.RankContract
 import com.cxz.wanandroid.mvp.model.bean.BaseListResponseBody
 import com.cxz.wanandroid.mvp.model.bean.CoinInfoBean
@@ -23,7 +21,12 @@ class RankActivity : BaseMvpSwipeBackActivity<RankContract.View, RankContract.Pr
     /**
      * 每页数据的个数
      */
-    private var pageSize = 20;
+    private var pageSize = 20
+
+    /**
+     * PageNum
+     */
+    private var pageNum = 1
 
     /**
      * RecyclerView Divider
@@ -36,11 +39,6 @@ class RankActivity : BaseMvpSwipeBackActivity<RankContract.View, RankContract.Pr
         RankAdapter()
     }
 
-    /**
-     * is Refresh
-     */
-    private var isRefresh = true
-
     override fun createPresenter(): RankContract.Presenter = RankPresenter()
 
     override fun attachLayoutRes(): Int = R.layout.activity_rank
@@ -51,19 +49,11 @@ class RankActivity : BaseMvpSwipeBackActivity<RankContract.View, RankContract.Pr
 
     override fun hideLoading() {
         swipeRefreshLayout?.isRefreshing = false
-        if (isRefresh) {
-            rankAdapter.setEnableLoadMore(true)
-        }
     }
 
     override fun showError(errorMsg: String) {
         super.showError(errorMsg)
         mLayoutStatusView?.showError()
-        if (isRefresh) {
-            rankAdapter.setEnableLoadMore(true)
-        } else {
-            rankAdapter.loadMoreFail()
-        }
     }
 
     override fun initData() {
@@ -77,18 +67,22 @@ class RankActivity : BaseMvpSwipeBackActivity<RankContract.View, RankContract.Pr
             setSupportActionBar(this)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
-        swipeRefreshLayout.run {
-            setOnRefreshListener(onRefreshListener)
+        swipeRefreshLayout.setOnRefreshListener {
+            pageNum = 1
+            mPresenter?.getRankList(pageNum)
         }
         recyclerView.run {
-            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@RankActivity)
+            layoutManager = LinearLayoutManager(this@RankActivity)
             adapter = rankAdapter
             itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
             addItemDecoration(recyclerViewItemDecoration)
         }
         rankAdapter.run {
-            bindToRecyclerView(recyclerView)
-            setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
+            loadMoreModule.setOnLoadMoreListener {
+                pageNum++
+                swipeRefreshLayout.isRefreshing = false
+                mPresenter?.getRankList(pageNum)
+            }
         }
     }
 
@@ -98,44 +92,11 @@ class RankActivity : BaseMvpSwipeBackActivity<RankContract.View, RankContract.Pr
     }
 
     override fun showRankList(body: BaseListResponseBody<CoinInfoBean>) {
-        body.datas.let {
-            rankAdapter.run {
-                if (isRefresh) {
-                    replaceData(it)
-                } else {
-                    addData(it)
-                }
-                pageSize = body.size
-                if (body.over) {
-                    loadMoreEnd(isRefresh)
-                } else {
-                    loadMoreComplete()
-                }
-            }
-        }
+        rankAdapter.setNewOrAddData(pageNum == 1, body.datas)
         if (rankAdapter.data.isEmpty()) {
             mLayoutStatusView?.showEmpty()
         } else {
             mLayoutStatusView?.showContent()
         }
     }
-
-    /**
-     * RefreshListener
-     */
-    private val onRefreshListener = androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener {
-        isRefresh = true
-        rankAdapter.setEnableLoadMore(false)
-        mPresenter?.getRankList(1)
-    }
-    /**
-     * LoadMoreListener
-     */
-    private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
-        isRefresh = false
-        swipeRefreshLayout.isRefreshing = false
-        val page = rankAdapter.data.size / pageSize + 1
-        mPresenter?.getRankList(page)
-    }
-
 }

@@ -1,20 +1,17 @@
 package com.cxz.wanandroid.adapter
 
-import android.content.Context
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.mvp.model.bean.SearchHistoryBean
 
-class SearchHistoryAdapter(private val context: Context?, datas: MutableList<SearchHistoryBean>)
-    : BaseQuickAdapter<SearchHistoryBean, BaseViewHolder>(R.layout.item_search_history, datas) {
+class SearchHistoryAdapter : BaseQuickAdapter<SearchHistoryBean, BaseViewHolder>(R.layout.item_search_history) {
 
-    override fun convert(helper: BaseViewHolder?, item: SearchHistoryBean?) {
-        helper ?: return
-        item ?: return
+    init {
+        addChildClickViewIds(R.id.iv_clear)
+    }
 
-        helper.setText(R.id.tv_search_key, item.key)
-                .addOnClickListener(R.id.iv_clear)
-
+    override fun convert(holder: BaseViewHolder, item: SearchHistoryBean) {
+        holder.setText(R.id.tv_search_key, item.key)
     }
 }

@@ -2,14 +2,10 @@ package com.cxz.wanandroid.ui.activity
 
 import android.content.res.ColorStateList
 import android.os.Build
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.*
 import android.widget.PopupWindow
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.TodoPopupAdapter
-import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.base.BaseSwipeBackActivity
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.ColorEvent
@@ -18,6 +14,8 @@ import com.cxz.wanandroid.event.TodoTypeEvent
 import com.cxz.wanandroid.mvp.model.bean.TodoTypeBean
 import com.cxz.wanandroid.ui.fragment.TodoFragment
 import com.cxz.wanandroid.utils.DisplayManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.bottomnavigation.LabelVisibilityMode
 import kotlinx.android.synthetic.main.activity_todo.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.greenrobot.eventbus.EventBus
@@ -31,6 +29,7 @@ class TodoActivity : BaseSwipeBackActivity() {
     private var mTodoFragment: TodoFragment? = null
 
     private lateinit var datas: MutableList<TodoTypeBean>
+
     /**
      * PopupWindow
      */
@@ -52,7 +51,7 @@ class TodoActivity : BaseSwipeBackActivity() {
             // 以前使用 BottomNavigationViewHelper.disableShiftMode(this) 方法来设置底部图标和字体都显示并去掉点击动画
             // 升级到 28.0.0 之后，官方重构了 BottomNavigationView ，目前可以使用 labelVisibilityMode = 1 来替代
             // BottomNavigationViewHelper.disableShiftMode(this)
-            labelVisibilityMode = 1
+            labelVisibilityMode = LabelVisibilityMode.LABEL_VISIBILITY_LABELED
             setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
         }
 
@@ -88,9 +87,10 @@ class TodoActivity : BaseSwipeBackActivity() {
      * 初始化 PopupWindow
      */
     private fun initPopupWindow(dataList: List<TodoTypeBean>) {
-        val recyclerView = layoutInflater.inflate(R.layout.layout_popup_todo, null) as androidx.recyclerview.widget.RecyclerView
+        val recyclerView =
+            layoutInflater.inflate(R.layout.layout_popup_todo, null) as androidx.recyclerview.widget.RecyclerView
         val adapter = TodoPopupAdapter()
-        adapter.setNewData(dataList)
+        adapter.setList(dataList)
         adapter.setOnItemClickListener { adapter, view, position ->
             mSwitchPopupWindow?.dismiss()
             val itemData = adapter.data[position] as TodoTypeBean
@@ -174,21 +174,19 @@ class TodoActivity : BaseSwipeBackActivity() {
     /**
      * NavigationItemSelect监听
      */
-    private val onNavigationItemSelectedListener =
-            BottomNavigationView.OnNavigationItemSelectedListener { item ->
-                return@OnNavigationItemSelectedListener when (item.itemId) {
-                    R.id.action_notodo -> {
-                        EventBus.getDefault().post(TodoEvent(Constant.TODO_NO, mType))
-                        true
-                    }
-                    R.id.action_completed -> {
-                        EventBus.getDefault().post(TodoEvent(Constant.TODO_DONE, mType))
-                        true
-                    }
-                    else -> {
-                        false
-                    }
-                }
+    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        return@OnNavigationItemSelectedListener when (item.itemId) {
+            R.id.action_notodo -> {
+                EventBus.getDefault().post(TodoEvent(Constant.TODO_NO, mType))
+                true
             }
-
+            R.id.action_completed -> {
+                EventBus.getDefault().post(TodoEvent(Constant.TODO_DONE, mType))
+                true
+            }
+            else -> {
+                false
+            }
+        }
+    }
 }

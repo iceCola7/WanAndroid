@@ -1,9 +1,9 @@
 package com.cxz.wanandroid.ui.fragment
 
+import android.view.View
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.view.View
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.NavigationAdapter
 import com.cxz.wanandroid.adapter.NavigationTabAdapter
@@ -18,16 +18,12 @@ import q.rorbin.verticaltablayout.widget.TabView
 /**
  * Created by chenxz on 2018/5/13.
  */
-class NavigationFragment : BaseMvpFragment<NavigationContract.View, NavigationContract.Presenter>(), NavigationContract.View {
+class NavigationFragment : BaseMvpFragment<NavigationContract.View, NavigationContract.Presenter>(),
+    NavigationContract.View {
 
     companion object {
         fun getInstance(): NavigationFragment = NavigationFragment()
     }
-
-    /**
-     * datas
-     */
-    private var datas = mutableListOf<NavigationBean>()
 
     /**
      * linearLayoutManager
@@ -40,7 +36,7 @@ class NavigationFragment : BaseMvpFragment<NavigationContract.View, NavigationCo
      * NavigationAdapter
      */
     private val navigationAdapter: NavigationAdapter by lazy {
-        NavigationAdapter(activity, datas)
+        NavigationAdapter()
     }
 
     private var bScroll: Boolean = false
@@ -59,10 +55,6 @@ class NavigationFragment : BaseMvpFragment<NavigationContract.View, NavigationCo
             adapter = navigationAdapter
             itemAnimator = DefaultItemAnimator()
             setHasFixedSize(true)
-        }
-
-        navigationAdapter.run {
-            bindToRecyclerView(recyclerView)
         }
 
         leftRightLink()
@@ -98,7 +90,6 @@ class NavigationFragment : BaseMvpFragment<NavigationContract.View, NavigationCo
                 selectTab(position)
             }
         })
-
     }
 
     private fun scrollRecyclerView() {
@@ -186,13 +177,10 @@ class NavigationFragment : BaseMvpFragment<NavigationContract.View, NavigationCo
     override fun setNavigationData(list: List<NavigationBean>) {
         list.let {
             navigation_tab_layout.run {
-                setTabAdapter(NavigationTabAdapter(activity!!.applicationContext, list))
+                setTabAdapter(NavigationTabAdapter(requireActivity().applicationContext, list))
             }
             navigationAdapter.run {
-                replaceData(it)
-                loadMoreComplete()
-                loadMoreEnd()
-                setEnableLoadMore(false)
+                setList(it)
             }
         }
         if (navigationAdapter.data.isEmpty()) {
@@ -205,5 +193,4 @@ class NavigationFragment : BaseMvpFragment<NavigationContract.View, NavigationCo
     fun scrollToTop() {
         navigation_tab_layout.setTabSelected(0)
     }
-
 }

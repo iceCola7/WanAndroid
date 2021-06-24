@@ -17,6 +17,7 @@
     <string name="no_network_tip">请检查网络后点击重新加载</string>
     <string name="data_error">数据获取失败</string>
     <string name="network_unavailable_tip">网络连接不可用,请检查网络设置!</string>
+    <string name="loading">加载中...</string>
 
     <!-- Menu Action -->
     <string name="action_search">搜索</string>

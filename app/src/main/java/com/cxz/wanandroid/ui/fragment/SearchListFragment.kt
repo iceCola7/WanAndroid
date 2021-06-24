@@ -4,13 +4,13 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
-import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.HomeAdapter
 import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.base.BaseMvpListFragment
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.ColorEvent
+import com.cxz.wanandroid.ext.setNewOrAddData
 import com.cxz.wanandroid.ext.showSnackMsg
 import com.cxz.wanandroid.ext.showToast
 import com.cxz.wanandroid.mvp.contract.SearchListContract
@@ -25,7 +25,8 @@ import kotlinx.android.synthetic.main.fragment_search_list.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class SearchListFragment : BaseMvpListFragment<SearchListContract.View, SearchListContract.Presenter>(), SearchListContract.View {
+class SearchListFragment : BaseMvpListFragment<SearchListContract.View, SearchListContract.Presenter>(),
+    SearchListContract.View {
 
     companion object {
         fun getInstance(bundle: Bundle): SearchListFragment {
@@ -38,32 +39,18 @@ class SearchListFragment : BaseMvpListFragment<SearchListContract.View, SearchLi
     private var mKey = ""
 
     /**
-     * datas
-     */
-    private val datas = mutableListOf<Article>()
-
-    /**
      * Adapter
      */
     private val mAdapter: HomeAdapter by lazy {
-        HomeAdapter(activity, datas)
+        HomeAdapter()
     }
-
 
     override fun hideLoading() {
         super.hideLoading()
-        if (isRefresh) {
-            mAdapter.setEnableLoadMore(true)
-        }
     }
 
     override fun showError(errorMsg: String) {
         super.showError(errorMsg)
-        if (isRefresh) {
-            mAdapter.setEnableLoadMore(true)
-        } else {
-            mAdapter.loadMoreFail()
-        }
     }
 
     override fun attachLayoutRes(): Int = R.layout.fragment_search_list
@@ -80,16 +67,20 @@ class SearchListFragment : BaseMvpListFragment<SearchListContract.View, SearchLi
         recyclerView.adapter = mAdapter
 
         mAdapter.run {
-            setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
-            onItemClickListener = this@SearchListFragment.onItemClickListener
-            onItemChildClickListener = this@SearchListFragment.onItemChildClickListener
-            // setEmptyView(R.layout.fragment_empty_layout)
+            setOnItemClickListener { adapter, view, position ->
+                val item = adapter.data[position] as Article
+                itemClick(item)
+            }
+            setOnItemChildClickListener { adapter, view, position ->
+                val item = adapter.data[position] as Article
+                itemChildClick(item, view, position)
+            }
+            loadMoreModule.setOnLoadMoreListener(onRequestLoadMoreListener)
         }
 
         floating_action_btn.setOnClickListener {
             scrollToTop()
         }
-
     }
 
     override fun lazyLoad() {
@@ -98,13 +89,11 @@ class SearchListFragment : BaseMvpListFragment<SearchListContract.View, SearchLi
     }
 
     override fun onRefreshList() {
-        mAdapter.setEnableLoadMore(false)
         mPresenter?.queryBySearchKey(0, mKey)
     }
 
     override fun onLoadMoreList() {
-        val page = mAdapter.data.size / pageSize
-        mPresenter?.queryBySearchKey(page, mKey)
+        mPresenter?.queryBySearchKey(pageNum, mKey)
     }
 
     override fun showCancelCollectSuccess(success: Boolean) {
@@ -120,21 +109,7 @@ class SearchListFragment : BaseMvpListFragment<SearchListContract.View, SearchLi
     }
 
     override fun showArticles(articles: ArticleResponseBody) {
-        articles.datas.let {
-            mAdapter.run {
-                if (isRefresh) {
-                    replaceData(it)
-                } else {
-                    addData(it)
-                }
-                pageSize = articles.size
-                if (articles.over || articles.curPage == articles.pageCount) {
-                    loadMoreEnd(isRefresh)
-                } else {
-                    loadMoreComplete()
-                }
-            }
-        }
+        mAdapter.setNewOrAddData(pageNum == 0, articles.datas)
         if (mAdapter.data.isEmpty()) {
             mLayoutStatusView?.showEmpty()
         } else {
@@ -160,46 +135,41 @@ class SearchListFragment : BaseMvpListFragment<SearchListContract.View, SearchLi
     }
 
     /**
-     * ItemClickListener
+     * Item Click
      */
-    private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
-        if (datas.size != 0) {
-            val data = datas[position]
-            ContentActivity.start(activity, data.id, data.title, data.link)
-        }
+    private fun itemClick(item: Article) {
+        ContentActivity.start(activity, item.id, item.title, item.link)
     }
 
     /**
-     * ItemChildClickListener
+     * Item Child Click
+     * @param item Article
+     * @param view View
+     * @param position Int
      */
-    private val onItemChildClickListener =
-            BaseQuickAdapter.OnItemChildClickListener { _, view, position ->
-                if (datas.size != 0) {
-                    val data = datas[position]
-                    when (view.id) {
-                        R.id.iv_like -> {
-                            if (isLogin) {
-                                if (!NetWorkUtil.isNetworkAvailable(App.context)) {
-                                    showSnackMsg(resources.getString(R.string.no_network))
-                                    return@OnItemChildClickListener
-                                }
-                                val collect = data.collect
-                                data.collect = !collect
-                                mAdapter.setData(position, data)
-                                if (collect) {
-                                    mPresenter?.cancelCollectArticle(data.id)
-                                } else {
-                                    mPresenter?.addCollectArticle(data.id)
-                                }
-                            } else {
-                                Intent(activity, LoginActivity::class.java).run {
-                                    startActivity(this)
-                                }
-                                showToast(resources.getString(R.string.login_tint))
-                            }
-                        }
+    private fun itemChildClick(item: Article, view: View, position: Int) {
+        when (view.id) {
+            R.id.iv_like -> {
+                if (isLogin) {
+                    if (!NetWorkUtil.isNetworkAvailable(App.context)) {
+                        showSnackMsg(resources.getString(R.string.no_network))
+                        return
                     }
+                    val collect = item.collect
+                    item.collect = !collect
+                    mAdapter.setData(position, item)
+                    if (collect) {
+                        mPresenter?.cancelCollectArticle(item.id)
+                    } else {
+                        mPresenter?.addCollectArticle(item.id)
+                    }
+                } else {
+                    Intent(activity, LoginActivity::class.java).run {
+                        startActivity(this)
+                    }
+                    showToast(resources.getString(R.string.login_tint))
                 }
             }
-
+        }
+    }
 }

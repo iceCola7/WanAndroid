@@ -1,19 +1,17 @@
 package com.cxz.wanandroid.ui.activity
 
-import android.content.DialogInterface
 import android.content.Intent
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
-import com.chad.library.adapter.base.BaseQuickAdapter
+import android.view.View
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.ShareAdapter
 import com.cxz.wanandroid.app.App
 import com.cxz.wanandroid.base.BaseMvpSwipeBackActivity
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.event.RefreshShareEvent
+import com.cxz.wanandroid.ext.setNewOrAddData
 import com.cxz.wanandroid.ext.showSnackMsg
 import com.cxz.wanandroid.mvp.contract.ShareContract
 import com.cxz.wanandroid.mvp.model.bean.Article
@@ -37,12 +35,10 @@ class ShareActivity : BaseMvpSwipeBackActivity<ShareContract.View, SharePresente
 
     private var pageSize = 20
 
-    private var isRefresh = true
-
-    private val datas = mutableListOf<Article>()
+    private var pageNum = 1
 
     private val shareAdapter: ShareAdapter by lazy {
-        ShareAdapter(datas)
+        ShareAdapter()
     }
 
     override fun showLoading() {
@@ -51,19 +47,11 @@ class ShareActivity : BaseMvpSwipeBackActivity<ShareContract.View, SharePresente
 
     override fun hideLoading() {
         swipeRefreshLayout?.isRefreshing = false
-        if (isRefresh) {
-            shareAdapter.setEnableLoadMore(true)
-        }
     }
 
     override fun showError(errorMsg: String) {
         super.showError(errorMsg)
         mLayoutStatusView?.showError()
-        if (isRefresh) {
-            shareAdapter.setEnableLoadMore(true)
-        } else {
-            shareAdapter.loadMoreFail()
-        }
     }
 
     override fun createPresenter(): SharePresenter = SharePresenter()
@@ -95,10 +83,15 @@ class ShareActivity : BaseMvpSwipeBackActivity<ShareContract.View, SharePresente
             addOnItemTouchListener(SwipeItemLayout.OnSwipeItemTouchListener(this@ShareActivity))
         }
         shareAdapter.run {
-            bindToRecyclerView(recyclerView)
-            setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
-            onItemClickListener = this@ShareActivity.onItemClickListener
-            onItemChildClickListener = this@ShareActivity.onItemChildClickListener
+            setOnItemChildClickListener { adapter, view, position ->
+                val item = adapter.data[position] as Article
+                itemChildClick(item, view, position)
+            }
+            loadMoreModule.setOnLoadMoreListener {
+                pageNum++
+                swipeRefreshLayout.isRefreshing = false
+                mPresenter?.getShareList(pageNum)
+            }
         }
     }
 
@@ -115,21 +108,7 @@ class ShareActivity : BaseMvpSwipeBackActivity<ShareContract.View, SharePresente
     }
 
     override fun showShareList(body: ShareResponseBody) {
-        body.shareArticles.datas.let {
-            shareAdapter.run {
-                if (isRefresh) {
-                    replaceData(it)
-                } else {
-                    addData(it)
-                }
-                pageSize = body.shareArticles.size
-                if (body.shareArticles.over) {
-                    loadMoreEnd(isRefresh)
-                } else {
-                    loadMoreComplete()
-                }
-            }
-        }
+        shareAdapter.setNewOrAddData(pageNum == 1, body.shareArticles.datas)
         if (shareAdapter.data.isEmpty()) {
             mLayoutStatusView?.showEmpty()
         } else {
@@ -158,73 +137,48 @@ class ShareActivity : BaseMvpSwipeBackActivity<ShareContract.View, SharePresente
     /**
      * RefreshListener
      */
-    private val onRefreshListener = androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener {
-        isRefresh = true
-        shareAdapter.setEnableLoadMore(false)
+    private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
+        pageNum = 1
         mPresenter?.getShareList(1)
     }
 
     /**
-     * LoadMoreListener
+     * Item Child Click
      */
-    private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
-        isRefresh = false
-        swipeRefreshLayout.isRefreshing = false
-        val page = shareAdapter.data.size / pageSize + 1
-        mPresenter?.getShareList(page)
-    }
-
-    /**
-     * ItemClickListener
-     */
-    private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
-        if (datas.isNotEmpty()) {
-            val data = datas[position]
+    private fun itemChildClick(item: Article, view: View, position: Int) {
+        if (!NetWorkUtil.isNetworkAvailable(App.context)) {
+            showSnackMsg(resources.getString(R.string.no_network))
+            return
         }
-    }
-
-    /**
-     * ItemChildClickListener
-     */
-    private val onItemChildClickListener =
-            BaseQuickAdapter.OnItemChildClickListener { _, view, position ->
-                if (!NetWorkUtil.isNetworkAvailable(App.context)) {
-                    showSnackMsg(resources.getString(R.string.no_network))
-                    return@OnItemChildClickListener
-                }
-                if (datas.isNotEmpty()) {
-                    val data = datas[position]
-                    when (view.id) {
-                        R.id.rl_content -> {
-                            ContentActivity.start(this, data.id, data.title, data.link)
-                        }
-                        R.id.iv_like -> {
-                            if (isLogin) {
-                                val collect = data.collect
-                                data.collect = !collect
-                                shareAdapter.setData(position, data)
-                                if (collect) {
-                                    mPresenter?.cancelCollectArticle(data.id)
-                                } else {
-                                    mPresenter?.addCollectArticle(data.id)
-                                }
-                            } else {
-                                Intent(this, LoginActivity::class.java).run {
-                                    startActivity(this)
-                                }
-                                showMsg(resources.getString(R.string.login_tint))
-                            }
-                        }
-                        R.id.btn_delete -> {
-                            DialogUtil.getConfirmDialog(this, resources.getString(R.string.confirm_delete),
-                                    DialogInterface.OnClickListener { _, _ ->
-                                        mPresenter?.deleteShareArticle(data.id)
-                                        shareAdapter.remove(position)
-                                    }).show()
-                        }
+        when (view.id) {
+            R.id.rl_content -> {
+                ContentActivity.start(this, item.id, item.title, item.link)
+            }
+            R.id.iv_like -> {
+                if (isLogin) {
+                    val collect = item.collect
+                    item.collect = !collect
+                    shareAdapter.setData(position, item)
+                    if (collect) {
+                        mPresenter?.cancelCollectArticle(item.id)
+                    } else {
+                        mPresenter?.addCollectArticle(item.id)
                     }
+                } else {
+                    Intent(this, LoginActivity::class.java).run {
+                        startActivity(this)
+                    }
+                    showMsg(resources.getString(R.string.login_tint))
                 }
             }
+            R.id.btn_delete -> {
+                DialogUtil.getConfirmDialog(this, resources.getString(R.string.confirm_delete)) { _, _ ->
+                    mPresenter?.deleteShareArticle(item.id)
+                    shareAdapter.removeAt(position)
+                }.show()
+            }
+        }
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_share, menu)

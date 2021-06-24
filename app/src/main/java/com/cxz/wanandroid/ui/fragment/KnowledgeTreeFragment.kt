@@ -2,12 +2,12 @@ package com.cxz.wanandroid.ui.fragment
 
 import android.content.Intent
 import android.view.View
-import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cxz.wanandroid.R
 import com.cxz.wanandroid.adapter.KnowledgeTreeAdapter
 import com.cxz.wanandroid.base.BaseMvpListFragment
 import com.cxz.wanandroid.constant.Constant
 import com.cxz.wanandroid.mvp.contract.KnowledgeTreeContract
+import com.cxz.wanandroid.mvp.model.bean.Knowledge
 import com.cxz.wanandroid.mvp.model.bean.KnowledgeTreeBody
 import com.cxz.wanandroid.mvp.presenter.KnowledgeTreePresenter
 import com.cxz.wanandroid.ui.activity.KnowledgeActivity
@@ -16,22 +16,18 @@ import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 /**
  * Created by chenxz on 2018/5/8.
  */
-class KnowledgeTreeFragment : BaseMvpListFragment<KnowledgeTreeContract.View, KnowledgeTreeContract.Presenter>(), KnowledgeTreeContract.View {
+class KnowledgeTreeFragment : BaseMvpListFragment<KnowledgeTreeContract.View, KnowledgeTreeContract.Presenter>(),
+    KnowledgeTreeContract.View {
 
     companion object {
         fun getInstance(): KnowledgeTreeFragment = KnowledgeTreeFragment()
     }
 
     /**
-     * datas
-     */
-    private val datas = mutableListOf<KnowledgeTreeBody>()
-
-    /**
      * Adapter
      */
     private val mAdapter: KnowledgeTreeAdapter by lazy {
-        KnowledgeTreeAdapter(activity, datas)
+        KnowledgeTreeAdapter()
     }
 
     override fun createPresenter(): KnowledgeTreeContract.Presenter = KnowledgeTreePresenter()
@@ -44,10 +40,10 @@ class KnowledgeTreeFragment : BaseMvpListFragment<KnowledgeTreeContract.View, Kn
         recyclerView.adapter = mAdapter
 
         mAdapter.run {
-            bindToRecyclerView(recyclerView)
-            setEnableLoadMore(false)
-            onItemClickListener = this@KnowledgeTreeFragment.onItemClickListener
-            // setEmptyView(R.layout.fragment_empty_layout)
+            setOnItemClickListener { adapter, view, position ->
+                val item = adapter.data[position] as Knowledge
+                itemClick(item)
+            }
         }
     }
 
@@ -65,14 +61,10 @@ class KnowledgeTreeFragment : BaseMvpListFragment<KnowledgeTreeContract.View, Kn
 
     override fun hideLoading() {
         super.hideLoading()
-        mAdapter.run {
-            loadMoreComplete()
-        }
     }
 
     override fun showError(errorMsg: String) {
         super.showError(errorMsg)
-        mAdapter.loadMoreFail()
     }
 
     override fun scrollToTop() {
@@ -86,11 +78,7 @@ class KnowledgeTreeFragment : BaseMvpListFragment<KnowledgeTreeContract.View, Kn
     }
 
     override fun setKnowledgeTree(lists: List<KnowledgeTreeBody>) {
-        lists.let {
-            mAdapter.run {
-                replaceData(lists)
-            }
-        }
+        mAdapter.setList(lists)
         if (mAdapter.data.isEmpty()) {
             mLayoutStatusView?.showEmpty()
         } else {
@@ -99,17 +87,13 @@ class KnowledgeTreeFragment : BaseMvpListFragment<KnowledgeTreeContract.View, Kn
     }
 
     /**
-     * ItemClickListener
+     * Item Click
      */
-    private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
-        if (datas.size != 0) {
-            val data = datas[position]
-            Intent(activity, KnowledgeActivity::class.java).run {
-                putExtra(Constant.CONTENT_TITLE_KEY, data.name)
-                putExtra(Constant.CONTENT_DATA_KEY, data)
-                startActivity(this)
-            }
+    private fun itemClick(item: Knowledge) {
+        Intent(activity, KnowledgeActivity::class.java).run {
+            putExtra(Constant.CONTENT_TITLE_KEY, item.name)
+            putExtra(Constant.CONTENT_DATA_KEY, data)
+            startActivity(this)
         }
     }
-
 }
