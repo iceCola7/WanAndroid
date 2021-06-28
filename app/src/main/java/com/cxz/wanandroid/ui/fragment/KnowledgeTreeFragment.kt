@@ -41,7 +41,7 @@ class KnowledgeTreeFragment : BaseMvpListFragment<KnowledgeTreeContract.View, Kn
 
         mAdapter.run {
             setOnItemClickListener { adapter, view, position ->
-                val item = adapter.data[position] as Knowledge
+                val item = adapter.data[position] as KnowledgeTreeBody
                 itemClick(item)
             }
         }
@@ -89,10 +89,10 @@ class KnowledgeTreeFragment : BaseMvpListFragment<KnowledgeTreeContract.View, Kn
     /**
      * Item Click
      */
-    private fun itemClick(item: Knowledge) {
+    private fun itemClick(item: KnowledgeTreeBody) {
         Intent(activity, KnowledgeActivity::class.java).run {
             putExtra(Constant.CONTENT_TITLE_KEY, item.name)
-            putExtra(Constant.CONTENT_DATA_KEY, data)
+            putExtra(Constant.CONTENT_DATA_KEY, item)
             startActivity(this)
         }
     }

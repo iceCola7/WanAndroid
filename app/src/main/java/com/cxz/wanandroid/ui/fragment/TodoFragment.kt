@@ -84,6 +84,7 @@ class TodoFragment : BaseMvpListFragment<TodoContract.View, TodoContract.Present
 
     override fun lazyLoad() {
         mLayoutStatusView?.showLoading()
+        pageNum = 0
         if (bDone) {
             mPresenter?.getDoneList(1, mType)
         } else {
